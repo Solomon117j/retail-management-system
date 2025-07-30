@@ -1,0 +1,23 @@
+{% extends 'store_management/base.html' %}
+{% block title %}Delete {{ department.department_name }}{% endblock %}
+
+{% block content %}
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h2 class="mb-0">Confirm Department Deletion</h2>
+    </div>
+    <div class="card-body">
+        <p class="lead">Are you sure you want to delete the department <strong>"{{ department.department_name }}"</strong>?</p>
+        <p>This department belongs to <strong>{{ department.store.store_name }}</strong>.</p>
+        <p class="text-danger">This action cannot be undone.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{% url 'store_management:department_list' department.store.pk %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
