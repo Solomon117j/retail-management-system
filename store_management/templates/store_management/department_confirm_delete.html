@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Delete Department</h2>
+<p>Are you sure you want to delete "{{ object }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'store_management:department_list' store_id=object.store.store_id %}" 
+       class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock content %} 

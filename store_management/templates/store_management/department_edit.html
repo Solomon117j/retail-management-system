@@ -1,0 +1,11 @@
+{# Corrected URL using store_id from context #}
+<a href="{% url 'store_management:department_list' store_id=store_id %}" class="btn btn-secondary">
+    Back to Departments
+</a>
+
+{# Form rendering #}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update Department</button>
+</form>

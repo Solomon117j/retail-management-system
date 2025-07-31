@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'apps.store_management.apps.StoreManagementConfig',    
-    'apps.inventory.apps.InventoryConfig',
-    'apps.sales.apps.SalesConfig',
-    'apps.procurement.apps.ProcurementConfig',
-    'apps.human_resources.apps.HumanResourcesConfig',
-    'apps.e_commerce.apps.ECommerceConfig',
-    'apps.reporting.apps.ReportingConfig',
+    'store_management.apps.StoreManagementConfig',    
+    'inventory.apps.InventoryConfig',
+    'sales.apps.SalesConfig',
+    'procurement.apps.ProcurementConfig',
+    'human_resources.apps.HumanResourcesConfig',
+    'e_commerce.apps.ECommerceConfig',
+    'reporting.apps.ReportingConfig',
 
 ]
     
@@ -67,7 +67,9 @@ ROOT_URLCONF = 'retail_management_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,6 +86,13 @@ WSGI_APPLICATION = 'retail_management_system.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 DATABASES = {
     'default': {
