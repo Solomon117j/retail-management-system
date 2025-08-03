@@ -11,6 +11,5 @@ class StoreAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ('department_name', 'store', 'created_at', 'updated_at')
-    search_fields = ('department_name', 'store__store_name')
-    list_filter = ('store',)    
+    list_display = ('department_name', 'description')
+    search_fields = ('department_name',)

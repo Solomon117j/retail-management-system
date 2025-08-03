@@ -1,0 +1,118 @@
+{# templates/dashboard/index.html #}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Retail Management Dashboard</h1>
+  <div class="row">
+    
+    <!-- Store Management Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-store fa-3x mb-3 text-primary"></i>
+          <h3 class="card-title">Store Management</h3>
+          <p class="card-text">Manage stores and departments</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'store_management:store_list' %}" class="btn btn-primary">
+              Go to Stores
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Human Resources Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-users fa-3x mb-3 text-success"></i>
+          <h3 class="card-title">Human Resources</h3>
+          <p class="card-text">Manage attendance, payroll, and employees</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'hr:attendance_list' %}" class="btn btn-success">
+              Go to HR
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Inventory Management Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-boxes fa-3x mb-3 text-info"></i>
+          <h3 class="card-title">Inventory</h3>
+          <p class="card-text">Manage products, stock, and suppliers</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'inventory:product_list' %}" class="btn btn-info">
+              Go to Inventory
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Add more cards for other apps as needed -->
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-chart-line fa-3x mb-3 text-warning"></i>
+          <h3 class="card-title">Analytics</h3>
+          <p class="card-text">View reports and business insights</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'analytics:dashboard' %}" class="btn btn-warning">
+              View Analytics
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    
+  </div>
+  
+  <!-- Quick Stats Section -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2 class="mb-4">Quick Stats</h2>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-primary">
+            <div class="card-body">
+              <h5 class="card-title">Total Stores</h5>
+              <p class="card-text display-4">{{ store_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-success">
+            <div class="card-body">
+              <h5 class="card-title">Active Employees</h5>
+              <p class="card-text display-4">{{ employee_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-info">
+            <div class="card-body">
+              <h5 class="card-title">Inventory Items</h5>
+              <p class="card-text display-4">{{ inventory_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-warning">
+            <div class="card-body">
+              <h5 class="card-title">Pending Tasks</h5>
+              <p class="card-text display-4">{{ task_count }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

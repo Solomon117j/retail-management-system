@@ -1,14 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Departments for {{ store.store_name }}</h1>
-
-<ul>
-    {% for department in departments %}
-    <li>{{ department.department_name }} - {{ department.description }}</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'store_management:department_create' store_id=store.store_id %}" 
-   class="btn btn-primary">Add Department</a>
-{% endblock content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Departments for {{ store.store_name }}</h1>
+        <a href="{% url 'store_management:department_create' store_id=store.id %}" 
+           class="btn btn-primary">
+            + Create New Department
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{department.department_name }}</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for department in departments %}
+                    <tr>
+                        <td>{{ department.department_name }}</td>
+                        <td>
+                            <a href="{% url 'store_management:department_edit' pk=department.pk %}" 
+                               class="btn btn-sm btn-outline-secondary">
+                                Edit
+                            </a>
+                            <a href="{% url 'store_management:department_detail' pk=department.pk %}" 
+                               class="btn btn-sm btn-info">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No departments found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

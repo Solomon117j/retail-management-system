@@ -1,23 +1,43 @@
 from django import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from .models import Store, Department
+from django.urls import reverse_lazy, reverse
+# from .models import Store, Department
 from django.shortcuts import get_object_or_404
+from store_management.models import Store , Department 
 
-from .forms import DepartmentForm
+from django.views.generic import TemplateView
 
-from .forms import Department, StoreForm
+
+
+from .forms import DepartmentForm, StoreForm
+
+from .forms import Department
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Store Views
 
-class StoreForm(forms.ModelForm):
-    class Meta:
-        model = Store
-        fields = '__all__'
-        widgets = {
-            'opening_date': forms.DateInput(attrs={'type': 'date'})
-        }
+
+
+def department_edit(request, pk):
+    department = get_object_or_404(Department, pk=pk)
+    
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST, instance=department)
+        if form.is_valid():
+            form.save()
+            return redirect('store_management:department_detail', pk=department.pk)
+    else:
+        form = DepartmentForm(instance=department)
+    
+    return render(request, 'departments/edit.html', {
+        'form': form,
+        'department': department
+    })
+
 class StoreListView(ListView):
     model = Store
     context_object_name = 'stores'
@@ -65,62 +85,80 @@ class StoreDeleteView(DeleteView):
 
 # Department Views
 # store_management/views.py
+# views.py
+from django.shortcuts import get_object_or_404
+
 class DepartmentCreateView(CreateView):
     model = Department
-    fields = ['department_name', 'description']
-    template_name = 'store_management/department_form.html'
-
+    form_class = DepartmentForm
+    
     def form_valid(self, form):
-        # Get store_id from URL
-        store_id = self.kwargs['store_id']
-        # Assign store to department
-        form.instance.store = get_object_or_404(Store, pk=store_id)
+        # Use id instead of store_id
+        store = get_object_or_404(Store, id=self.kwargs['store_id'])
+        form.instance.store = store
         return super().form_valid(form)
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Use id here too
+        context['store'] = get_object_or_404(Store, id=self.kwargs['store_id'])
+        return context
+    
     def get_success_url(self):
-        # Use store_id from URL kwargs
-        return reverse_lazy('store_management:department_list', 
-                           args=[self.kwargs['store_id']])
-
+        return reverse('store_management:department_list', kwargs={
+            'store_id': self.kwargs['store_id']
+        })
+# views.py
 class DepartmentUpdateView(UpdateView):
     model = Department
-    form_class = DepartmentForm  # Use your custom form
-    template_name = 'department_edit.html'
+    form_class = DepartmentForm
+    template_name = 'store_management/department_edit.html'
+    context_object_name = 'department'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add store to context
+        context['store'] = self.object.store
+        return context
     
     def get_success_url(self):
-        return reverse('department_list', kwargs={'store_id': self.object.store.id})
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Add store_id to context for template use
-        context['store_id'] = self.object.store.id
-        return context
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Add store_id to context from the department object
-        context['store_id'] = self.object.store.store_id
-        return context
-
+        return reverse('store_management:department_list', kwargs={
+            'store_id': self.object.store.id
+        })
 class DepartmentDeleteView(DeleteView):
     model = Department
     template_name = 'store_management/department_confirm_delete.html'
-    
+
     def get_success_url(self):
-        return reverse_lazy('store_management:department_list',
-                          args=[self.object.store.store_id])
+        # Use store_id from department's foreign key
+        return reverse_lazy('store_management:department_list', kwargs={'store_id': self.object.store.id})
+
 
 class DepartmentListView(ListView):
     model = Department
     context_object_name = 'departments'
     template_name = 'store_management/department_list.html'
-    
+
     def get_queryset(self):
         store_id = self.kwargs['store_id']
-        return Department.objects.filter(store__store_id=store_id)
+        # Use store_id field directly
+        return Department.objects.filter(store_id=store_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        store_id = self.kwargs['store_id']
+        # Use id field instead of store_id
+        context['store'] = get_object_or_404(Store, id=store_id)
+        return context
+#
+
+class DepartmentDetailView(DetailView):
+    model = Department
+    template_name = 'store_management/department_detail.html'  # Your template path
+    context_object_name = 'department'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['store'] = Store.objects.get(pk=self.kwargs['store_id'])
+        # Add store to context from the department's foreign key
+        context['store'] = self.object.store
         return context
-# Create your views here.

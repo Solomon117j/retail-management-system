@@ -25,9 +25,15 @@
             <td>{{ store.city }}, {{ store.region }}</td>
             <td>{{ store.opening_date }}</td>
             <td>
-                <a href="{% url 'store_management:store_detail' store.pk %}">View</a>
+                {% if store.pk %}
+                    <a href="{% url 'store_management:store_detail' pk=store.pk %}">View</a>
+                {% else %}
+                    <span class="text-muted">Store ID missing</span>
+                {% endif %}
                 <a href="{% url 'store_management:store_update' store.pk %}">Edit</a>
-                <a href="{% url 'store_management:department_list' store.pk %}">Departments</a>
+                <a href="{% url 'store_management:department_list' store_id=store.pk %}">
+                Departments
+                </a>
             </td>
         </tr>
         {% empty %}

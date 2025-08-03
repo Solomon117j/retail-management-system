@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ department.department_name }} - Department Details{% endblock %}
+
+{% block content %}
+<div class="department-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>{{ department.department_name }}</h1>
+                <p class="lead text-muted"><strong> Details for {{department.department_name}}</strong> </p>
+            </div>
+            <div class="action-buttons d-flex gap-2">
+                <a href="{% url 'store_management:department_list' store_id=store.id %}">Back to Departments</a>
+                <a href="{% url 'store_management:department_edit' pk=department.pk %}" 
+                class="btn btn-sm btn-outline-secondary">
+                Edit Department
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Description</h5>
+                </div>
+                <div class="card-body">
+                    {% if department.description %}
+                        <p class="card-text">{{ department.description }}</p>
+                    {% else %}
+                        <p class="text-muted">No description provided for this department.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Department Information</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Created:</strong> {{ department.created_at|date:"F j, Y" }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Updated:</strong> {{ department.updated_at|date:"F j, Y H:i" }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'store_management:department_edit' department.id %}" 
+                           class="btn btn-primary">
+                            Edit Department
+                        </a>
+                        {% if department.can_be_deleted %}
+                        <form action="{% url 'store_management:department_delete' department.id %}" method="post" class="d-grid">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger" 
+                                    onclick="return confirm('Are you sure you want to delete this department?')">
+                                Delete Department
+                            </button>
+                        </form>
+                        {% else %}
+                            <button class="btn btn-outline-secondary" disabled 
+                                    title="This department cannot be deleted because it has associated records">
+                                Delete Department
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .department-header {
+        background-color: #f8f9fa;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #eaeaea;
+    }
+    .action-buttons {
+        margin-top: 0;
+    }
+    .card {
+        margin-top: 1.5rem;
+    }
+    .card-header {
+        padding: 0.75rem 1.25rem;
+    }
+    .card-title {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}

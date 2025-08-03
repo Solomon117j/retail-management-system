@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics Dashboard - Retail Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-chart-line"></i> Analytics Dashboard</h1>
+        <div class="text-muted">{{ current_month }}</div>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Total Stores</h5>
+                            <h2 class="mb-0">{{ total_stores }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-store fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Active Employees</h5>
+                            <h2 class="mb-0">{{ total_employees }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Total Products</h5>
+                            <h2 class="mb-0">{{ total_products }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-boxes fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Low Stock Items</h5>
+                            <h2 class="mb-0">{{ low_stock_products }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Section -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Reports</h2>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-bar fa-3x mb-3 text-primary"></i>
+                    <h4 class="card-title">Sales Report</h4>
+                    <p class="card-text">View detailed sales analytics and trends</p>
+                    <a href="{% url 'analytics:sales_report' %}" class="btn btn-primary">
+                        View Sales Report
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-warehouse fa-3x mb-3 text-info"></i>
+                    <h4 class="card-title">Inventory Report</h4>
+                    <p class="card-text">Monitor stock levels and inventory turnover</p>
+                    <a href="{% url 'analytics:inventory_report' %}" class="btn btn-info">
+                        View Inventory Report
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-tie fa-3x mb-3 text-success"></i>
+                    <h4 class="card-title">Employee Report</h4>
+                    <p class="card-text">Track employee performance and attendance</p>
+                    <a href="{% url 'analytics:employee_report' %}" class="btn btn-success">
+                        View Employee Report
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'store_management:store_list' %}" class="btn btn-outline-primary btn-block w-100">
+                                <i class="fas fa-store"></i> Manage Stores
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'inventory:product_list' %}" class="btn btn-outline-info btn-block w-100">
+                                <i class="fas fa-boxes"></i> Manage Inventory
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'hr:attendance_list' %}" class="btn btn-outline-success btn-block w-100">
+                                <i class="fas fa-users"></i> View Attendance
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-block w-100">
+                                <i class="fas fa-home"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,16 @@
 # store_management/forms.py
 from django import forms
-from .models import Department
+from .models import Department, Store
 
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
-        fields = ['name', 'description', 'manager']  # Add your actual fields
+        fields = ['department_name', 'description']  # Add your actual fields
         
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Add customizations here (e.g., set querysets)
-        self.fields['manager'].queryset = self.instance.store.employees.all()
+class StoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = '__all__'
+        widgets = {
+            'opening_date': forms.DateInput(attrs={'type': 'date'})
+        }

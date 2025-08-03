@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 import sys
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,17 +42,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'store_management.apps.StoreManagementConfig',    
+    
+    'django_extensions',
+    'debug_toolbar',
+    'store_management.apps.StoreManagementConfig',
+    'human_resources.apps.HumanResourcesConfig',
+        
     'inventory.apps.InventoryConfig',
     'sales.apps.SalesConfig',
     'procurement.apps.ProcurementConfig',
-    'human_resources.apps.HumanResourcesConfig',
+    
     'e_commerce.apps.ECommerceConfig',
     'reporting.apps.ReportingConfig',
 
 ]
-    
+
+LOGIN_REDIRECT_URL = 'dashboard'
+AUTH_USER_MODEL = 'human_resources.Employee'  # App name and model name
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'         # Redirect after login
+LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect after logout
+
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds (optional)
+SESSION_SAVE_EVERY_REQUEST = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,9 +72,20 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'retail_management_system.middleware.LoginRequiredMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+INTERNAL_IPS = ['127.0.0.1']
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,  # Disable redirect interception
+}
 
 ROOT_URLCONF = 'retail_management_system.urls'
 
@@ -68,11 +93,13 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates'
+            os.path.join(BASE_DIR, 'templates')  # Absolute path
         ],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -96,16 +123,11 @@ WSGI_APPLICATION = 'retail_management_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'e_commerce',
-        'USER': 'e_commerce',
-        'PASSWORD': 'Only4u@12345',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
-
-
+ 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -146,3 +168,48 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.template': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+    },
+}
+
+
+if DEBUG:
+    print("\n" + "="*80)
+    print("TEMPLATE DEBUGGING INFORMATION")
+    print("="*80)
+    print(f"BASE_DIR: {BASE_DIR}")
+    print(f"TEMPLATE DIRS: {TEMPLATES[0]['DIRS']}")
+    
+    # Check template existence
+    template_path = os.path.join(BASE_DIR, 'templates', 'registration', 'login.html')
+    print(f"Template path: {template_path}")
+    print(f"Template exists: {os.path.exists(template_path)}")
+    
+    # List files in templates directory
+    try:
+        templates_dir = os.path.join(BASE_DIR, 'templates')
+        print(f"\nFiles in templates directory:")
+        for root, dirs, files in os.walk(templates_dir):
+            level = root.replace(templates_dir, '').count(os.sep)
+            indent = ' ' * 4 * level
+            print(f"{indent}{os.path.basename(root)}/")
+            subindent = ' ' * 4 * (level + 1)
+            for f in files:
+                print(f"{subindent}{f}")
+    except Exception as e:
+        print(f"Error listing templates: {e}")
+    
+    print("="*80 + "\n")

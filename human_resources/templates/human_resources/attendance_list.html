@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Attendance Records</h2>
+  
+  <div class="d-flex justify-content-between mb-3">
+    <a href="{% url 'hr:attendance_create' %}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add New Attendance
+    </a>
+    
+    <!-- Update the filter form -->
+    <form method="get" class="form-inline">
+    <div class="form-group mr-2">
+        <input type="text" name="employee" placeholder="Employee ID" class="form-control" 
+            value="{{ request.GET.employee }}">
+    </div>
+    <div class="form-group mr-2">
+        <select name="status" class="form-control">
+        <option value="">All Statuses</option>
+        {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+            {{ label }}
+        </option>
+        {% endfor %}
+        </select>
+    </div>
+    <div class="form-group mr-2">
+        <input type="date" name="date_from" placeholder="From Date" class="form-control"
+            value="{{ request.GET.date_from }}">
+    </div>
+    <div class="form-group mr-2">
+        <input type="date" name="date_to" placeholder="To Date" class="form-control"
+            value="{{ request.GET.date_to }}">
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filter</button>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Date</th>
+          <th>Employee</th>
+          <th>Status</th>
+          <th>Clock In</th>
+          <th>Clock Out</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attendance in attendances %}
+        <tr>
+          <td>{{ attendance.date }}</td>
+          <td>{{ attendance.employee }}</td>
+          <td>{{ attendance.get_status_display }}</td>
+          <td>{{ attendance.clock_in|default:"-" }}</td>
+          <td>{{ attendance.clock_out|default:"-" }}</td>
+          <td>
+            <a href="{% url 'hr:attendance_detail' attendance.pk %}" class="btn btn-sm btn-info">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a href="{% url 'hr:attendance_update' attendance.pk %}" class="btn btn-sm btn-warning">
+              <i class="fas fa-edit"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">No attendance records found</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    
+  </div>
+  
+  {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}

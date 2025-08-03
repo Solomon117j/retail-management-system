@@ -1,1 +1,1 @@
-default_app_config = 'apps.store_management.apps.StoreManagementConfig'
+default_app_config = 'store_management.apps.StoreManagementConfig'

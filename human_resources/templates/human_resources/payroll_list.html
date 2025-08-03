@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Payroll Records</h2>
+  
+  <div class="d-flex justify-content-between mb-3">
+    <a href="{% url 'hr:payroll_create' %}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Create Payroll
+    </a>
+    
+        <!-- Update the filter form -->
+    <form method="get" class="form-inline">
+    <div class="form-group mr-2">
+        <input type="text" name="employee" placeholder="Employee ID" class="form-control" 
+            value="{{ request.GET.employee }}">
+    </div>
+    <div class="form-group mr-2">
+        <select name="status" class="form-control">
+        <option value="">All Statuses</option>
+        <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+        <option value="processed" {% if request.GET.status == "processed" %}selected{% endif %}>Processed</option>
+        <option value="paid" {% if request.GET.status == "paid" %}selected{% endif %}>Paid</option>
+        </select>
+    </div>
+    <div class="form-group mr-2">
+        <input type="date" name="period_start" placeholder="Period Start" class="form-control"
+            value="{{ request.GET.period_start }}">
+    </div>
+    <div class="form-group mr-2">
+        <input type="date" name="period_end" placeholder="Period End" class="form-control"
+            value="{{ request.GET.period_end }}">
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filter</button>
+    </form>
+
+    <!-- Add this below the filter form -->
+    <div class="dropdown mb-3">
+    <button class="btn btn-success dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-file-export"></i> Export
+    </button>
+    <div class="dropdown-menu" aria-labelledby="exportDropdown">
+        <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=csv{% for key,value in request.GET.items %}&{{key}}={{value}}{% endfor %}">
+        <i class="fas fa-file-csv"></i> CSV
+        </a>
+        <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=excel{% for key,value in request.GET.items %}&{{key}}={{value}}{% endfor %}">
+        <i class="fas fa-file-excel"></i> Excel
+        </a>
+    </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Employee</th>
+          <th>Pay Period</th>
+          <th>Base Salary</th>
+          <th>Net Pay</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payroll in payrolls %}
+        <tr>
+          <td>{{ payroll.employee }}</td>
+          <td>{{ payroll.pay_period_start }} to {{ payroll.pay_period_end }}</td>
+          <td>{{ payroll.base_salary }}</td>
+          <td>{{ payroll.net_pay }}</td>
+          <td>{{ payroll.get_status_display }}</td>
+          <td>
+            <a href="{% url 'hr:payroll_detail' payroll.pk %}" class="btn btn-sm btn-info">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a href="{% url 'hr:payroll_update' payroll.pk %}" class="btn btn-sm btn-warning">
+              <i class="fas fa-edit"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">No payroll records found</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}
