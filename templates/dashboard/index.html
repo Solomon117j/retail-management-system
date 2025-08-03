@@ -55,6 +55,22 @@
       </div>
     </div>
     
+    <!-- Procurement Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-truck fa-3x mb-3 text-danger"></i>
+          <h3 class="card-title">Procurement</h3>
+          <p class="card-text">Manage suppliers, purchase orders, and deliveries</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'procurement:supplier_list' %}" class="btn btn-danger">
+              Go to Procurement
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Analytics Card -->
     <div class="col-md-4 mb-4">
       <div class="card h-100">
@@ -103,10 +119,10 @@
           </div>
         </div>
         <div class="col-md-3 mb-3">
-          <div class="card text-white bg-warning">
+          <div class="card text-white bg-danger">
             <div class="card-body">
-              <h5 class="card-title">Pending Tasks</h5>
-              <p class="card-text display-4">{{ task_count|default:0 }}</p>
+              <h5 class="card-title">Active Suppliers</h5>
+              <p class="card-text display-4">{{ supplier_count|default:0 }}</p>
             </div>
           </div>
         </div>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Receive Shipment for Order #{{ order.id }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Ordered</th>
+                <th>Received</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>
+                    <input type="number" name="received_{{ item.id }}" 
+                           min="0" max="{{ item.quantity }}" 
+                           value="{{ item.received_quantity }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="actions">
+        <button type="submit">Save Receipt</button>
+        <a href="{% url 'procurement:purchaseorder_detail' order.pk %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

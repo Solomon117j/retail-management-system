@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ supplier.name }}</h1>
+<p><strong>Contact:</strong> {{ supplier.contact_person|default:"-" }}</p>
+<p><strong>Email:</strong> {{ supplier.email|default:"-" }}</p>
+<p><strong>Phone:</strong> {{ supplier.phone|default:"-" }}</p>
+<p><strong>Address:</strong> {{ supplier.address|default:"-" }}</p>
+<p><strong>Contract Start:</strong> {{ supplier.contract_start_date|date:"Y-m-d"|default:"-" }}</p>
+<p><strong>Payment Terms:</strong> {{ supplier.payment_terms|default:"-" }}</p>
+<p><strong>Created:</strong> {{ supplier.created_at|date:"Y-m-d H:i" }}</p>
+<p><strong>Updated:</strong> {{ supplier.updated_at|date:"Y-m-d H:i" }}</p>
+
+<h2>Supplier Products</h2>
+<ul>
+    {% for product in products %}
+    <li>
+        {{ product.product.name }} - ${{ product.supply_price }} 
+        (MOQ: {{ product.minimum_order_quantity }})
+        <a href="{% url 'procurement:supplierproduct_update' product.pk %}">Edit</a>
+        <a href="{% url 'procurement:supplierproduct_delete' product.pk %}">Delete</a>
+    </li>
+    {% empty %}
+    <li>No products available</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'procurement:supplierproduct_create' supplier.pk %}">Add Product</a>
+
+<h2>Purchase Orders</h2>
+<ul>
+    {% for order in orders %}
+    <li>
+        <a href="{% url 'procurement:purchaseorder_detail' order.pk %}">PO-{{ order.id }}</a> 
+        - {{ order.get_status_display }} ({{ order.order_date|date:"Y-m-d" }})
+    </li>
+    {% empty %}
+    <li>No purchase orders</li>
+    {% endfor %}
+</ul>
+
+<div class="actions">
+    <a href="{% url 'procurement:supplier_update' supplier.pk %}">Edit Supplier</a>
+    <a href="{% url 'procurement:supplier_list' %}">Back to List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if object %}Edit{% else %}Create{% endif %} Loyalty Transaction</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.customer.label_tag }}
+                {{ form.customer }}
+                {{ form.customer.errors }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.sale.label_tag }}
+                {{ form.sale }}
+                {{ form.sale.errors }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.transaction_date.label_tag }}
+                {{ form.transaction_date }}
+                {{ form.transaction_date.errors }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                {{ form.points_earned.label_tag }}
+                {{ form.points_earned }}
+                {{ form.points_earned.errors }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                {{ form.points_redeemed.label_tag }}
+                {{ form.points_redeemed }}
+                {{ form.points_redeemed.errors }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">Save Transaction</button>
+        <a href="{% if object %}{% if object.customer %}{% url 'sales:customer_detail' object.customer.pk %}{% else %}{% url 'sales:sale_detail' object.sale.pk %}{% endif %}{% else %}{% url 'sales:sale_list' %}{% endif %}" 
+           class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

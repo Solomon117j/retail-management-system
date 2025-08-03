@@ -54,8 +54,55 @@
       </div>
     </div>
     
-    <!-- Add more cards for other apps as needed -->
+    <!-- Sales Management Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-cash-register fa-3x mb-3 text-danger"></i>
+          <h3 class="card-title">Sales</h3>
+          <p class="card-text">Manage sales, customers, and transactions</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'sales:sale_list' %}" class="btn btn-danger">
+              Go to Sales
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     
+    <!-- E-Commerce Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-shopping-cart fa-3x mb-3 text-secondary"></i>
+          <h3 class="card-title">E-Commerce</h3>
+          <p class="card-text">Manage online orders and shipping</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'ecommerce:order_list' %}" class="btn btn-secondary">
+              Go to E-Commerce
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Procurement Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-truck fa-3x mb-3 text-dark"></i>
+          <h3 class="card-title">Procurement</h3>
+          <p class="card-text">Manage suppliers and purchase orders</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'procurement:supplier_list' %}" class="btn btn-dark">
+              Go to Procurement
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Analytics Card -->
     <div class="col-md-4 mb-4">
       <div class="card h-100">
         <div class="card-body text-center">
@@ -104,10 +151,91 @@
           </div>
         </div>
         <div class="col-md-3 mb-3">
+          <div class="card text-white bg-danger">
+            <div class="card-body">
+              <h5 class="card-title">Total Sales</h5>
+              <p class="card-text display-4">{{ sales_count }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Second row of stats -->
+      <div class="row">
+        <div class="col-md-3 mb-3">
           <div class="card text-white bg-warning">
             <div class="card-body">
-              <h5 class="card-title">Pending Tasks</h5>
-              <p class="card-text display-4">{{ task_count }}</p>
+              <h5 class="card-title">Total Customers</h5>
+              <p class="card-text display-4">{{ customer_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-secondary">
+            <div class="card-body">
+              <h5 class="card-title">Online Orders</h5>
+              <p class="card-text display-4">{{ online_orders_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Suppliers</h5>
+              <p class="card-text display-4">{{ supplier_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-light text-dark">
+            <div class="card-body">
+              <h5 class="card-title">Today's Revenue</h5>
+              <p class="card-text display-6">${{ today_revenue|floatformat:2 }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions Section -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2 class="mb-4">Quick Actions</h2>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <i class="fas fa-plus-circle fa-2x mb-2 text-danger"></i>
+              <h6 class="card-title">New Sale</h6>
+              <a href="{% url 'sales:sale_create' %}" class="btn btn-sm btn-danger">Create Sale</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <i class="fas fa-user-plus fa-2x mb-2 text-warning"></i>
+              <h6 class="card-title">New Customer</h6>
+              <a href="{% url 'sales:customer_create' %}" class="btn btn-sm btn-warning">Add Customer</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <i class="fas fa-shopping-bag fa-2x mb-2 text-secondary"></i>
+              <h6 class="card-title">New Online Order</h6>
+              <a href="{% url 'ecommerce:order_create' %}" class="btn btn-sm btn-secondary">Create Order</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <i class="fas fa-box fa-2x mb-2 text-info"></i>
+              <h6 class="card-title">New Product</h6>
+              <a href="{% url 'inventory:product_create' %}" class="btn btn-sm btn-info">Add Product</a>
             </div>
           </div>
         </div>

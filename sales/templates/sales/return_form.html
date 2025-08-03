@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if object %}Edit{% else %}Create{% endif %} Return</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.sale.label_tag }}
+                {{ form.sale }}
+                {{ form.sale.errors }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.return_date.label_tag }}
+                {{ form.return_date }}
+                {{ form.return_date.errors }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        {{ form.reason.label_tag }}
+        {{ form.reason }}
+        {{ form.reason.errors }}
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.refund_amount.label_tag }}
+                {{ form.refund_amount }}
+                {{ form.refund_amount.errors }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.refund_method.label_tag }}
+                {{ form.refund_method }}
+                {{ form.refund_method.errors }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        {{ form.employee.label_tag }}
+        {{ form.employee }}
+        {{ form.employee.errors }}
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">Save Return</button>
+        <a href="{% if object %}{% url 'sales:sale_detail' object.sale.pk %}{% else %}{% url 'sales:sale_list' %}{% endif %}" 
+           class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

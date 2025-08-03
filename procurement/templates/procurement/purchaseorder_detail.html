@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Purchase Order #{{ order.id }}</h1>
+<p><strong>Supplier:</strong> {{ order.supplier.name }}</p>
+<p><strong>Store:</strong> {{ order.store.name }}</p>
+<p><strong>Order Date:</strong> {{ order.order_date|date:"Y-m-d" }}</p>
+<p><strong>Expected Delivery:</strong> {{ order.expected_delivery_date|date:"Y-m-d"|default:"-" }}</p>
+<p><strong>Status:</strong> {{ order.get_status_display }}</p>
+<p><strong>Total Amount:</strong> ${{ order.total_amount|default:"0.00" }}</p>
+<p><strong>Created By:</strong> {{ order.created_by.get_full_name }}</p>
+<p><strong>Created At:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+<p><strong>Updated At:</strong> {{ order.updated_at|date:"Y-m-d H:i" }}</p>
+
+<h2>Order Items</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Received</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.unit_price }}</td>
+            <td>${{ item.total }}</td>
+            <td>{{ item.received_quantity }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="actions">
+    {% if can_edit %}
+        <a href="{% url 'procurement:purchaseorder_update' order.pk %}">Edit Order</a>
+        <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}">
+            {% csrf_token %}
+            <button type="submit" name="action" value="pending">Submit for Approval</button>
+            <button type="submit" name="action" value="cancelled">Cancel Order</button>
+        </form>
+    {% endif %}
+    
+    {% if order.status == 'approved' %}
+        <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}">
+            {% csrf_token %}
+            <button type="submit" name="action" value="shipped">Mark as Shipped</button>
+        </form>
+    {% endif %}
+    
+    {% if order.status == 'shipped' %}
+        <a href="{% url 'procurement:purchaseorder_receive' order.pk %}">Receive Shipment</a>
+    {% endif %}
+    
+    <a href="{% url 'procurement:purchaseorder_list' %}">Back to List</a>
+</div>
+{% endblock %}

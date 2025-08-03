@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if object %}Edit{% else %}Create{% endif %} Purchase Order</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <h2>Order Items</h2>
+    {{ formset.management_form }}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Delete?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+            <tr class="item-form">
+                <td>{{ form.product }}{{ form.product.errors }}</td>
+                <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
+                <td>{{ form.unit_price }}{{ form.unit_price.errors }}</td>
+                <td class="item-total">
+                    {% if form.instance.quantity and form.instance.unit_price %}
+                    ${{ form.instance.total|floatformat:2 }}
+                    {% else %}
+                    $0.00
+                    {% endif %}
+                </td>
+                <td>{{ form.DELETE }}</td>
+                {{ form.id }}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="actions">
+        <button type="submit">Save Order</button>
+        <a href="{% if object %}{% url 'procurement:purchaseorder_detail' object.pk %}{% else %}{% url 'procurement:purchaseorder_list' %}{% endif %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

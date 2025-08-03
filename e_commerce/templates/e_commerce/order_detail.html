@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Online Order #{{ order.id }}</h1>
+    <div>
+        <a href="{% url 'ecommerce:order_update' order.pk %}" class="btn btn-outline-primary">Edit</a>
+        {% if can_edit %}
+        <form method="post" action="{% url 'ecommerce:order_status' order.pk %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" name="status" value="cancelled" class="btn btn-outline-danger">Cancel Order</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Order Details</div>
+            <div class="card-body">
+                <p><strong>Date:</strong> {{ order.order_date|date:"Y-m-d H:i" }}</p>
+                <p><strong>Customer:</strong> 
+                    <a href="{% url 'sales:customer_detail' order.customer.pk %}">
+                        {{ order.customer.first_name }} {{ order.customer.last_name }}
+                    </a>
+                </p>
+                <p><strong>Status:</strong> 
+                    <span class="badge bg-{% if order.status == 'delivered' %}success
+                    {% elif order.status == 'cancelled' %}danger
+                    {% elif order.status == 'shipped' %}info
+                    {% else %}warning{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Shipping & Payment</div>
+            <div class="card-body">
+                <p><strong>Shipping Method:</strong> {{ order.get_shipping_method_display }}</p>
+                <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+                {% if order.store_pickup %}
+                <p><strong>Store Pickup:</strong> {{ order.store_pickup.name }}</p>
+                {% endif %}
+                {% if order.tracking_number %}
+                <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
+                {% endif %}
+                <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
+                <p class="fs-5"><strong>Total:</strong> ${{ order.total_amount|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Order Items</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.unit_price|floatformat:2 }}</td>
+                    <td>${{ item.total_price|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="table-active">
+                    <td colspan="3" class="text-end"><strong>Order Total:</strong></td>
+                    <td><strong>${{ order.total_amount|floatformat:2 }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if can_edit %}
+<div class="card">
+    <div class="card-header">Order Actions</div>
+    <div class="card-body">
+        <form method="post" action="{% url 'ecommerce:order_status' order.pk %}" class="d-flex gap-2">
+            {% csrf_token %}
+            {% if order.status == 'pending' %}
+            <button type="submit" name="status" value="processing" class="btn btn-primary">Mark as Processing</button>
+            {% endif %}
+            
+            {% if order.status == 'processing' %}
+            <button type="submit" name="status" value="shipped" class="btn btn-primary">Mark as Shipped</button>
+            {% endif %}
+            
+            {% if order.status == 'shipped' %}
+            <button type="submit" name="status" value="delivered" class="btn btn-success">Mark as Delivered</button>
+            {% endif %}
+            
+            <button type="submit" name="status" value="cancelled" class="btn btn-danger ms-auto">Cancel Order</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

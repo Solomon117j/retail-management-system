@@ -29,7 +29,9 @@ urlpatterns = [
     path('analytics/', include('reporting.urls')),
     
     path('stores/', include('store_management.urls')),
-    
+    path('procurement/', include('procurement.urls')),
+    path('sales/', include('sales.urls')),
+    path('e_commerce/', include('e_commerce.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     
 ]

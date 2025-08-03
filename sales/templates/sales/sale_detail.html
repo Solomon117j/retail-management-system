@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Sale #{{ sale.id }}</h1>
+    <div>
+        <a href="{% url 'sales:sale_update' sale.pk %}" class="btn btn-outline-primary">Edit</a>
+        <a href="{% url 'sales:return_create' %}?sale_id={{ sale.pk }}" class="btn btn-outline-info">Process Return</a>
+        <a href="{% url 'sales:loyaltytransaction_create' %}?sale_id={{ sale.pk }}" class="btn btn-outline-success">Add Loyalty Points</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Sale Details</div>
+            <div class="card-body">
+                <p><strong>Date:</strong> {{ sale.sale_date|date:"Y-m-d H:i" }}</p>
+                <p><strong>Store:</strong> {{ sale.store.name }}</p>
+                <p><strong>Employee:</strong> {{ sale.employee.user.get_full_name }}</p>
+                <p><strong>Customer:</strong> 
+                    {% if sale.customer %}
+                    <a href="{% url 'sales:customer_detail' sale.customer.pk %}">
+                        {{ sale.customer.first_name }} {{ sale.customer.last_name }}
+                    </a>
+                    {% else %}
+                    Guest
+                    {% endif %}
+                </p>
+                <p><strong>Payment Method:</strong> {{ sale.get_payment_method_display }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Financial Summary</div>
+            <div class="card-body">
+                <p><strong>Subtotal:</strong> ${{ sale.subtotal|floatformat:2 }}</p>
+                <p><strong>Discount:</strong> ${{ sale.discount_amount|floatformat:2 }}</p>
+                <p><strong>Tax:</strong> ${{ sale.tax_amount|floatformat:2 }}</p>
+                <p class="fs-5"><strong>Total:</strong> ${{ sale.total_amount|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Items</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.unit_price|floatformat:2 }}</td>
+                    <td>{{ item.discount_percentage|floatformat:2 }}%</td>
+                    <td>${{ item.total_price|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if returns %}
+<div class="card mb-4">
+    <div class="card-header">Returns</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Reason</th>
+                    <th>Refund Amount</th>
+                    <th>Refund Method</th>
+                    <th>Employee</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for return in returns %}
+                <tr>
+                    <td>{{ return.return_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ return.reason|truncatechars:30 }}</td>
+                    <td>${{ return.refund_amount|floatformat:2 }}</td>
+                    <td>{{ return.get_refund_method_display }}</td>
+                    <td>{{ return.employee.user.get_full_name }}</td>
+                    <td>
+                        <a href="{% url 'sales:return_update' return.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'sales:return_delete' return.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if loyalty_transactions %}
+<div class="card">
+    <div class="card-header">Loyalty Transactions</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Points Earned</th>
+                    <th>Points Redeemed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in loyalty_transactions %}
+                <tr>
+                    <td>{{ tx.transaction_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ tx.points_earned }}</td>
+                    <td>{{ tx.points_redeemed }}</td>
+                    <td>
+                        <a href="{% url 'sales:loyaltytransaction_update' tx.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'sales:loyaltytransaction_delete' tx.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
