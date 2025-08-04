@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Product, Category, Brand
+from .models import Product
+
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
@@ -58,3 +59,8 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'inventory/product_confirm_delete.html'
     success_url = reverse_lazy('inventory:product_list')
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'  # Or specify actual fields
+    template_name = 'inventory/product_form.html'  # Create this template

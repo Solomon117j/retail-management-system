@@ -45,19 +45,18 @@ INSTALLED_APPS = [
     
     'django_extensions',
     'debug_toolbar',
+    'dashboards.apps.CoreConfig',
     'store_management.apps.StoreManagementConfig',
-    'human_resources.apps.HumanResourcesConfig',
-        
+    'human_resources.apps.HumanResourcesConfig',        
     'inventory.apps.InventoryConfig',
     'sales.apps.SalesConfig',
-    'procurement.apps.ProcurementConfig',
-    
+    'procurement.apps.ProcurementConfig',    
     'e_commerce.apps.ECommerceConfig',
     'reporting.apps.ReportingConfig',
 
 ]
 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'dashboards'
 AUTH_USER_MODEL = 'human_resources.Employee'  # App name and model name
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'         # Redirect after login
@@ -73,7 +72,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'retail_management_system.middleware.LoginRequiredMiddleware',
 

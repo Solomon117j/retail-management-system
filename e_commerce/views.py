@@ -8,12 +8,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OnlineOrder, OrderItem
 from sales.models import Customer
-from store_management.models import Store
-from inventory.models import Product
+from django.views.generic import CreateView
 
+from inventory.models import Product
 class OnlineOrderListView(LoginRequiredMixin, ListView):
     model = OnlineOrder
-    template_name = 'ecommerce/order_list.html'
+    template_name = 'e_commerce/order_list.html'
     context_object_name = 'orders'
     paginate_by = 20
     
@@ -194,3 +194,7 @@ class OnlineOrderDeleteView(LoginRequiredMixin, DeleteView):
         order = self.get_object()
         messages.success(request, f'Online Order #{order.id} deleted successfully')
         return super().delete(request, *args, **kwargs)
+
+
+# from .models import Product  # Import your Product model
+

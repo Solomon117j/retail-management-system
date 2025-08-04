@@ -1,4 +1,4 @@
-{# templates/dashboard/index.html #}
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -78,7 +78,7 @@
           <h3 class="card-title">E-Commerce</h3>
           <p class="card-text">Manage online orders and shipping</p>
           <div class="d-grid gap-2">
-            <a href="{% url 'ecommerce:order_list' %}" class="btn btn-secondary">
+            <a href="{% url 'e_commerce:order_list' %}" class="btn btn-secondary">
               Go to E-Commerce
             </a>
           </div>
@@ -226,7 +226,7 @@
             <div class="card-body text-center">
               <i class="fas fa-shopping-bag fa-2x mb-2 text-secondary"></i>
               <h6 class="card-title">New Online Order</h6>
-              <a href="{% url 'ecommerce:order_create' %}" class="btn btn-sm btn-secondary">Create Order</a>
+              <a href="{% url 'e_commerce:order_create' %}" class="btn btn-sm btn-secondary">Create Order</a>
             </div>
           </div>
         </div>

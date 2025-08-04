@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Online Orders</h1>
-<a href="{% url 'ecommerce:order_create' %}" class="btn btn-primary mb-4">Create New Order</a>
+<a href="{% url 'e_commerce:order_create' %}" class="btn btn-primary mb-4">Create New Order</a>
 
 <form method="get" class="mb-4">
     <div class="row g-3">
@@ -48,7 +48,7 @@
         <tbody>
             {% for order in orders %}
             <tr>
-                <td><a href="{% url 'ecommerce:order_detail' order.pk %}">#{{ order.id }}</a></td>
+                <td><a href="{% url 'e_commerce:order_detail' order.pk %}">#{{ order.id }}</a></td>
                 <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
                 <td>
                     <a href="{% url 'sales:customer_detail' order.customer.pk %}">
@@ -66,9 +66,9 @@
                 </td>
                 <td>${{ order.total_amount|floatformat:2 }}</td>
                 <td>
-                    <a href="{% url 'ecommerce:order_update' order.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a href="{% url 'e_commerce:order_update' order.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
                     {% if order.status in 'pending,processing' %}
-                    <a href="{% url 'ecommerce:order_delete' order.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    <a href="{% url 'e_commerce:order_delete' order.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
                     {% endif %}
                 </td>
             </tr>
@@ -81,5 +81,5 @@
     </table>
 </div>
 
-{% include 'pagination.html' with page_obj=orders %}
+{% include 'includes/pagination.html' with page_obj=orders %}
 {% endblock %}
