@@ -2,6 +2,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import Attendance, Payroll
+from .forms import AttendanceForm, PayrollForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
@@ -31,18 +32,18 @@ class AttendanceListView(LoginRequiredMixin, ListView):
 
 class AttendanceCreateView(LoginRequiredMixin, CreateView):
     model = Attendance
+    form_class = AttendanceForm
     template_name = 'human_resources/attendance_form.html'
-    fields = ['employee', 'date', 'clock_in', 'clock_out', 'status', 'notes']
     success_url = reverse_lazy('hr:attendance_list')
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        # Note: removed created_by since it's not in the model
         return super().form_valid(form)
 
 class AttendanceUpdateView(LoginRequiredMixin, UpdateView):
     model = Attendance
+    form_class = AttendanceForm
     template_name = 'human_resources/attendance_form.html'
-    fields = ['employee', 'date', 'clock_in', 'clock_out', 'status', 'notes']
     success_url = reverse_lazy('hr:attendance_list')
 
 class AttendanceDetailView(LoginRequiredMixin, DetailView):
@@ -76,22 +77,18 @@ class PayrollListView(LoginRequiredMixin, ListView):
 
 class PayrollCreateView(LoginRequiredMixin, CreateView):
     model = Payroll
+    form_class = PayrollForm
     template_name = 'human_resources/payroll_form.html'
-    fields = ['employee', 'pay_period_start', 'pay_period_end', 
-              'base_salary', 'overtime_pay', 'bonus', 'deductions',
-              'payment_date', 'status']
     success_url = reverse_lazy('hr:payroll_list')
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        # Note: removed created_by since it's not in the model
         return super().form_valid(form)
 
 class PayrollUpdateView(LoginRequiredMixin, UpdateView):
     model = Payroll
+    form_class = PayrollForm
     template_name = 'human_resources/payroll_form.html'
-    fields = ['employee', 'pay_period_start', 'pay_period_end', 
-              'base_salary', 'overtime_pay', 'bonus', 'deductions',
-              'payment_date', 'status']
     success_url = reverse_lazy('hr:payroll_list')
 
 class PayrollDetailView(LoginRequiredMixin, DetailView):
@@ -157,8 +154,8 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         # Write data
         for record in queryset:
             writer.writerow([
-                record.employee.id,
-                record.employee.user.get_full_name(),
+                record.employee.employee_id,
+                record.employee.get_full_name(),
                 record.date,
                 record.clock_in,
                 record.clock_out,
@@ -175,8 +172,8 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         data = []
         for record in queryset:
             data.append({
-                'Employee ID': record.employee.id,
-                'Employee Name': record.employee.user.get_full_name(),
+                'Employee ID': record.employee.employee_id,
+                'Employee Name': record.employee.get_full_name(),
                 'Date': record.date,
                 'Clock In': record.clock_in,
                 'Clock Out': record.clock_out,
@@ -246,8 +243,8 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
         # Write data
         for record in queryset:
             writer.writerow([
-                record.employee.id,
-                record.employee.user.get_full_name(),
+                record.employee.employee_id,
+                record.employee.get_full_name(),
                 record.pay_period_start,
                 record.pay_period_end,
                 record.base_salary,
@@ -268,8 +265,8 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
         data = []
         for record in queryset:
             data.append({
-                'Employee ID': record.employee.id,
-                'Employee Name': record.employee.user.get_full_name(),
+                'Employee ID': record.employee.employee_id,
+                'Employee Name': record.employee.get_full_name(),
                 'Pay Period Start': record.pay_period_start,
                 'Pay Period End': record.pay_period_end,
                 'Base Salary': record.base_salary,

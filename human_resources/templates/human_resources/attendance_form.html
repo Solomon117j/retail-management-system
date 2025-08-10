@@ -1,63 +1,565 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Edit Attendance{% else %}Create Attendance Record{% endif %} - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">
-    {% if object %}Edit Attendance{% else %}Create Attendance Record{% endif %}
-  </h2>
-  
-  <form method="post">
-    {% csrf_token %}
-    
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_employee">Employee</label>
-              {{ form.employee }}
+    <div class="attendance-form-container">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2 mb-1">
+                    <i class="fas fa-clock text-success me-2"></i>
+                    {% if object %}Edit Attendance Record{% else %}Create Attendance Record{% endif %}
+                </h1>
+                <p class="text-muted mb-0">
+                    {% if object %}
+                        Update attendance record for {{ object.employee.get_full_name }} on {{ object.date }}
+                    {% else %}
+                        Record employee attendance and time tracking
+                    {% endif %}
+                </p>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_date">Date</label>
-              {{ form.date }}
+            <div>
+                <a href="{% url 'hr:attendance_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Attendance
+                </a>
             </div>
-          </div>
         </div>
-        
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_clock_in">Clock In</label>
-              {{ form.clock_in }}
+
+        <!-- Error Messages -->
+        {% if form.errors %}
+        <div class="alert alert-danger fade-in">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <div>
+                    <strong>Please correct the following errors:</strong>
+                    {% if form.non_field_errors %}
+                        <ul class="mb-0 mt-2">
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_clock_out">Clock Out</label>
-              {{ form.clock_out }}
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_status">Status</label>
-              {{ form.status }}
-            </div>
-          </div>
         </div>
-        
-        <div class="form-group">
-          <label for="id_notes">Notes</label>
-          {{ form.notes }}
-        </div>
-      </div>
+        {% endif %}
+
+        <!-- Attendance Form -->
+        <form method="post" class="ajax-form" novalidate>
+            {% csrf_token %}
+            
+            <!-- Employee & Date Section -->
+            <div class="attendance-section">
+                <h4><i class="fas fa-user-clock me-2"></i>Employee & Date Information</h4>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3 required-field">
+                            <label for="{{ form.employee.id_for_label }}" class="form-label">
+                                {{ form.employee.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                {{ form.employee }}
+                            </div>
+                            {% if form.employee.help_text %}
+                                <div class="form-help-text">{{ form.employee.help_text }}</div>
+                            {% endif %}
+                            {% if form.employee.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.employee.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 required-field">
+                            <label for="{{ form.date.id_for_label }}" class="form-label">
+                                {{ form.date.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                {{ form.date }}
+                            </div>
+                            {% if form.date.help_text %}
+                                <div class="form-help-text">{{ form.date.help_text }}</div>
+                            {% endif %}
+                            {% if form.date.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.date.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Employee Display -->
+                <div id="selected-employee-info" class="employee-card" style="display: none;">
+                    <div class="d-flex align-items-center">
+                        <div class="employee-avatar me-3" id="employee-avatar"></div>
+                        <div class="employee-info">
+                            <h6 id="employee-name"></h6>
+                            <div class="text-muted">
+                                <span id="employee-position"></span>
+                                <span id="employee-department"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time & Status Section -->
+            <div class="attendance-section">
+                <h4><i class="fas fa-stopwatch me-2"></i>Time & Status Information</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="{{ form.clock_in.id_for_label }}" class="form-label">
+                                {{ form.clock_in.label }}
+                            </label>
+                            <div class="input-group time-input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </span>
+                                {{ form.clock_in }}
+                                <button type="button" class="btn btn-outline-success btn-sm" 
+                                        onclick="setCurrentTime('clock_in')" title="Set current time">
+                                    <i class="fas fa-clock"></i>
+                                </button>
+                            </div>
+                            {% if form.clock_in.help_text %}
+                                <div class="form-help-text">{{ form.clock_in.help_text }}</div>
+                            {% endif %}
+                            {% if form.clock_in.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.clock_in.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="{{ form.clock_out.id_for_label }}" class="form-label">
+                                {{ form.clock_out.label }}
+                            </label>
+                            <div class="input-group time-input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span>
+                                {{ form.clock_out }}
+                                <button type="button" class="btn btn-outline-danger btn-sm" 
+                                        onclick="setCurrentTime('clock_out')" title="Set current time">
+                                    <i class="fas fa-clock"></i>
+                                </button>
+                            </div>
+                            {% if form.clock_out.help_text %}
+                                <div class="form-help-text">{{ form.clock_out.help_text }}</div>
+                            {% endif %}
+                            {% if form.clock_out.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.clock_out.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3 required-field">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">
+                                {{ form.status.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user-check"></i>
+                                </span>
+                                {{ form.status }}
+                            </div>
+                            {% if form.status.help_text %}
+                                <div class="form-help-text">{{ form.status.help_text }}</div>
+                            {% endif %}
+                            {% if form.status.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.status.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Time Calculator -->
+                        <div class="time-calculator">
+                            <h6><i class="fas fa-calculator me-1"></i>Hours Worked</h6>
+                            <div class="hours-display" id="hours-worked">--:--</div>
+                            <div class="hours-breakdown" id="hours-breakdown">
+                                Enter clock in/out times to calculate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="attendance-section">
+                <h4><i class="fas fa-sticky-note me-2"></i>Additional Notes</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="{{ form.notes.id_for_label }}" class="form-label">
+                                {{ form.notes.label }}
+                            </label>
+                            {{ form.notes }}
+                            <div class="form-text">
+                                <span id="notes-counter">0</span>/200 characters
+                            </div>
+                            {% if form.notes.help_text %}
+                                <div class="form-help-text">{{ form.notes.help_text }}</div>
+                            {% endif %}
+                            {% if form.notes.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.notes.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-save me-2"></i>
+                            {% if object %}Update Attendance{% else %}Save Attendance{% endif %}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'hr:attendance_list' %}" 
+                           class="btn btn-outline-secondary btn-lg w-100">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+                
+                {% if object %}
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Created: {{ object.created_at|date:"M d, Y g:i A" }}
+                                {% if object.updated_at != object.created_at %}
+                                    | Updated: {{ object.updated_at|date:"M d, Y g:i A" }}
+                                {% endif %}
+                            </small>
+                            <a href="{% url 'hr:attendance_delete' object.pk %}" 
+                               class="btn btn-outline-danger btn-sm btn-delete"
+                               data-item-name="attendance record for {{ object.employee.get_full_name }}">
+                                <i class="fas fa-trash me-1"></i>Delete Record
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </form>
     </div>
-    
-    <button type="submit" class="btn btn-primary">
-      {% if object %}Update{% else %}Create{% endif %}
-    </button>
-    <a href="{% url 'hr:attendance_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+
+    <!-- Quick Actions Sidebar -->
+    <div class="row mt-4">
+        <div class="col-lg-8">
+            <!-- Recent Attendance Records -->
+            {% if object.employee %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Recent Attendance for {{ object.employee.get_full_name }}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Clock In</th>
+                                    <th>Clock Out</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- This would be populated with recent records -->
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">
+                                        Select an employee to view recent attendance
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h6 class="mb-3">
+                    <i class="fas fa-bolt me-2"></i>Quick Actions
+                </h6>
+                <button type="button" class="btn btn-outline-success quick-action-btn" 
+                        onclick="quickClockIn()">
+                    <i class="fas fa-sign-in-alt me-2"></i>Quick Clock In
+                </button>
+                <button type="button" class="btn btn-outline-danger quick-action-btn" 
+                        onclick="quickClockOut()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Quick Clock Out
+                </button>
+                <button type="button" class="btn btn-outline-info quick-action-btn" 
+                        onclick="markAbsent()">
+                    <i class="fas fa-user-times me-2"></i>Mark Absent
+                </button>
+                <button type="button" class="btn btn-outline-warning quick-action-btn" 
+                        onclick="markOnLeave()">
+                    <i class="fas fa-umbrella-beach me-2"></i>Mark On Leave
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.ajax-form');
+    const employeeSelect = document.querySelector('#id_employee');
+    const statusSelect = document.querySelector('#id_status');
+    const clockInInput = document.querySelector('#id_clock_in');
+    const clockOutInput = document.querySelector('#id_clock_out');
+    const notesTextarea = document.querySelector('#id_notes');
+    const selectedEmployeeInfo = document.querySelector('#selected-employee-info');
+    
+    // Employee selection handler
+    if (employeeSelect) {
+        employeeSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (this.value) {
+                // Show employee info (in a real app, you'd fetch this via AJAX)
+                const employeeName = selectedOption.text;
+                const initials = employeeName.split(' ').map(n => n[0]).join('');
+                
+                document.querySelector('#employee-avatar').textContent = initials;
+                document.querySelector('#employee-name').textContent = employeeName;
+                document.querySelector('#employee-position').textContent = 'Employee';
+                document.querySelector('#employee-department').textContent = '';
+                
+                selectedEmployeeInfo.style.display = 'block';
+                selectedEmployeeInfo.classList.add('fade-in');
+            } else {
+                selectedEmployeeInfo.style.display = 'none';
+            }
+        });
+    }
+    
+    // Status change handler
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            const status = this.value;
+            const section = document.querySelector('.attendance-section');
+            
+            // Remove all status classes
+            section.classList.remove('present', 'absent', 'late', 'on_leave');
+            
+            // Add current status class
+            if (status) {
+                section.classList.add(status);
+            }
+            
+            // Handle clock time requirements based on status
+            if (status === 'absent' || status === 'on_leave') {
+                clockInInput.value = '';
+                clockOutInput.value = '';
+                clockInInput.disabled = true;
+                clockOutInput.disabled = true;
+            } else {
+                clockInInput.disabled = false;
+                clockOutInput.disabled = false;
+            }
+            
+            updateHoursCalculation();
+        });
+    }
+    
+    // Time calculation
+    function updateHoursCalculation() {
+        const clockIn = clockInInput.value;
+        const clockOut = clockOutInput.value;
+        const hoursWorkedDiv = document.querySelector('#hours-worked');
+        const hoursBreakdownDiv = document.querySelector('#hours-breakdown');
+        
+        if (clockIn && clockOut) {
+            const [inHour, inMin] = clockIn.split(':').map(Number);
+            const [outHour, outMin] = clockOut.split(':').map(Number);
+            
+            const inMinutes = inHour * 60 + inMin;
+            const outMinutes = outHour * 60 + outMin;
+            
+            if (outMinutes > inMinutes) {
+                const totalMinutes = outMinutes - inMinutes;
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+                
+                hoursWorkedDiv.textContent = `${hours}:${minutes.toString().padStart(2, '0')}`;
+                hoursBreakdownDiv.textContent = `${totalMinutes} minutes total`;
+                
+                // Color coding based on hours
+                if (hours >= 8) {
+                    hoursWorkedDiv.className = 'hours-display text-success';
+                } else if (hours >= 6) {
+                    hoursWorkedDiv.className = 'hours-display text-warning';
+                } else {
+                    hoursWorkedDiv.className = 'hours-display text-danger';
+                }
+            } else {
+                hoursWorkedDiv.textContent = '--:--';
+                hoursWorkedDiv.className = 'hours-display';
+                hoursBreakdownDiv.textContent = 'Invalid time range';
+            }
+        } else {
+            hoursWorkedDiv.textContent = '--:--';
+            hoursWorkedDiv.className = 'hours-display';
+            hoursBreakdownDiv.textContent = 'Enter clock in/out times to calculate';
+        }
+    }
+    
+    // Time input handlers
+    [clockInInput, clockOutInput].forEach(input => {
+        if (input) {
+            input.addEventListener('change', updateHoursCalculation);
+        }
+    });
+    
+    // Notes character counter
+    if (notesTextarea) {
+        const counter = document.querySelector('#notes-counter');
+        
+        function updateCounter() {
+            const length = notesTextarea.value.length;
+            counter.textContent = length;
+            
+            if (length > 180) {
+                counter.className = 'text-warning';
+            } else if (length > 200) {
+                counter.className = 'text-danger';
+            } else {
+                counter.className = '';
+            }
+        }
+        
+        notesTextarea.addEventListener('input', updateCounter);
+        updateCounter(); // Initial count
+    }
+    
+    // Set current time function
+    window.setCurrentTime = function(fieldName) {
+        const now = new Date();
+        const timeString = now.toTimeString().slice(0, 5); // HH:MM format
+        document.querySelector(`#id_${fieldName}`).value = timeString;
+        updateHoursCalculation();
+        
+        RMS.utils.showToast(`Current time set for ${fieldName.replace('_', ' ')}`, 'success', 2000);
+    };
+    
+    // Quick action functions
+    window.quickClockIn = function() {
+        if (!employeeSelect.value) {
+            RMS.utils.showToast('Please select an employee first', 'warning');
+            return;
+        }
+        
+        setCurrentTime('clock_in');
+        statusSelect.value = 'present';
+        statusSelect.dispatchEvent(new Event('change'));
+    };
+    
+    window.quickClockOut = function() {
+        if (!employeeSelect.value) {
+            RMS.utils.showToast('Please select an employee first', 'warning');
+            return;
+        }
+        
+        setCurrentTime('clock_out');
+        updateHoursCalculation();
+    };
+    
+    window.markAbsent = function() {
+        if (!employeeSelect.value) {
+            RMS.utils.showToast('Please select an employee first', 'warning');
+            return;
+        }
+        
+        statusSelect.value = 'absent';
+        statusSelect.dispatchEvent(new Event('change'));
+    };
+    
+    window.markOnLeave = function() {
+        if (!employeeSelect.value) {
+            RMS.utils.showToast('Please select an employee first', 'warning');
+            return;
+        }
+        
+        statusSelect.value = 'on_leave';
+        statusSelect.dispatchEvent(new Event('change'));
+    };
+    
+    // Form submission enhancement
+    form.addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+        submitBtn.disabled = true;
+        
+        // Re-enable button after 5 seconds as fallback
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 5000);
+    });
+    
+    // Initialize calculations if editing existing record
+    if (clockInInput.value || clockOutInput.value) {
+        updateHoursCalculation();
+    }
+    
+    // Initialize status styling if editing existing record
+    if (statusSelect.value) {
+        statusSelect.dispatchEvent(new Event('change'));
+    }
+    
+    console.log('Attendance form enhancements initialized');
+});
+</script>
 {% endblock %}

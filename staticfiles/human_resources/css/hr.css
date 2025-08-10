@@ -1,0 +1,474 @@
+/* ========================================
+   HUMAN RESOURCES - SPECIFIC STYLES
+   ======================================== */
+
+/* ========================================
+   STATISTICS DASHBOARD
+   ======================================== */
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card {
+    transition: all var(--transition-normal);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-card .card-body {
+    padding: var(--spacing-lg);
+    position: relative;
+}
+
+.stat-card .card-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(20px, -20px);
+}
+
+/* ========================================
+   ATTENDANCE FORM STYLES
+   ======================================== */
+
+.attendance-form-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.attendance-section {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--success-color);
+    position: relative;
+}
+
+.attendance-section h4 {
+    color: var(--success-color);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 600;
+}
+
+/* Status-specific styling */
+.attendance-section.present {
+    border-left-color: var(--success-color);
+}
+
+.attendance-section.absent {
+    border-left-color: var(--danger-color);
+}
+
+.attendance-section.late {
+    border-left-color: var(--warning-color);
+}
+
+.attendance-section.on_leave {
+    border-left-color: var(--info-color);
+}
+
+/* Time Input Styling */
+.time-input-group {
+    position: relative;
+}
+
+.time-input-group .input-group-text {
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+    color: var(--white);
+    border: none;
+}
+
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.present {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.status-badge.absent {
+    background: var(--danger-color);
+    color: var(--white);
+}
+
+.status-badge.late {
+    background: var(--warning-color);
+    color: var(--white);
+}
+
+.status-badge.on_leave {
+    background: var(--info-color);
+    color: var(--white);
+}
+
+/* Employee Card */
+.employee-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.employee-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.employee-info h6 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--brand-primary);
+}
+
+.employee-info .text-muted {
+    font-size: 0.875rem;
+}
+
+/* Time Calculator */
+.time-calculator {
+    background: linear-gradient(135deg, var(--gray-50), var(--white));
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+.time-calculator h6 {
+    color: var(--brand-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.hours-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+}
+
+.hours-breakdown {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Quick Actions */
+.quick-actions {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.quick-action-btn {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Clock In/Out Buttons */
+.clock-btn {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.clock-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.clock-btn:hover::before {
+    left: 100%;
+}
+
+.clock-in-btn {
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+    border: none;
+    color: var(--white);
+}
+
+.clock-out-btn {
+    background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+    border: none;
+    color: var(--white);
+}
+
+/* Attendance Calendar */
+.attendance-calendar {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    border: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.calendar-day:hover {
+    background: var(--gray-100);
+}
+
+.calendar-day.present {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: var(--success-color);
+}
+
+.calendar-day.absent {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: var(--danger-color);
+}
+
+.calendar-day.late {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: var(--warning-color);
+}
+
+/* ========================================
+   PAYROLL STYLES
+   ======================================== */
+
+.payroll-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.payroll-section {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--info-color);
+}
+
+.payroll-section h4 {
+    color: var(--info-color);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 600;
+}
+
+.currency-input {
+    position: relative;
+}
+
+.currency-input::before {
+    content: '$';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-weight: 600;
+    z-index: 10;
+}
+
+.currency-input input {
+    padding-left: 2rem;
+}
+
+.payroll-summary {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.payroll-summary h5 {
+    margin-bottom: var(--spacing-md);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* ========================================
+   EMPLOYEE STYLES
+   ======================================== */
+
+.employee-card {
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-normal);
+    border-left: 4px solid var(--brand-primary);
+}
+
+.employee-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-left-color: var(--brand-secondary);
+}
+
+.employee-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.employee-status.active {
+    color: var(--success-color);
+}
+
+.employee-status.inactive {
+    color: var(--danger-color);
+}
+
+/* Attendance Status Indicators */
+.attendance-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: var(--spacing-xs);
+}
+
+.attendance-present {
+    background-color: var(--success-color);
+}
+
+.attendance-absent {
+    background-color: var(--danger-color);
+}
+
+.attendance-late {
+    background-color: var(--warning-color);
+}
+
+.attendance-on_leave {
+    background-color: var(--info-color);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .attendance-form-container,
+    .payroll-form-container {
+        margin: 0 var(--spacing-md);
+    }
+    
+    .attendance-section,
+    .payroll-section {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .clock-btn {
+        padding: var(--spacing-md);
+        font-size: 1rem;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .employee-card {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .time-calculator {
+        margin-top: var(--spacing-lg);
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .quick-actions,
+    .btn,
+    .clock-btn {
+        display: none !important;
+    }
+    
+    .attendance-section,
+    .payroll-section {
+        box-shadow: none !important;
+        border: 1px solid var(--gray-300) !important;
+        break-inside: avoid;
+    }
+    
+    .status-badge {
+        border: 1px solid var(--gray-400) !important;
+        color: var(--gray-800) !important;
+        background: var(--white) !important;
+    }
+}

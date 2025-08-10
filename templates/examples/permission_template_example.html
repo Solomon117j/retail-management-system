@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory Dashboard - Permission Example{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Inventory Dashboard</h1>
+    
+    <!-- Example 1: Using perms in templates -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Actions Available to You</h5>
+                </div>
+                <div class="card-body">
+                    <div class="btn-group" role="group">
+                        <!-- Check for view_inventory permission -->
+                        {% if perms.human_resources.view_inventory %}
+                            <a href="{% url 'inventory:product_list' %}" class="btn btn-primary">
+                                <i class="fas fa-list"></i> View Products
+                            </a>
+                        {% endif %}
+                        
+                        <!-- Check for edit_inventory permission -->
+                        {% if perms.human_resources.edit_inventory %}
+                            <a href="{% url 'inventory:product_create' %}" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Add Product
+                            </a>
+                        {% endif %}
+                        
+                        <!-- Check for perform_inventory_audit permission -->
+                        {% if perms.human_resources.perform_inventory_audit %}
+                            <a href="#" class="btn btn-warning">
+                                <i class="fas fa-clipboard-check"></i> Conduct Audit
+                            </a>
+                        {% endif %}
+                        
+                        <!-- Check for manage_inventory_categories permission -->
+                        {% if perms.human_resources.manage_inventory_categories %}
+                            <a href="#" class="btn btn-info">
+                                <i class="fas fa-tags"></i> Manage Categories
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Example 2: Conditional content based on permissions -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Product List</h5>
+                </div>
+                <div class="card-body">
+                    {% if perms.human_resources.view_inventory %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Stock</th>
+                                    <th>Price</th>
+                                    {% if perms.human_resources.edit_inventory %}
+                                        <th>Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.sku }}</td>
+                                    <td>{{ product.stock_quantity }}</td>
+                                    <td>${{ product.price }}</td>
+                                    {% if perms.human_resources.edit_inventory %}
+                                        <td>
+                                            <a href="{% url 'inventory:product_update' product.pk %}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'inventory:product_delete' product.pk %}" 
+                                               class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="{% if perms.human_resources.edit_inventory %}5{% else %}4{% endif %}" 
+                                        class="text-center">
+                                        No products found.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            You don't have permission to view the inventory.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- Example 3: Role-based sidebar -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    {% if perms.human_resources.view_inventory %}
+                        <div class="mb-3">
+                            <h6>Total Products</h6>
+                            <span class="badge bg-primary fs-6">{{ total_products }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if perms.human_resources.access_inventory %}
+                        <div class="mb-3">
+                            <h6>Low Stock Items</h6>
+                            <span class="badge bg-warning fs-6">{{ low_stock_count }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if perms.human_resources.perform_inventory_audit %}
+                        <div class="mb-3">
+                            <h6>Last Audit</h6>
+                            <small class="text-muted">{{ last_audit_date|default:"Never" }}</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Example 4: Permission-based navigation -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5>Related Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% if perms.human_resources.process_sales %}
+                            <a href="{% url 'sales:sale_list' %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cash-register"></i> Process Sales
+                            </a>
+                        {% endif %}
+                        
+                        {% if perms.human_resources.create_purchase_orders %}
+                            <a href="{% url 'procurement:supplier_list' %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-truck"></i> Create Purchase Order
+                            </a>
+                        {% endif %}
+                        
+                        {% if perms.human_resources.view_sales_reports %}
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-chart-bar"></i> View Reports
+                            </a>
+                        {% endif %}
+                        
+                        {% if perms.human_resources.manage_suppliers %}
+                            <a href="{% url 'procurement:supplier_list' %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-building"></i> Manage Suppliers
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Example 5: User role information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Your Role & Permissions</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Position:</strong> {{ user.position|default:"Not assigned" }}</p>
+                    <p><strong>Department:</strong> {{ user.department|default:"Not assigned" }}</p>
+                    
+                    <h6>Your Permission Groups:</h6>
+                    <div class="mb-2">
+                        {% for group in user.groups.all %}
+                            <span class="badge bg-secondary me-1">{{ group.name }}</span>
+                        {% empty %}
+                            <span class="text-muted">No groups assigned</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Debug: Show all permissions (remove in production) -->
+                    {% if user.is_superuser %}
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <strong>Debug (Superuser):</strong> You have all permissions
+                            </small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

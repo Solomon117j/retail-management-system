@@ -1,41 +1,362 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ store.store_name }} - Store Details - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'store_management/css/store_management.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>{{ store.store_name }}</h1>
-  <p>Address: {{ store.address }}, {{ store.city }}, {{ store.region }} {{ store.postal_code }}</p>
-  <p>Phone: {{ store.phone }}</p>
-  <p>Opened: {{ store.opening_date }}</p>
+<div class="container mt-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">
+                <i class="fas fa-store text-brand-primary me-2"></i>
+                {{ store.store_name }}
+            </h1>
+            <p class="text-muted mb-0">Store Details & Management</p>
+        </div>
+        <div>
+            <a href="{% url 'store_management:store_list' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to Stores
+            </a>
+            <a href="{% url 'store_management:store_update' store.pk %}" class="btn btn-primary">
+                <i class="fas fa-edit me-1"></i> Edit Store
+            </a>
+        </div>
+    </div>
 
-  <h2 class="mt-4">Departments</h2>
-  {% if departments %}
-  <ul class="list-group mt-3">
-    {% for department in departments %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <div class="w-75">
-        <strong>{{ department.department_name }}</strong>
-        {% if department.description %}<p class="mb-0 mt-2">{{ department.description }}</p>{% endif %}
-      </div>
-      <div>
-        <a href="{% url 'store_management:department_edit' pk=department.pk %}" 
-           class="btn btn-sm btn-outline-primary me-1">Edit</a>
-        <a href="{% url 'store_management:department_delete' pk=department.pk %}" 
-           class="btn btn-sm btn-outline-danger"
-           onclick="return confirm('Delete this department?')">Delete</a>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <div class="alert alert-info mt-3">No departments found</div>
-  {% endif %}
+    <div class="row">
+        <!-- Store Information -->
+        <div class="col-lg-8">
+            <!-- Basic Information Card -->
+            <div class="card store-card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Store Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="location-display mb-3">
+                                <h6 class="text-brand-primary">
+                                    <i class="fas fa-map-marker-alt me-1"></i>Address
+                                </h6>
+                                <div class="address-line">{{ store.address }}</div>
+                                <div class="address-line">
+                                    <strong>{{ store.city }}, {{ store.region }}</strong>
+                                    {% if store.postal_code %}{{ store.postal_code }}{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <h6 class="text-brand-primary">
+                                    <i class="fas fa-phone me-1"></i>Contact Information
+                                </h6>
+                                <p class="mb-1">
+                                    <a href="tel:{{ store.phone }}" class="text-decoration-none">
+                                        {{ store.phone }}
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="text-brand-primary">
+                                    <i class="fas fa-calendar me-1"></i>Opening Date
+                                </h6>
+                                <p class="mb-0">
+                                    {{ store.opening_date|date:"F d, Y" }}
+                                    <small class="text-muted">({{ store.opening_date|timesince }} ago)</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="mt-4 d-flex gap-2">
-    <!-- FIX: Added store.pk to department_create URL -->
-    <a href="{% url 'store_management:department_create' store_id=store.pk %}" 
-       class="btn btn-primary">Create Department</a>
-    <a href="{% url 'store_management:store_list' %}" 
-       class="btn btn-secondary">Back to Stores</a>
-  </div>
+            <!-- Departments Card -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-building me-2"></i>Departments
+                    </h5>
+                    <a href="{% url 'store_management:department_create' store_id=store.pk %}" 
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-plus me-1"></i>Add Department
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if departments %}
+                        <div class="row">
+                            {% for department in departments %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card department-card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="card-title mb-2">
+                                                    <i class="fas fa-building me-1"></i>
+                                                    {{ department.department_name }}
+                                                </h6>
+                                                {% if department.description %}
+                                                    <p class="card-text text-muted small">
+                                                        {{ department.description }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if department.manager %}
+                                                    <div class="manager-info mt-2">
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-user-tie me-1"></i>
+                                                            Manager: {{ department.manager.get_full_name|default:department.manager.username }}
+                                                        </small>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                        type="button" data-bs-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                           href="{% url 'store_management:department_edit' pk=department.pk %}">
+                                                            <i class="fas fa-edit me-2"></i>Edit
+                                                        </a>
+                                                    </li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <a class="dropdown-item text-danger btn-delete" 
+                                                           href="{% url 'store_management:department_delete' pk=department.pk %}"
+                                                           data-item-name="{{ department.department_name }}">
+                                                            <i class="fas fa-trash me-2"></i>Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-building fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No departments found</h5>
+                            <p class="text-muted">Create departments to organize your store operations.</p>
+                            <a href="{% url 'store_management:department_create' store_id=store.pk %}" 
+                               class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Create First Department
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Manager Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-user-tie me-2"></i>Store Manager
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% if store.manager %}
+                        <div class="manager-info">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="manager-avatar me-3">
+                                    {{ store.manager.first_name.0|default:store.manager.username.0 }}{{ store.manager.last_name.0|default:'' }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold">
+                                        {% if store.manager.first_name or store.manager.last_name %}
+                                            {{ store.manager.first_name }} {{ store.manager.last_name }}
+                                        {% else %}
+                                            {{ store.manager.username }}
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted">{{ store.manager.position|default:"Store Manager" }}</small>
+                                </div>
+                            </div>
+                            {% if store.manager.email %}
+                                <p class="mb-1">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    <a href="mailto:{{ store.manager.email }}">{{ store.manager.email }}</a>
+                                </p>
+                            {% endif %}
+                            {% if store.manager.phone %}
+                                <p class="mb-0">
+                                    <i class="fas fa-phone me-2"></i>
+                                    <a href="tel:{{ store.manager.phone }}">{{ store.manager.phone }}</a>
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="fas fa-user-slash fa-2x mb-2"></i>
+                            <p class="mb-2">No manager assigned</p>
+                            <a href="{% url 'store_management:store_update' store.pk %}" 
+                               class="btn btn-sm btn-outline-primary">
+                                Assign Manager
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'store_management:department_create' store_id=store.pk %}" 
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-plus me-2"></i>Add Department
+                        </a>
+                        <a href="{% url 'store_management:store_update' store.pk %}" 
+                           class="btn btn-outline-secondary">
+                            <i class="fas fa-edit me-2"></i>Edit Store Info
+                        </a>
+                        <a href="#" class="btn btn-outline-info">
+                            <i class="fas fa-chart-bar me-2"></i>View Reports
+                        </a>
+                        <hr>
+                        <a href="{% url 'store_management:store_delete' store.pk %}" 
+                           class="btn btn-outline-danger btn-delete"
+                           data-item-name="{{ store.store_name }}">
+                            <i class="fas fa-trash me-2"></i>Delete Store
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Store Statistics -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Store Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <div class="stat-number text-primary">{{ departments|length }}</div>
+                                <div class="stat-label">Departments</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-number text-success">0</div>
+                            <div class="stat-label">Employees</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <div class="stat-number text-info">0</div>
+                                <div class="stat-label">Products</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-number text-warning">0</div>
+                            <div class="stat-label">Sales Today</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Timeline -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Store Timeline
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">Store Opened</h6>
+                                <p class="text-muted mb-0">{{ store.opening_date|date:"F d, Y" }}</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-info"></div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">Store Created in System</h6>
+                                <p class="text-muted mb-0">{{ store.created_at|date:"F d, Y g:i A" }}</p>
+                            </div>
+                        </div>
+                        {% if store.updated_at != store.created_at %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-warning"></div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">Last Updated</h6>
+                                <p class="text-muted mb-0">{{ store.updated_at|date:"F d, Y g:i A" }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+/* Timeline styles */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-300);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-lg);
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -2.25rem;
+    top: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+}
+
+.timeline-content {
+    background: var(--gray-50);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    border-left: 3px solid var(--gray-300);
+}
+</style>
 {% endblock %}
