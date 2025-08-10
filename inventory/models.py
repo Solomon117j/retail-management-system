@@ -76,6 +76,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def profit_margin(self):
+        """Calculate profit margin as a percentage"""
+        if self.cost_price and self.cost_price > 0:
+            profit = self.unit_price - self.cost_price
+            return round((profit / self.cost_price) * 100, 2)
+        return None
+    
+    @property
+    def profit_amount(self):
+        """Calculate profit amount"""
+        if self.cost_price:
+            return self.unit_price - self.cost_price
+        return None
 
 class StoreInventory(models.Model):
     product = models.ForeignKey(

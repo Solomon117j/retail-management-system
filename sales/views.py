@@ -2,7 +2,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.forms import inlineformset_factory
-from django.db import transaction
+from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Customer, Sale, SaleItem, Return, LoyaltyTransaction
@@ -50,7 +50,7 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
         'address', 'city', 'postal_code', 'join_date',
         'membership_level'
     ]
-    success_url = reverse_lazy('customer_list')
+    success_url = reverse_lazy('sales:customer_list')
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -67,7 +67,7 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
     ]
     
     def get_success_url(self):
-        return reverse('customer_detail', kwargs={'pk': self.object.pk})
+        return reverse('sales:customer_detail', kwargs={'pk': self.object.pk})
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -88,7 +88,7 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
 class CustomerDeleteView(LoginRequiredMixin, DeleteView):
     model = Customer
     template_name = 'sales/customer_confirm_delete.html'
-    success_url = reverse_lazy('customer_list')
+    success_url = reverse_lazy('sales:customer_list')
     
     def delete(self, request, *args, **kwargs):
         customer = self.get_object()
@@ -140,7 +140,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         initial['sale_date'] = datetime.datetime.now()
-        initial['employee'] = self.request.user.employee
+        initial['employee'] = self.request.user
         return initial
     
     def get_context_data(self, **kwargs):
@@ -254,7 +254,7 @@ class SaleDetailView(LoginRequiredMixin, DetailView):
 class SaleDeleteView(LoginRequiredMixin, DeleteView):
     model = Sale
     template_name = 'sales/sale_confirm_delete.html'
-    success_url = reverse_lazy('sale_list')
+    success_url = reverse_lazy('sales:sale_list')
     
     def delete(self, request, *args, **kwargs):
         sale = self.get_object()
@@ -281,13 +281,13 @@ class ReturnCreateView(LoginRequiredMixin, CreateView):
             sale = get_object_or_404(Sale, pk=sale_id)
             initial['sale'] = sale
             initial['refund_amount'] = sale.total_amount
-            initial['employee'] = self.request.user.employee
+            initial['employee'] = self.request.user
         
         initial['return_date'] = datetime.datetime.now()
         return initial
     
     def get_success_url(self):
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -303,14 +303,14 @@ class ReturnUpdateView(LoginRequiredMixin, UpdateView):
     ]
     
     def get_success_url(self):
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
 
 class ReturnDeleteView(LoginRequiredMixin, DeleteView):
     model = Return
     template_name = 'sales/return_confirm_delete.html'
     
     def get_success_url(self):
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
     
     def delete(self, request, *args, **kwargs):
         return_obj = self.get_object()
@@ -342,8 +342,8 @@ class LoyaltyTransactionCreateView(LoginRequiredMixin, CreateView):
     
     def get_success_url(self):
         if self.object.customer:
-            return reverse('customer_detail', kwargs={'pk': self.object.customer.pk})
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+            return reverse('sales:customer_detail', kwargs={'pk': self.object.customer.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -357,8 +357,8 @@ class LoyaltyTransactionUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
         if self.object.customer:
-            return reverse('customer_detail', kwargs={'pk': self.object.customer.pk})
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+            return reverse('sales:customer_detail', kwargs={'pk': self.object.customer.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
 
 class LoyaltyTransactionDeleteView(LoginRequiredMixin, DeleteView):
     model = LoyaltyTransaction
@@ -366,8 +366,8 @@ class LoyaltyTransactionDeleteView(LoginRequiredMixin, DeleteView):
     
     def get_success_url(self):
         if self.object.customer:
-            return reverse('customer_detail', kwargs={'pk': self.object.customer.pk})
-        return reverse('sale_detail', kwargs={'pk': self.object.sale.pk})
+            return reverse('sales:customer_detail', kwargs={'pk': self.object.customer.pk})
+        return reverse('sales:sale_detail', kwargs={'pk': self.object.sale.pk})
     
     def delete(self, request, *args, **kwargs):
         transaction = self.get_object()

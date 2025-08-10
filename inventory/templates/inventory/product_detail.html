@@ -88,8 +88,18 @@
                                 <tr>
                                     <td><strong>Profit Margin:</strong></td>
                                     <td>
-                                        {% if product.cost_price %}
-                                            {% widthratio product.unit_price|floatformat:2|sub:product.cost_price|floatformat:2 product.cost_price|floatformat:2 100 %}%
+                                        {% if product.profit_margin %}
+                                            {{ product.profit_margin }}%
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Profit Amount:</strong></td>
+                                    <td>
+                                        {% if product.profit_amount %}
+                                            ${{ product.profit_amount }}
                                         {% else %}
                                             -
                                         {% endif %}

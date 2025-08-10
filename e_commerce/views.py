@@ -40,7 +40,7 @@ class OnlineOrderListView(LoginRequiredMixin, ListView):
 
 class OnlineOrderCreateView(LoginRequiredMixin, CreateView):
     model = OnlineOrder
-    template_name = 'ecommerce/order_form.html'
+    template_name = 'e_commerce/order_form.html'
     fields = [
         'customer', 'shipping_address', 'shipping_method',
         'payment_method', 'store_pickup', 'tracking_number'
@@ -99,11 +99,11 @@ class OnlineOrderCreateView(LoginRequiredMixin, CreateView):
                 return self.form_invalid(form)
         
         messages.success(self.request, f'Online Order #{self.object.id} created successfully')
-        return redirect('ecommerce:order_detail', pk=self.object.pk)
+        return redirect('e_commerce:order_detail', pk=self.object.pk)
 
 class OnlineOrderUpdateView(LoginRequiredMixin, UpdateView):
     model = OnlineOrder
-    template_name = 'ecommerce/order_form.html'
+    template_name = 'e_commerce/order_form.html'
     fields = [
         'shipping_address', 'shipping_method',
         'payment_method', 'store_pickup', 'tracking_number'
@@ -151,11 +151,11 @@ class OnlineOrderUpdateView(LoginRequiredMixin, UpdateView):
                 return self.form_invalid(form)
         
         messages.success(self.request, f'Online Order #{self.object.id} updated successfully')
-        return redirect('ecommerce:order_detail', pk=self.object.pk)
+        return redirect('e_commerce:order_detail', pk=self.object.pk)
 
 class OnlineOrderDetailView(LoginRequiredMixin, DetailView):
     model = OnlineOrder
-    template_name = 'ecommerce/order_detail.html'
+    template_name = 'e_commerce/order_detail.html'
     context_object_name = 'order'
     
     def get_context_data(self, **kwargs):
@@ -183,12 +183,12 @@ class OnlineOrderStatusUpdateView(LoginRequiredMixin, View):
         else:
             messages.error(request, f'Invalid status transition: {order.get_status_display()} to {new_status}')
         
-        return redirect('ecommerce:order_detail', pk=order.pk)
+        return redirect('e_commerce:order_detail', pk=order.pk)
 
 class OnlineOrderDeleteView(LoginRequiredMixin, DeleteView):
     model = OnlineOrder
-    template_name = 'ecommerce/order_confirm_delete.html'
-    success_url = reverse_lazy('ecommerce:order_list')
+    template_name = 'e_commerce/order_confirm_delete.html'
+    success_url = reverse_lazy('e_commerce:order_list')
     
     def delete(self, request, *args, **kwargs):
         order = self.get_object()

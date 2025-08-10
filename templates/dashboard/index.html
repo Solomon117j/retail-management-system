@@ -71,6 +71,38 @@
       </div>
     </div>
     
+    <!-- Sales Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-cash-register fa-3x mb-3 text-success"></i>
+          <h3 class="card-title">Sales</h3>
+          <p class="card-text">Manage sales transactions and customer orders</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'sales:sale_list' %}" class="btn btn-success">
+              Go to Sales
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- E-Commerce Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-shopping-cart fa-3x mb-3 text-primary"></i>
+          <h3 class="card-title">E-Commerce</h3>
+          <p class="card-text">Manage online orders and customer accounts</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'e_commerce:order_list' %}" class="btn btn-primary">
+              Go to E-Commerce
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Analytics Card -->
     <div class="col-md-4 mb-4">
       <div class="card h-100">
@@ -123,6 +155,42 @@
             <div class="card-body">
               <h5 class="card-title">Active Suppliers</h5>
               <p class="card-text display-4">{{ supplier_count|default:0 }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Second row of stats -->
+      <div class="row mt-3">
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-warning">
+            <div class="card-body">
+              <h5 class="card-title">Total Sales</h5>
+              <p class="card-text display-4">{{ sales_count|default:0 }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-secondary">
+            <div class="card-body">
+              <h5 class="card-title">Customers</h5>
+              <p class="card-text display-4">{{ customer_count|default:0 }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Online Orders</h5>
+              <p class="card-text display-4">{{ online_orders_count|default:0 }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-white" style="background-color: #6f42c1;">
+            <div class="card-body">
+              <h5 class="card-title">Total Products</h5>
+              <p class="card-text display-4">{{ inventory_count|default:0 }}</p>
             </div>
           </div>
         </div>

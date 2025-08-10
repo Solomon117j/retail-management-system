@@ -43,11 +43,13 @@
                     {% if sale.customer %}
                     <a href="{% url 'sales:customer_detail' sale.customer.pk %}">
                         {{ sale.customer.first_name }} {{ sale.customer.last_name }}
+                        
                     </a>
                     {% else %}
                     Guest
                     {% endif %}
                 </td>
+                
                 <td>{{ sale.store.name }}</td>
                 <td>{{ sale.employee.user.get_full_name }}</td>
                 <td>${{ sale.total_amount|floatformat:2 }}</td>

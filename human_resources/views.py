@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-# human_resources/views.py
+# from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import Attendance, Payroll
@@ -12,6 +10,9 @@ from django.views import View
 import csv
 import pandas as pd
 from io import BytesIO
+
+# human_resources/views.py
+
 
 # Attendance Views
 class AttendanceListView(LoginRequiredMixin, ListView):

@@ -56,9 +56,8 @@ INSTALLED_APPS = [
 
 ]
 
-LOGIN_REDIRECT_URL = 'dashboards'
 AUTH_USER_MODEL = 'human_resources.Employee'  # App name and model name
-LOGIN_URL = 'login'
+LOGIN_URL = '/accounts/login/'   # Correct URL path for login
 LOGIN_REDIRECT_URL = '/'         # Redirect after login
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect after logout
 
