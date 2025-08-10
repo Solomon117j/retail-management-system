@@ -1,58 +1,316 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payroll Details - {{ object.employee.get_full_name }} - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h4>Payroll Record</h4>
-      <div>
-        <a href="{% url 'hr:payroll_update' object.pk %}" class="btn btn-warning btn-sm">
-          <i class="fas fa-edit"></i> Edit
-        </a>
-      </div>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">
+                <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                Payroll Details
+            </h1>
+            <p class="text-muted mb-0">
+                Payroll record for {{ object.employee.get_full_name }}
+            </p>
+        </div>
+        <div>
+            <a href="{% url 'hr:payroll_list' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <p><strong>Employee:</strong> {{ object.employee }}</p>
-          <p><strong>Pay Period:</strong> {{ object.pay_period_start }} to {{ object.pay_period_end }}</p>
-          <p><strong>Status:</strong> {{ object.get_status_display }}</p>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Employee Information -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user me-2"></i>Employee Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="employee-avatar me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    {{ object.employee.first_name.0 }}{{ object.employee.last_name.0 }}
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">{{ object.employee.get_full_name }}</h5>
+                                    <p class="text-muted mb-0">Employee ID: {{ object.employee.employee_id }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fas fa-envelope text-muted me-2"></i>
+                                <span>{{ object.employee.email }}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-phone text-muted me-2"></i>
+                                <span>{{ object.employee.phone|default:"Not provided" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pay Period Information -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar me-2"></i>Pay Period Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-card">
+                                <div class="info-label">Period Start</div>
+                                <div class="info-value">{{ object.pay_period_start|date:"M d, Y" }}</div>
+                                <div class="info-detail">{{ object.pay_period_start|date:"l" }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-card">
+                                <div class="info-label">Period End</div>
+                                <div class="info-value">{{ object.pay_period_end|date:"M d, Y" }}</div>
+                                <div class="info-detail">{{ object.pay_period_end|date:"l" }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-card">
+                                <div class="info-label">Duration</div>
+                                <div class="info-value">
+                                    {% with days=object.pay_period_end|timeuntil:object.pay_period_start %}
+                                        {{ days|default:"Period ended" }}
+                                    {% endwith %}
+                                </div>
+                                <div class="info-detail">Working days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Breakdown -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Payment Breakdown
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="payment-breakdown">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="payment-item positive">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-money-bill"></i>
+                                    </div>
+                                    <div class="payment-details">
+                                        <div class="payment-label">Base Salary</div>
+                                        <div class="payment-amount">${{ object.base_salary|floatformat:2 }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="payment-item positive">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="payment-details">
+                                        <div class="payment-label">Overtime Pay</div>
+                                        <div class="payment-amount">${{ object.overtime_pay|floatformat:2|default:"0.00" }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="payment-item positive">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-gift"></i>
+                                    </div>
+                                    <div class="payment-details">
+                                        <div class="payment-label">Bonus</div>
+                                        <div class="payment-amount">${{ object.bonus|floatformat:2|default:"0.00" }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="payment-item negative">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-minus-circle"></i>
+                                    </div>
+                                    <div class="payment-details">
+                                        <div class="payment-label">Deductions</div>
+                                        <div class="payment-amount">-${{ object.deductions|floatformat:2|default:"0.00" }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="net-pay-section">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="net-pay-card">
+                                        <div class="net-pay-icon">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <div class="net-pay-details">
+                                            <div class="net-pay-label">Net Pay</div>
+                                            <div class="net-pay-amount">${{ object.net_pay|floatformat:2 }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-          <p><strong>Payment Date:</strong> {{ object.payment_date|default:"-" }}</p>
-          <p><strong>Created At:</strong> {{ object.created_at }}</p>
-          <p><strong>Updated At:</strong> {{ object.updated_at }}</p>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Status & Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>Status & Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="status-display mb-3">
+                        <span class="status-badge {{ object.status }} large">
+                            {% if object.status == 'paid' %}
+                                <i class="fas fa-check-circle me-2"></i>
+                            {% elif object.status == 'processed' %}
+                                <i class="fas fa-cog me-2"></i>
+                            {% elif object.status == 'pending' %}
+                                <i class="fas fa-clock me-2"></i>
+                            {% endif %}
+                            {{ object.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'hr:payroll_update' object.pk %}" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Edit Record
+                        </a>
+                        <a href="{% url 'hr:payroll_delete' object.pk %}" class="btn btn-outline-danger btn-delete"
+                           data-item-name="payroll record for {{ object.employee.get_full_name }}">
+                            <i class="fas fa-trash me-2"></i>Delete Record
+                        </a>
+                        <button type="button" class="btn btn-outline-success" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i>Print Record
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-calendar-day me-2"></i>Payment Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="info-item mb-3">
+                        <div class="info-label">Payment Date</div>
+                        <div class="info-value">
+                            {% if object.payment_date %}
+                                {{ object.payment_date|date:"M d, Y" }}
+                                <br>
+                                <small class="text-muted">{{ object.payment_date|date:"l" }}</small>
+                            {% else %}
+                                <span class="text-muted">Not set</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item mb-3">
+                        <div class="info-label">Created</div>
+                        <div class="info-value">
+                            {{ object.created_at|date:"M d, Y g:i A" }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Last Updated</div>
+                        <div class="info-value">
+                            {{ object.updated_at|date:"M d, Y g:i A" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Quick Stats
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="quick-stat">
+                        <div class="stat-label">Gross Pay</div>
+                        <div class="stat-value text-success">
+                            ${% widthratio object.base_salary 1 1 %}{% widthratio object.overtime_pay|default:0 1 1 %}{% widthratio object.bonus|default:0 1 1 %}
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stat">
+                        <div class="stat-label">Deduction Rate</div>
+                        <div class="stat-value text-warning">
+                            {% if object.base_salary %}
+                                {% widthratio object.deductions|default:0 object.base_salary 100 %}%
+                            {% else %}
+                                0%
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stat">
+                        <div class="stat-label">Net Rate</div>
+                        <div class="stat-value text-info">
+                            {% if object.base_salary %}
+                                {% widthratio object.net_pay object.base_salary 100 %}%
+                            {% else %}
+                                0%
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      
-      <div class="row mt-4">
-        <div class="col-md-12">
-          <h5>Payment Breakdown</h5>
-          <table class="table table-bordered">
-            <tr>
-              <th>Base Salary</th>
-              <td>{{ object.base_salary }}</td>
-              <th>Overtime Pay</th>
-              <td>{{ object.overtime_pay }}</td>
-            </tr>
-            <tr>
-              <th>Bonus</th>
-              <td>{{ object.bonus }}</td>
-              <th>Deductions</th>
-              <td>{{ object.deductions }}</td>
-            </tr>
-            <tr class="table-success">
-              <th colspan="3">Net Pay</th>
-              <td><strong>{{ object.net_pay }}</strong></td>
-            </tr>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  <a href="{% url 'hr:payroll_list' %}" class="btn btn-secondary mt-3">
-    <i class="fas fa-arrow-left"></i> Back to List
-  </a>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    console.log('Payroll detail enhancements initialized');
+});
+</script>
 {% endblock %}

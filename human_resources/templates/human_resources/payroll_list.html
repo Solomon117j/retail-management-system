@@ -1,93 +1,356 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payroll Management - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">Payroll Records</h2>
-  
-  <div class="d-flex justify-content-between mb-3">
-    <a href="{% url 'hr:payroll_create' %}" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Create Payroll
-    </a>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">
+                <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                Payroll Management
+            </h1>
+            <p class="text-muted mb-0">Manage employee payroll and compensation</p>
+        </div>
+        <div>
+            <a href="{% url 'hr:payroll_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create Payroll Record
+            </a>
+        </div>
+    </div>
+
+    <!-- Payroll Statistics -->
+    {% if payrolls %}
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-list-alt position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ payrolls|length }}</span>
+                    <span class="stat-label">Total Records</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number" id="paid-count">0</span>
+                    <span class="stat-label">Paid Records</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number" id="pending-count">0</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-cog position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number" id="processed-count">0</span>
+                    <span class="stat-label">Processed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="mb-0">
+                <i class="fas fa-filter me-2"></i>Filter Payroll Records
+            </h6>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Employee ID</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" name="employee" placeholder="Employee ID" 
+                               class="form-control" value="{{ request.GET.employee }}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="processed" {% if request.GET.status == 'processed' %}selected{% endif %}>Processed</option>
+                        <option value="paid" {% if request.GET.status == 'paid' %}selected{% endif %}>Paid</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Period Start</label>
+                    <input type="date" name="period_start" class="form-control"
+                           value="{{ request.GET.period_start }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Period End</label>
+                    <input type="date" name="period_end" class="form-control"
+                           value="{{ request.GET.period_end }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>Filter
+                        </button>
+                        <a href="{% url 'hr:payroll_list' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-times me-1"></i>Clear
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payroll Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list me-2"></i>Payroll Records
+            </h5>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-success btn-sm export-btn" 
+                        data-format="csv"
+                        data-bs-toggle="tooltip" title="Download filtered data as CSV">
+                    <i class="fas fa-download me-1"></i>Export CSV
+                </button>
+                <button type="button" class="btn btn-outline-info btn-sm export-btn" 
+                        data-format="excel"
+                        data-bs-toggle="tooltip" title="Download filtered data as Excel">
+                    <i class="fas fa-file-excel me-1"></i>Export Excel
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" data-searchable data-sortable>
+                    <thead class="table-light">
+                        <tr>
+                            <th data-sortable="employee">
+                                <i class="fas fa-user me-1"></i>Employee
+                            </th>
+                            <th data-sortable="pay_period">
+                                <i class="fas fa-calendar me-1"></i>Pay Period
+                            </th>
+                            <th data-sortable="base_salary">
+                                <i class="fas fa-dollar-sign me-1"></i>Base Salary
+                            </th>
+                            <th data-sortable="overtime_pay">
+                                <i class="fas fa-clock me-1"></i>Overtime
+                            </th>
+                            <th data-sortable="net_pay">
+                                <i class="fas fa-money-bill-wave me-1"></i>Net Pay
+                            </th>
+                            <th data-sortable="status">
+                                <i class="fas fa-info-circle me-1"></i>Status
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-cogs me-1"></i>Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payroll in payrolls %}
+                        <tr>
+                            <td data-sort="{{ payroll.employee.get_full_name }}">
+                                <div class="d-flex align-items-center">
+                                    <div class="employee-avatar me-2" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                        {{ payroll.employee.first_name.0 }}{{ payroll.employee.last_name.0 }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{ payroll.employee.get_full_name }}</div>
+                                        <small class="text-muted">ID: {{ payroll.employee.employee_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-sort="{{ payroll.pay_period_start }}">
+                                <div>
+                                    <strong>{{ payroll.pay_period_start|date:"M d" }} - {{ payroll.pay_period_end|date:"M d, Y" }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        {% with days=payroll.pay_period_end|timeuntil:payroll.pay_period_start %}
+                                            {{ days|default:"Period ended" }}
+                                        {% endwith %}
+                                    </small>
+                                </div>
+                            </td>
+                            <td data-sort="{{ payroll.base_salary }}">
+                                <span class="fw-bold text-success">
+                                    ${{ payroll.base_salary|floatformat:2 }}
+                                </span>
+                            </td>
+                            <td data-sort="{{ payroll.overtime_pay }}">
+                                {% if payroll.overtime_pay %}
+                                    <span class="text-info">
+                                        ${{ payroll.overtime_pay|floatformat:2 }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">$0.00</span>
+                                {% endif %}
+                            </td>
+                            <td data-sort="{{ payroll.net_pay }}">
+                                <span class="fw-bold text-primary fs-5">
+                                    ${{ payroll.net_pay|floatformat:2 }}
+                                </span>
+                            </td>
+                            <td data-sort="{{ payroll.status }}">
+                                <span class="status-badge {{ payroll.status }}">
+                                    {% if payroll.status == 'paid' %}
+                                        <i class="fas fa-check-circle me-1"></i>
+                                    {% elif payroll.status == 'processed' %}
+                                        <i class="fas fa-cog me-1"></i>
+                                    {% elif payroll.status == 'pending' %}
+                                        <i class="fas fa-clock me-1"></i>
+                                    {% endif %}
+                                    {{ payroll.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'hr:payroll_detail' payroll.pk %}" 
+                                       class="btn btn-sm btn-outline-primary"
+                                       data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'hr:payroll_update' payroll.pk %}" 
+                                       class="btn btn-sm btn-outline-secondary"
+                                       data-bs-toggle="tooltip" title="Edit Record">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'hr:payroll_delete' payroll.pk %}" 
+                                       class="btn btn-sm btn-outline-danger btn-delete"
+                                       data-bs-toggle="tooltip" title="Delete Record"
+                                       data-item-name="payroll record for {{ payroll.employee.get_full_name }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="fas fa-money-bill-wave fa-3x mb-3"></i>
+                                    <h5>No payroll records found</h5>
+                                    <p>Start managing payroll by creating the first record.</p>
+                                    <a href="{% url 'hr:payroll_create' %}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Create First Record
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     
-        <!-- Update the filter form -->
-    <form method="get" class="form-inline">
-    <div class="form-group mr-2">
-        <input type="text" name="employee" placeholder="Employee ID" class="form-control" 
-            value="{{ request.GET.employee }}">
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="d-flex justify-content-center mt-4">
+        {% include 'includes/pagination.html' %}
     </div>
-    <div class="form-group mr-2">
-        <select name="status" class="form-control">
-        <option value="">All Statuses</option>
-        <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
-        <option value="processed" {% if request.GET.status == "processed" %}selected{% endif %}>Processed</option>
-        <option value="paid" {% if request.GET.status == "paid" %}selected{% endif %}>Paid</option>
-        </select>
-    </div>
-    <div class="form-group mr-2">
-        <input type="date" name="period_start" placeholder="Period Start" class="form-control"
-            value="{{ request.GET.period_start }}">
-    </div>
-    <div class="form-group mr-2">
-        <input type="date" name="period_end" placeholder="Period End" class="form-control"
-            value="{{ request.GET.period_end }}">
-    </div>
-    <button type="submit" class="btn btn-outline-secondary">Filter</button>
-    </form>
-
-    <!-- Add this below the filter form -->
-    <div class="dropdown mb-3">
-    <button class="btn btn-success dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-file-export"></i> Export
-    </button>
-    <div class="dropdown-menu" aria-labelledby="exportDropdown">
-        <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=csv{% for key,value in request.GET.items %}&{{key}}={{value}}{% endfor %}">
-        <i class="fas fa-file-csv"></i> CSV
-        </a>
-        <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=excel{% for key,value in request.GET.items %}&{{key}}={{value}}{% endfor %}">
-        <i class="fas fa-file-excel"></i> Excel
-        </a>
-    </div>
-    </div>
-  </div>
-
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="thead-light">
-        <tr>
-          <th>Employee</th>
-          <th>Pay Period</th>
-          <th>Base Salary</th>
-          <th>Net Pay</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for payroll in payrolls %}
-        <tr>
-          <td>{{ payroll.employee }}</td>
-          <td>{{ payroll.pay_period_start }} to {{ payroll.pay_period_end }}</td>
-          <td>{{ payroll.base_salary }}</td>
-          <td>{{ payroll.net_pay }}</td>
-          <td>{{ payroll.get_status_display }}</td>
-          <td>
-            <a href="{% url 'hr:payroll_detail' payroll.pk %}" class="btn btn-sm btn-info">
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="{% url 'hr:payroll_update' payroll.pk %}" class="btn btn-sm btn-warning">
-              <i class="fas fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-center">No payroll records found</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  
-  {% include 'includes/pagination.html' %}
+    {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Export functionality
+    const exportButtons = document.querySelectorAll('.export-btn');
+    exportButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const format = this.dataset.format;
+            const originalText = this.innerHTML;
+            
+            // Show loading state
+            this.innerHTML = `<i class="fas fa-spinner fa-spin me-1"></i>Preparing ${format.toUpperCase()}...`;
+            this.disabled = true;
+            
+            // Build export URL with current filters
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('format', format);
+            
+            const exportUrl = "{% url 'hr:payroll_export' %}" + '?' + urlParams.toString();
+            
+            // Create hidden link and trigger download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = exportUrl;
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            // Reset button after download starts
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.disabled = false;
+                
+                // Show success message
+                if (typeof RMS !== 'undefined' && RMS.utils && RMS.utils.showToast) {
+                    RMS.utils.showToast(`${format.toUpperCase()} export started! Check your downloads.`, 'success', 3000);
+                } else {
+                    // Fallback notification
+                    const toast = document.createElement('div');
+                    toast.className = 'alert alert-success position-fixed';
+                    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                    toast.innerHTML = `<i class="fas fa-check me-2"></i>${format.toUpperCase()} export started! Check your downloads.`;
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                }
+            }, 1000);
+        });
+    });
+    
+    // Calculate statistics
+    const statusCounts = {
+        paid: 0,
+        pending: 0,
+        processed: 0
+    };
+    
+    document.querySelectorAll('.status-badge').forEach(badge => {
+        const status = badge.classList[1]; // Get the status class
+        if (statusCounts.hasOwnProperty(status)) {
+            statusCounts[status]++;
+        }
+    });
+    
+    // Update statistics
+    document.getElementById('paid-count').textContent = statusCounts.paid;
+    document.getElementById('pending-count').textContent = statusCounts.pending;
+    document.getElementById('processed-count').textContent = statusCounts.processed;
+    
+    console.log('Payroll list enhancements initialized');
+});
+</script>
 {% endblock %}

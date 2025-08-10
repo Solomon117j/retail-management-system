@@ -1,10 +1,12 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse_lazy
-from .models import Attendance, Payroll
+from django.urls import reverse_lazy, reverse
+from .models import Attendance, Payroll, Employee
 from .forms import AttendanceForm, PayrollForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Count
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 from django.http import HttpResponse
 from django.views import View
@@ -14,6 +16,155 @@ from io import BytesIO
 
 # human_resources/views.py
 
+# Employee Views
+class EmployeeListView(LoginRequiredMixin, ListView):
+    model = Employee
+    template_name = 'human_resources/employee_list.html'
+    context_object_name = 'employees'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = Employee.objects.select_related('store', 'department', 'manager')
+        
+        # Search functionality
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search) |
+                Q(position__icontains=search) |
+                Q(username__icontains=search)
+            )
+        
+        # Filter by store
+        store_id = self.request.GET.get('store')
+        if store_id:
+            queryset = queryset.filter(store_id=store_id)
+        
+        # Filter by department
+        department_id = self.request.GET.get('department')
+        if department_id:
+            queryset = queryset.filter(department_id=department_id)
+        
+        # Filter by status
+        status = self.request.GET.get('status')
+        if status == 'active':
+            queryset = queryset.filter(is_active=True)
+        elif status == 'inactive':
+            queryset = queryset.filter(is_active=False)
+        
+        return queryset.order_by('last_name', 'first_name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Import here to avoid circular imports
+        from store_management.models import Store, Department
+        
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        
+        # Add statistics
+        context['total_employees'] = Employee.objects.count()
+        context['active_employees'] = Employee.objects.filter(is_active=True).count()
+        context['inactive_employees'] = Employee.objects.filter(is_active=False).count()
+        context['employees_with_salary'] = Employee.objects.filter(salary__isnull=False).count()
+        
+        return context
+
+class EmployeeDetailView(LoginRequiredMixin, DetailView):
+    model = Employee
+    template_name = 'human_resources/employee_detail.html'
+    context_object_name = 'employee'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add recent attendance and payroll records
+        context['recent_attendance'] = self.object.attendances.all()[:10]
+        context['recent_payroll'] = self.object.payrolls.all()[:5]
+        # Add subordinates
+        context['subordinates'] = Employee.objects.filter(manager=self.object)
+        # Add statistics
+        context['total_attendance'] = self.object.attendances.count()
+        context['total_payroll'] = self.object.payrolls.count()
+        context['subordinate_count'] = Employee.objects.filter(manager=self.object).count()
+        return context
+
+class EmployeeCreateView(LoginRequiredMixin, CreateView):
+    model = Employee
+    template_name = 'human_resources/employee_form.html'
+    fields = [
+        'first_name', 'last_name', 'email', 'username', 'phone',
+        'hire_date', 'position', 'salary', 'store', 'department', 'manager'
+    ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Import here to avoid circular imports
+        from store_management.models import Store, Department
+        
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        context['managers'] = Employee.objects.filter(
+            Q(position__icontains='manager') | Q(position__icontains='supervisor')
+        )
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, f'Employee {form.instance.get_full_name()} created successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('hr:employee_detail', kwargs={'pk': self.object.pk})
+
+class EmployeeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Employee
+    template_name = 'human_resources/employee_form.html'
+    fields = [
+        'first_name', 'last_name', 'email', 'phone',
+        'hire_date', 'position', 'salary', 'store', 'department', 'manager', 'is_active'
+    ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Import here to avoid circular imports
+        from store_management.models import Store, Department
+        
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        context['managers'] = Employee.objects.filter(
+            Q(position__icontains='manager') | Q(position__icontains='supervisor')
+        ).exclude(pk=self.object.pk)
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, f'Employee {form.instance.get_full_name()} updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('hr:employee_detail', kwargs={'pk': self.object.pk})
+
+class EmployeeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Employee
+    template_name = 'human_resources/employee_confirm_delete.html'
+    success_url = reverse_lazy('hr:employee_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add related data counts for impact analysis
+        context['attendance_count'] = self.object.attendances.count()
+        context['payroll_count'] = self.object.payrolls.count()
+        context['subordinate_count'] = Employee.objects.filter(manager=self.object).count()
+        context['subordinates'] = Employee.objects.filter(manager=self.object)
+        return context
+    
+    def delete(self, request, *args, **kwargs):
+        employee = self.get_object()
+        messages.success(request, f'Employee {employee.get_full_name()} deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
 # Attendance Views
 class AttendanceListView(LoginRequiredMixin, ListView):
@@ -112,15 +263,24 @@ class ExportMixin:
 
 class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
     def get(self, request, *args, **kwargs):
-        format_type = request.GET.get('format', 'csv')
-        queryset = self.get_queryset()
-        
-        if format_type == 'csv':
-            return self.export_csv(queryset)
-        elif format_type == 'excel':
-            return self.export_excel(queryset)
-        else:
-            return HttpResponse("Invalid export format", status=400)
+        try:
+            format_type = request.GET.get('format', 'csv')
+            queryset = self.get_queryset()
+            
+            if format_type == 'csv':
+                return self.export_csv(queryset)
+            elif format_type == 'excel':
+                return self.export_excel(queryset)
+            else:
+                return HttpResponse("Invalid export format", status=400)
+        except Exception as e:
+            # Log the error and return a user-friendly response
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Attendance export error: {str(e)}")
+            
+            # Return a simple error response
+            return HttpResponse(f"Export failed: {str(e)}", status=500)
     
     def get_queryset(self):
         queryset = Attendance.objects.all()
@@ -168,19 +328,30 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         return response
     
     def export_excel(self, queryset):
+        from django.utils import timezone
+        
         # Create a DataFrame
         data = []
         for record in queryset:
+            # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
+            created_at = record.created_at
+            updated_at = record.updated_at
+            
+            if created_at and timezone.is_aware(created_at):
+                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if updated_at and timezone.is_aware(updated_at):
+                updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
+            
             data.append({
                 'Employee ID': record.employee.employee_id,
                 'Employee Name': record.employee.get_full_name(),
                 'Date': record.date,
-                'Clock In': record.clock_in,
-                'Clock Out': record.clock_out,
+                'Clock In': record.clock_in.strftime('%H:%M') if record.clock_in else '',
+                'Clock Out': record.clock_out.strftime('%H:%M') if record.clock_out else '',
                 'Status': record.get_status_display(),
-                'Notes': record.notes,
-                'Created At': record.created_at,
-                'Updated At': record.updated_at
+                'Notes': record.notes or '',
+                'Created At': created_at,
+                'Updated At': updated_at
             })
         
         df = pd.DataFrame(data)
@@ -189,6 +360,23 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name='Attendance')
+            
+            # Get the workbook and worksheet for formatting
+            workbook = writer.book
+            worksheet = writer.sheets['Attendance']
+            
+            # Auto-adjust column widths
+            for column in worksheet.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                worksheet.column_dimensions[column_letter].width = adjusted_width
         
         response = HttpResponse(
             output.getvalue(),
@@ -261,23 +449,34 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
         return response
     
     def export_excel(self, queryset):
+        from django.utils import timezone
+        
         # Create a DataFrame
         data = []
         for record in queryset:
+            # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
+            created_at = record.created_at
+            updated_at = record.updated_at
+            
+            if created_at and timezone.is_aware(created_at):
+                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if updated_at and timezone.is_aware(updated_at):
+                updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
+            
             data.append({
                 'Employee ID': record.employee.employee_id,
                 'Employee Name': record.employee.get_full_name(),
                 'Pay Period Start': record.pay_period_start,
                 'Pay Period End': record.pay_period_end,
-                'Base Salary': record.base_salary,
-                'Overtime Pay': record.overtime_pay,
-                'Bonus': record.bonus,
-                'Deductions': record.deductions,
-                'Net Pay': record.net_pay,
+                'Base Salary': float(record.base_salary) if record.base_salary else 0,
+                'Overtime Pay': float(record.overtime_pay) if record.overtime_pay else 0,
+                'Bonus': float(record.bonus) if record.bonus else 0,
+                'Deductions': float(record.deductions) if record.deductions else 0,
+                'Net Pay': float(record.net_pay) if record.net_pay else 0,
                 'Payment Date': record.payment_date,
                 'Status': record.get_status_display(),
-                'Created At': record.created_at,
-                'Updated At': record.updated_at
+                'Created At': created_at,
+                'Updated At': updated_at
             })
         
         df = pd.DataFrame(data)
@@ -286,11 +485,174 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name='Payroll')
+            
+            # Get the workbook and worksheet for formatting
+            workbook = writer.book
+            worksheet = writer.sheets['Payroll']
+            
+            # Auto-adjust column widths
+            for column in worksheet.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                worksheet.column_dimensions[column_letter].width = adjusted_width
         
         response = HttpResponse(
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
         response['Content-Disposition'] = f'attachment; filename="{self.get_filename("payroll", "xlsx")}"'
+        
+        return response
+
+class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
+    def get(self, request, *args, **kwargs):
+        try:
+            format_type = request.GET.get('format', 'csv')
+            queryset = self.get_queryset()
+            
+            if format_type == 'csv':
+                return self.export_csv(queryset)
+            elif format_type == 'excel':
+                return self.export_excel(queryset)
+            else:
+                return HttpResponse("Invalid export format", status=400)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Employee export error: {str(e)}")
+            return HttpResponse(f"Export failed: {str(e)}", status=500)
+    
+    def get_queryset(self):
+        queryset = Employee.objects.select_related('store', 'department', 'manager')
+        
+        # Apply filters
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search) |
+                Q(position__icontains=search)
+            )
+        
+        store_id = self.request.GET.get('store')
+        if store_id:
+            queryset = queryset.filter(store_id=store_id)
+        
+        department_id = self.request.GET.get('department')
+        if department_id:
+            queryset = queryset.filter(department_id=department_id)
+        
+        status = self.request.GET.get('status')
+        if status == 'active':
+            queryset = queryset.filter(is_active=True)
+        elif status == 'inactive':
+            queryset = queryset.filter(is_active=False)
+            
+        return queryset.order_by('last_name', 'first_name')
+    
+    def export_csv(self, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("employees", "csv")}"'
+        
+        writer = csv.writer(response)
+        # Write headers
+        writer.writerow([
+            'Employee ID', 'First Name', 'Last Name', 'Email', 'Username', 'Phone',
+            'Position', 'Hire Date', 'Salary', 'Store', 'Department', 'Manager',
+            'Active', 'Created At', 'Updated At'
+        ])
+        
+        # Write data
+        for employee in queryset:
+            writer.writerow([
+                employee.employee_id,
+                employee.first_name,
+                employee.last_name,
+                employee.email,
+                employee.username,
+                employee.phone or '',
+                employee.position or '',
+                employee.hire_date or '',
+                employee.salary or '',
+                employee.store.store_name if employee.store else '',
+                employee.department.department_name if employee.department else '',
+                employee.manager.get_full_name() if employee.manager else '',
+                'Yes' if employee.is_active else 'No',
+                employee.created_at,
+                employee.updated_at
+            ])
+        
+        return response
+    
+    def export_excel(self, queryset):
+        from django.utils import timezone
+        
+        # Create a DataFrame
+        data = []
+        for employee in queryset:
+            # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
+            created_at = employee.created_at
+            updated_at = employee.updated_at
+            
+            if created_at and timezone.is_aware(created_at):
+                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if updated_at and timezone.is_aware(updated_at):
+                updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
+            
+            data.append({
+                'Employee ID': employee.employee_id,
+                'First Name': employee.first_name,
+                'Last Name': employee.last_name,
+                'Email': employee.email,
+                'Username': employee.username,
+                'Phone': employee.phone or '',
+                'Position': employee.position or '',
+                'Hire Date': employee.hire_date,
+                'Salary': float(employee.salary) if employee.salary else 0,
+                'Store': employee.store.store_name if employee.store else '',
+                'Department': employee.department.department_name if employee.department else '',
+                'Manager': employee.manager.get_full_name() if employee.manager else '',
+                'Active': 'Yes' if employee.is_active else 'No',
+                'Created At': created_at,
+                'Updated At': updated_at
+            })
+        
+        df = pd.DataFrame(data)
+        
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Employees')
+            
+            # Get the workbook and worksheet for formatting
+            workbook = writer.book
+            worksheet = writer.sheets['Employees']
+            
+            # Auto-adjust column widths
+            for column in worksheet.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                worksheet.column_dimensions[column_letter].width = adjusted_width
+        
+        response = HttpResponse(
+            output.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("employees", "xlsx")}"'
         
         return response

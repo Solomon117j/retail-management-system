@@ -5,9 +5,11 @@ from django.urls import reverse_lazy, reverse
 # from .models import Store, Department
 from django.shortcuts import get_object_or_404
 from store_management.models import Store , Department 
+from human_resources.models import Employee
 
 from django.views.generic import TemplateView
-
+from django.db.models import Q, Count
+from django.contrib import messages
 
 
 from .forms import DepartmentForm, StoreForm
@@ -161,4 +163,122 @@ class DepartmentDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # Add store to context from the department's foreign key
         context['store'] = self.object.store
+        # Add employees in this department
+        context['employees'] = self.object.employees.all()
         return context
+
+# Employee Views
+class EmployeeListView(ListView):
+    model = Employee
+    context_object_name = 'employees'
+    template_name = 'store_management/employee_list.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = Employee.objects.select_related('store', 'department', 'manager')
+        
+        # Filter by store if provided
+        store_id = self.request.GET.get('store')
+        if store_id:
+            queryset = queryset.filter(store_id=store_id)
+        
+        # Filter by department if provided
+        department_id = self.request.GET.get('department')
+        if department_id:
+            queryset = queryset.filter(department_id=department_id)
+        
+        # Search functionality
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search) |
+                Q(position__icontains=search)
+            )
+        
+        return queryset.order_by('last_name', 'first_name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        
+        # Add statistics
+        context['total_employees'] = Employee.objects.count()
+        context['employees_by_store'] = Employee.objects.values('store__store_name').annotate(count=Count('employee_id'))
+        
+        return context
+
+class EmployeeDetailView(DetailView):
+    model = Employee
+    context_object_name = 'employee'
+    template_name = 'store_management/employee_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add recent attendance records
+        context['recent_attendance'] = self.object.attendances.all()[:10]
+        # Add recent payroll records
+        context['recent_payroll'] = self.object.payrolls.all()[:5]
+        # Add subordinates if this employee is a manager
+        context['subordinates'] = Employee.objects.filter(manager=self.object)
+        return context
+
+class EmployeeCreateView(CreateView):
+    model = Employee
+    template_name = 'store_management/employee_form.html'
+    fields = [
+        'first_name', 'last_name', 'email', 'username', 'phone',
+        'hire_date', 'position', 'salary', 'store', 'department', 'manager'
+    ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        context['managers'] = Employee.objects.filter(
+            position__icontains='manager'
+        ).exclude(pk=self.object.pk if self.object else None)
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, f'Employee {form.instance.get_full_name()} created successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('store_management:employee_detail', kwargs={'pk': self.object.pk})
+
+class EmployeeUpdateView(UpdateView):
+    model = Employee
+    template_name = 'store_management/employee_form.html'
+    fields = [
+        'first_name', 'last_name', 'email', 'phone',
+        'hire_date', 'position', 'salary', 'store', 'department', 'manager'
+    ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        context['managers'] = Employee.objects.filter(
+            position__icontains='manager'
+        ).exclude(pk=self.object.pk)
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, f'Employee {form.instance.get_full_name()} updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('store_management:employee_detail', kwargs={'pk': self.object.pk})
+
+class EmployeeDeleteView(DeleteView):
+    model = Employee
+    template_name = 'store_management/employee_confirm_delete.html'
+    success_url = reverse_lazy('store_management:employee_list')
+    
+    def delete(self, request, *args, **kwargs):
+        employee = self.get_object()
+        messages.success(request, f'Employee {employee.get_full_name()} deleted successfully!')
+        return super().delete(request, *args, **kwargs)

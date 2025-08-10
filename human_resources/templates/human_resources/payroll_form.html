@@ -1,99 +1,433 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if object %}Edit Payroll - {{ block.super }}{% else %}Create Payroll - {{ block.super }}{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">
-    {% if object %}Edit Payroll{% else %}Create Payroll Record{% endif %}
-  </h2>
-  
-  <form method="post">
-    {% csrf_token %}
-    
-    <div class="card mb-4">
-      <div class="card-header">Employee Information</div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_employee">Employee</label>
-              {{ form.employee }}
-            </div>
-          </div>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">
+                <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                {% if object %}Edit Payroll Record{% else %}Create Payroll Record{% endif %}
+            </h1>
+            <p class="text-muted mb-0">
+                {% if object %}
+                    Update payroll information for {{ object.employee.get_full_name }}
+                {% else %}
+                    Create a new payroll record for an employee
+                {% endif %}
+            </p>
         </div>
-      </div>
+        <div>
+            <a href="{% url 'hr:payroll_list' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
     </div>
-    
-    <div class="card mb-4">
-      <div class="card-header">Pay Period</div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_pay_period_start">Start Date</label>
-              {{ form.pay_period_start }}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_pay_period_end">End Date</label>
-              {{ form.pay_period_end }}
-            </div>
-          </div>
+
+    <div class="row">
+        <!-- Main Form -->
+        <div class="col-lg-8">
+            <form method="post" class="payroll-form-container">
+                {% csrf_token %}
+                
+                <!-- Employee & Period Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user me-2"></i>Employee & Pay Period
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="id_employee" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Employee *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ form.employee }}
+                                </div>
+                                {% if form.employee.errors %}
+                                    <div class="text-danger small mt-1">{{ form.employee.errors.0 }}</div>
+                                {% endif %}
+                                
+                                <!-- Selected Employee Display -->
+                                <div id="selected-employee-card" class="mt-3" style="display: none;">
+                                    <div class="alert alert-info">
+                                        <div class="d-flex align-items-center">
+                                            <div class="employee-avatar me-3" style="width: 40px; height: 40px;">
+                                                <span id="employee-initials"></span>
+                                            </div>
+                                            <div>
+                                                <strong id="employee-name"></strong>
+                                                <br>
+                                                <small id="employee-details" class="text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_pay_period_start" class="form-label">
+                                    <i class="fas fa-calendar-alt me-1"></i>Pay Period Start *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span>
+                                    {{ form.pay_period_start }}
+                                </div>
+                                {% if form.pay_period_start.errors %}
+                                    <div class="text-danger small mt-1">{{ form.pay_period_start.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_pay_period_end" class="form-label">
+                                    <i class="fas fa-calendar-check me-1"></i>Pay Period End *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </span>
+                                    {{ form.pay_period_end }}
+                                </div>
+                                {% if form.pay_period_end.errors %}
+                                    <div class="text-danger small mt-1">{{ form.pay_period_end.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Details Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-dollar-sign me-2"></i>Payment Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_base_salary" class="form-label">
+                                    <i class="fas fa-money-bill me-1"></i>Base Salary *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form.base_salary }}
+                                </div>
+                                {% if form.base_salary.errors %}
+                                    <div class="text-danger small mt-1">{{ form.base_salary.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_overtime_pay" class="form-label">
+                                    <i class="fas fa-clock me-1"></i>Overtime Pay
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form.overtime_pay }}
+                                </div>
+                                {% if form.overtime_pay.errors %}
+                                    <div class="text-danger small mt-1">{{ form.overtime_pay.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_bonus" class="form-label">
+                                    <i class="fas fa-gift me-1"></i>Bonus
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form.bonus }}
+                                </div>
+                                {% if form.bonus.errors %}
+                                    <div class="text-danger small mt-1">{{ form.bonus.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_deductions" class="form-label">
+                                    <i class="fas fa-minus-circle me-1"></i>Deductions
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form.deductions }}
+                                </div>
+                                {% if form.deductions.errors %}
+                                    <div class="text-danger small mt-1">{{ form.deductions.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status & Payment Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>Status & Payment
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_payment_date" class="form-label">
+                                    <i class="fas fa-calendar-day me-1"></i>Payment Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </span>
+                                    {{ form.payment_date }}
+                                </div>
+                                {% if form.payment_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.payment_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_status" class="form-label">
+                                    <i class="fas fa-flag me-1"></i>Status *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-flag"></i>
+                                    </span>
+                                    {{ form.status }}
+                                </div>
+                                {% if form.status.errors %}
+                                    <div class="text-danger small mt-1">{{ form.status.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save me-2"></i>
+                                    {% if object %}Update Payroll{% else %}Create Payroll{% endif %}
+                                </button>
+                                <a href="{% url 'hr:payroll_list' %}" class="btn btn-secondary btn-lg ms-2">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </a>
+                            </div>
+                            {% if object %}
+                            <div>
+                                <a href="{% url 'hr:payroll_detail' object.pk %}" class="btn btn-outline-info">
+                                    <i class="fas fa-eye me-2"></i>View Details
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-      </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Net Pay Calculator -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Net Pay Calculator
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="calculation-display">
+                        <div class="calculation-row">
+                            <span>Base Salary:</span>
+                            <span id="calc-base" class="text-success">$0.00</span>
+                        </div>
+                        <div class="calculation-row">
+                            <span>Overtime Pay:</span>
+                            <span id="calc-overtime" class="text-info">$0.00</span>
+                        </div>
+                        <div class="calculation-row">
+                            <span>Bonus:</span>
+                            <span id="calc-bonus" class="text-primary">$0.00</span>
+                        </div>
+                        <div class="calculation-row">
+                            <span>Deductions:</span>
+                            <span id="calc-deductions" class="text-danger">-$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="calculation-row total">
+                            <strong>Net Pay:</strong>
+                            <strong id="calc-net" class="text-success fs-4">$0.00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="set-current-period">
+                            <i class="fas fa-calendar me-1"></i>Set Current Pay Period
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm" id="calculate-standard">
+                            <i class="fas fa-calculator me-1"></i>Calculate Standard Pay
+                        </button>
+                        <button type="button" class="btn btn-outline-info btn-sm" id="set-payment-today">
+                            <i class="fas fa-calendar-day me-1"></i>Set Payment Date Today
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Tips -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Tips & Guidelines
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Base salary is the regular pay amount
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Overtime is calculated separately
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Deductions include taxes and benefits
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Net pay is automatically calculated
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="card mb-4">
-      <div class="card-header">Payment Details</div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_base_salary">Base Salary</label>
-              {{ form.base_salary }}
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_overtime_pay">Overtime</label>
-              {{ form.overtime_pay }}
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_bonus">Bonus</label>
-              {{ form.bonus }}
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="id_deductions">Deductions</label>
-              {{ form.deductions }}
-            </div>
-          </div>
-        </div>
-        
-        <div class="row mt-3">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_payment_date">Payment Date</label>
-              {{ form.payment_date }}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="id_status">Status</label>
-              {{ form.status }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <button type="submit" class="btn btn-primary">
-      {% if object %}Update{% else %}Create{% endif %}
-    </button>
-    <a href="{% url 'hr:payroll_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Net pay calculator
+    function calculateNetPay() {
+        const base = parseFloat(document.getElementById('id_base_salary').value) || 0;
+        const overtime = parseFloat(document.getElementById('id_overtime_pay').value) || 0;
+        const bonus = parseFloat(document.getElementById('id_bonus').value) || 0;
+        const deductions = parseFloat(document.getElementById('id_deductions').value) || 0;
+        
+        const net = base + overtime + bonus - deductions;
+        
+        // Update calculator display
+        document.getElementById('calc-base').textContent = '$' + base.toFixed(2);
+        document.getElementById('calc-overtime').textContent = '$' + overtime.toFixed(2);
+        document.getElementById('calc-bonus').textContent = '$' + bonus.toFixed(2);
+        document.getElementById('calc-deductions').textContent = '-$' + deductions.toFixed(2);
+        document.getElementById('calc-net').textContent = '$' + net.toFixed(2);
+        
+        // Color coding for net pay
+        const netElement = document.getElementById('calc-net');
+        if (net > 0) {
+            netElement.className = 'text-success fs-4';
+        } else if (net < 0) {
+            netElement.className = 'text-danger fs-4';
+        } else {
+            netElement.className = 'text-muted fs-4';
+        }
+    }
+    
+    // Add event listeners to payment fields
+    ['id_base_salary', 'id_overtime_pay', 'id_bonus', 'id_deductions'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+            field.addEventListener('input', calculateNetPay);
+            field.addEventListener('change', calculateNetPay);
+        }
+    });
+    
+    // Employee selection handler
+    const employeeSelect = document.getElementById('id_employee');
+    if (employeeSelect) {
+        employeeSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const employeeCard = document.getElementById('selected-employee-card');
+            
+            if (selectedOption.value) {
+                const employeeName = selectedOption.text;
+                const initials = employeeName.split(' ').map(n => n[0]).join('');
+                
+                document.getElementById('employee-initials').textContent = initials;
+                document.getElementById('employee-name').textContent = employeeName;
+                document.getElementById('employee-details').textContent = `Employee ID: ${selectedOption.value}`;
+                
+                employeeCard.style.display = 'block';
+            } else {
+                employeeCard.style.display = 'none';
+            }
+        });
+        
+        // Trigger on page load if employee is already selected
+        if (employeeSelect.value) {
+            employeeSelect.dispatchEvent(new Event('change'));
+        }
+    }
+    
+    // Quick Actions
+    document.getElementById('set-current-period').addEventListener('click', function() {
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        
+        document.getElementById('id_pay_period_start').value = firstDay.toISOString().split('T')[0];
+        document.getElementById('id_pay_period_end').value = lastDay.toISOString().split('T')[0];
+    });
+    
+    document.getElementById('set-payment-today').addEventListener('click', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('id_payment_date').value = today;
+    });
+    
+    document.getElementById('calculate-standard').addEventListener('click', function() {
+        // This could be enhanced to calculate based on employee's standard rate
+        if (!document.getElementById('id_base_salary').value) {
+            document.getElementById('id_base_salary').value = '3000.00';
+        }
+        calculateNetPay();
+    });
+    
+    // Initial calculation
+    calculateNetPay();
+    
+    console.log('Payroll form enhancements initialized');
+});
+</script>
 {% endblock %}

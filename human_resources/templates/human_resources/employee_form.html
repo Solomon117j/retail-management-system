@@ -1,0 +1,560 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if object %}Edit Employee - HR - {{ block.super }}{% else %}Add Employee - HR - {{ block.super }}{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.hr-form-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.employee-avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+}
+
+.form-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #28a745;
+}
+
+.salary-display {
+    background: #e8f5e8;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.salary-amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.hr-badge {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- HR Header -->
+    <div class="hr-form-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-user-plus me-2"></i>
+                    {% if object %}Edit Employee - HR{% else %}Add New Employee - HR{% endif %}
+                </h1>
+                <p class="mb-0 opacity-75">
+                    {% if object %}
+                        Update HR information for {{ object.get_full_name }}
+                    {% else %}
+                        Add a new employee to the HR system
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-auto">
+                <span class="hr-badge">
+                    <i class="fas fa-users me-1"></i>HR Management
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{% url 'hr:employee_list' %}" class="btn btn-outline-success">
+                <i class="fas fa-arrow-left me-2"></i>Back to HR Employee List
+            </a>
+        </div>
+        {% if object %}
+        <div class="btn-group" role="group">
+            <a href="{% url 'hr:employee_detail' object.pk %}" class="btn btn-outline-info">
+                <i class="fas fa-eye me-1"></i>View HR Profile
+            </a>
+            <a href="{% url 'hr:attendance_list' %}?employee={{ object.pk }}" class="btn btn-outline-primary">
+                <i class="fas fa-clock me-1"></i>Attendance
+            </a>
+            <a href="{% url 'hr:payroll_list' %}?employee={{ object.pk }}" class="btn btn-outline-warning">
+                <i class="fas fa-money-bill-wave me-1"></i>Payroll
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <!-- Main Form -->
+        <div class="col-lg-8">
+            <form method="post" class="employee-form-container">
+                {% csrf_token %}
+                
+                <!-- Personal Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user me-2"></i>Personal Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_first_name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>First Name *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ form.first_name }}
+                                </div>
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_last_name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Last Name *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ form.last_name }}
+                                </div>
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_email" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i>Email Address *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    {{ form.email }}
+                                </div>
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_phone" class="form-label">
+                                    <i class="fas fa-phone me-1"></i>Phone Number
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    {{ form.phone }}
+                                </div>
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% if not object %}
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label for="id_username" class="form-label">
+                                    <i class="fas fa-at me-1"></i>Username *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-at"></i>
+                                    </span>
+                                    {{ form.username }}
+                                </div>
+                                {% if form.username.errors %}
+                                    <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">This will be used for system login</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Employment Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-briefcase me-2"></i>Employment Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_position" class="form-label">
+                                    <i class="fas fa-briefcase me-1"></i>Position
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-briefcase"></i>
+                                    </span>
+                                    {{ form.position }}
+                                </div>
+                                {% if form.position.errors %}
+                                    <div class="text-danger small mt-1">{{ form.position.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_hire_date" class="form-label">
+                                    <i class="fas fa-calendar me-1"></i>Hire Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar"></i>
+                                    </span>
+                                    {{ form.hire_date }}
+                                </div>
+                                {% if form.hire_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.hire_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_salary" class="form-label">
+                                    <i class="fas fa-dollar-sign me-1"></i>Annual Salary
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form.salary }}
+                                </div>
+                                {% if form.salary.errors %}
+                                    <div class="text-danger small mt-1">{{ form.salary.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_manager" class="form-label">
+                                    <i class="fas fa-user-tie me-1"></i>Reports To (Manager)
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-tie"></i>
+                                    </span>
+                                    {{ form.manager }}
+                                </div>
+                                {% if form.manager.errors %}
+                                    <div class="text-danger small mt-1">{{ form.manager.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Store & Department Assignment -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-building me-2"></i>Store & Department Assignment
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_store" class="form-label">
+                                    <i class="fas fa-store me-1"></i>Assigned Store
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-store"></i>
+                                    </span>
+                                    {{ form.store }}
+                                </div>
+                                {% if form.store.errors %}
+                                    <div class="text-danger small mt-1">{{ form.store.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_department" class="form-label">
+                                    <i class="fas fa-building me-1"></i>Department
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-building"></i>
+                                    </span>
+                                    {{ form.department }}
+                                </div>
+                                {% if form.department.errors %}
+                                    <div class="text-danger small mt-1">{{ form.department.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employee Status (for edit only) -->
+                {% if object %}
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">
+                            <i class="fas fa-toggle-on me-2"></i>Employee Status
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch">
+                            {{ form.is_active }}
+                            <label class="form-check-label" for="id_is_active">
+                                <strong>Active Employee</strong>
+                                <br>
+                                <small class="text-muted">Uncheck to deactivate this employee</small>
+                            </label>
+                        </div>
+                        {% if form.is_active.errors %}
+                            <div class="text-danger small mt-1">{{ form.is_active.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Form Actions -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-save me-2"></i>
+                                    {% if object %}Update Employee{% else %}Create Employee{% endif %}
+                                </button>
+                                <a href="{% url 'hr:employee_list' %}" class="btn btn-secondary btn-lg ms-2">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </a>
+                            </div>
+                            {% if object %}
+                            <div>
+                                <a href="{% url 'hr:employee_detail' object.pk %}" class="btn btn-outline-info">
+                                    <i class="fas fa-eye me-2"></i>View HR Profile
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Employee Preview -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>Employee Preview
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="employee-avatar-preview" id="avatar-preview">
+                        {% if object %}
+                            {{ object.first_name.0 }}{{ object.last_name.0 }}
+                        {% else %}
+                            ?
+                        {% endif %}
+                    </div>
+                    <h5 id="name-preview">
+                        {% if object %}
+                            {{ object.get_full_name }}
+                        {% else %}
+                            Employee Name
+                        {% endif %}
+                    </h5>
+                    <p class="text-muted" id="position-preview">
+                        {% if object and object.position %}
+                            {{ object.position }}
+                        {% else %}
+                            Position not set
+                        {% endif %}
+                    </p>
+                    {% if object %}
+                    <div class="mt-3">
+                        <span class="badge bg-{{ object.is_active|yesno:'success,danger' }}">
+                            {{ object.is_active|yesno:'Active,Inactive' }}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Salary Information -->
+            {% if object.salary or form.salary.value %}
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-dollar-sign me-2"></i>Salary Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="salary-display">
+                        <div class="salary-amount" id="salary-preview">
+                            ${% if object.salary %}{{ object.salary|floatformat:2 }}{% else %}0.00{% endif %}
+                        </div>
+                        <small class="text-muted">Annual Salary</small>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- HR Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>HR Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-success btn-sm" id="set-hire-today">
+                            <i class="fas fa-calendar me-1"></i>Set Hire Date Today
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="generate-username">
+                            <i class="fas fa-user me-1"></i>Generate Username
+                        </button>
+                        {% if object %}
+                        <a href="{% url 'hr:attendance_create' %}?employee={{ object.pk }}" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-clock me-1"></i>Record Attendance
+                        </a>
+                        <a href="{% url 'hr:payroll_create' %}?employee={{ object.pk }}" class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-money-bill-wave me-1"></i>Create Payroll
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR Guidelines -->
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>HR Guidelines
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Email must be unique across all employees
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Username is required for system access
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Store assignment affects payroll processing
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Manager field creates reporting hierarchy
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Inactive employees cannot access the system
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update preview when name fields change
+    function updatePreview() {
+        const firstName = document.getElementById('id_first_name').value;
+        const lastName = document.getElementById('id_last_name').value;
+        const position = document.getElementById('id_position').value;
+        const salary = document.getElementById('id_salary').value;
+        
+        // Update name preview
+        const fullName = (firstName + ' ' + lastName).trim() || 'Employee Name';
+        document.getElementById('name-preview').textContent = fullName;
+        
+        // Update avatar
+        const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || '?';
+        document.getElementById('avatar-preview').textContent = initials;
+        
+        // Update position
+        document.getElementById('position-preview').textContent = position || 'Position not set';
+        
+        // Update salary
+        if (salary) {
+            const salaryPreview = document.getElementById('salary-preview');
+            if (salaryPreview) {
+                salaryPreview.textContent = '$' + parseFloat(salary).toFixed(2);
+            }
+        }
+    }
+    
+    // Add event listeners
+    ['id_first_name', 'id_last_name', 'id_position', 'id_salary'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+            field.addEventListener('input', updatePreview);
+            field.addEventListener('change', updatePreview);
+        }
+    });
+    
+    // HR Quick Actions
+    document.getElementById('set-hire-today').addEventListener('click', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('id_hire_date').value = today;
+    });
+    
+    document.getElementById('generate-username').addEventListener('click', function() {
+        const firstName = document.getElementById('id_first_name').value;
+        const lastName = document.getElementById('id_last_name').value;
+        
+        if (firstName && lastName) {
+            const username = (firstName.charAt(0) + lastName).toLowerCase();
+            const usernameField = document.getElementById('id_username');
+            if (usernameField) {
+                usernameField.value = username;
+            }
+        }
+    });
+    
+    // Initial preview update
+    updatePreview();
+    
+    console.log('HR Employee form enhancements initialized');
+});
+</script>
+{% endblock %}

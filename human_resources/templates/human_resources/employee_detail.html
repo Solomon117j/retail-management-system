@@ -1,0 +1,534 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ employee.get_full_name }} - HR Profile - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.hr-employee-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.employee-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.8rem;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.hr-info-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.hr-info-card:hover {
+    transform: translateY(-2px);
+}
+
+.hr-stat-item {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    margin-bottom: 1rem;
+    border-left: 4px solid #28a745;
+}
+
+.hr-stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.hr-stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.hr-timeline-item {
+    border-left: 3px solid #28a745;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.hr-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #28a745;
+}
+
+.hr-badge-large {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.hr-section-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- HR Employee Header -->
+    <div class="hr-employee-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="employee-avatar-large">
+                    {{ employee.first_name.0 }}{{ employee.last_name.0 }}
+                </div>
+            </div>
+            <div class="col">
+                <h1 class="mb-1">{{ employee.get_full_name }}</h1>
+                <p class="mb-2 opacity-75">
+                    <i class="fas fa-id-badge me-1"></i>Employee ID: {{ employee.employee_id }}
+                    {% if employee.position %}
+                        | {{ employee.position }}
+                    {% endif %}
+                    {% if employee.store %}
+                        | {{ employee.store.store_name }}
+                    {% endif %}
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    {% if employee.is_active %}
+                        <span class="badge bg-light text-dark">
+                            <i class="fas fa-check me-1"></i>Active Employee
+                        </span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">
+                            <i class="fas fa-pause me-1"></i>Inactive
+                        </span>
+                    {% endif %}
+                    {% if employee.department %}
+                        <span class="badge bg-light text-dark">{{ employee.department.department_name }}</span>
+                    {% endif %}
+                    {% if employee.hire_date %}
+                        <span class="badge bg-light text-dark">
+                            Hired {{ employee.hire_date|date:"M Y" }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-light">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </a>
+                    <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-outline-light btn-delete"
+                       data-item-name="employee {{ employee.get_full_name }}">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{% url 'hr:employee_list' %}" class="btn btn-outline-success">
+                <i class="fas fa-arrow-left me-2"></i>Back to HR Employee List
+            </a>
+        </div>
+        <div class="btn-group" role="group">
+            <a href="{% url 'hr:attendance_list' %}?employee={{ employee.pk }}" class="btn btn-outline-primary">
+                <i class="fas fa-clock me-1"></i>View Attendance ({{ total_attendance }})
+            </a>
+            <a href="{% url 'hr:payroll_list' %}?employee={{ employee.pk }}" class="btn btn-outline-success">
+                <i class="fas fa-money-bill-wave me-1"></i>View Payroll ({{ total_payroll }})
+            </a>
+            <a href="{% url 'store_management:employee_detail' employee.pk %}" class="btn btn-outline-info">
+                <i class="fas fa-store me-1"></i>Store Profile
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Personal Information -->
+            <div class="card hr-info-card mb-4">
+                <div class="card-header hr-section-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user me-2"></i>Personal Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Full Name</label>
+                                <div>{{ employee.get_full_name }}</div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Email Address</label>
+                                <div>
+                                    <a href="mailto:{{ employee.email }}">{{ employee.email }}</a>
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Username</label>
+                                <div>{{ employee.username }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Phone Number</label>
+                                <div>
+                                    {% if employee.phone %}
+                                        <a href="tel:{{ employee.phone }}">{{ employee.phone }}</a>
+                                    {% else %}
+                                        <span class="text-muted">Not provided</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Employee ID</label>
+                                <div>
+                                    <span class="badge bg-success">{{ employee.employee_id }}</span>
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Account Status</label>
+                                <div>
+                                    {% if employee.is_active %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Active
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times me-1"></i>Inactive
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employment Information -->
+            <div class="card hr-info-card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i>Employment Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Position</label>
+                                <div>
+                                    {% if employee.position %}
+                                        <span class="badge hr-badge-large bg-secondary">{{ employee.position }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Not assigned</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Hire Date</label>
+                                <div>
+                                    {% if employee.hire_date %}
+                                        <strong>{{ employee.hire_date|date:"F d, Y" }}</strong>
+                                        <br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>{{ employee.hire_date|timesince }} ago
+                                        </small>
+                                    {% else %}
+                                        <span class="text-muted">Not set</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Annual Salary</label>
+                                <div>
+                                    {% if employee.salary %}
+                                        <span class="fw-bold text-success fs-4">
+                                            ${{ employee.salary|floatformat:2 }}
+                                        </span>
+                                        <br>
+                                        <small class="text-muted">per year</small>
+                                    {% else %}
+                                        <span class="text-muted">Not set</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Assigned Store</label>
+                                <div>
+                                    {% if employee.store %}
+                                        <a href="{% url 'store_management:store_detail' employee.store.pk %}">
+                                            <strong>{{ employee.store.store_name }}</strong>
+                                        </a>
+                                        <br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-map-marker-alt me-1"></i>{{ employee.store.city }}, {{ employee.store.region }}
+                                        </small>
+                                    {% else %}
+                                        <span class="text-muted">Not assigned</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Department</label>
+                                <div>
+                                    {% if employee.department %}
+                                        <a href="{% url 'store_management:department_detail' employee.department.pk %}">
+                                            <span class="badge bg-info">{{ employee.department.department_name }}</span>
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Not assigned</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Reports To</label>
+                                <div>
+                                    {% if employee.manager %}
+                                        <a href="{% url 'hr:employee_detail' employee.manager.pk %}">
+                                            <i class="fas fa-user-tie me-1"></i>{{ employee.manager.get_full_name }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">No manager assigned</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR Activity Timeline -->
+            {% if recent_attendance or recent_payroll %}
+            <div class="card hr-info-card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Recent HR Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if recent_attendance %}
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3 text-primary">
+                                <i class="fas fa-clock me-1"></i>Recent Attendance
+                            </h6>
+                            {% for attendance in recent_attendance|slice:":5" %}
+                            <div class="hr-timeline-item">
+                                <div class="d-flex justify-content-between">
+                                    <span><strong>{{ attendance.date|date:"M d, Y" }}</strong></span>
+                                    <span class="badge bg-{% if attendance.status == 'present' %}success{% elif attendance.status == 'absent' %}danger{% elif attendance.status == 'late' %}warning{% else %}info{% endif %}">
+                                        {{ attendance.get_status_display }}
+                                    </span>
+                                </div>
+                                {% if attendance.clock_in %}
+                                <small class="text-muted">
+                                    <i class="fas fa-sign-in-alt me-1"></i>In: {{ attendance.clock_in }} 
+                                    {% if attendance.clock_out %}
+                                        <i class="fas fa-sign-out-alt me-1 ms-2"></i>Out: {{ attendance.clock_out }}
+                                    {% endif %}
+                                </small>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            <div class="text-center mt-3">
+                                <a href="{% url 'hr:attendance_list' %}?employee={{ employee.pk }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-list me-1"></i>View All Attendance
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if recent_payroll %}
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3 text-success">
+                                <i class="fas fa-money-bill-wave me-1"></i>Recent Payroll
+                            </h6>
+                            {% for payroll in recent_payroll %}
+                            <div class="hr-timeline-item">
+                                <div class="d-flex justify-content-between">
+                                    <span><strong>{{ payroll.pay_period_start|date:"M d" }} - {{ payroll.pay_period_end|date:"M d" }}</strong></span>
+                                    <span class="fw-bold text-success">${{ payroll.net_pay|floatformat:2 }}</span>
+                                </div>
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>Status: {{ payroll.get_status_display }}
+                                    {% if payroll.payment_date %}
+                                        | Paid: {{ payroll.payment_date|date:"M d" }}
+                                    {% endif %}
+                                </small>
+                            </div>
+                            {% endfor %}
+                            <div class="text-center mt-3">
+                                <a href="{% url 'hr:payroll_list' %}?employee={{ employee.pk }}" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-list me-1"></i>View All Payroll
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- HR Quick Stats -->
+            <div class="card hr-info-card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>HR Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="hr-stat-item">
+                        <div class="hr-stat-number">{{ total_attendance }}</div>
+                        <div class="hr-stat-label">Attendance Records</div>
+                    </div>
+                    <div class="hr-stat-item">
+                        <div class="hr-stat-number">{{ total_payroll }}</div>
+                        <div class="hr-stat-label">Payroll Records</div>
+                    </div>
+                    <div class="hr-stat-item">
+                        <div class="hr-stat-number">{{ subordinate_count }}</div>
+                        <div class="hr-stat-label">Direct Reports</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direct Reports -->
+            {% if subordinates %}
+            <div class="card hr-info-card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Direct Reports
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% for subordinate in subordinates %}
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="employee-avatar me-2" style="width: 30px; height: 30px; font-size: 0.7rem; background: linear-gradient(135deg, #007bff, #0056b3);">
+                            {{ subordinate.first_name.0 }}{{ subordinate.last_name.0 }}
+                        </div>
+                        <div>
+                            <a href="{% url 'hr:employee_detail' subordinate.pk %}">
+                                <strong>{{ subordinate.get_full_name }}</strong>
+                            </a>
+                            <br>
+                            <small class="text-muted">{{ subordinate.position|default:"Employee" }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- HR Quick Actions -->
+            <div class="card hr-info-card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>HR Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'hr:attendance_create' %}?employee={{ employee.pk }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-clock me-1"></i>Record Attendance
+                        </a>
+                        <a href="{% url 'hr:payroll_create' %}?employee={{ employee.pk }}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-money-bill-wave me-1"></i>Create Payroll
+                        </a>
+                        <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-edit me-1"></i>Edit HR Info
+                        </a>
+                        <button type="button" class="btn btn-outline-info btn-sm" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>Print HR Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Information -->
+            <div class="card hr-info-card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>System Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="info-item mb-2">
+                        <label class="fw-bold text-muted small">Created</label>
+                        <div class="small">{{ employee.created_at|date:"M d, Y g:i A" }}</div>
+                    </div>
+                    <div class="info-item mb-2">
+                        <label class="fw-bold text-muted small">Last Updated</label>
+                        <div class="small">{{ employee.updated_at|date:"M d, Y g:i A" }}</div>
+                    </div>
+                    <div class="info-item mb-2">
+                        <label class="fw-bold text-muted small">Last Login</label>
+                        <div class="small">
+                            {% if employee.last_login %}
+                                {{ employee.last_login|date:"M d, Y g:i A" }}
+                            {% else %}
+                                <span class="text-muted">Never logged in</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <label class="fw-bold text-muted small">User Permissions</label>
+                        <div class="small">
+                            {% if employee.is_superuser %}
+                                <span class="badge bg-danger">Superuser</span>
+                            {% elif employee.is_staff %}
+                                <span class="badge bg-warning">Staff</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Regular User</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    console.log('HR Employee detail enhancements initialized');
+});
+</script>
+{% endblock %}

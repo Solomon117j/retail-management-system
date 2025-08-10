@@ -25,15 +25,77 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'store_management:store_list' %}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="storeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-store"></i> Stores
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="storeDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'store_management:store_list' %}">
+                                    <i class="fas fa-store me-2"></i>Store Management
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'store_management:employee_list' %}">
+                                    <i class="fas fa-users me-2"></i>Employee Management
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'store_management:store_create' %}">
+                                    <i class="fas fa-plus me-2"></i>Add New Store
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'store_management:employee_create' %}">
+                                    <i class="fas fa-user-plus me-2"></i>Add New Employee
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'hr:attendance_list' %}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="hrDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-users"></i> HR
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="hrDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:employee_list' %}">
+                                    <i class="fas fa-users me-2"></i>Employee Management
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:attendance_list' %}">
+                                    <i class="fas fa-clock me-2"></i>Attendance Management
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:payroll_list' %}">
+                                    <i class="fas fa-money-bill-wave me-2"></i>Payroll Management
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:employee_create' %}">
+                                    <i class="fas fa-user-plus me-2"></i>Add New Employee
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:employee_export' %}?format=csv">
+                                    <i class="fas fa-download me-2"></i>Export Employees
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=csv">
+                                    <i class="fas fa-clock me-2"></i>Export Attendance
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'hr:payroll_export' %}?format=csv">
+                                    <i class="fas fa-file-export me-2"></i>Export Payroll
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'inventory:product_list' %}">
