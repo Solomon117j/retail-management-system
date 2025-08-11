@@ -127,7 +127,7 @@
                                     <i class="fas fa-money-bill me-1"></i>Base Salary *
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">SZL</span>
                                     {{ form.base_salary }}
                                 </div>
                                 {% if form.base_salary.errors %}
@@ -139,7 +139,7 @@
                                     <i class="fas fa-clock me-1"></i>Overtime Pay
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">SZL</span>
                                     {{ form.overtime_pay }}
                                 </div>
                                 {% if form.overtime_pay.errors %}
@@ -154,7 +154,7 @@
                                     <i class="fas fa-gift me-1"></i>Bonus
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">SZL</span>
                                     {{ form.bonus }}
                                 </div>
                                 {% if form.bonus.errors %}
@@ -166,7 +166,7 @@
                                     <i class="fas fa-minus-circle me-1"></i>Deductions
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">SZL</span>
                                     {{ form.deductions }}
                                 </div>
                                 {% if form.deductions.errors %}
@@ -257,24 +257,24 @@
                     <div class="calculation-display">
                         <div class="calculation-row">
                             <span>Base Salary:</span>
-                            <span id="calc-base" class="text-success">$0.00</span>
+                            <span id="calc-base" class="text-success">SZL0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Overtime Pay:</span>
-                            <span id="calc-overtime" class="text-info">$0.00</span>
+                            <span id="calc-overtime" class="text-info">SZL0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Bonus:</span>
-                            <span id="calc-bonus" class="text-primary">$0.00</span>
+                            <span id="calc-bonus" class="text-primary">SZL0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Deductions:</span>
-                            <span id="calc-deductions" class="text-danger">-$0.00</span>
+                            <span id="calc-deductions" class="text-danger">-SZL0.00</span>
                         </div>
                         <hr>
                         <div class="calculation-row total">
                             <strong>Net Pay:</strong>
-                            <strong id="calc-net" class="text-success fs-4">$0.00</strong>
+                            <strong id="calc-net" class="text-success fs-4">SZL0.00</strong>
                         </div>
                     </div>
                 </div>

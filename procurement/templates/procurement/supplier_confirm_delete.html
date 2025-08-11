@@ -111,7 +111,7 @@
                                     <strong><i class="fas fa-box"></i> Supplier Products ({{ supplier_products.count }}):</strong>
                                     <ul class="mb-0 mt-2">
                                         {% for sp in supplier_products %}
-                                            <li>{{ sp.product.name }} - ${{ sp.supply_price }}</li>
+                                            <li>{{ sp.product.name }} - SZL{{ sp.supply_price }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>

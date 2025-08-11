@@ -194,21 +194,21 @@
                             </td>
                             <td data-sort="{{ payroll.base_salary }}">
                                 <span class="fw-bold text-success">
-                                    ${{ payroll.base_salary|floatformat:2 }}
+                                    SZL{{ payroll.base_salary|floatformat:2 }}
                                 </span>
                             </td>
                             <td data-sort="{{ payroll.overtime_pay }}">
                                 {% if payroll.overtime_pay %}
                                     <span class="text-info">
-                                        ${{ payroll.overtime_pay|floatformat:2 }}
+                                        SZL{{ payroll.overtime_pay|floatformat:2 }}
                                     </span>
                                 {% else %}
-                                    <span class="text-muted">$0.00</span>
+                                    <span class="text-muted">SZL0.00</span>
                                 {% endif %}
                             </td>
                             <td data-sort="{{ payroll.net_pay }}">
                                 <span class="fw-bold text-primary fs-5">
-                                    ${{ payroll.net_pay|floatformat:2 }}
+                                    SZL{{ payroll.net_pay|floatformat:2 }}
                                 </span>
                             </td>
                             <td data-sort="{{ payroll.status }}">

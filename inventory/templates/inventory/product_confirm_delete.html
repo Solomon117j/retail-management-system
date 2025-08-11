@@ -26,7 +26,7 @@
                                 <li><strong>Name:</strong> {{ product.name }}</li>
                                 <li><strong>Category:</strong> {{ product.category.name|default:"-" }}</li>
                                 <li><strong>Brand:</strong> {{ product.brand.name|default:"-" }}</li>
-                                <li><strong>Unit Price:</strong> ${{ product.unit_price }}</li>
+                                <li><strong>Unit Price:</strong> SZL{{ product.unit_price }}</li>
                                 {% if product.barcode %}
                                 <li><strong>Barcode:</strong> {{ product.barcode }}</li>
                                 {% endif %}

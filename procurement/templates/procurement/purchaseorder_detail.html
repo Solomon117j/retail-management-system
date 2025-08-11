@@ -7,7 +7,7 @@
 <p><strong>Order Date:</strong> {{ order.order_date|date:"Y-m-d" }}</p>
 <p><strong>Expected Delivery:</strong> {{ order.expected_delivery_date|date:"Y-m-d"|default:"-" }}</p>
 <p><strong>Status:</strong> {{ order.get_status_display }}</p>
-<p><strong>Total Amount:</strong> ${{ order.total_amount|default:"0.00" }}</p>
+<p><strong>Total Amount:</strong> SZL{{ order.total_amount|default:"0.00" }}</p>
 <p><strong>Created By:</strong> {{ order.created_by.get_full_name }}</p>
 <p><strong>Created At:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
 <p><strong>Updated At:</strong> {{ order.updated_at|date:"Y-m-d H:i" }}</p>
@@ -28,8 +28,8 @@
         <tr>
             <td>{{ item.product.name }}</td>
             <td>{{ item.quantity }}</td>
-            <td>${{ item.unit_price }}</td>
-            <td>${{ item.total }}</td>
+            <td>SZL{{ item.unit_price }}</td>
+            <td>SZL{{ item.total }}</td>
             <td>{{ item.received_quantity }}</td>
         </tr>
         {% endfor %}

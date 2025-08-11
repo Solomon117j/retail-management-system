@@ -36,10 +36,10 @@
         <div class="card mb-4">
             <div class="card-header">Financial Summary</div>
             <div class="card-body">
-                <p><strong>Subtotal:</strong> ${{ sale.subtotal|floatformat:2 }}</p>
-                <p><strong>Discount:</strong> ${{ sale.discount_amount|floatformat:2 }}</p>
-                <p><strong>Tax:</strong> ${{ sale.tax_amount|floatformat:2 }}</p>
-                <p class="fs-5"><strong>Total:</strong> ${{ sale.total_amount|floatformat:2 }}</p>
+                <p><strong>Subtotal:</strong> SZL{{ sale.subtotal|floatformat:2 }}</p>
+                <p><strong>Discount:</strong> SZL{{ sale.discount_amount|floatformat:2 }}</p>
+                <p><strong>Tax:</strong> SZL{{ sale.tax_amount|floatformat:2 }}</p>
+                <p class="fs-5"><strong>Total:</strong> SZL{{ sale.total_amount|floatformat:2 }}</p>
             </div>
         </div>
     </div>
@@ -63,9 +63,9 @@
                 <tr>
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>${{ item.unit_price|floatformat:2 }}</td>
+                    <td>SZL{{ item.unit_price|floatformat:2 }}</td>
                     <td>{{ item.discount_percentage|floatformat:2 }}%</td>
-                    <td>${{ item.total_price|floatformat:2 }}</td>
+                    <td>SZL{{ item.total_price|floatformat:2 }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

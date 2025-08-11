@@ -59,13 +59,13 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <td><strong>Unit Price:</strong></td>
-                                    <td>${{ product.unit_price }}</td>
+                                    <td>SZL{{ product.unit_price }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Cost Price:</strong></td>
                                     <td>
                                         {% if product.cost_price %}
-                                            ${{ product.cost_price }}
+                                            SZL{{ product.cost_price }}
                                         {% else %}
                                             -
                                         {% endif %}
@@ -99,7 +99,7 @@
                                     <td><strong>Profit Amount:</strong></td>
                                     <td>
                                         {% if product.profit_amount %}
-                                            ${{ product.profit_amount }}
+                                            SZL{{ product.profit_amount }}
                                         {% else %}
                                             -
                                         {% endif %}

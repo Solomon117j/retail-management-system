@@ -227,7 +227,7 @@
                                     <span class="text-muted">Not assigned</span>
                                 {% endif %}
                             </td>
-                            <td data-sort="{{ employee.store.store_name|default:'' }}">
+                            <td data-sort="{% if employee.store %}{{ employee.store.store_name }}{% endif %}">
                                 {% if employee.store %}
                                     <div>
                                         <strong>{{ employee.store.store_name }}</strong>
@@ -238,7 +238,7 @@
                                     <span class="text-muted">Not assigned</span>
                                 {% endif %}
                             </td>
-                            <td data-sort="{{ employee.department.department_name|default:'' }}">
+                            <td data-sort="{% if employee.department %}{{ employee.department.department_name }}{% endif %}">
                                 {% if employee.department %}
                                     <span class="badge bg-info">{{ employee.department.department_name }}</span>
                                 {% else %}

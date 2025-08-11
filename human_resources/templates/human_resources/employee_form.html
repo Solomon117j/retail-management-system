@@ -253,7 +253,7 @@
                                     <i class="fas fa-dollar-sign me-1"></i>Annual Salary
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">SZL</span>
                                     {{ form.salary }}
                                 </div>
                                 {% if form.salary.errors %}
@@ -421,7 +421,7 @@
                 <div class="card-body">
                     <div class="salary-display">
                         <div class="salary-amount" id="salary-preview">
-                            ${% if object.salary %}{{ object.salary|floatformat:2 }}{% else %}0.00{% endif %}
+                            SZL{% if object.salary %}{{ object.salary|floatformat:2 }}{% else %}0.00{% endif %}
                         </div>
                         <small class="text-muted">Annual Salary</small>
                     </div>

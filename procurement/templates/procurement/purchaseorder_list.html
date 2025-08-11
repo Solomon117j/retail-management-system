@@ -42,7 +42,7 @@
             <td>{{ order.store.name }}</td>
             <td>{{ order.order_date|date:"Y-m-d" }}</td>
             <td>{{ order.get_status_display }}</td>
-            <td>${{ order.total_amount|default:"0.00" }}</td>
+            <td>SZL{{ order.total_amount|default:"0.00" }}</td>
             <td>
                 <a href="{% url 'procurement:purchaseorder_update' order.pk %}">Edit</a>
                 {% if order.status in 'draft,pending' %}

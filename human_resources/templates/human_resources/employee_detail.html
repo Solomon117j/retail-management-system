@@ -268,7 +268,7 @@
                                 <div>
                                     {% if employee.salary %}
                                         <span class="fw-bold text-success fs-4">
-                                            ${{ employee.salary|floatformat:2 }}
+                                            SZL{{ employee.salary|floatformat:2 }}
                                         </span>
                                         <br>
                                         <small class="text-muted">per year</small>
@@ -374,7 +374,7 @@
                             <div class="hr-timeline-item">
                                 <div class="d-flex justify-content-between">
                                     <span><strong>{{ payroll.pay_period_start|date:"M d" }} - {{ payroll.pay_period_end|date:"M d" }}</strong></span>
-                                    <span class="fw-bold text-success">${{ payroll.net_pay|floatformat:2 }}</span>
+                                    <span class="fw-bold text-success">SZL{{ payroll.net_pay|floatformat:2 }}</span>
                                 </div>
                                 <small class="text-muted">
                                     <i class="fas fa-info-circle me-1"></i>Status: {{ payroll.get_status_display }}

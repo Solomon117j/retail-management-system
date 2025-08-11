@@ -64,7 +64,7 @@
                         {{ order.get_status_display }}
                     </span>
                 </td>
-                <td>${{ order.total_amount|floatformat:2 }}</td>
+                <td>SZL{{ order.total_amount|floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'e_commerce:order_update' order.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
                     {% if order.status in 'pending,processing' %}

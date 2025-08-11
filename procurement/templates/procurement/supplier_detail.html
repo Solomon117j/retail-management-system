@@ -15,7 +15,7 @@
 <ul>
     {% for product in products %}
     <li>
-        {{ product.product.name }} - ${{ product.supply_price }} 
+        {{ product.product.name }} - SZL{{ product.supply_price }} 
         (MOQ: {{ product.minimum_order_quantity }})
         <a href="{% url 'procurement:supplierproduct_update' product.pk %}">Edit</a>
         <a href="{% url 'procurement:supplierproduct_delete' product.pk %}">Delete</a>

@@ -26,9 +26,9 @@
                 <td>{{ form.unit_price }}{{ form.unit_price.errors }}</td>
                 <td class="item-total">
                     {% if form.instance.quantity and form.instance.unit_price %}
-                    ${{ form.instance.total|floatformat:2 }}
+                    SZL{{ form.instance.total|floatformat:2 }}
                     {% else %}
-                    $0.00
+                    SZL0.00
                     {% endif %}
                 </td>
                 <td>{{ form.DELETE }}</td>
