@@ -13,6 +13,111 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     
+    <style>
+        /* Footer Styling */
+        .footer-title {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0;
+            border-radius: 4px;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+            padding-left: 0.5rem;
+            background: rgba(40, 167, 69, 0.2);
+        }
+        
+        .footer-links a i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Delete Confirmation Modal Styling */
+        .delete-modal .modal-header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .delete-modal .modal-header .btn-close {
+            filter: invert(1);
+        }
+        
+        .delete-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .delete-item-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn-delete-confirm {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn-delete-confirm:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            color: white;
+        }
+        
+        /* Export Button Styling */
+        .export-dropdown .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+        }
+        
+        .export-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .export-dropdown .dropdown-item:hover {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+        
+        .export-dropdown .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -20,12 +125,18 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'dashboards:dashboard' %}">
-                <!-- Logo -->
-                <img src="{% static 'images/art.jpeg' %}" 
-                     alt="Retail Management System Logo" 
-                     height="40"
-                     class="d-inline-block align-top me-2">
-                Retail Management System
+                <div class="logo-container">
+                    <!-- Retail Management System Logo -->
+                    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="25" width="80" height="60" rx="5" fill="#007bff" stroke="#fff" stroke-width="2"/>
+                        <path d="M25,35 L25,75 M35,35 L35,75 M45,35 L45,75 M55,35 L55,75 M65,35 L65,75 M75,35 L75,75" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M30,20 Q50,5 70,20" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/>
+                        <circle cx="30" cy="15" r="3" fill="#fff"/>
+                        <circle cx="50" cy="10" r="3" fill="#fff"/>
+                        <circle cx="70" cy="15" r="3" fill="#fff"/>
+                    </svg>
+                    <span class="logo-text">Retail Management System</span>
+                </div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -178,16 +289,15 @@
     </main>
 
     <!-- Footer -->
-    
-    <footer class="bg-dark text-light mt-5 py-4">
+    <footer class="bg-dark text-light mt-5 py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5 class="footer-title">Retail Management</h5>
-                    <p>Comprehensive solution for retail business operations, inventory, sales, and analytics.</p>
-                    <div class="logo-container">
-                        <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="25" width="80" height="60" rx="5" fill="#007bff" stroke="#fff" stroke-width="2"/>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-title">Retail Management System</h5>
+                    <p class="mb-3">Comprehensive solution for retail business operations, inventory management, sales tracking, and business analytics.</p>
+                    <div class="logo-container mb-3">
+                        <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="25" width="80" height="60" rx="5" fill="#28a745" stroke="#fff" stroke-width="2"/>
                             <path d="M25,35 L25,75 M35,35 L35,75 M45,35 L45,75 M55,35 L55,75 M65,35 L65,75 M75,35 L75,75" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
                             <path d="M30,20 Q50,5 70,20" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/>
                             <circle cx="30" cy="15" r="3" fill="#fff"/>
@@ -196,43 +306,82 @@
                         </svg>
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5 class="footer-title">Modules</h5>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Core Modules</h5>
                     <div class="footer-links">
-                        <a href="#"><i class="fas fa-store me-2"></i>Store Management</a>
-                        <a href="#"><i class="fas fa-boxes me-2"></i>Inventory</a>
-                        <a href="#"><i class="fas fa-cash-register me-2"></i>Sales</a>
-                        <a href="#"><i class="fas fa-users me-2"></i>HR & Payroll</a>
-                        <a href="#"><i class="fas fa-chart-line me-2"></i>Analytics</a>
+                        <a href="{% url 'store_management:store_list' %}"><i class="fas fa-store"></i>Store Management</a>
+                        <a href="{% url 'hr:employee_list' %}"><i class="fas fa-users"></i>HR & Payroll</a>
+                        <a href="{% url 'inventory:product_list' %}"><i class="fas fa-boxes"></i>Inventory</a>
+                        <a href="{% url 'sales:sale_list' %}"><i class="fas fa-cash-register"></i>Sales</a>
+                        <a href="{% url 'e_commerce:order_list' %}"><i class="fas fa-shopping-cart"></i>E-Commerce</a>
+                        <a href="{% url 'procurement:supplier_list' %}"><i class="fas fa-truck"></i>Procurement</a>
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5 class="footer-title">Resources</h5>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Quick Actions</h5>
                     <div class="footer-links">
-                        <a href="#"><i class="fas fa-book me-2"></i>Documentation</a>
-                        <a href="#"><i class="fas fa-video me-2"></i>Tutorials</a>
-                        <a href="#"><i class="fas fa-question-circle me-2"></i>Support Center</a>
-                        <a href="#"><i class="fas fa-blog me-2"></i>Blog</a>
-                        <a href="#"><i class="fas fa-file-alt me-2"></i>API Reference</a>
+                        <a href="{% url 'store_management:store_create' %}"><i class="fas fa-plus"></i>Add New Store</a>
+                        <a href="{% url 'hr:employee_create' %}"><i class="fas fa-user-plus"></i>Add Employee</a>
+                        <a href="{% url 'inventory:product_create' %}"><i class="fas fa-box"></i>Add Product</a>
+                        <a href="{% url 'sales:sale_create' %}"><i class="fas fa-plus-circle"></i>New Sale</a>
+                        <a href="{% url 'procurement:supplier_create' %}"><i class="fas fa-truck-loading"></i>Add Supplier</a>
+                        <a href="{% url 'analytics:dashboard' %}"><i class="fas fa-chart-line"></i>View Analytics</a>
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5 class="footer-title">Contact Us</h5>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Data Export</h5>
                     <div class="footer-links">
-                        <a href="#"><i class="fas fa-envelope me-2"></i>support@retailmgmt.com</a>
-                        <a href="#"><i class="fas fa-phone me-2"></i>+268 (7811) -7803</a>
-                        <a href="#"><i class="fas fa-map-marker-alt me-2"></i>Mbabane, MB</a>
+                        <a href="{% url 'hr:employee_export' %}?format=csv"><i class="fas fa-download"></i>Employee Data</a>
+                        <a href="{% url 'hr:attendance_export' %}?format=csv"><i class="fas fa-clock"></i>Attendance Records</a>
+                        <a href="{% url 'hr:payroll_export' %}?format=csv"><i class="fas fa-file-export"></i>Payroll Data</a>
+                        <a href="{% url 'inventory:product_list' %}"><i class="fas fa-warehouse"></i>Inventory Report</a>
+                        <a href="{% url 'sales:sale_list' %}"><i class="fas fa-chart-bar"></i>Sales Report</a>
+                        <a href="{% url 'analytics:dashboard' %}"><i class="fas fa-analytics"></i>Analytics Export</a>
                     </div>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-instagram"></i></a>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-title">Support & Contact</h5>
+                    <div class="footer-links mb-3">
+                        <a href="mailto:support@retailmgmt.com"><i class="fas fa-envelope"></i>support@retailmgmt.com</a>
+                        <a href="tel:+26878117803"><i class="fas fa-phone"></i>+268 (7811) -7803</a>
+                        <a href="#"><i class="fas fa-map-marker-alt"></i>Mbabane, Eswatini</a>
+                        <a href="#"><i class="fas fa-question-circle"></i>Help Center</a>
+                        <a href="#"><i class="fas fa-book"></i>Documentation</a>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-light btn-sm" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
             </div>
+            
             <div class="copyright">
-                <p>&copy; 2023 Retail Management System. All rights reserved.</p>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; 2024 Retail Management System. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Cookie Policy</a>
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

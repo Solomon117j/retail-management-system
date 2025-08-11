@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete {{ object_name|default:"Item" }} - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .delete-container {
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+    
+    .delete-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .delete-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+    }
+    
+    .warning-card {
+        border-left: 5px solid #ffc107;
+        background: #fff3cd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .item-details-card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+    
+    .detail-label {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .detail-value {
+        color: #6c757d;
+    }
+    
+    .consequences-list {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .consequences-list h6 {
+        color: #721c24;
+        margin-bottom: 1rem;
+    }
+    
+    .consequences-list ul {
+        margin-bottom: 0;
+        color: #721c24;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-delete-final {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-delete-final:hover {
+        background: linear-gradient(135deg, #c82333, #bd2130);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+    
+    .btn-cancel {
+        background: #6c757d;
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-cancel:hover {
+        background: #5a6268;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="delete-container">
+        <!-- Delete Header -->
+        <div class="delete-header">
+            <i class="fas fa-exclamation-triangle delete-icon"></i>
+            <h1 class="mb-2">Confirm Deletion</h1>
+            <p class="mb-0 opacity-75">
+                You are about to permanently delete {{ object_name|default:"this item" }}
+            </p>
+        </div>
+        
+        <!-- Warning -->
+        <div class="warning-card">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle text-warning me-3" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="mb-1 text-warning">⚠️ Warning: This action cannot be undone!</h5>
+                    <p class="mb-0">Once deleted, this {{ object_name|default:"item" }} and all associated data will be permanently removed from the system.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Item Details -->
+        {% if object %}
+        <div class="item-details-card">
+            <h5 class="mb-3">
+                <i class="fas fa-info-circle me-2"></i>{{ object_name|title|default:"Item" }} Details
+            </h5>
+            
+            {% block item_details %}
+            <div class="detail-item">
+                <span class="detail-label">ID:</span>
+                <span class="detail-value">{{ object.pk }}</span>
+            </div>
+            {% if object.name %}
+            <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">{{ object.name }}</span>
+            </div>
+            {% endif %}
+            {% if object.get_full_name %}
+            <div class="detail-item">
+                <span class="detail-label">Full Name:</span>
+                <span class="detail-value">{{ object.get_full_name }}</span>
+            </div>
+            {% endif %}
+            {% if object.email %}
+            <div class="detail-item">
+                <span class="detail-label">Email:</span>
+                <span class="detail-value">{{ object.email }}</span>
+            </div>
+            {% endif %}
+            {% if object.created_at %}
+            <div class="detail-item">
+                <span class="detail-label">Created:</span>
+                <span class="detail-value">{{ object.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+            {% endif %}
+            {% if object.updated_at %}
+            <div class="detail-item">
+                <span class="detail-label">Last Updated:</span>
+                <span class="detail-value">{{ object.updated_at|date:"M d, Y H:i" }}</span>
+            </div>
+            {% endif %}
+            {% endblock %}
+        </div>
+        {% endif %}
+        
+        <!-- Consequences -->
+        {% block consequences %}
+        <div class="consequences-list">
+            <h6>
+                <i class="fas fa-exclamation-circle me-2"></i>What will happen when you delete this {{ object_name|default:"item" }}:
+            </h6>
+            <ul>
+                <li>The {{ object_name|default:"item" }} will be permanently removed from the database</li>
+                <li>All associated records and relationships will be affected</li>
+                <li>This action cannot be reversed or undone</li>
+                <li>Any reports or analytics including this data will be updated</li>
+            </ul>
+        </div>
+        {% endblock %}
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="{{ cancel_url }}" class="btn btn-cancel">
+                <i class="fas fa-times me-2"></i>Cancel
+            </a>
+            
+            <form method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-delete-final" id="finalDeleteBtn">
+                    <i class="fas fa-trash me-2"></i>Yes, Delete {{ object_name|title|default:"Item" }}
+                </button>
+            </form>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="text-center mt-4">
+            <small class="text-muted">
+                <i class="fas fa-shield-alt me-1"></i>
+                This action requires confirmation to prevent accidental deletions
+            </small>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteBtn = document.getElementById('finalDeleteBtn');
+    let clickCount = 0;
+    
+    deleteBtn.addEventListener('click', function(e) {
+        clickCount++;
+        
+        if (clickCount === 1) {
+            e.preventDefault();
+            this.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Are you sure? Click again to confirm';
+            this.style.background = 'linear-gradient(135deg, #fd7e14, #e55a00)';
+            
+            setTimeout(() => {
+                if (clickCount === 1) {
+                    this.innerHTML = '<i class="fas fa-trash me-2"></i>Yes, Delete {{ object_name|title|default:"Item" }}';
+                    this.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+                    clickCount = 0;
+                }
+            }, 3000);
+        }
+        // Second click will submit the form naturally
+    });
+});
+</script>
+{% endblock %}

@@ -1,22 +1,61 @@
-{% extends 'base.html' %}
-{% block title %}Delete {{ store.store_name }}{% endblock %}
+{% extends 'delete_confirm.html' %}
+
+{% block title %}Delete Store: {{ store.store_name }} - {{ block.super }}{% endblock %}
+
+{% block item_details %}
+<div class="detail-item">
+    <span class="detail-label">Store ID:</span>
+    <span class="detail-value">{{ store.pk }}</span>
+</div>
+<div class="detail-item">
+    <span class="detail-label">Store Name:</span>
+    <span class="detail-value">{{ store.store_name }}</span>
+</div>
+<div class="detail-item">
+    <span class="detail-label">Address:</span>
+    <span class="detail-value">{{ store.address }}, {{ store.city }}, {{ store.region }}</span>
+</div>
+<div class="detail-item">
+    <span class="detail-label">Phone:</span>
+    <span class="detail-value">{{ store.phone }}</span>
+</div>
+<div class="detail-item">
+    <span class="detail-label">Opening Date:</span>
+    <span class="detail-value">{{ store.opening_date|date:"M d, Y" }}</span>
+</div>
+{% if store.manager %}
+<div class="detail-item">
+    <span class="detail-label">Manager:</span>
+    <span class="detail-value">{{ store.manager.get_full_name }}</span>
+</div>
+{% endif %}
+<div class="detail-item">
+    <span class="detail-label">Departments:</span>
+    <span class="detail-value">{{ store.departments.count }} department{{ store.departments.count|pluralize }}</span>
+</div>
+<div class="detail-item">
+    <span class="detail-label">Created:</span>
+    <span class="detail-value">{{ store.created_at|date:"M d, Y H:i" }}</span>
+</div>
+{% endblock %}
+
+{% block consequences %}
+<div class="consequences-list">
+    <h6>
+        <i class="fas fa-exclamation-circle me-2"></i>What will happen when you delete this store:
+    </h6>
+    <ul>
+        <li><strong>{{ store.departments.count }} department{{ store.departments.count|pluralize }}</strong> will be permanently deleted</li>
+        <li>All employees assigned to this store will lose their store assignment</li>
+        <li>Historical sales and inventory data for this store will be affected</li>
+        <li>Store-specific reports and analytics will no longer include this location</li>
+        <li>This action cannot be reversed or undone</li>
+    </ul>
+</div>
+{% endblock %}
 
 {% block content %}
-<div class="card border-danger">
-    <div class="card-header bg-danger text-white">
-        <h2 class="mb-0">Confirm Store Deletion</h2>
-    </div>
-    <div class="card-body">
-        <p class="lead">Are you sure you want to delete the store <strong>"{{ store.store_name }}"</strong>?</p>
-        <p class="text-danger">This action cannot be undone. All associated departments will also be deleted!</p>
-        
-        <form method="post">
-            {% csrf_token %}
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a href="{% url 'store_management:store_detail' store.pk %}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
-    </div>
-</div>
+    {% with object=store object_name="store" cancel_url="/stores/" %}
+        {{ block.super }}
+    {% endwith %}
 {% endblock %}
