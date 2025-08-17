@@ -1,5 +1,8 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
+from django.conf import settings
+from django.db.models import F
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="Category Name")
@@ -21,6 +24,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Brand(models.Model):
     name = models.CharField(max_length=50, verbose_name="Brand Name")
     description = models.CharField(max_length=200, blank=True, null=True)
@@ -30,6 +34,7 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Product Name")
@@ -92,6 +97,7 @@ class Product(models.Model):
             return self.unit_price - self.cost_price
         return None
 
+
 class StoreInventory(models.Model):
     product = models.ForeignKey(
         Product,
@@ -120,3 +126,71 @@ class StoreInventory(models.Model):
 
     def __str__(self):
         return f"{self.product.name} at {self.store.name}"
+
+
+class StockMovement(models.Model):
+    """Atomic stock movement record and applier.
+    - IN, OUT, TRANSFER_IN/OUT use positive quantities.
+    - ADJUST uses signed quantity (delta applied to current stock).
+    """
+    MOVEMENT_IN = 'IN'
+    MOVEMENT_OUT = 'OUT'
+    MOVEMENT_ADJUST = 'ADJUST'
+    MOVEMENT_TRANSFER_IN = 'TRANSFER_IN'
+    MOVEMENT_TRANSFER_OUT = 'TRANSFER_OUT'
+
+    MOVEMENT_CHOICES = [
+        (MOVEMENT_IN, 'Inbound'),
+        (MOVEMENT_OUT, 'Outbound'),
+        (MOVEMENT_ADJUST, 'Adjustment'),
+        (MOVEMENT_TRANSFER_IN, 'Transfer In'),
+        (MOVEMENT_TRANSFER_OUT, 'Transfer Out'),
+    ]
+
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    store = models.ForeignKey('store_management.Store', on_delete=models.PROTECT)
+    movement_type = models.CharField(max_length=20, choices=MOVEMENT_CHOICES)
+    quantity = models.IntegerField()  # positive for IN/OUT/TRANSFER; signed for ADJUST
+    reference = models.CharField(max_length=100, blank=True, null=True)
+    note = models.CharField(max_length=255, blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.movement_type} {self.quantity} of {self.product} at {self.store}"
+
+    def apply(self):
+        """Apply the movement to StoreInventory atomically."""
+        with transaction.atomic():
+            inv, _ = StoreInventory.objects.select_for_update().get_or_create(
+                product=self.product, store=self.store, defaults={'quantity': 0}
+            )
+            if self.movement_type in [self.MOVEMENT_IN, self.MOVEMENT_TRANSFER_IN]:
+                inv.quantity = F('quantity') + abs(self.quantity)
+                inv.last_restock_date = timezone.now().date()
+            elif self.movement_type in [self.MOVEMENT_OUT, self.MOVEMENT_TRANSFER_OUT]:
+                inv.quantity = F('quantity') - abs(self.quantity)
+            elif self.movement_type == self.MOVEMENT_ADJUST:
+                # quantity may be signed
+                inv.quantity = F('quantity') + self.quantity
+                if self.quantity > 0:
+                    inv.last_restock_date = timezone.now().date()
+            inv.save(update_fields=['quantity', 'last_restock_date', 'updated_at'])
+            # Refresh to resolve F() expressions
+            inv.refresh_from_db(fields=['quantity'])
+            return inv.quantity
+
+    def save(self, *args, **kwargs):
+        is_create = self.pk is None
+        super().save(*args, **kwargs)
+        # Only apply on first creation to avoid double applications
+        if is_create:
+            self.apply()

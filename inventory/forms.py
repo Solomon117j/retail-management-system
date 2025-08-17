@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Category, Brand
+from .models import Product, Category, Brand, StockMovement
 
 
 class ProductForm(forms.ModelForm):
@@ -48,3 +48,23 @@ class ProductForm(forms.ModelForm):
             if existing.exists():
                 raise forms.ValidationError("A product with this barcode already exists.")
         return barcode
+
+
+class StockAdjustmentForm(forms.ModelForm):
+    """Form for manual stock adjustments; quantity is a signed delta."""
+    class Meta:
+        model = StockMovement
+        fields = ['product', 'store', 'quantity', 'note']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'store': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'note': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.movement_type = StockMovement.MOVEMENT_ADJUST
+        if commit:
+            obj.save()  # triggers apply()
+        return obj

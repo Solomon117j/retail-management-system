@@ -7,7 +7,7 @@ from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Supplier, SupplierProduct, PurchaseOrder, PurchaseOrderItem
-from inventory.models import Product
+from inventory.models import Product, StockMovement
 from store_management.models import Store
 from human_resources.models import Employee
 
@@ -285,15 +285,28 @@ class PurchaseOrderReceiveView(LoginRequiredMixin, UpdateView):
             messages.error(request, 'Only shipped orders can be received')
             return redirect('procurement:purchaseorder_detail', pk=self.object.pk)
         
-        # Process received quantities
-        for item in self.object.items.all():
+        # Process received quantities and update inventory via StockMovement
+        for item in self.object.items.select_related('product').all():
             received_key = f'received_{item.id}'
             if received_key in request.POST:
                 try:
                     received_qty = int(request.POST[received_key])
                     if 0 <= received_qty <= item.quantity:
-                        item.received_quantity = received_qty
-                        item.save()
+                        # Calculate delta to apply to stock (new - previous)
+                        delta = received_qty - (item.received_quantity or 0)
+                        if delta != 0:
+                            StockMovement.objects.create(
+                                product=item.product,
+                                store=self.object.store,
+                                movement_type=StockMovement.MOVEMENT_IN,
+                                quantity=abs(delta),
+                                reference=f"PO-{self.object.id}",
+                                created_by=request.user,
+                                note="Auto receive from Purchase Order"
+                            )
+                            # Update received_quantity to new value
+                            item.received_quantity = received_qty
+                            item.save()
                     else:
                         messages.error(request, f'Invalid quantity for {item.product}')
                 except ValueError:
