@@ -1,58 +1,510 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payroll Details - {{ object.employee.get_full_name }} - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Screen styles */
+    .payroll-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .confidential-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        text-align: center;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+    }
+    
+    .payroll-header {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .payroll-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+    
+    .payroll-header .subtitle {
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    .employee-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 5px solid #28a745;
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 140px;
+    }
+    
+    .info-value {
+        color: #6c757d;
+        font-weight: 500;
+    }
+    
+    .payment-breakdown {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border: 1px solid #dee2e6;
+    }
+    
+    .breakdown-title {
+        color: #495057;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #28a745;
+    }
+    
+    .payment-table {
+        width: 100%;
+        margin-bottom: 0;
+        font-size: 0.95rem;
+    }
+    
+    .payment-table th {
+        background: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        padding: 0.75rem;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+    
+    .payment-table td {
+        padding: 0.75rem;
+        border: 1px solid #dee2e6;
+        color: #6c757d;
+        font-weight: 500;
+    }
+    
+    .net-pay-row {
+        background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+        font-weight: 700 !important;
+        color: #155724 !important;
+    }
+    
+    .net-pay-row th,
+    .net-pay-row td {
+        color: #155724 !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem;
+    }
+    
+    .action-buttons {
+        margin-top: 2rem;
+        text-align: center;
+    }
+    
+    .btn-print {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        margin-right: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-print:hover {
+        background: linear-gradient(135deg, #138496, #117a8b);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+    }
+    
+    .security-notice {
+        background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+        border: 2px solid #ffc107;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #856404;
+        font-weight: 500;
+    }
+    
+    /* Print styles */
+    @media print {
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 10pt !important;
+            line-height: 1.3;
+            color: #000;
+            background: white;
+        }
+        
+        .container {
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .payroll-container {
+            max-width: none !important;
+            margin: 0 !important;
+        }
+        
+        .confidential-header {
+            background: #000 !important;
+            color: white !important;
+            font-size: 8pt !important;
+            padding: 3pt !important;
+            margin-bottom: 8pt !important;
+            border: 2px solid #000 !important;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .payroll-header {
+            background: #f0f0f0 !important;
+            color: #000 !important;
+            padding: 10pt !important;
+            margin-bottom: 12pt !important;
+            border: 1px solid #000;
+            text-align: center;
+        }
+        
+        .payroll-header h2 {
+            font-size: 14pt !important;
+            margin: 0 !important;
+            font-weight: bold;
+        }
+        
+        .payroll-header .subtitle {
+            font-size: 9pt !important;
+            margin: 3pt 0 0 0 !important;
+        }
+        
+        .employee-info {
+            background: #f8f8f8 !important;
+            padding: 8pt !important;
+            margin-bottom: 12pt !important;
+            border: 1px solid #ccc;
+            border-left: 3pt solid #000;
+        }
+        
+        .info-row {
+            margin-bottom: 4pt !important;
+            padding: 2pt 0 !important;
+            border-bottom: 1px dotted #ccc !important;
+            font-size: 9pt !important;
+        }
+        
+        .info-label {
+            font-weight: bold !important;
+            color: #000 !important;
+            display: inline-block;
+            width: 120pt;
+        }
+        
+        .info-value {
+            color: #000 !important;
+            font-weight: normal !important;
+        }
+        
+        .payment-breakdown {
+            background: white !important;
+            padding: 8pt !important;
+            border: 1px solid #000;
+            margin-bottom: 12pt !important;
+        }
+        
+        .breakdown-title {
+            font-size: 11pt !important;
+            font-weight: bold !important;
+            color: #000 !important;
+            margin-bottom: 8pt !important;
+            text-align: center;
+            border-bottom: 1px solid #000 !important;
+            padding-bottom: 3pt !important;
+        }
+        
+        .payment-table {
+            font-size: 9pt !important;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .payment-table th,
+        .payment-table td {
+            border: 1px solid #000 !important;
+            padding: 4pt !important;
+            text-align: left;
+        }
+        
+        .payment-table th {
+            background: #e0e0e0 !important;
+            color: #000 !important;
+            font-weight: bold !important;
+        }
+        
+        .payment-table td {
+            color: #000 !important;
+        }
+        
+        .net-pay-row th,
+        .net-pay-row td {
+            background: #d0d0d0 !important;
+            color: #000 !important;
+            font-weight: bold !important;
+            font-size: 10pt !important;
+        }
+        
+        .security-notice {
+            background: #f0f0f0 !important;
+            border: 1px solid #000 !important;
+            color: #000 !important;
+            font-size: 7pt !important;
+            padding: 6pt !important;
+            margin-top: 12pt !important;
+        }
+        
+        /* Hide screen-only elements */
+        .action-buttons,
+        .btn,
+        .card-header .btn,
+        nav,
+        .navbar,
+        .sidebar {
+            display: none !important;
+        }
+        
+        /* Add confidentiality watermark */
+        .payroll-container::before {
+            content: "CONFIDENTIAL";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 48pt;
+            color: rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Page break control */
+        .payment-breakdown {
+            page-break-inside: avoid;
+        }
+        
+        /* Print footer */
+        @page {
+            margin: 0.5in;
+            @bottom-center {
+                content: "CONFIDENTIAL - Page " counter(page);
+                font-size: 7pt;
+                color: #666;
+            }
+        }
+    }
+    
+    /* No-print class for screen-only elements */
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h4>Payroll Record</h4>
-      <div>
-        <a href="{% url 'hr:payroll_update' object.pk %}" class="btn btn-warning btn-sm">
-          <i class="fas fa-edit"></i> Edit
-        </a>
-      </div>
+    <div class="payroll-container">
+        <!-- Confidentiality Notice -->
+        <div class="confidential-header">
+            🔒 CONFIDENTIAL DOCUMENT - AUTHORIZED PERSONNEL ONLY 🔒
+        </div>
+        
+        <!-- Payroll Header -->
+        <div class="payroll-header">
+            <h2>💰 PAYROLL STATEMENT</h2>
+            <p class="subtitle">Employee Compensation Details</p>
+        </div>
+        
+        <!-- Action Buttons (Screen Only) -->
+        <div class="action-buttons no-print">
+            <button onclick="window.print()" class="btn btn-print">
+                <i class="fas fa-print"></i> Print Payslip
+            </button>
+            <a href="{% url 'hr:payroll_update' object.pk %}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit Record
+            </a>
+            <a href="{% url 'hr:payroll_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+        
+        <!-- Employee Information -->
+        <div class="employee-info">
+            <div class="info-row">
+                <span class="info-label">👤 Employee:</span>
+                <span class="info-value">{{ object.employee.get_full_name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🆔 Employee ID:</span>
+                <span class="info-value">{{ object.employee.employee_id }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📧 Email:</span>
+                <span class="info-value">{{ object.employee.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🏢 Department:</span>
+                <span class="info-value">{{ object.employee.department|default:"Not Assigned" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💼 Position:</span>
+                <span class="info-value">{{ object.employee.position|default:"Not Specified" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📅 Pay Period:</span>
+                <span class="info-value">{{ object.pay_period_start|date:"M d, Y" }} to {{ object.pay_period_end|date:"M d, Y" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📊 Status:</span>
+                <span class="info-value">{{ object.get_status_display }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💳 Payment Date:</span>
+                <span class="info-value">{{ object.payment_date|date:"M d, Y"|default:"Pending" }}</span>
+            </div>
+        </div>
+        
+        <!-- Payment Breakdown -->
+        <div class="payment-breakdown">
+            <h3 class="breakdown-title">💰 PAYMENT BREAKDOWN</h3>
+            <table class="payment-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">💵 Component</th>
+                        <th style="width: 25%;">💲 Amount</th>
+                        <th style="width: 25%;">📋 Component</th>
+                        <th style="width: 25%;">💲 Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Base Salary</th>
+                        <td>E{{ object.base_salary|floatformat:2 }}</td>
+                        <th>Overtime Pay</th>
+                        <td>E{{ object.overtime_pay|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <th>Bonus</th>
+                        <td>E{{ object.bonus|floatformat:2 }}</td>
+                        <th>Deductions</th>
+                        <td>E{{ object.deductions|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <th>Allowances</th>
+                        <td>E{{ object.allowances|default:0|floatformat:2 }}</td>
+                        <th>Tax Deduction</th>
+                        <td>E{{ object.tax_deduction|default:0|floatformat:2 }}</td>
+                    </tr>
+                    <tr class="net-pay-row">
+                        <th colspan="3">🎯 NET PAY (Take Home)</th>
+                        <td><strong>E{{ object.net_pay|floatformat:2 }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Calculation Summary -->
+        <div class="payment-breakdown">
+            <h3 class="breakdown-title">📊 CALCULATION SUMMARY</h3>
+            <table class="payment-table">
+                <tbody>
+                    <tr>
+                        <th style="width: 50%;">Gross Earnings</th>
+                        <td style="width: 50%;">E{{ object.base_salary|add:object.overtime_pay|add:object.bonus|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Deductions</th>
+                        <td>E{{ object.deductions|add:object.tax_deduction|floatformat:2 }}</td>
+                    </tr>
+                    <tr class="net-pay-row">
+                        <th>Net Pay</th>
+                        <td><strong>E{{ object.net_pay|floatformat:2 }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Security Notice -->
+        <div class="security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <strong>CONFIDENTIALITY NOTICE:</strong> This payroll statement contains confidential and proprietary information. 
+            It is intended solely for the named employee. Any unauthorized review, use, disclosure, or distribution is prohibited. 
+            If you have received this document in error, please contact HR immediately.
+            <br><br>
+            <i class="fas fa-calendar"></i> Generated on: {{ "now"|date:"F d, Y \a\\t g:i A" }} | 
+            <i class="fas fa-user"></i> Generated by: {{ request.user.get_full_name }}
+        </div>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <p><strong>Employee:</strong> {{ object.employee }}</p>
-          <p><strong>Pay Period:</strong> {{ object.pay_period_start }} to {{ object.pay_period_end }}</p>
-          <p><strong>Status:</strong> {{ object.get_status_display }}</p>
-        </div>
-        <div class="col-md-6">
-          <p><strong>Payment Date:</strong> {{ object.payment_date|default:"-" }}</p>
-          <p><strong>Created At:</strong> {{ object.created_at }}</p>
-          <p><strong>Updated At:</strong> {{ object.updated_at }}</p>
-        </div>
-      </div>
-      
-      <div class="row mt-4">
-        <div class="col-md-12">
-          <h5>Payment Breakdown</h5>
-          <table class="table table-bordered">
-            <tr>
-              <th>Base Salary</th>
-              <td>{{ object.base_salary }}</td>
-              <th>Overtime Pay</th>
-              <td>{{ object.overtime_pay }}</td>
-            </tr>
-            <tr>
-              <th>Bonus</th>
-              <td>{{ object.bonus }}</td>
-              <th>Deductions</th>
-              <td>{{ object.deductions }}</td>
-            </tr>
-            <tr class="table-success">
-              <th colspan="3">Net Pay</th>
-              <td><strong>{{ object.net_pay }}</strong></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <a href="{% url 'hr:payroll_list' %}" class="btn btn-secondary mt-3">
-    <i class="fas fa-arrow-left"></i> Back to List
-  </a>
 </div>
+
+<script>
+// Auto-print functionality (optional)
+document.addEventListener('DOMContentLoaded', function() {
+    // Add keyboard shortcut for printing (Ctrl+P)
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'p') {
+            e.preventDefault();
+            window.print();
+        }
+    });
+});
+
+// Print-specific JavaScript
+window.addEventListener('beforeprint', function() {
+    document.title = 'Payroll_{{ object.employee.get_full_name|slugify }}_{{ object.pay_period_start|date:"Y-m-d" }}';
+});
+
+window.addEventListener('afterprint', function() {
+    document.title = 'Payroll Details - {{ object.employee.get_full_name }}';
+});
+</script>
 {% endblock %}
