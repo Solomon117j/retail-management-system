@@ -547,6 +547,25 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }, 5000);
+        
+        // AJAX form submission
+        e.preventDefault();
+        const formData = new FormData(this);
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        fetch('/hr/attendance/create/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-CSRFToken': csrftoken }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '/hr/attendance/'; // Redirect to attendance list
+            } else {
+                // Show errors
+            }
+        });
     });
     
     // Initialize calculations if editing existing record

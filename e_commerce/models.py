@@ -1,10 +1,40 @@
-# ecommerce/models.py
 from django.db import models
+from django.conf import settings  # Import settings to access AUTH_USER_MODEL
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 
+class CustomerAccount(models.Model):
+    """
+    Extended user profile model with customer-specific information
+    """
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,  # Use swappable user model
+        on_delete=models.CASCADE,
+        null=True,  # Allow null during initial migration to avoid default prompt
+        blank=True
+    )
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    loyalty_points = models.IntegerField(default=0)
+    date_joined = models.DateTimeField(auto_now_add=timezone.now)
+    updated_at = models.DateTimeField(auto_now=timezone.now)
+
+    class Meta:
+        verbose_name = "Customer Account"
+        verbose_name_plural = "Customer Accounts"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.email})"
+
 class OnlineOrder(models.Model):
+    """
+    Model representing online orders placed by customers
+    """
     SHIPPING_METHOD_CHOICES = [
         ('standard', 'Standard Shipping'),
         ('express', 'Express Shipping'),
@@ -26,7 +56,7 @@ class OnlineOrder(models.Model):
     ]
     
     customer = models.ForeignKey(
-        'sales.Customer',
+        CustomerAccount,
         on_delete=models.PROTECT,
         related_name='online_orders'
     )
@@ -44,7 +74,8 @@ class OnlineOrder(models.Model):
     total_amount = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        validators=[MinValueValidator(0.01)]
+        validators=[MinValueValidator(0.01)],
+        default=0.00
     )
     payment_method = models.CharField(
         max_length=20,
@@ -63,7 +94,7 @@ class OnlineOrder(models.Model):
         null=True,
         unique=True
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -75,28 +106,31 @@ class OnlineOrder(models.Model):
         return f"Online Order #{self.id} - {self.get_status_display()}"
     
     def clean(self):
-        # Validate that store_pickup is set for store_pickup shipping method
+        """Additional validation rules"""
         if self.shipping_method == 'store_pickup' and not self.store_pickup:
             raise ValidationError({
                 'store_pickup': 'Store pickup location is required for store pickup shipping method.'
             })
         
-        # Validate that tracking number is set for shipped orders
         if self.status in ['shipped', 'delivered'] and not self.tracking_number:
             raise ValidationError({
                 'tracking_number': 'Tracking number is required for shipped orders.'
             })
     
     def save(self, *args, **kwargs):
-        # Auto-calculate total if not set and items exist
-        if not self.total_amount and self.id:
-            self.total_amount = sum(
-                item.quantity * item.unit_price 
-                for item in self.items.all()
-            )
+        """Recalculate total from items when saving"""
+        if self.pk:
+            self.total_amount = sum(item.total_price for item in self.items.all())
         super().save(*args, **kwargs)
 
+    @property
+    def item_count(self):
+        return self.items.count()
+
 class OrderItem(models.Model):
+    """
+    Individual items within an online order
+    """
     order = models.ForeignKey(
         OnlineOrder,
         on_delete=models.CASCADE,
@@ -114,7 +148,7 @@ class OrderItem(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(0.01)]
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -136,5 +170,4 @@ class OrderItem(models.Model):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # Update parent order total
         self.order.save()

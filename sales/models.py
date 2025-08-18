@@ -216,3 +216,12 @@ class LoyaltyTransaction(models.Model):
             self.customer.loyalty_points += (self.points_earned - self.points_redeemed)
             self.customer.save()
         super().save(*args, **kwargs)
+
+class SalesTransaction(models.Model):
+    # Add your fields here
+    date = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    # Add other fields as needed
+
+    def __str__(self):
+        return f"Transaction {self.id} - {self.date}"

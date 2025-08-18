@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group, Permission
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -61,6 +62,16 @@ class Employee(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    groups = models.ManyToManyField(
+        Group,
+        related_name="hr_employees",  # Unique name
+        blank=True,
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="hr_employees",  # Unique name
+        blank=True,
+    )
     class Meta:        
         db_table = 'human_resources_employee'
         verbose_name = _("employee")

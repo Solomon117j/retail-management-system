@@ -17,4 +17,13 @@ urlpatterns = [
     path('stock/', views.StockListView.as_view(), name='stock_list'),
     path('stock/adjust/', views.StockAdjustmentCreateView.as_view(), name='stock_adjust'),
     path('stock/movements/', views.StockMovementListView.as_view(), name='stock_movement_list'),
+
+    # Brands
+    path('brands/', views.BrandListView.as_view(), name='brand_list'),
+
+    # Categories
+    path('categories/', views.CategoryListView.as_view(), name='category_list'),
+
+    # Store Inventory
+    path('store-inventory/', views.StoreInventoryListView.as_view(), name='storeinventory_list'),
 ]

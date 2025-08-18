@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales Transactions - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Sales Transactions</h1>
+    <ul>
+        {% for transaction in sales_transactions %}
+            <li>
+                Transaction #{{ transaction.id }} | Date: {{ transaction.date }} | Total: {{ transaction.total }}
+            </li>
+        {% empty %}
+            <li>No sales transactions found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

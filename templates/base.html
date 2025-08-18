@@ -215,20 +215,35 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'inventory:product_list' %}">
-                            <i class="fas fa-boxes"></i> Inventory
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Inventory
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="inventoryDropdown">
+                            <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}">Products</a></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:brand_list' %}">Brands</a></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:category_list' %}">Categories</a></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:stock_movement_list' %}">Stock Movement</a></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:storeinventory_list' %}">Store Inventory</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'sales:sale_list' %}">
-                            <i class="fas fa-cash-register"></i> Sales
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sales
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="salesDropdown">
+                            <li><a class="dropdown-item" href="{% url 'sales:sales_transaction_list' %}">Sales Transactions</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sales:customer_order_list' %}">Customer Orders</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'e_commerce:order_list' %}">
-                            <i class="fas fa-shopping-cart"></i> E-Commerce
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="ecommerceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ecommerce
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="ecommerceDropdown">
+                            <li><a class="dropdown-item" href="{% url 'e_commerce:online_order_list' %}">Online Orders</a></li>
+                            <li><a class="dropdown-item" href="{% url 'e_commerce:customer_account_list' %}">Customer Accounts</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'procurement:supplier_list' %}">
@@ -314,7 +329,7 @@
                         <a href="{% url 'hr:employee_list' %}"><i class="fas fa-users"></i>HR & Payroll</a>
                         <a href="{% url 'inventory:product_list' %}"><i class="fas fa-boxes"></i>Inventory</a>
                         <a href="{% url 'sales:sale_list' %}"><i class="fas fa-cash-register"></i>Sales</a>
-                        <a href="{% url 'e_commerce:order_list' %}"><i class="fas fa-shopping-cart"></i>E-Commerce</a>
+                        <a href="{% url 'e_commerce:online_order_list' %}"><i class="fas fa-shopping-cart"></i>E-Commerce</a>
                         <a href="{% url 'procurement:supplier_list' %}"><i class="fas fa-truck"></i>Procurement</a>
                     </div>
                 </div>

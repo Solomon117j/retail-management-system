@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Sum
 
-from .models import Product, StoreInventory, StockMovement
+from .models import Product, StoreInventory, StockMovement, Brand, Category
 from .forms import ProductForm, StockAdjustmentForm
 
 
@@ -110,3 +110,19 @@ class StockMovementListView(LoginRequiredMixin, ListView):
         if product_id:
             qs = qs.filter(product_id=product_id)
         return qs
+
+class BrandListView(ListView):
+    model = Brand
+    template_name = 'inventory/brand_list.html'
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = 'inventory/category_list.html'
+    context_object_name = 'categories'
+
+
+class StoreInventoryListView(LoginRequiredMixin, ListView):
+    model = StoreInventory
+    template_name = 'inventory/storeinventory_list.html'
+    context_object_name = 'store_inventories'

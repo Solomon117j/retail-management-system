@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Categories</h1>
+    <ul>
+        {% for category in object_list %}
+            <li>{{ category.name }}</li>
+        {% empty %}
+            <li>No categories found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

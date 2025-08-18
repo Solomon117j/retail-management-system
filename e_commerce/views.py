@@ -9,8 +9,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OnlineOrder, OrderItem
 from sales.models import Customer
 from django.views.generic import CreateView
+from .models import CustomerAccount
 
 from inventory.models import Product
+
+from django.views.generic import ListView, DetailView
+from .models import CustomerAccount
+
+class CustomerAccountListView(ListView):
+    model = CustomerAccount
+    template_name = 'e_commerce/customer_account_list.html'
+    context_object_name = 'accounts'
+
+class CustomerAccountDetailView(DetailView):
+    model = CustomerAccount
+    template_name = 'e_commerce/customer_account_detail.html'
+    context_object_name = 'account'
+    
 class OnlineOrderListView(LoginRequiredMixin, ListView):
     model = OnlineOrder
     template_name = 'e_commerce/order_list.html'
@@ -195,6 +210,10 @@ class OnlineOrderDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, f'Online Order #{order.id} deleted successfully')
         return super().delete(request, *args, **kwargs)
 
+  # Make sure this model exists
 
-# from .models import Product  # Import your Product model
+class CustomerAccountListView(ListView):
+    model = CustomerAccount
+    template_name = 'e_commerce/customer_account_list.html'
+    context_object_name = 'customer_accounts'
 

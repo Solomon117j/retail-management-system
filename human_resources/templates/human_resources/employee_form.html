@@ -73,8 +73,8 @@
                     {% if object %}Edit Employee - HR{% else %}Add New Employee - HR{% endif %}
                 </h1>
                 <p class="mb-0 opacity-75">
-                    {% if object %}
-                        Update HR information for {{ object.get_full_name }}
+                    {% if form.instance.pk %}
+                        Update HR information for {{ form.instance.get_full_name }}
                     {% else %}
                         Add a new employee to the HR system
                     {% endif %}

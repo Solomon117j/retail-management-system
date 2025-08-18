@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Brands - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Brands</h1>
+    <ul>
+        {% for brand in object_list %}
+            <li>{{ brand.name }}</li>
+        {% empty %}
+            <li>No brands found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

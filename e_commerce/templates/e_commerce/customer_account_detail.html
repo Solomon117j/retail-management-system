@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ account.user.get_full_name|default:account.user.username }}</h1>
+<p>Email: {{ account.user.email }}</p>
+<p>Phone: {{ account.phone }}</p>
+<p>Address: {{ account.address }}</p>
+<p>Loyalty Points: {{ account.loyalty_points }}</p>
+{% endblock %}

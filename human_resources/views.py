@@ -8,7 +8,8 @@ from django.db.models import Q, Count
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.views import View
 import csv
 import pandas as pd
@@ -656,3 +657,15 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
         response['Content-Disposition'] = f'attachment; filename="{self.get_filename("employees", "xlsx")}"'
         
         return response
+
+def attendance_create(request):
+    if request.method == 'POST':
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            attendance = form.save()
+            return JsonResponse({'success': True, 'id': attendance.id})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+    else:
+        form = AttendanceForm()
+    return render(request, 'human_resources/attendance_form.html', {'form': form})

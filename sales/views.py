@@ -5,7 +5,7 @@ from django.forms import inlineformset_factory
 from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Customer, Sale, SaleItem, Return, LoyaltyTransaction
+from .models import Customer, Sale, SaleItem, Return, LoyaltyTransaction, SalesTransaction
 from store_management.models import Store
 from human_resources.models import Employee
 from inventory.models import Product
@@ -379,3 +379,17 @@ class LoyaltyTransactionDeleteView(LoginRequiredMixin, DeleteView):
         
         messages.success(request, 'Loyalty transaction deleted')
         return super().delete(request, *args, **kwargs)
+
+# ====================
+# SALES TRANSACTION VIEWS
+# ====================
+
+class SalesTransactionListView(ListView):
+    model = SalesTransaction
+    template_name = 'sales/sales_transaction_list.html'
+    context_object_name = 'sales_transactions'
+
+class CustomerOrderListView(ListView):
+    model = Sale
+    template_name = 'sales/customer_order_list.html'
+    context_object_name = 'orders'

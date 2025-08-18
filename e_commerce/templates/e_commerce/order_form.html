@@ -92,7 +92,7 @@
     
     <div class="d-flex justify-content-between mt-4">
         <button type="submit" class="btn btn-primary">Save Order</button>
-        <a href="{% if object %}{% url 'e_commerce:order_detail' object.pk %}{% else %}{% url 'e_commerce:order_list' %}{% endif %}" 
+        <a href="{% if object %}{% url 'e_commerce:order_detail' object.pk %}{% else %}{% url 'e_commerce:online_order_list' %}{% endif %}" 
            class="btn btn-outline-secondary">Cancel</a>
     </div>
 </form>

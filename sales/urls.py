@@ -27,4 +27,10 @@ urlpatterns = [
     path('loyalty/create/', views.LoyaltyTransactionCreateView.as_view(), name='loyaltytransaction_create'),
     path('loyalty/<int:pk>/update/', views.LoyaltyTransactionUpdateView.as_view(), name='loyaltytransaction_update'),
     path('loyalty/<int:pk>/delete/', views.LoyaltyTransactionDeleteView.as_view(), name='loyaltytransaction_delete'),
+
+    # Sales Transaction URLs
+    path('transactions/', views.SalesTransactionListView.as_view(), name='sales_transaction_list'),
+
+    # Order URLs
+    path('orders/', views.CustomerOrderListView.as_view(), name='customer_order_list'),
 ]

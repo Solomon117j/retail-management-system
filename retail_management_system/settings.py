@@ -50,13 +50,15 @@ INSTALLED_APPS = [
     'human_resources.apps.HumanResourcesConfig',        
     'inventory.apps.InventoryConfig',
     'sales.apps.SalesConfig',
-    'procurement.apps.ProcurementConfig',    
+    'procurement.apps.ProcurementConfig', 
+    'accounts.apps.AccountsConfig',   
     'e_commerce.apps.ECommerceConfig',
     'reporting.apps.ReportingConfig',
+    
 
 ]
 
-AUTH_USER_MODEL = 'human_resources.Employee'  # App name and model name
+AUTH_USER_MODEL = 'accounts.User'
 LOGIN_URL = '/accounts/login/'   # Correct URL path for login
 LOGIN_REDIRECT_URL = '/'         # Redirect after login
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect after logout
@@ -220,3 +222,24 @@ if DEBUG:
         print(f"Error listing templates: {e}")
     
     print("="*80 + "\n")
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+     'loggers': {
+        'accounts': {
+            'handlers': ['console'],
+            'level': 'WARNING',  # Changed from DEBUG
+        },
+    },
+}
