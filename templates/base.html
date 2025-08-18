@@ -245,10 +245,33 @@
                             <li><a class="dropdown-item" href="{% url 'e_commerce:customer_account_list' %}">Customer Accounts</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'procurement:supplier_list' %}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="procurementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-truck"></i> Procurement
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="procurementDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'procurement:supplier_list' %}">
+                                    <i class="fas fa-industry me-2"></i>Suppliers
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'procurement:purchaseorder_list' %}">
+                                    <i class="fas fa-file-invoice me-2"></i>Purchase Orders
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'procurement:supplier_create' %}">
+                                    <i class="fas fa-plus me-2"></i>Add New Supplier
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'procurement:purchaseorder_create' %}">
+                                    <i class="fas fa-plus-circle me-2"></i>Create Purchase Order
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'analytics:dashboard' %}">
