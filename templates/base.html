@@ -292,14 +292,15 @@
                         </span>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-light" href="{% url 'logout' %}">
+                        <a class="btn btn-outline-light" href="{% url 'accounts:logout' %}">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="btn btn-outline-light" href="{% url 'login' %}">
-                            <i class="fas fa-sign-in-alt"></i> Login
+
+                        <a class="dropdown-item" href="{% url 'accounts:staff_login' %}"><i class="fas fa-sign-in-alt me-2"></i>Staff Login</a>
+                        <a class="dropdown-item" href="{% url 'accounts:customer_login' %}"><i class="fas fa-sign-in-alt me-2"></i>Customer Login</a>
                         </a>
                     </li>
                     {% endif %}
