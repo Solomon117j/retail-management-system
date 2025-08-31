@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
     <div class="row w-100 justify-content-center">
-        <div class="col-lg-8 col-md-10">
+        <div class="col-lg-6 col-md-8 col-sm-10">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
                     <h3 class="mb-0 fw-bold">
@@ -13,92 +13,38 @@
                     <p class="mb-0 mt-2">Choose your login portal</p>
                 </div>
                 <div class="card-body p-5">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 shadow-sm hover-card">
-                                <div class="card-body text-center p-4">
-                                    <div class="mb-4">
-                                        <i class="fas fa-shopping-cart fa-3x text-info"></i>
-                                    </div>
-                                    <h5 class="card-title fw-bold text-info">Customer Portal</h5>
-                                    <p class="card-text text-muted">
-                                        Access your customer account to shop, view orders, and manage your profile
-                                    </p>
-                                    <a href="{% url 'accounts:customer_login' %}" class="btn btn-info btn-lg fw-semibold text-white w-100">
-                                        <i class="fas fa-sign-in-alt me-2"></i>Customer Login
-                                    </a>
-                                    <div class="mt-3">
-                                        <small class="text-muted">
-                                            New customer? 
-                                            <a href="{% url 'accounts:customer_register' %}" class="text-decoration-none">
-                                                Register here
-                                            </a>
-                                        </small>
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-shopping-cart fa-3x mb-3 text-primary"></i>
+                                    <h4 class="card-title">Customer Portal</h4>
+                                    <p class="card-text">Access your customer account to shop, view orders, and manage your profile</p>
+                                    <a href="{% url 'accounts:customer_login' %}" class="btn btn-primary">Customer Login</a>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 shadow-sm hover-card">
-                                <div class="card-body text-center p-4">
-                                    <div class="mb-4">
-                                        <i class="fas fa-briefcase fa-3x text-warning"></i>
-                                    </div>
-                                    <h5 class="card-title fw-bold text-warning">Staff Portal</h5>
-                                    <p class="card-text text-muted">
-                                        Access the staff management system for inventory, sales, and employee management
-                                    </p>
-                                    <a href="{% url 'accounts:staff_login' %}" class="btn btn-warning btn-lg fw-semibold w-100">
-                                        <i class="fas fa-sign-in-alt me-2"></i>Staff Login
-                                    </a>
-                                    <div class="mt-3">
-                                        <small class="text-muted">
-                                            Authorized personnel only
-                                        </small>
-                                    </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-briefcase fa-3x mb-3 text-warning"></i>
+                                    <h4 class="card-title">Staff Portal</h4>
+                                    <p class="card-text">Access the staff management system for inventory, sales, and employee management</p>
+                                    <a href="{% url 'accounts:staff_login' %}" class="btn btn-warning">Staff Login</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-center mt-5 pt-3 border-top">
-                        <p class="text-muted mb-0">
-                            <small>
-                                Need help? Contact support at 
-                                <a href="mailto:support@retailmgmt.com" class="text-decoration-none">support@retailmgmt.com</a>
-                            </small>
-                        </p>
                     </div>
                 </div>
+                {% if user.is_authenticated %}
+                <div class="card-footer text-center">
+                    <p class="mb-0">Quick Stats, Data Exports, and Core Modules are available after login.</p>
+                </div>
+                {% else %}
+                <!-- Hide Quick Stats, Data Exports, and Core Modules for anonymous users -->
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-<style>
-.hover-card {
-    transition: all 0.3s ease;
-    border-radius: 0.75rem;
-}
-
-.hover-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-}
-
-.btn {
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.card {
-    border-radius: 0.75rem;
-}
-</style>
 {% endblock %}
