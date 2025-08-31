@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.conf import settings  # Import settings to access AUTH_USER_MODEL
 from django.utils import timezone
@@ -5,6 +6,7 @@ from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 
 class CustomerAccount(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     """
     Extended user profile model with customer-specific information
     """
@@ -32,6 +34,7 @@ class CustomerAccount(models.Model):
         return f"{self.first_name} {self.last_name} ({self.email})"
 
 class OnlineOrder(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     """
     Model representing online orders placed by customers
     """
@@ -128,6 +131,7 @@ class OnlineOrder(models.Model):
         return self.items.count()
 
 class OrderItem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     """
     Individual items within an online order
     """

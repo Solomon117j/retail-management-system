@@ -1,9 +1,51 @@
 {% extends 'base.html' %}
 
+{% block title %}My Account - {{ block.super }}{% endblock %}
+
 {% block content %}
-<h1>{{ account.user.get_full_name|default:account.user.username }}</h1>
-<p>Email: {{ account.user.email }}</p>
-<p>Phone: {{ account.phone }}</p>
-<p>Address: {{ account.address }}</p>
-<p>Loyalty Points: {{ account.loyalty_points }}</p>
+<div class="container mt-4">
+    <h1>My Account Details</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Account Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Username:</strong> {{ account.user.username }}</p>
+                    <p><strong>Email:</strong> {{ account.user.email }}</p>
+                    <p><strong>First Name:</strong> {{ account.user.first_name }}</p>
+                    <p><strong>Last Name:</strong> {{ account.user.last_name }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Account Created:</strong> {{ account.user.date_joined|date:"F j, Y" }}</p>
+                    <p><strong>Last Login:</strong> {{ account.user.last_login|date:"F j, Y H:i" }}</p>
+                    <p><strong>Account Status:</strong> 
+                        {% if account.user.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h4>Account Actions</h4>
+        <div class="btn-group" role="group">
+            <a href="{% url 'e_commerce:customer_account_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Account List
+            </a>
+            <a href="#" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit Profile
+            </a>
+            <a href="#" class="btn btn-info">
+                <i class="fas fa-key"></i> Change Password
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

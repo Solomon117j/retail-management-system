@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-q0^^_3=m*h1+ub#=ini%mx)op)u4%+g@qbu%dxc87yvcm5^wtp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
 
 
 # Application definition
@@ -59,9 +59,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_URL = '/accounts/login/'   # Correct URL path for login
+LOGIN_URL = '/accounts/login/'   # Generic login choice page
 LOGIN_REDIRECT_URL = '/'         # Redirect after login
-LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect after logout
+LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect to login choice after logout
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds (optional)
 SESSION_SAVE_EVERY_REQUEST = True
@@ -76,6 +76,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'retail_management_system.middleware.LoginRequiredMiddleware',
+    'retail_management_system.middleware.CustomerRestrictionMiddleware',
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -166,12 +167,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Static files directories
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# Removed STATICFILES_DIRS since static files are now app-specific
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
+
 
 # Static files collection directory (for production)
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Media files (user uploaded content)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -191,55 +198,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
-    },
-}
-
-
-if DEBUG:
-    print("\n" + "="*80)
-    print("TEMPLATE DEBUGGING INFORMATION")
-    print("="*80)
-    print(f"BASE_DIR: {BASE_DIR}")
-    print(f"TEMPLATE DIRS: {TEMPLATES[0]['DIRS']}")
-    
-    # Check template existence
-    template_path = os.path.join(BASE_DIR, 'templates', 'registration', 'login.html')
-    print(f"Template path: {template_path}")
-    print(f"Template exists: {os.path.exists(template_path)}")
-    
-    # List files in templates directory
-    try:
-        templates_dir = os.path.join(BASE_DIR, 'templates')
-        print(f"\nFiles in templates directory:")
-        for root, dirs, files in os.walk(templates_dir):
-            level = root.replace(templates_dir, '').count(os.sep)
-            indent = ' ' * 4 * level
-            print(f"{indent}{os.path.basename(root)}/")
-            subindent = ' ' * 4 * (level + 1)
-            for f in files:
-                print(f"{subindent}{f}")
-    except Exception as e:
-        print(f"Error listing templates: {e}")
-    
-    print("="*80 + "\n")
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
-     'loggers': {
         'accounts': {
             'handlers': ['console'],
-            'level': 'WARNING',  # Changed from DEBUG
+            'level': 'DEBUG' if DEBUG else 'INFO',
         },
     },
 }
+
+

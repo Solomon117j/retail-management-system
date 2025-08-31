@@ -47,7 +47,7 @@
         <div class="col-md-3">
             <div class="card bg-info text-white">
                 <div class="card-body text-center">
-                    <span class="stat-number">{{ Region|length }}</span>
+                    <span class="stat-number">{{ region_list|length }}</span>
                     <span class="stat-label">Regions</span>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                                     {{ store.opening_date|timesince }} ago
                                 </small>
                             </td>
-                            <td data-sort="{{ store.manager.get_full_name|default:store.manager.username|default:'Unassigned' }}">
+                            <td data-sort="{% if store.manager %}{{ store.manager.get_full_name|default:store.manager.username }}{% else %}Unassigned{% endif %}">
                                 {% if store.manager %}
                                     <div class="manager-info">
                                         <div class="d-flex align-items-center">

@@ -52,7 +52,7 @@ class StoreForm(forms.ModelForm):
             }),
             'phone': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': '(555) 123-4567',
+                'placeholder': '26878117803',
                 'maxlength': 20
             }),
             'opening_date': forms.DateInput(attrs={
@@ -70,7 +70,7 @@ class StoreForm(forms.ModelForm):
             'city': 'City where the store is located',
             'region': 'State, province, or region',
             'postal_code': 'ZIP code or postal code (optional)',
-            'phone': 'Main contact phone number for the store',
+            'phone': 'Main contact phone number for the store (11 digits)',
             'opening_date': 'Date when the store first opened',
             'manager': 'Select the store manager (optional)'
         }
@@ -94,22 +94,21 @@ class StoreForm(forms.ModelForm):
         self.fields['manager'].empty_label = "Select a manager (optional)"
     
     def clean_phone(self):
-        """Validate and format phone number"""
+        """Validate phone number: require 11 digits, return digits only"""
         phone = self.cleaned_data.get('phone')
         if phone:
             # Remove all non-digit characters
             digits_only = ''.join(filter(str.isdigit, phone))
-            
-            # Check if it's a valid length (10 digits for US format)
-            if len(digits_only) != 10:
+
+            # Require exactly 11 digits (e.g., 26878117803)
+            if len(digits_only) != 11:
                 raise forms.ValidationError(
-                    'Phone number must be 10 digits long (e.g., 555-123-4567)'
+                    'Phone number must be 11 digits long (e.g., 26878117803)'
                 )
-            
-            # Format as (XXX) XXX-XXXX
-            formatted_phone = f"({digits_only[:3]}) {digits_only[3:6]}-{digits_only[6:]}"
-            return formatted_phone
-        
+
+            # Store normalized digits-only value
+            return digits_only
+
         return phone
     
     def clean_postal_code(self):

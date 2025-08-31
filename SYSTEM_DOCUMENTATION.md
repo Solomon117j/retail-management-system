@@ -1201,5 +1201,5 @@ The Retail Management System provides a comprehensive solution for managing all 
 ---
 
 *Document Version: 1.0*  
-*Last Updated: December 2024*  
-*Prepared by: System Development Team*
+*Last Updated: 18 August 2025*  
+*Prepared by: Thembinkosi and Team*

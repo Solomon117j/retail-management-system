@@ -313,17 +313,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Phone number formatting
+    // Phone number formatting (allow 11 digits, no auto-formatting)
     const phoneInput = document.querySelector('#id_phone');
     if (phoneInput) {
         phoneInput.addEventListener('input', function() {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length >= 6) {
-                value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-            } else if (value.length >= 3) {
-                value = value.replace(/(\d{3})(\d{0,3})/, '($1) $2');
-            }
-            this.value = value;
+            // Keep only digits, limit to 11
+            this.value = this.value.replace(/\D/g, '').slice(0, 11);
         });
     }
     

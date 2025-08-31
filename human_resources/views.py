@@ -189,8 +189,18 @@ class AttendanceCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('hr:attendance_list')
 
     def form_valid(self, form):
-        # Note: removed created_by since it's not in the model
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except Exception as e:
+            if 'UNIQUE constraint failed' in str(e):
+                messages.error(
+                    self.request,
+                    'Attendance record already exists for this employee on the selected date. '
+                    'Please update the existing record instead.'
+                )
+                return self.form_invalid(form)
+            else:
+                raise e
 
 class AttendanceUpdateView(LoginRequiredMixin, UpdateView):
     model = Attendance

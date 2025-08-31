@@ -96,11 +96,26 @@ class AttendanceForm(forms.ModelForm):
         return clock_out
     
     def clean(self):
-        """Cross-field validation"""
+        """Cross-field validation and duplicate check"""
         cleaned_data = super().clean()
+        employee = cleaned_data.get('employee')
+        date = cleaned_data.get('date')
         status = cleaned_data.get('status')
         clock_in = cleaned_data.get('clock_in')
         clock_out = cleaned_data.get('clock_out')
+        
+        # Check for duplicate attendance records
+        if employee and date:
+            existing_attendance = Attendance.objects.filter(
+                employee=employee,
+                date=date
+            ).exclude(pk=self.instance.pk if self.instance else None)
+            
+            if existing_attendance.exists():
+                raise forms.ValidationError(
+                    f'Attendance record already exists for {employee.get_full_name()} on {date}. '
+                    f'Please update the existing record instead.'
+                )
         
         # If status is 'present', require clock_in
         if status == 'present' and not clock_in:
@@ -180,3 +195,90 @@ class PayrollForm(forms.ModelForm):
         
         # Add empty label for employee dropdown
         self.fields['employee'].empty_label = "Select an employee"
+
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = [
+            'first_name', 'last_name', 'email', 'phone', 'username',
+            'position', 'hire_date', 'salary', 'department', 'store',
+            'manager', 'profile_image', 'is_active'
+        ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter first name'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter last name'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter email address'
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter phone number'
+            }),
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter username for login'
+            }),
+            'position': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter job position'
+            }),
+            'hire_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'salary': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0',
+                'placeholder': '0.00'
+            }),
+            'department': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
+            }),
+            'store': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
+            }),
+            'manager': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
+            }),
+            'profile_image': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            })
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Make username optional for existing employees
+        if self.instance.pk:
+            self.fields['username'].required = False
+        else:
+            self.fields['username'].required = True
+        
+        # Filter managers to only active employees
+        self.fields['manager'].queryset = Employee.objects.filter(
+            is_active=True
+        ).order_by('first_name', 'last_name')
+        
+        # Add empty labels for dropdowns
+        self.fields['department'].empty_label = "Select department (optional)"
+        self.fields['store'].empty_label = "Select store (optional)"
+        self.fields['manager'].empty_label = "Select manager (optional)"
+        
+        # Make profile image optional
+        self.fields['profile_image'].required = False

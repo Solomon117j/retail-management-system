@@ -14,8 +14,6 @@ from django.contrib import messages
 
 from .forms import DepartmentForm, StoreForm
 
-from .forms import Department
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -44,6 +42,11 @@ class StoreListView(ListView):
     model = Store
     context_object_name = 'stores'
     template_name = 'store_management/store_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['region_list'] = Store.objects.values_list('region', flat=True).distinct()
+        return context
 
 class StoreDetailView(DetailView):
     model = Store
@@ -282,3 +285,28 @@ class EmployeeDeleteView(DeleteView):
         employee = self.get_object()
         messages.success(request, f'Employee {employee.get_full_name()} deleted successfully!')
         return super().delete(request, *args, **kwargs)
+
+# Manager Views
+class ManagerSubordinatesView(DetailView):
+    """View to display all employees under a specific manager"""
+    model = Employee
+    context_object_name = 'manager'
+    template_name = 'store_management/manager_subordinates.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get all subordinates of this manager
+        context['subordinates'] = Employee.objects.filter(manager=self.object).select_related(
+            'store', 'department'
+        ).order_by('last_name', 'first_name')
+        
+        # Add statistics
+        context['subordinate_count'] = context['subordinates'].count()
+        context['stores_with_subordinates'] = context['subordinates'].values(
+            'store__store_name'
+        ).distinct().count()
+        context['departments_with_subordinates'] = context['subordinates'].values(
+            'department__department_name'
+        ).distinct().count()
+        
+        return context

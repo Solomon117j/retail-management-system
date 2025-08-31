@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 class Employee(AbstractUser):
     # Primary key (replaces default 'id' field)
@@ -56,6 +57,15 @@ class Employee(AbstractUser):
         blank=True,
         related_name='subordinates',
         verbose_name=_("manager")
+    )
+    
+    # Profile image
+    profile_image = models.ImageField(
+        _("profile image"),
+        upload_to='employee_profiles/',
+        blank=True,
+        null=True,
+        help_text=_("Upload a profile picture for this employee")
     )
     
     # Timestamps

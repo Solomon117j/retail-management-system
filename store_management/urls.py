@@ -25,4 +25,7 @@ urlpatterns = [
     path('employees/<int:pk>/', views.EmployeeDetailView.as_view(), name='employee_detail'),
     path('employees/<int:pk>/edit/', views.EmployeeUpdateView.as_view(), name='employee_update'),
     path('employees/<int:pk>/delete/', views.EmployeeDeleteView.as_view(), name='employee_delete'),
+    
+    # Manager URLs
+    path('managers/<int:pk>/subordinates/', views.ManagerSubordinatesView.as_view(), name='manager_subordinates'),
 ]

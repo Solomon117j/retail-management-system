@@ -194,39 +194,66 @@ RMS.utils.handleAjaxForm = function(form, options = {}) {
         showErrors: true,
         resetOnSuccess: false
     };
-    
+
     const config = { ...defaults, ...options };
-    
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const submitBtn = form.querySelector('button[type="submit"]');
-        
+
         if (config.showLoading && submitBtn) {
             RMS.utils.showLoading(submitBtn);
         }
-        
+
         try {
             const formData = new FormData(form);
             const response = await fetch(form.action, {
                 method: form.method,
                 body: formData,
                 headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                redirect: 'follow'
             });
-            
-            const data = await response.json();
-            
+
+            // If server returns a redirect (typical for Django CBVs), follow it in the browser
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const contentType = response.headers.get('content-type') || '';
+            let data = null;
+
+            // Prefer JSON; if HTML is returned, treat OK as success and navigate/reload
+            if (contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                if (response.ok) {
+                    // Navigate to current URL (refresh) or provided success URL
+                    const successUrl = form.getAttribute('data-success-url');
+                    if (successUrl) {
+                        window.location.href = successUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                    return;
+                } else {
+                    throw new Error('Non-JSON error response');
+                }
+            }
+
             if (response.ok) {
                 if (config.showSuccess) {
                     RMS.utils.showToast(data.message || 'Operation completed successfully!', 'success');
                 }
-                
+
                 if (config.resetOnSuccess) {
                     form.reset();
                 }
-                
+
                 if (config.onSuccess) {
                     config.onSuccess(data);
                 }
@@ -234,7 +261,7 @@ RMS.utils.handleAjaxForm = function(form, options = {}) {
                 if (config.showErrors) {
                     RMS.utils.showToast(data.message || 'An error occurred', 'danger');
                 }
-                
+
                 if (config.onError) {
                     config.onError(data);
                 }

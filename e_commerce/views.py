@@ -6,26 +6,29 @@ from django.forms import inlineformset_factory
 from django.db import transaction
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import OnlineOrder, OrderItem
+from .models import OnlineOrder, OrderItem, CustomerAccount
+from .mixins import CustomerAccessMixin
 from sales.models import Customer
-from django.views.generic import CreateView
-from .models import CustomerAccount
-
 from inventory.models import Product
 
-from django.views.generic import ListView, DetailView
-from .models import CustomerAccount
-
-class CustomerAccountListView(ListView):
+class CustomerAccountListView(LoginRequiredMixin, ListView):
     model = CustomerAccount
     template_name = 'e_commerce/customer_account_list.html'
-    context_object_name = 'accounts'
+    context_object_name = 'customer_accounts'
 
-class CustomerAccountDetailView(DetailView):
+    def get_queryset(self):
+        # Filter to only show the logged-in user's customer account
+        return CustomerAccount.objects.filter(user=self.request.user)
+
+class CustomerAccountDetailView(LoginRequiredMixin, CustomerAccessMixin, DetailView):
     model = CustomerAccount
     template_name = 'e_commerce/customer_account_detail.html'
     context_object_name = 'account'
     
+    def get_object(self, queryset=None):
+        # Get the customer account object
+        return super().get_object(queryset)
+
 class OnlineOrderListView(LoginRequiredMixin, ListView):
     model = OnlineOrder
     template_name = 'e_commerce/order_list.html'
@@ -210,10 +213,17 @@ class OnlineOrderDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, f'Online Order #{order.id} deleted successfully')
         return super().delete(request, *args, **kwargs)
 
-  # Make sure this model exists
+class ProductBrowseView(ListView):
+    model = Product
+    template_name = 'e_commerce/product_list.html'
+    context_object_name = 'products'
+    paginate_by = 20
 
-class CustomerAccountListView(ListView):
-    model = CustomerAccount
-    template_name = 'e_commerce/customer_account_list.html'
-    context_object_name = 'customer_accounts'
+    def get_queryset(self):
+        # Filter products that have stock > 0 in any store
+        queryset = Product.objects.filter(
+            inventory_records__quantity__gt=0
+        ).select_related('category', 'brand').distinct()
+        return queryset.order_by('name')
 
+# Make sure this model exists

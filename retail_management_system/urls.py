@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf import settings
+from django.conf.urls.static import static
 from django.http import HttpResponse
 from .views import CustomLogoutView
 
@@ -15,12 +16,7 @@ admin.site.index_title = "Welcome to Retail Management System"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include([
-        path('login/', auth_views.LoginView.as_view(
-            template_name='registration/login.html'
-        ), name='login'),
-        path('logout/', CustomLogoutView.as_view(), name='logout'),
-    ])),
+    path('accounts/', include('accounts.urls')),
     # Main dashboard as landing page
     path('', include('dashboards.urls')),
     path('hr/', include('human_resources.urls')),
@@ -35,3 +31,7 @@ urlpatterns = [
     # Favicon handler
     path('favicon.ico', lambda request: HttpResponse(status=204)),
 ]
+
+# Serve media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
