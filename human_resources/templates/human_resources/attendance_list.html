@@ -43,7 +43,7 @@
             <div class="card bg-primary text-white stat-card">
                 <div class="card-body text-center">
                     <i class="fas fa-user-check position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
-                    <span class="stat-number" id="present-today-count">0</span>
+                    <span class="stat-number">{{ present_today_count }}</span>
                     <span class="stat-label">Present Today</span>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="card bg-warning text-white stat-card">
                 <div class="card-body text-center">
                     <i class="fas fa-clock position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
-                    <span class="stat-number" id="late-today-count">0</span>
+                    <span class="stat-number">{{ late_today_count }}</span>
                     <span class="stat-label">Late Today</span>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="card bg-danger text-white stat-card">
                 <div class="card-body text-center">
                     <i class="fas fa-user-times position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
-                    <span class="stat-number" id="absent-today-count">0</span>
+                    <span class="stat-number">{{ absent_today_count }}</span>
                     <span class="stat-label">Absent Today</span>
                 </div>
             </div>
@@ -129,18 +129,20 @@
             <h5 class="mb-0">
                 <i class="fas fa-list me-2"></i>Attendance Records
             </h5>
+            {% if not user.is_customer %}
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-success btn-sm export-btn" 
+                <button type="button" class="btn btn-outline-success btn-sm export-btn"
                         data-format="csv"
                         data-bs-toggle="tooltip" title="Download filtered data as CSV">
                     <i class="fas fa-download me-1"></i>Export CSV
                 </button>
-                <button type="button" class="btn btn-outline-info btn-sm export-btn" 
+                <button type="button" class="btn btn-outline-info btn-sm export-btn"
                         data-format="excel"
                         data-bs-toggle="tooltip" title="Download filtered data as Excel">
                     <i class="fas fa-file-excel me-1"></i>Export Excel
                 </button>
             </div>
+            {% endif %}
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -188,7 +190,7 @@
                                     </div>
                                     <div>
                                         <div class="fw-bold">{{ attendance.employee.get_full_name }}</div>
-                                        <small class="text-muted">ID: {{ attendance.employee.employee_id }}</small>
+                                        <small class="text-muted">ID: {{ attendance.employee.id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -222,17 +224,10 @@
                             </td>
                             <td>
                                 {% if attendance.clock_in and attendance.clock_out %}
-                                    {% with clock_in=attendance.clock_in clock_out=attendance.clock_out %}
-                                        <span class="fw-bold text-primary">
-                                            <!-- Calculate hours worked (simplified) -->
-                                            {% if clock_out > clock_in %}
-                                                <i class="fas fa-stopwatch me-1"></i>
-                                                <span class="hours-worked">8:00</span>
-                                            {% else %}
-                                                <span class="text-muted">Invalid</span>
-                                            {% endif %}
-                                        </span>
-                                    {% endwith %}
+                                    <span class="fw-bold text-primary">
+                                        <i class="fas fa-stopwatch me-1"></i>
+                                        <span class="hours-worked">{{ attendance.clock_out|time_diff:attendance.clock_in }}</span>
+                                    </span>
                                 {% else %}
                                     <span class="text-muted">--:--</span>
                                 {% endif %}

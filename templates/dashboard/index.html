@@ -5,8 +5,9 @@
 {% block content %}
 <div class="container mt-5">
   <h1 class="mb-4">Retail Management Dashboard</h1>
+  {% if not user.is_customer %}
   <div class="row">
-    
+
     <!-- Store Management Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -22,7 +23,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Human Resources Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -38,7 +39,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Inventory Management Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -54,7 +55,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Procurement Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -70,7 +71,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Sales Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -86,7 +87,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- E-Commerce Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -102,7 +103,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Analytics Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">
@@ -118,9 +119,11 @@
         </div>
       </div>
     </div>
-    
+
   </div>
-  
+  {% endif %}
+
+  {% if not user.is_customer %}
   <!-- Quick Stats Section -->
   <div class="row mt-5">
     <div class="col-12">
@@ -159,7 +162,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Second row of stats -->
       <div class="row mt-3">
         <div class="col-md-3 mb-3">
@@ -197,5 +200,6 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -1,8 +1,8 @@
-# TODO: Implement Customer Product Browsing Page
+# TODO: Remove Core Modules, Quick Actions, and Data Exports for Customer Staff
 
-## Steps to Complete
-- [ ] Add ProductBrowseView to e_commerce/views.py (list products with stock > 0)
-- [ ] Create template e_commerce/templates/e_commerce/product_list.html
-- [ ] Add URL pattern in e_commerce/urls.py for /products/
-- [ ] Test the browse page functionality
-- [ ] Verify stock filtering (products with quantity > 0)
+## Tasks
+- [x] Update templates/dashboard/index.html to hide module cards and Quick Stats for customer staff
+- [x] Update human_resources/templates/human_resources/employee_list.html to hide export buttons and Quick Actions for customer staff
+- [x] Update human_resources/templates/human_resources/attendance_list.html to hide export buttons for customer staff
+- [x] Update human_resources/templates/human_resources/payroll_list.html to hide export buttons for customer staff
+- [ ] Test the changes for proper functionality

@@ -198,18 +198,20 @@
             <h5 class="mb-0">
                 <i class="fas fa-list me-2"></i>Employee Directory
             </h5>
+            {% if not user.is_customer %}
             <div class="btn-group" role="group">
-                <a href="{% url 'hr:employee_export' %}?format=csv&{{ request.GET.urlencode }}" 
+                <a href="{% url 'hr:employee_export' %}?format=csv&{{ request.GET.urlencode }}"
                    class="btn btn-outline-light btn-sm"
                    data-bs-toggle="tooltip" title="Export as CSV">
                     <i class="fas fa-download me-1"></i>CSV
                 </a>
-                <a href="{% url 'hr:employee_export' %}?format=excel&{{ request.GET.urlencode }}" 
+                <a href="{% url 'hr:employee_export' %}?format=excel&{{ request.GET.urlencode }}"
                    class="btn btn-outline-light btn-sm"
                    data-bs-toggle="tooltip" title="Export as Excel">
                     <i class="fas fa-file-excel me-1"></i>Excel
                 </a>
             </div>
+            {% endif %}
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -251,7 +253,7 @@
                                         <div class="fw-bold">{{ employee.get_full_name }}</div>
                                         <small class="text-muted">{{ employee.email }}</small>
                                         <br>
-                                        <small class="text-muted">ID: {{ employee.employee_id }}</small>
+                                        <small class="text-muted">ID: {{ employee.id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -352,6 +354,7 @@
     </div>
     {% endif %}
 
+    {% if not user.is_customer %}
     <!-- Quick Actions -->
     <div class="row mt-4">
         <div class="col-md-4">
@@ -415,6 +418,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 
