@@ -275,6 +275,24 @@
                                 {% endif %}
                             </div>
                         </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label for="id_qualifications" class="form-label">
+                                    <i class="fas fa-graduation-cap me-1"></i>Qualifications & Certifications
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </span>
+                                    {{ form.qualifications }}
+                                </div>
+                                {% if form.qualifications.errors %}
+                                    <div class="text-danger small mt-1">{{ form.qualifications.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">List educational background, certifications, and relevant qualifications</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -69,6 +69,11 @@ class Product(models.Model):
         null=True
     )
     dimensions = models.CharField(max_length=50, blank=True, null=True)
+
+    # New fields for e-commerce visibility and imagery
+    available_online = models.BooleanField(default=False, db_index=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+
     is_perishable = models.BooleanField(default=False)
     barcode = models.CharField(
         max_length=50,

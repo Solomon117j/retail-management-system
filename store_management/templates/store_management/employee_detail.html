@@ -138,10 +138,10 @@
             </a>
         </div>
         <div class="btn-group" role="group">
-            <a href="{% url 'hr:attendance_list' %}?employee={{ employee.pk }}" class="btn btn-outline-primary">
+            <a href="{% url 'hr:attendance_list' %}?employee={{ employee.id }}" class="btn btn-outline-primary">
                 <i class="fas fa-clock me-1"></i>View Attendance
             </a>
-            <a href="{% url 'hr:payroll_list' %}?employee={{ employee.pk }}" class="btn btn-outline-success">
+            <a href="{% url 'hr:payroll_list' %}?employee={{ employee.id }}" class="btn btn-outline-success">
                 <i class="fas fa-money-bill-wave me-1"></i>View Payroll
             </a>
         </div>
@@ -188,7 +188,7 @@
                             </div>
                             <div class="info-item mb-3">
                                 <label class="fw-bold text-muted">Employee ID</label>
-                                <div>{{ employee.employee_id }}</div>
+                                <div>{{ employee.id }}</div>
                             </div>
                             <div class="info-item mb-3">
                                 <label class="fw-bold text-muted">Account Status</label>

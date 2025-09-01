@@ -209,7 +209,7 @@ class EmployeeListView(ListView):
         
         # Add statistics
         context['total_employees'] = Employee.objects.count()
-        context['employees_by_store'] = Employee.objects.values('store__store_name').annotate(count=Count('employee_id'))
+        context['employees_by_store'] = Employee.objects.values('store__store_name').annotate(count=Count('id'))
         
         return context
 

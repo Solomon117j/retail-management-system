@@ -1,8 +1,8 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from .models import Attendance, Payroll, Employee
-from .forms import AttendanceForm, PayrollForm
+from .models import Attendance, Payroll, Employee, Training
+from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
 from django.contrib import messages
@@ -94,11 +94,8 @@ class EmployeeDetailView(LoginRequiredMixin, DetailView):
 
 class EmployeeCreateView(LoginRequiredMixin, CreateView):
     model = Employee
+    form_class = EmployeeForm
     template_name = 'human_resources/employee_form.html'
-    fields = [
-        'first_name', 'last_name', 'email', 'username', 'phone',
-        'hire_date', 'position', 'salary', 'store', 'department', 'manager'
-    ]
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -122,11 +119,8 @@ class EmployeeCreateView(LoginRequiredMixin, CreateView):
 
 class EmployeeUpdateView(LoginRequiredMixin, UpdateView):
     model = Employee
+    form_class = EmployeeForm
     template_name = 'human_resources/employee_form.html'
-    fields = [
-        'first_name', 'last_name', 'email', 'phone',
-        'hire_date', 'position', 'salary', 'store', 'department', 'manager', 'is_active'
-    ]
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -181,6 +175,25 @@ class AttendanceListView(LoginRequiredMixin, ListView):
         if employee_id:
             queryset = queryset.filter(employee_id=employee_id)
         return queryset.order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Calculate statistics based on the current queryset (what's actually displayed)
+        queryset = self.get_queryset()
+
+        # Count by status from the current filtered queryset
+        status_counts = {}
+        for attendance in queryset:
+            status = attendance.status
+            status_counts[status] = status_counts.get(status, 0) + 1
+
+        context['present_today_count'] = status_counts.get('present', 0)
+        context['late_today_count'] = status_counts.get('late', 0)
+        context['absent_today_count'] = status_counts.get('absent', 0)
+        context['on_leave_today_count'] = status_counts.get('on_leave', 0)
+
+        return context
 
 class AttendanceCreateView(LoginRequiredMixin, CreateView):
     model = Attendance
@@ -262,6 +275,69 @@ class PayrollDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'human_resources/payroll_confirm_delete.html'
     success_url = reverse_lazy('hr:payroll_list')
 
+# Training Views
+class TrainingListView(LoginRequiredMixin, ListView):
+    model = Training
+    template_name = 'human_resources/training_list.html'
+    context_object_name = 'trainings'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset().select_related('employee')
+        # Filter by employee if requested
+        employee_id = self.request.GET.get('employee')
+        if employee_id:
+            queryset = queryset.filter(employee_id=employee_id)
+        return queryset.order_by('-date_completed')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add statistics
+        context['total_trainings'] = Training.objects.count()
+        context['recent_trainings'] = Training.objects.select_related('employee')[:5]
+        return context
+
+class TrainingCreateView(LoginRequiredMixin, CreateView):
+    model = Training
+    form_class = TrainingForm
+    template_name = 'human_resources/training_form.html'
+    success_url = reverse_lazy('hr:training_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Training record for {form.instance.employee.get_full_name()} created successfully!')
+        return super().form_valid(form)
+
+class TrainingUpdateView(LoginRequiredMixin, UpdateView):
+    model = Training
+    form_class = TrainingForm
+    template_name = 'human_resources/training_form.html'
+    success_url = reverse_lazy('hr:training_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Training record for {form.instance.employee.get_full_name()} updated successfully!')
+        return super().form_valid(form)
+
+class TrainingDetailView(LoginRequiredMixin, DetailView):
+    model = Training
+    template_name = 'human_resources/training_detail.html'
+    context_object_name = 'training'
+
+class TrainingDeleteView(LoginRequiredMixin, DeleteView):
+    model = Training
+    template_name = 'human_resources/training_confirm_delete.html'
+    success_url = reverse_lazy('hr:training_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employee_name'] = self.object.employee.get_full_name()
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        training = self.get_object()
+        employee_name = training.employee.get_full_name()
+        messages.success(request, f'Training record "{training.training_name}" for {employee_name} deleted successfully!')
+        return super().delete(request, *args, **kwargs)
+
 
 
 class ExportMixin:
@@ -325,7 +401,7 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         # Write data
         for record in queryset:
             writer.writerow([
-                record.employee.employee_id,
+                str(record.employee.id),
                 record.employee.get_full_name(),
                 record.date,
                 record.clock_in,
@@ -354,7 +430,7 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
                 updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
             
             data.append({
-                'Employee ID': record.employee.employee_id,
+                'Employee ID': str(record.employee.id),
                 'Employee Name': record.employee.get_full_name(),
                 'Date': record.date,
                 'Clock In': record.clock_in.strftime('%H:%M') if record.clock_in else '',
@@ -442,7 +518,7 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
         # Write data
         for record in queryset:
             writer.writerow([
-                record.employee.employee_id,
+                str(record.employee.id),
                 record.employee.get_full_name(),
                 record.pay_period_start,
                 record.pay_period_end,
@@ -475,7 +551,7 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
                 updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
             
             data.append({
-                'Employee ID': record.employee.employee_id,
+                'Employee ID': str(record.employee.id),
                 'Employee Name': record.employee.get_full_name(),
                 'Pay Period Start': record.pay_period_start,
                 'Pay Period End': record.pay_period_end,
@@ -584,7 +660,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
         # Write data
         for employee in queryset:
             writer.writerow([
-                employee.employee_id,
+                str(employee.id),
                 employee.first_name,
                 employee.last_name,
                 employee.email,
@@ -619,7 +695,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
             
             data.append({
-                'Employee ID': employee.employee_id,
+                'Employee ID': str(employee.id),
                 'First Name': employee.first_name,
                 'Last Name': employee.last_name,
                 'Email': employee.email,

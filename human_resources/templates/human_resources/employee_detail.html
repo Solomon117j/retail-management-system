@@ -103,7 +103,7 @@
             <div class="col">
                 <h1 class="mb-1">{{ employee.get_full_name }}</h1>
                 <p class="mb-2 opacity-75">
-                    <i class="fas fa-id-badge me-1"></i>Employee ID: {{ employee.employee_id }}
+                    <i class="fas fa-id-badge me-1"></i>Employee ID: {{ employee.id }}
                     {% if employee.position %}
                         | {{ employee.position }}
                     {% endif %}
@@ -133,10 +133,10 @@
             </div>
             <div class="col-auto">
                 <div class="btn-group" role="group">
-                    <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-light">
+                    <a href="{% url 'hr:employee_update' employee.id %}" class="btn btn-light">
                         <i class="fas fa-edit me-1"></i>Edit
                     </a>
-                    <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-outline-light btn-delete"
+                    <a href="{% url 'hr:employee_delete' employee.id %}" class="btn btn-outline-light btn-delete"
                        data-item-name="employee {{ employee.get_full_name }}">
                         <i class="fas fa-trash me-1"></i>Delete
                     </a>
@@ -152,17 +152,20 @@
                 <i class="fas fa-arrow-left me-2"></i>Back to HR Employee List
             </a>
         </div>
-        <div class="btn-group" role="group">
-            <a href="{% url 'hr:attendance_list' %}?employee={{ employee.pk }}" class="btn btn-outline-primary">
-                <i class="fas fa-clock me-1"></i>View Attendance ({{ total_attendance }})
-            </a>
-            <a href="{% url 'hr:payroll_list' %}?employee={{ employee.pk }}" class="btn btn-outline-success">
-                <i class="fas fa-money-bill-wave me-1"></i>View Payroll ({{ total_payroll }})
-            </a>
-            <a href="{% url 'store_management:employee_detail' employee.pk %}" class="btn btn-outline-info">
-                <i class="fas fa-store me-1"></i>Store Profile
-            </a>
-        </div>
+            <div class="btn-group" role="group">
+                <a href="{% url 'hr:attendance_list' %}?employee={{ employee.pk }}" class="btn btn-outline-primary">
+                    <i class="fas fa-clock me-1"></i>View Attendance ({{ total_attendance }})
+                </a>
+                <a href="{% url 'hr:training_list' %}?employee={{ employee.pk }}" class="btn btn-outline-warning">
+                    <i class="fas fa-graduation-cap me-1"></i>View Trainings
+                </a>
+                <a href="{% url 'hr:payroll_list' %}?employee={{ employee.pk }}" class="btn btn-outline-success">
+                    <i class="fas fa-money-bill-wave me-1"></i>View Payroll ({{ total_payroll }})
+                </a>
+                <a href="{% url 'store_management:employee_detail' employee.pk %}" class="btn btn-outline-info">
+                    <i class="fas fa-store me-1"></i>Store Profile
+                </a>
+            </div>
     </div>
 
     <div class="row">
@@ -207,7 +210,7 @@
                             <div class="info-item mb-3">
                                 <label class="fw-bold text-muted">Employee ID</label>
                                 <div>
-                                    <span class="badge bg-success">{{ employee.employee_id }}</span>
+                                    <span class="badge bg-success">{{ employee.id }}</span>
                                 </div>
                             </div>
                             <div class="info-item mb-3">
@@ -274,6 +277,19 @@
                                         <small class="text-muted">per year</small>
                                     {% else %}
                                         <span class="text-muted">Not set</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info-item mb-3">
+                                <label class="fw-bold text-muted">Qualifications & Certifications</label>
+                                <div>
+                                    {% if employee.qualifications %}
+                                        <div class="bg-light p-3 rounded">
+                                            <i class="fas fa-graduation-cap me-2 text-primary"></i>
+                                            {{ employee.qualifications|linebreaks }}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted">Not provided</span>
                                     {% endif %}
                                 </div>
                             </div>

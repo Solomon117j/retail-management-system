@@ -1,0 +1,460 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if object %}Edit Training Record - HR - {{ block.super }}{% else %}Add Training Record - HR - {{ block.super }}{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.training-form-header {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.training-preview {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.form-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #007bff;
+}
+
+.certification-badge {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Training Header -->
+    <div class="training-form-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    {% if object %}Edit Training Record - HR{% else %}Add Training Record - HR{% endif %}
+                </h1>
+                <p class="mb-0 opacity-75">
+                    {% if object %}
+                        Update training information for {{ object.employee.get_full_name }}
+                    {% else %}
+                        Add a new training record to the HR system
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-auto">
+                <span class="certification-badge">
+                    <i class="fas fa-certificate me-1"></i>Training Management
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{% url 'hr:training_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Training Records
+            </a>
+        </div>
+        {% if object %}
+        <div class="btn-group" role="group">
+            <a href="{% url 'hr:training_detail' object.pk %}" class="btn btn-outline-info">
+                <i class="fas fa-eye me-1"></i>View Training Details
+            </a>
+            <a href="{% url 'hr:employee_detail' object.employee.pk %}" class="btn btn-outline-success">
+                <i class="fas fa-user me-1"></i>Employee Profile
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <!-- Main Form -->
+        <div class="col-lg-8">
+            <form method="post" class="training-form-container">
+                {% csrf_token %}
+
+                <!-- Employee Selection -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user me-2"></i>Employee Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="id_employee" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Employee *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ form.employee }}
+                                </div>
+                                {% if form.employee.errors %}
+                                    <div class="text-danger small mt-1">{{ form.employee.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Select the employee who completed this training</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Details -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-graduation-cap me-2"></i>Training Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label for="id_training_name" class="form-label">
+                                    <i class="fas fa-graduation-cap me-1"></i>Training Name *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </span>
+                                    {{ form.training_name }}
+                                </div>
+                                {% if form.training_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.training_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_date_completed" class="form-label">
+                                    <i class="fas fa-calendar-check me-1"></i>Completion Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </span>
+                                    {{ form.date_completed }}
+                                </div>
+                                {% if form.date_completed.errors %}
+                                    <div class="text-danger small mt-1">{{ form.date_completed.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_provider" class="form-label">
+                                    <i class="fas fa-building me-1"></i>Training Provider
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-building"></i>
+                                    </span>
+                                    {{ form.provider }}
+                                </div>
+                                {% if form.provider.errors %}
+                                    <div class="text-danger small mt-1">{{ form.provider.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_certification_status" class="form-label">
+                                    <i class="fas fa-certificate me-1"></i>Certification Status
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-certificate"></i>
+                                    </span>
+                                    {{ form.certification_status }}
+                                </div>
+                                {% if form.certification_status.errors %}
+                                    <div class="text-danger small mt-1">{{ form.certification_status.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label for="id_description" class="form-label">
+                                    <i class="fas fa-sticky-note me-1"></i>Description
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </span>
+                                    {{ form.description }}
+                                </div>
+                                {% if form.description.errors %}
+                                    <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Provide details about the training content, objectives, and outcomes</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>Additional Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_duration_hours" class="form-label">
+                                    <i class="fas fa-clock me-1"></i>Duration (Hours)
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    {{ form.duration_hours }}
+                                </div>
+                                {% if form.duration_hours.errors %}
+                                    <div class="text-danger small mt-1">{{ form.duration_hours.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_cost" class="form-label">
+                                    <i class="fas fa-dollar-sign me-1"></i>Cost
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">SZL</span>
+                                    {{ form.cost }}
+                                </div>
+                                {% if form.cost.errors %}
+                                    <div class="text-danger small mt-1">{{ form.cost.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_certificate_number" class="form-label">
+                                    <i class="fas fa-id-card me-1"></i>Certificate Number
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-card"></i>
+                                    </span>
+                                    {{ form.certificate_number }}
+                                </div>
+                                {% if form.certificate_number.errors %}
+                                    <div class="text-danger small mt-1">{{ form.certificate_number.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_expiry_date" class="form-label">
+                                    <i class="fas fa-calendar-times me-1"></i>Expiry Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-times"></i>
+                                    </span>
+                                    {{ form.expiry_date }}
+                                </div>
+                                {% if form.expiry_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.expiry_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save me-2"></i>
+                                    {% if object %}Update Training Record{% else %}Create Training Record{% endif %}
+                                </button>
+                                <a href="{% url 'hr:training_list' %}" class="btn btn-secondary btn-lg ms-2">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </a>
+                            </div>
+                            {% if object %}
+                            <div>
+                                <a href="{% url 'hr:training_detail' object.pk %}" class="btn btn-outline-info">
+                                    <i class="fas fa-eye me-2"></i>View Training Details
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Training Preview -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>Training Preview
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="training-preview">
+                        <i class="fas fa-graduation-cap fa-2x mb-2"></i>
+                        <h5 id="training-name-preview">
+                            {% if object %}
+                                {{ object.training_name }}
+                            {% else %}
+                                Training Name
+                            {% endif %}
+                        </h5>
+                        <p class="mb-1" id="employee-preview">
+                            {% if object %}
+                                {{ object.employee.get_full_name }}
+                            {% else %}
+                                Employee Name
+                            {% endif %}
+                        </p>
+                        {% if object %}
+                        <div class="mt-2">
+                            <span class="badge bg-{{ object.certification_status|default:'secondary' }}">
+                                {% if object.certification_status == 'certified' %}
+                                    <i class="fas fa-check me-1"></i>Certified
+                                {% elif object.certification_status == 'pending' %}
+                                    <i class="fas fa-clock me-1"></i>Pending
+                                {% elif object.certification_status == 'expired' %}
+                                    <i class="fas fa-times me-1"></i>Expired
+                                {% else %}
+                                    Not Applicable
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Guidelines -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Training Guidelines
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Training name should be descriptive and specific
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Completion date is required for completed trainings
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Provider information helps track training sources
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Certificate number is important for verification
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-1"></i>
+                            Expiry date is crucial for certifications
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-success btn-sm" id="set-completion-today">
+                            <i class="fas fa-calendar me-1"></i>Set Completion Today
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="set-certified">
+                            <i class="fas fa-certificate me-1"></i>Mark as Certified
+                        </button>
+                        {% if object %}
+                        <a href="{% url 'hr:employee_detail' object.employee.pk %}" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-user me-1"></i>View Employee
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update preview when fields change
+    function updatePreview() {
+        const trainingName = document.getElementById('id_training_name').value;
+        const employeeSelect = document.getElementById('id_employee');
+        const employeeName = employeeSelect.options[employeeSelect.selectedIndex]?.text || 'Employee Name';
+
+        // Update training name preview
+        document.getElementById('training-name-preview').textContent = trainingName || 'Training Name';
+
+        // Update employee preview
+        document.getElementById('employee-preview').textContent = employeeName;
+    }
+
+    // Add event listeners
+    ['id_training_name', 'id_employee'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+            field.addEventListener('input', updatePreview);
+            field.addEventListener('change', updatePreview);
+        }
+    });
+
+    // Quick Actions
+    document.getElementById('set-completion-today').addEventListener('click', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('id_date_completed').value = today;
+    });
+
+    document.getElementById('set-certified').addEventListener('click', function() {
+        const certStatus = document.getElementById('id_certification_status');
+        if (certStatus) {
+            certStatus.value = 'certified';
+        }
+    });
+
+    // Initial preview update
+    updatePreview();
+
+    console.log('Training form enhancements initialized');
+});
+</script>
+{% endblock %}

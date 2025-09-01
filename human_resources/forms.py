@@ -1,6 +1,6 @@
 # human_resources/forms.py
 from django import forms
-from .models import Attendance, Payroll, Employee
+from .models import Attendance, Payroll, Employee, Training
 from django.utils import timezone
 
 
@@ -202,7 +202,7 @@ class EmployeeForm(forms.ModelForm):
         model = Employee
         fields = [
             'first_name', 'last_name', 'email', 'phone', 'username',
-            'position', 'hire_date', 'salary', 'department', 'store',
+            'position', 'hire_date', 'salary', 'qualifications', 'department', 'store',
             'manager', 'profile_image', 'is_active'
         ]
         widgets = {
@@ -239,6 +239,11 @@ class EmployeeForm(forms.ModelForm):
                 'step': '0.01',
                 'min': '0',
                 'placeholder': '0.00'
+            }),
+            'qualifications': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'List qualifications, certifications, and educational background'
             }),
             'department': forms.Select(attrs={
                 'class': 'form-select',
@@ -282,3 +287,110 @@ class EmployeeForm(forms.ModelForm):
         
         # Make profile image optional
         self.fields['profile_image'].required = False
+
+
+class TrainingForm(forms.ModelForm):
+    class Meta:
+        model = Training
+        fields = [
+            'employee', 'training_name', 'description', 'date_completed', 'certification_status',
+            'provider', 'duration_hours', 'cost', 'certificate_number', 'expiry_date'
+        ]
+        widgets = {
+            'employee': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
+            }),
+            'training_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter training name or course title'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Describe the training content, objectives, and key topics covered'
+            }),
+            'date_completed': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'certification_status': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., Certified, Completed, In Progress, Failed'
+            }),
+            'provider': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter training provider'
+            }),
+            'duration_hours': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.1',
+                'min': '0',
+                'placeholder': 'Duration in hours'
+            }),
+            'cost': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0',
+                'placeholder': 'Cost in SZL'
+            }),
+            'certificate_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Certificate or reference number'
+            }),
+            'expiry_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+        }
+
+        help_texts = {
+            'employee': 'Select the employee who completed this training',
+            'training_name': 'Name of the training program or course',
+            'description': 'Detailed description of the training content',
+            'date_completed': 'Date when the training was completed',
+            'certification_status': 'Certification or completion status',
+            'provider': 'Training provider or organization',
+            'duration_hours': 'Duration of the training in hours',
+            'cost': 'Cost of the training in SZL',
+            'certificate_number': 'Certificate or reference number',
+            'expiry_date': 'Date when certification expires',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Make certain fields required
+        self.fields['employee'].required = True
+        self.fields['training_name'].required = True
+        self.fields['date_completed'].required = True
+
+        # Make description and certification_status optional
+        self.fields['description'].required = False
+        self.fields['certification_status'].required = False
+        self.fields['provider'].required = False
+        self.fields['duration_hours'].required = False
+        self.fields['cost'].required = False
+        self.fields['certificate_number'].required = False
+        self.fields['expiry_date'].required = False
+
+        # Set default date to today if creating new
+        if not self.instance.pk:
+            self.fields['date_completed'].initial = timezone.now().date()
+
+        # Filter employees to only active ones
+        self.fields['employee'].queryset = Employee.objects.filter(
+            is_active=True
+        ).order_by('first_name', 'last_name')
+
+        # Add empty label for employee dropdown
+        self.fields['employee'].empty_label = "Select an employee"
+
+    def clean_date_completed(self):
+        """Validate that date is not in the future"""
+        date = self.cleaned_data.get('date_completed')
+        if date and date > timezone.now().date():
+            raise forms.ValidationError(
+                'Training completion date cannot be in the future'
+            )
+        return date

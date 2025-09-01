@@ -6,7 +6,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'category', 'brand', 'unit_price', 'cost_price', 
-                 'weight', 'dimensions', 'is_perishable', 'barcode']
+                 'weight', 'dimensions', 'available_online', 'image', 'is_perishable', 'barcode']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -16,6 +16,8 @@ class ProductForm(forms.ModelForm):
             'cost_price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'weight': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'dimensions': forms.TextInput(attrs={'class': 'form-control'}),
+            'available_online': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'is_perishable': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'barcode': forms.TextInput(attrs={'class': 'form-control'}),
         }

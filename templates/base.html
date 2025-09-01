@@ -143,6 +143,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    {% if not user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="storeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-store"></i> Stores
@@ -171,6 +172,8 @@
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
+                    {% if not user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="hrDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-users"></i> HR
@@ -215,6 +218,8 @@
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
+                    {% if not user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Inventory
@@ -227,6 +232,7 @@
                             <li><a class="dropdown-item" href="{% url 'inventory:storeinventory_list' %}">Store Inventory</a></li>
                         </ul>
                     </li>
+                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Sales
@@ -241,10 +247,12 @@
                             Ecommerce
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="ecommerceDropdown">
+                            <li><a class="dropdown-item" href="{% url 'e_commerce:product_browse' %}">Browse Products</a></li>
                             <li><a class="dropdown-item" href="{% url 'e_commerce:online_order_list' %}">Online Orders</a></li>
                             <li><a class="dropdown-item" href="{% url 'e_commerce:customer_account_list' %}">Customer Accounts</a></li>
                         </ul>
                     </li>
+                    {% if not user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="procurementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-truck"></i> Procurement
@@ -273,11 +281,14 @@
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
+                    {% if not user.is_customer %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'analytics:dashboard' %}">
                             <i class="fas fa-chart-line"></i> Analytics
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
@@ -360,12 +371,17 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="footer-title">Core Modules</h5>
                     <div class="footer-links">
+                        {% if not user.is_customer %}
                         <a href="{% url 'store_management:store_list' %}"><i class="fas fa-store"></i>Store Management</a>
                         <a href="{% url 'hr:employee_list' %}"><i class="fas fa-users"></i>HR & Payroll</a>
                         <a href="{% url 'inventory:product_list' %}"><i class="fas fa-boxes"></i>Inventory</a>
+                        {% endif %}
                         <a href="{% url 'sales:sale_list' %}"><i class="fas fa-cash-register"></i>Sales</a>
                         <a href="{% url 'e_commerce:online_order_list' %}"><i class="fas fa-shopping-cart"></i>E-Commerce</a>
+                        <a href="{% url 'e_commerce:product_browse' %}"><i class="fas fa-search"></i>Browse Products</a>
+                        {% if not user.is_customer %}
                         <a href="{% url 'procurement:supplier_list' %}"><i class="fas fa-truck"></i>Procurement</a>
+                        {% endif %}
                     </div>
                 </div>
                 

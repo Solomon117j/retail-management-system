@@ -22,5 +22,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['sales_count'] = Sale.objects.count()
         context['customer_count'] = Customer.objects.count()
         context['online_orders_count'] = OnlineOrder.objects.count()
-        
+
+        # Add recent pending online orders for staff dashboard
+        if not self.request.user.is_customer:
+            context['recent_online_orders'] = OnlineOrder.objects.filter(
+                status__in=['pending', 'processing']
+            ).select_related('customer').order_by('-order_date')[:10]
+        else:
+            context['recent_online_orders'] = []
+
         return context

@@ -5,7 +5,10 @@
 {% block content %}
 <div class="container mt-4">
     <h1>Online Orders</h1>
-    <a href="{% url 'e_commerce:order_create' %}" class="btn btn-primary mb-4">Create New Order</a>
+    <div class="d-flex gap-2 mb-4">
+        <a href="{% url 'e_commerce:order_create' %}" class="btn btn-primary">Create New Order</a>
+        <a href="{% url 'e_commerce:order_export' %}" class="btn btn-outline-secondary">Export to CSV</a>
+    </div>
 
     <form method="get" class="mb-4">
         <div class="row g-3">
@@ -54,7 +57,7 @@
                     <td><a href="{% url 'e_commerce:order_detail' order.pk %}">#{{ order.id }}</a></td>
                     <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
                     <td>
-                        <a href="{% url 'sales:customer_detail' order.customer.pk %}">
+                        <a href="{% url 'e_commerce:customer_account_detail' order.customer.pk %}">
                             {{ order.customer.first_name }} {{ order.customer.last_name }}
                         </a>
                     </td>

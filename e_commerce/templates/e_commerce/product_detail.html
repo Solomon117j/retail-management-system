@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'e_commerce:product_browse' %}">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 500px; width: 100%; object-fit: contain;">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+                    <span class="text-muted">No image available</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+
+            <div class="mb-3">
+                <h4 class="text-primary">SZL{{ product.unit_price }}</h4>
+            </div>
+
+            <div class="mb-3">
+                <strong>Category:</strong> {{ product.category.name }}
+                {% if product.brand %}
+                    <br><strong>Brand:</strong> {{ product.brand.name }}
+                {% endif %}
+            </div>
+
+            {% if product.description %}
+                <div class="mb-3">
+                    <h5>Description</h5>
+                    <p>{{ product.description }}</p>
+                </div>
+            {% endif %}
+
+            {% if product.weight %}
+                <div class="mb-3">
+                    <strong>Weight:</strong> {{ product.weight }} kg
+                </div>
+            {% endif %}
+
+            {% if product.dimensions %}
+                <div class="mb-3">
+                    <strong>Dimensions:</strong> {{ product.dimensions }}
+                </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <strong>Availability:</strong>
+                <span class="badge bg-success">In Stock</span>
+            </div>
+
+            <div class="d-grid gap-2">
+                <form method="post" action="{% url 'e_commerce:add_to_cart' %}" class="d-flex gap-2 justify-content-center">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.pk }}">
+                    <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;">
+                    <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                </form>
+                <a href="{% url 'e_commerce:product_browse' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional product information -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>Product Information</h3>
+            <div class="row">
+                {% if product.barcode %}
+                    <div class="col-md-4">
+                        <strong>Barcode:</strong> {{ product.barcode }}
+                    </div>
+                {% endif %}
+                {% if product.is_perishable %}
+                    <div class="col-md-4">
+                        <strong>Perishable:</strong> Yes
+                    </div>
+                {% endif %}
+                <div class="col-md-4">
+                    <strong>Added:</strong> {{ product.created_at|date:"M d, Y" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

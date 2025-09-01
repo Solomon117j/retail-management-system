@@ -104,6 +104,51 @@
       </div>
     </div>
 
+    <!-- Recent Online Orders Card -->
+    <div class="col-md-12 mb-4">
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <h3 class="card-title">Recent Online Orders</h3>
+          {% if recent_online_orders %}
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in recent_online_orders %}
+                <tr>
+                  <td><a href="{% url 'e_commerce:order_detail' order.pk %}">#{{ order.id }}</a></td>
+                  <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                  <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                  <td>
+                    <span class="badge bg-{% if order.status == 'pending' %}warning
+                    {% elif order.status == 'processing' %}info
+                    {% else %}secondary{% endif %}">
+                      {{ order.get_status_display }}
+                    </span>
+                  </td>
+                  <td>SZL{{ order.total_amount|floatformat:2 }}</td>
+                  <td><a href="{% url 'e_commerce:order_detail' order.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <p>No recent online orders.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
     <!-- Analytics Card -->
     <div class="col-md-4 mb-4">
       <div class="card dashboard-card h-100">

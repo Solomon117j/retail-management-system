@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Training Details - {{ training.training_name }} - HR - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.training-detail-header {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+.certification-badge {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Training Detail Header -->
+    <div class="training-detail-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    {{ training.training_name }}
+                </h1>
+                <p class="mb-0 opacity-75">
+                    Training record for <strong>{{ training.employee.get_full_name }}</strong>
+                </p>
+            </div>
+            <div class="col-auto">
+                <span class="certification-badge">
+                    <i class="fas fa-certificate me-1"></i>
+                    {% if training.certification_status == 'certified' %}
+                        Certified
+                    {% elif training.certification_status == 'pending' %}
+                        Pending
+                    {% elif training.certification_status == 'expired' %}
+                        Expired
+                    {% else %}
+                        Not Applicable
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{% url 'hr:training_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Training Records
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'hr:employee_detail' training.employee.pk %}" class="btn btn-outline-success">
+                <i class="fas fa-user me-2"></i>View Employee Profile
+            </a>
+        </div>
+    </div>
+
+    <!-- Training Details -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>Training Information
+            </h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Training Name</dt>
+                <dd class="col-sm-9">{{ training.training_name }}</dd>
+
+                <dt class="col-sm-3">Employee</dt>
+                <dd class="col-sm-9">
+                    <a href="{% url 'hr:employee_detail' training.employee.pk %}">
+                        {{ training.employee.get_full_name }}
+                    </a>
+                </dd>
+
+                <dt class="col-sm-3">Date Completed</dt>
+                <dd class="col-sm-9">
+                    {% if training.date_completed %}
+                        {{ training.date_completed|date:"F d, Y" }}
+                    {% else %}
+                        <span class="text-muted">Not completed</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Certification Status</dt>
+                <dd class="col-sm-9">
+                    {% if training.certification_status %}
+                        {{ training.certification_status|capfirst }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Training Provider</dt>
+                <dd class="col-sm-9">
+                    {% if training.provider %}
+                        {{ training.provider }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">
+                    {% if training.description %}
+                        {{ training.description|linebreaks }}
+                    {% else %}
+                        <span class="text-muted">No description provided</span>
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <!-- Additional Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>Additional Information
+            </h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Duration (Hours)</dt>
+                <dd class="col-sm-9">
+                    {% if training.duration_hours %}
+                        {{ training.duration_hours }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Cost (SZL)</dt>
+                <dd class="col-sm-9">
+                    {% if training.cost %}
+                        SZL{{ training.cost|floatformat:2 }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Certificate Number</dt>
+                <dd class="col-sm-9">
+                    {% if training.certificate_number %}
+                        {{ training.certificate_number }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3">Expiry Date</dt>
+                <dd class="col-sm-9">
+                    {% if training.expiry_date %}
+                        {{ training.expiry_date|date:"F d, Y" }}
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock %}

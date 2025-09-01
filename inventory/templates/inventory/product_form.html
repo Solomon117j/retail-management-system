@@ -101,7 +101,7 @@
                                     <div class="text-danger">{{ form.weight.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
                                 <label for="{{ form.dimensions.id_for_label }}" class="form-label">Dimensions</label>
                                 {{ form.dimensions }}
@@ -110,7 +110,27 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
+
+                        <div class="mb-3">
+                            <label for="{{ form.image.id_for_label }}" class="form-label">Product Image</label>
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                                <div class="text-danger">{{ form.image.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.available_online }}
+                                <label class="form-check-label" for="{{ form.available_online.id_for_label }}">
+                                    Available Online
+                                </label>
+                            </div>
+                            {% if form.available_online.errors %}
+                                <div class="text-danger">{{ form.available_online.errors }}</div>
+                            {% endif %}
+                        </div>
+
                         <div class="mb-3">
                             <div class="form-check">
                                 {{ form.is_perishable }}
