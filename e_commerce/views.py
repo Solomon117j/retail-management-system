@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.forms import inlineformset_factory
-from django.db import transaction
+from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OnlineOrder, OrderItem, CustomerAccount
@@ -28,6 +28,11 @@ class CustomerAccountDetailView(LoginRequiredMixin, CustomerAccessMixin, DetailV
     def get_object(self, queryset=None):
         # Get the customer account object
         return super().get_object(queryset)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['template_name'] = self.template_name
+        return context
 
 class OnlineOrderListView(LoginRequiredMixin, ListView):
     model = OnlineOrder
@@ -261,6 +266,27 @@ class ProductDetailView(DetailView):
             inventory_records__quantity__gt=0,
             available_online=True,
         ).select_related('category', 'brand').distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Calculate total stock across all stores
+        total_stock = self.object.inventory_records.aggregate(
+            total=models.Sum('quantity')
+        )['total'] or 0
+        context['total_stock'] = total_stock
+
+        # Determine stock status
+        if total_stock == 0:
+            context['stock_status'] = 'Out of Stock'
+            context['stock_badge_class'] = 'bg-danger'
+        elif total_stock <= 10:
+            context['stock_status'] = f'Low Stock ({total_stock} available)'
+            context['stock_badge_class'] = 'bg-warning'
+        else:
+            context['stock_status'] = f'In Stock ({total_stock} available)'
+            context['stock_badge_class'] = 'bg-success'
+
+        return context
 
 # Make sure this model exists
 

@@ -269,7 +269,7 @@
                     <div class="quick-stat">
                         <div class="stat-label">Gross Pay</div>
                         <div class="stat-value text-success">
-                            SZL{% widthratio object.base_salary 1 1 %}{% widthratio object.overtime_pay|default:0 1 1 %}{% widthratio object.bonus|default:0 1 1 %}
+                        SZL{{ object.gross_pay|floatformat:2 }}
                         </div>
                     </div>
                     

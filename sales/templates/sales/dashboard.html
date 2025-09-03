@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Sales Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Sales Dashboard</h1>
+
+    <div class="row my-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Today's Sales</div>
+                <div class="card-body">
+                    <h3>${{ today_sales|floatformat:2 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">This Month's Sales</div>
+                <div class="card-body">
+                    <h3>${{ month_sales|floatformat:2 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Total Customers</div>
+                <div class="card-body">
+                    <h3>{{ total_customers }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Products Sold This Month</div>
+                <div class="card-body">
+                    <h3>{{ total_products_sold }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Top Products This Month</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity Sold</th>
+                <th>Total Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in top_products %}
+            <tr>
+                <td>{{ product.product__name }}</td>
+                <td>{{ product.total_quantity }}</td>
+                <td>${{ product.total_revenue|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Recent Returns</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sale ID</th>
+                <th>Return Date</th>
+                <th>Employee</th>
+                <th>Reason</th>
+                <th>Refund Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ret in recent_returns %}
+            <tr>
+                <td><a href="{% url 'sales:sale_detail' ret.sale.id %}">#{{ ret.sale.id }}</a></td>
+                <td>{{ ret.return_date|date:"Y-m-d" }}</td>
+                <td>{{ ret.employee }}</td>
+                <td>{{ ret.reason }}</td>
+                <td>${{ ret.refund_amount|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No recent returns</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -58,14 +58,15 @@ def create_test_staff_user(username, password, email=None, department='Unassigne
             logger.info(f"✅ Updated user: {username} with correct attributes")
         
         # Ensure employee profile exists
-        if not hasattr(user, 'employee_profile'):
+        if not user.employee_profile.exists():
             Employee.objects.create(user=user, department=department)
             logger.info(f"✅ Created employee profile for {username} in department: {department}")
         else:
             # Update department if needed
-            if user.employee_profile.department != department:
-                user.employee_profile.department = department
-                user.employee_profile.save()
+            employee = user.employee_profile.first()
+            if employee.department != department:
+                employee.department = department
+                employee.save()
                 logger.info(f"✅ Updated department for {username} to: {department}")
         
         return user

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Customer Analytics{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Customer Analytics</h1>
+
+    <div class="row my-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Customers</div>
+                <div class="card-body">
+                    <h3>{{ total_customers }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Active Customers (30 days)</div>
+                <div class="card-body">
+                    <h3>{{ active_customers }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Average Loyalty Points</div>
+                <div class="card-body">
+                    <h3>{{ loyalty_stats.avg_points|floatformat:0 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Membership Distribution</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Membership Level</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for level in membership_distribution %}
+                    <tr>
+                        <td>{{ level.membership_level }}</td>
+                        <td>{{ level.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2">No data available</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3>Loyalty Points Statistics</h3>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Total Points Issued:</strong> {{ loyalty_stats.total_points|floatformat:0 }}</p>
+                    <p><strong>Maximum Points:</strong> {{ loyalty_stats.max_points|floatformat:0 }}</p>
+                    <p><strong>Average Points:</strong> {{ loyalty_stats.avg_points|floatformat:0 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Top Customers by Spending</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Total Spent</th>
+                <th>Loyalty Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in top_customers %}
+            <tr>
+                <td><a href="{% url 'sales:customer_detail' customer.id %}">{{ customer.first_name }} {{ customer.last_name }}</a></td>
+                <td>{{ customer.email }}</td>
+                <td>${{ customer.total_spent|floatformat:2 }}</td>
+                <td>{{ customer.loyalty_points }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

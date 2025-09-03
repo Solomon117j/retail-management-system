@@ -13,6 +13,9 @@ django.setup()
 from inventory.models import Product, Category, Brand, StoreInventory
 from store_management.models import Store
 
+from django.core.files import File
+from pathlib import Path
+
 def populate_products():
     """Create some test products for e-commerce"""
     # Get categories and brands
@@ -32,6 +35,9 @@ def populate_products():
         print("No stores found. Create stores first.")
         return
 
+    # Prepare image directory path
+    media_dir = Path('media/product_images')
+
     products_data = [
         {
             'name': 'Wireless Headphones',
@@ -41,6 +47,7 @@ def populate_products():
             'unit_price': 199.99,
             'cost_price': 120.00,
             'available_online': True,
+            'image_filename': 'WirelessHeadphones.jpg',  # Example image filename
         },
         {
             'name': 'Smartphone Case',
@@ -50,6 +57,7 @@ def populate_products():
             'unit_price': 29.99,
             'cost_price': 15.00,
             'available_online': True,
+            'image_filename': 'SmartphoneCase.jpg',
         },
         {
             'name': 'Running Shoes',
@@ -59,6 +67,7 @@ def populate_products():
             'unit_price': 149.99,
             'cost_price': 80.00,
             'available_online': True,
+            'image_filename': 'RunningShoes.jpg',
         },
         {
             'name': 'Coffee Maker',
@@ -68,6 +77,7 @@ def populate_products():
             'unit_price': 89.99,
             'cost_price': 50.00,
             'available_online': True,
+            'image_filename': 'CoffeeMaker.jpg',
         },
         {
             'name': 'Yoga Mat',
@@ -77,11 +87,13 @@ def populate_products():
             'unit_price': 39.99,
             'cost_price': 20.00,
             'available_online': True,
+            'image_filename': 'YogaMat.jpg',
         },
     ]
 
     created_products = []
     for product_data in products_data:
+        image_filename = product_data.pop('image_filename', None)
         product, created = Product.objects.get_or_create(
             name=product_data['name'],
             defaults=product_data
@@ -95,6 +107,16 @@ def populate_products():
                 product.available_online = True
                 product.save()
                 print(f"Updated product: {product.name} (set available_online=True)")
+
+        # Assign image if image_filename is provided
+        if image_filename:
+            image_path = media_dir / image_filename
+            if image_path.exists():
+                with open(image_path, 'rb') as f:
+                    product.image.save(image_filename, File(f), save=True)
+                    print(f"Assigned image {image_filename} to product {product.name}")
+            else:
+                print(f"Image file {image_filename} not found for product {product.name}")
 
     # Create inventory for each product in each store
     for product in created_products:
@@ -117,6 +139,7 @@ def populate_products():
     print(f"Products available online: {Product.objects.filter(available_online=True).count()}")
     print(f"Products with inventory > 0: {Product.objects.filter(inventory_records__quantity__gt=0).distinct().count()}")
     print(f"Products ready for e-commerce: {Product.objects.filter(available_online=True, inventory_records__quantity__gt=0).distinct().count()}")
+
 
 if __name__ == '__main__':
     print("Populating e-commerce test products...")

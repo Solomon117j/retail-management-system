@@ -2,6 +2,7 @@
 import os
 import sys
 import django
+from openpyxl import Workbook
 
 # Add the project directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +24,9 @@ def add_inventory():
         print("No stores found.")
         return
 
+    # Data for Excel
+    data = [['Product Name', 'Store Name', 'Quantity', 'Status']]
+
     for product in products:
         has_inventory = product.inventory_records.exists()
         if not has_inventory:
@@ -36,12 +40,30 @@ def add_inventory():
                     )
                     if created:
                         print(f"  Created inventory at {store.store_name}: 50 units")
+                        data.append([product.name, store.store_name, 50, 'Created'])
                     else:
                         print(f"  Inventory already exists at {store.store_name}")
+                        data.append([product.name, store.store_name, inventory.quantity, 'Already Exists'])
                 except Exception as e:
                     print(f"  Error creating inventory at {store.store_name}: {e}")
+                    data.append([product.name, store.store_name, 0, f'Error: {e}'])
         else:
             print(f"Product {product.name} already has inventory")
+            for store in stores:
+                inventory = product.inventory_records.filter(store=store).first()
+                if inventory:
+                    data.append([product.name, store.store_name, inventory.quantity, 'Already Exists'])
+                else:
+                    data.append([product.name, store.store_name, 0, 'No Inventory'])
+
+    # Create Excel file
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Inventory Added"
+    for row in data:
+        ws.append(row)
+    wb.save("inventory_added.xlsx")
+    print("Excel file 'inventory_added.xlsx' created successfully.")
 
     print(f"\nSummary:")
     print(f"Products available online: {Product.objects.filter(available_online=True).count()}")

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Category, Brand, StockMovement
+from .models import Product, Category, Brand, StockMovement, StoreInventory
 
 
 class ProductForm(forms.ModelForm):
@@ -70,3 +70,110 @@ class StockAdjustmentForm(forms.ModelForm):
         if commit:
             obj.save()  # triggers apply()
         return obj
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description', 'parent']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'parent': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make parent optional
+        self.fields['parent'].required = False
+        self.fields['description'].required = False
+        # Add empty label for parent dropdown
+        self.fields['parent'].empty_label = "Select parent category (optional)"
+
+        # Filter out self from parent options when editing
+        if self.instance.pk:
+            self.fields['parent'].queryset = Category.objects.exclude(pk=self.instance.pk)
+
+
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['name', 'description', 'website']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'website': forms.URLInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make description and website optional
+        self.fields['description'].required = False
+        self.fields['website'].required = False
+
+
+class StoreInventoryForm(forms.ModelForm):
+    class Meta:
+        model = StoreInventory
+        fields = ['product', 'store', 'quantity', 'reorder_level', 'aisle_location']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'store': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'required': True, 'min': '0'}),
+            'reorder_level': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
+            'aisle_location': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make aisle_location optional
+        self.fields['aisle_location'].required = False
+        # Set default reorder level
+        if not self.instance.pk:
+            self.fields['reorder_level'].initial = 10
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data.get('quantity')
+        if quantity < 0:
+            raise forms.ValidationError("Quantity cannot be negative.")
+        return quantity
+
+    def clean_reorder_level(self):
+        reorder_level = self.cleaned_data.get('reorder_level')
+        if reorder_level < 0:
+            raise forms.ValidationError("Reorder level cannot be negative.")
+        return reorder_level
+
+
+class StockMovementForm(forms.ModelForm):
+    class Meta:
+        model = StockMovement
+        fields = ['product', 'store', 'movement_type', 'quantity', 'reference', 'note']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'store': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'movement_type': forms.Select(attrs={'class': 'form-select', 'required': True}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'reference': forms.TextInput(attrs={'class': 'form-control'}),
+            'note': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make reference and note optional
+        self.fields['reference'].required = False
+        self.fields['note'].required = False
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data.get('quantity')
+        movement_type = self.cleaned_data.get('movement_type')
+
+        if quantity <= 0:
+            raise forms.ValidationError("Quantity must be positive.")
+
+        # For adjustment, allow negative values
+        if movement_type == StockMovement.MOVEMENT_ADJUST and quantity > 0:
+            # This is fine, adjustment can be positive or negative
+            pass
+
+        return quantity

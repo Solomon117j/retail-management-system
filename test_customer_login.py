@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.test import Client
 import logging
+import uuid
 
 # Add the current directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -17,18 +18,32 @@ User = get_user_model()
 
 class CustomerLoginTest(TestCase):
     def setUp(self):
-        # Create a test customer user
+        # Override ALLOWED_HOSTS for tests
+        from django.conf import settings
+        if 'testserver' not in settings.ALLOWED_HOSTS:
+            settings.ALLOWED_HOSTS.append('testserver')
+
+        # Create a test customer user with unique username
+        unique_username = f'testcustomer_{uuid.uuid4().hex[:8]}'
         self.user = User.objects.create_user(
-            username='testcustomer',
+            username=unique_username,
             password='testpass123',
             email='test@example.com',
             is_customer=True
+        )
+        # Create linked CustomerAccount for the user
+        from e_commerce.models import CustomerAccount
+        self.customer_account = CustomerAccount.objects.create(
+            user=self.user,
+            first_name='Test',
+            last_name='Customer',
+            email=self.user.email
         )
 
     def test_customer_login(self):
         client = Client()
         response = client.post('/accounts/login/customer/', {
-            'username': 'testcustomer',
+            'username': self.user.username,
             'password': 'testpass123'
         }, follow=True)
 

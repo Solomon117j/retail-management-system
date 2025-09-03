@@ -6,6 +6,10 @@ from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Customer, Sale, SaleItem, Return, LoyaltyTransaction, SalesTransaction
+from .forms import (
+    CustomerForm, SaleForm, SaleItemForm, ReturnForm,
+    LoyaltyTransactionForm, SaleItemFormSet
+)
 from store_management.models import Store
 from human_resources.models import Employee
 from inventory.models import Product
@@ -44,12 +48,8 @@ class CustomerListView(LoginRequiredMixin, ListView):
 
 class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer
+    form_class = CustomerForm
     template_name = 'sales/customer_form.html'
-    fields = [
-        'first_name', 'last_name', 'email', 'phone', 
-        'address', 'city', 'postal_code', 'join_date',
-        'membership_level'
-    ]
     success_url = reverse_lazy('sales:customer_list')
     
     def form_valid(self, form):
@@ -59,12 +59,8 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
 
 class CustomerUpdateView(LoginRequiredMixin, UpdateView):
     model = Customer
+    form_class = CustomerForm
     template_name = 'sales/customer_form.html'
-    fields = [
-        'first_name', 'last_name', 'email', 'phone', 
-        'address', 'city', 'postal_code', 'join_date',
-        'membership_level'
-    ]
     
     def get_success_url(self):
         return reverse('sales:customer_detail', kwargs={'pk': self.object.pk})
@@ -393,3 +389,282 @@ class CustomerOrderListView(ListView):
     model = Sale
     template_name = 'sales/customer_order_list.html'
     context_object_name = 'orders'
+
+# ====================
+# DASHBOARD AND ANALYTICS VIEWS
+# ====================
+
+class SalesDashboardView(LoginRequiredMixin, ListView):
+    model = Sale
+    template_name = 'sales/dashboard.html'
+    context_object_name = 'recent_sales'
+
+    def get_queryset(self):
+        return Sale.objects.select_related(
+            'store', 'employee', 'customer'
+        ).order_by('-sale_date')[:10]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Sales KPIs
+        today = datetime.date.today()
+        this_month = today.replace(day=1)
+
+        context['today_sales'] = Sale.objects.filter(
+            sale_date__date=today
+        ).aggregate(total=models.Sum('total_amount'))['total'] or 0
+
+        context['month_sales'] = Sale.objects.filter(
+            sale_date__date__gte=this_month
+        ).aggregate(total=models.Sum('total_amount'))['total'] or 0
+
+        context['total_customers'] = Customer.objects.count()
+        context['total_products_sold'] = SaleItem.objects.filter(
+            sale__sale_date__date__gte=this_month
+        ).aggregate(total=models.Sum('quantity'))['total'] or 0
+
+        # Top products this month
+        context['top_products'] = SaleItem.objects.filter(
+            sale__sale_date__date__gte=this_month
+        ).values('product__name').annotate(
+            total_quantity=models.Sum('quantity'),
+            total_revenue=models.Sum(
+                models.F('quantity') * models.F('unit_price') *
+                (1 - models.F('discount_percentage') / 100)
+            )
+        ).order_by('-total_quantity')[:5]
+
+        # Recent returns
+        context['recent_returns'] = Return.objects.select_related(
+            'sale', 'employee'
+        ).order_by('-return_date')[:5]
+
+        return context
+
+class CustomerAnalyticsView(LoginRequiredMixin, ListView):
+    model = Customer
+    template_name = 'sales/customer_analytics.html'
+    context_object_name = 'customers'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Customer analytics
+        context['total_customers'] = Customer.objects.count()
+        context['active_customers'] = Customer.objects.filter(
+            purchases__sale_date__date__gte=datetime.date.today() - datetime.timedelta(days=30)
+        ).distinct().count()
+
+        # Membership distribution
+        context['membership_distribution'] = Customer.objects.values(
+            'membership_level'
+        ).annotate(count=models.Count('id')).order_by('-count')
+
+        # Top customers by spending
+        context['top_customers'] = Customer.objects.annotate(
+            total_spent=models.Sum('purchases__total_amount')
+        ).filter(total_spent__isnull=False).order_by('-total_spent')[:10]
+
+        # Loyalty points distribution
+        context['loyalty_stats'] = {
+            'avg_points': Customer.objects.aggregate(avg=models.Avg('loyalty_points'))['avg'] or 0,
+            'max_points': Customer.objects.aggregate(max=models.Max('loyalty_points'))['max'] or 0,
+            'total_points': Customer.objects.aggregate(total=models.Sum('loyalty_points'))['total'] or 0,
+        }
+
+        return context
+
+class PerformanceReportView(LoginRequiredMixin, ListView):
+    model = Sale
+    template_name = 'sales/performance_report.html'
+    context_object_name = 'sales'
+
+    def get_queryset(self):
+        queryset = Sale.objects.select_related('employee', 'store')
+
+        # Date filtering
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+
+        if start_date:
+            queryset = queryset.filter(sale_date__date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(sale_date__date__lte=end_date)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Employee performance
+        context['employee_performance'] = Sale.objects.values(
+            'employee__first_name', 'employee__last_name'
+        ).annotate(
+            total_sales=models.Count('id'),
+            total_revenue=models.Sum('total_amount'),
+            avg_sale=models.Avg('total_amount')
+        ).order_by('-total_revenue')
+
+        # Store performance
+        context['store_performance'] = Sale.objects.values(
+            'store__name'
+        ).annotate(
+            total_sales=models.Count('id'),
+            total_revenue=models.Sum('total_amount')
+        ).order_by('-total_revenue')
+
+        # Payment method distribution
+        context['payment_methods'] = Sale.objects.values(
+            'payment_method'
+        ).annotate(count=models.Count('id')).order_by('-count')
+
+        return context
+
+class ProductPerformanceView(LoginRequiredMixin, ListView):
+    model = SaleItem
+    template_name = 'sales/product_performance.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return SaleItem.objects.select_related('product', 'sale').order_by('-sale__sale_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Product performance metrics
+        context['product_performance'] = SaleItem.objects.values(
+            'product__name', 'product__sku'
+        ).annotate(
+            total_quantity=models.Sum('quantity'),
+            total_revenue=models.Sum(
+                models.F('quantity') * models.F('unit_price') *
+                (1 - models.F('discount_percentage') / 100)
+            ),
+            avg_price=models.Avg('unit_price'),
+            sales_count=models.Count('sale', distinct=True)
+        ).order_by('-total_revenue')
+
+        # Low stock alerts
+        from inventory.models import Product
+        context['low_stock_products'] = Product.objects.filter(
+            stock_quantity__lte=models.F('reorder_level')
+        ).select_related('category', 'brand')
+
+        return context
+
+class QuickSaleView(LoginRequiredMixin, CreateView):
+    model = Sale
+    template_name = 'sales/quick_sale.html'
+    fields = ['customer', 'payment_method', 'discount_amount']
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['sale_date'] = datetime.datetime.now()
+        initial['employee'] = self.request.user.employee if hasattr(self.request.user, 'employee') else None
+        initial['store'] = self.request.user.employee.store if hasattr(self.request.user, 'employee') and hasattr(self.request.user.employee, 'store') else None
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Quick sale formset
+        SaleItemFormSet = inlineformset_factory(
+            Sale,
+            SaleItem,
+            fields=('product', 'quantity', 'unit_price', 'discount_percentage'),
+            extra=5,
+            can_delete=True
+        )
+
+        if self.request.POST:
+            context['formset'] = SaleItemFormSet(self.request.POST)
+        else:
+            context['formset'] = SaleItemFormSet()
+
+        # Popular products for quick selection
+        context['popular_products'] = Product.objects.filter(
+            saleitem__sale__sale_date__date__gte=datetime.date.today() - datetime.timedelta(days=30)
+        ).annotate(
+            sales_count=models.Count('saleitem')
+        ).order_by('-sales_count')[:10]
+
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        with transaction.atomic():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+
+            if formset.is_valid():
+                formset.instance = self.object
+                formset.save()
+
+                # Calculate total
+                self.object.total_amount = sum(
+                    item.quantity * item.unit_price * (1 - item.discount_percentage / 100)
+                    for item in self.object.items.all()
+                )
+                self.object.save()
+
+                # Award loyalty points if customer exists
+                if self.object.customer:
+                    points_earned = int(self.object.total_amount / 10)  # 1 point per $10
+                    LoyaltyTransaction.objects.create(
+                        customer=self.object.customer,
+                        sale=self.object,
+                        points_earned=points_earned,
+                        transaction_date=self.object.sale_date
+                    )
+            else:
+                return self.form_invalid(form)
+
+        messages.success(self.request, f'Quick sale completed! Total: ${self.object.total_amount:.2f}')
+        return redirect('sales:quick_sale')
+
+class LoyaltyDashboardView(LoginRequiredMixin, ListView):
+    model = LoyaltyTransaction
+    template_name = 'sales/loyalty_dashboard.html'
+    context_object_name = 'transactions'
+
+    def get_queryset(self):
+        return LoyaltyTransaction.objects.select_related(
+            'customer', 'sale'
+        ).order_by('-transaction_date')[:50]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Loyalty statistics
+        context['loyalty_stats'] = {
+            'total_customers': Customer.objects.filter(loyalty_points__gt=0).count(),
+            'total_points_issued': LoyaltyTransaction.objects.aggregate(
+                total=models.Sum('points_earned')
+            )['total'] or 0,
+            'total_points_redeemed': LoyaltyTransaction.objects.aggregate(
+                total=models.Sum('points_redeemed')
+            )['total'] or 0,
+            'active_points': Customer.objects.aggregate(
+                total=models.Sum('loyalty_points')
+            )['total'] or 0,
+        }
+
+        # Top loyalty customers
+        context['top_loyalty_customers'] = Customer.objects.filter(
+            loyalty_points__gt=0
+        ).order_by('-loyalty_points')[:10]
+
+        # Recent loyalty activity
+        context['recent_activity'] = LoyaltyTransaction.objects.select_related(
+            'customer'
+        ).order_by('-transaction_date')[:20]
+
+        # Membership level distribution
+        context['membership_levels'] = Customer.objects.values(
+            'membership_level'
+        ).annotate(count=models.Count('id')).order_by('-count')
+
+        return context

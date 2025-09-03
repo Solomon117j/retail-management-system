@@ -257,24 +257,24 @@
                     <div class="calculation-display">
                         <div class="calculation-row">
                             <span>Base Salary:</span>
-                            <span id="calc-base" class="text-success">SZL0.00</span>
+                            <span id="calc-base" class="text-success">SZL 0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Overtime Pay:</span>
-                            <span id="calc-overtime" class="text-info">SZL0.00</span>
+                            <span id="calc-overtime" class="text-info">SZL 0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Bonus:</span>
-                            <span id="calc-bonus" class="text-primary">SZL0.00</span>
+                            <span id="calc-bonus" class="text-primary">SZL 0.00</span>
                         </div>
                         <div class="calculation-row">
                             <span>Deductions:</span>
-                            <span id="calc-deductions" class="text-danger">-SZL0.00</span>
+                            <span id="calc-deductions" class="text-danger">-SZL 0.00</span>
                         </div>
                         <hr>
                         <div class="calculation-row total">
                             <strong>Net Pay:</strong>
-                            <strong id="calc-net" class="text-success fs-4">SZL0.00</strong>
+                            <strong id="calc-net" class="text-success fs-4">SZL 0.00</strong>
                         </div>
                     </div>
                 </div>
@@ -348,12 +348,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const net = base + overtime + bonus - deductions;
         
         // Update calculator display
-        document.getElementById('calc-base').textContent = '$' + base.toFixed(2);
-        document.getElementById('calc-overtime').textContent = '$' + overtime.toFixed(2);
-        document.getElementById('calc-bonus').textContent = '$' + bonus.toFixed(2);
-        document.getElementById('calc-deductions').textContent = '-$' + deductions.toFixed(2);
-        document.getElementById('calc-net').textContent = '$' + net.toFixed(2);
-        
+        document.getElementById('calc-base').textContent = 'SZL ' + base.toFixed(2);
+        document.getElementById('calc-overtime').textContent = 'SZL ' + overtime.toFixed(2);
+        document.getElementById('calc-bonus').textContent = 'SZL ' + bonus.toFixed(2);
+        document.getElementById('calc-deductions').textContent = '-SZL ' + deductions.toFixed(2);
+        document.getElementById('calc-net').textContent = 'SZL ' + net.toFixed(2);
+
         // Color coding for net pay
         const netElement = document.getElementById('calc-net');
         if (net > 0) {

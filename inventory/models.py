@@ -29,6 +29,54 @@ class Brand(models.Model):
     name = models.CharField(max_length=50, verbose_name="Brand Name")
     description = models.CharField(max_length=200, blank=True, null=True)
     website = models.URLField(max_length=100, blank=True, null=True)
+
+    # Strong Identity Enhancement Fields
+    brand_voice = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Brand Voice & Personality",
+        help_text="Describe the brand's personality, tone, and communication style"
+    )
+    aesthetic_description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Aesthetic Guidelines",
+        help_text="Visual style, color preferences, design principles"
+    )
+    primary_color = models.CharField(
+        max_length=7,
+        blank=True,
+        null=True,
+        verbose_name="Primary Color (Hex)",
+        help_text="e.g., #FF5733"
+    )
+    secondary_color = models.CharField(
+        max_length=7,
+        blank=True,
+        null=True,
+        verbose_name="Secondary Color (Hex)",
+        help_text="e.g., #33FF57"
+    )
+    brand_story = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Brand Story",
+        help_text="The narrative and values that define the brand"
+    )
+    logo = models.ImageField(
+        upload_to='brand_logos/',
+        blank=True,
+        null=True,
+        verbose_name="Brand Logo"
+    )
+    brand_assets = models.FileField(
+        upload_to='brand_assets/',
+        blank=True,
+        null=True,
+        verbose_name="Brand Assets (ZIP)",
+        help_text="Upload brand guidelines, fonts, or other assets"
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -130,7 +178,7 @@ class StoreInventory(models.Model):
         verbose_name_plural = "Store Inventory"
 
     def __str__(self):
-        return f"{self.product.name} at {self.store.name}"
+        return f"{self.product.name} at {self.store.store_name}"
 
 
 class StockMovement(models.Model):

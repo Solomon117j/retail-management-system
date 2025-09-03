@@ -1,0 +1,43 @@
+{
+  "test_run_info": {
+    "start_time": "2025-09-02T12:41:01.999967",
+    "end_time": "2025-09-02T12:41:04.070635",
+    "duration_seconds": 2.070668,
+    "target_url": null,
+    "django_settings": "retail_management_system.settings"
+  },
+  "test_results": {
+    "penetration_tests": {
+      "status": "failed",
+      "error": "Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'",
+      "timestamp": "2025-09-02T12:41:04.070433"
+    }
+  },
+  "report_files": [
+    "C:\\Users\\Thembinkosi\\Desktop\\retail_management_system\\comprehensive_security_report_20250902_124003.json",
+    "C:\\Users\\Thembinkosi\\Desktop\\retail_management_system\\security_scan_report_20250902_123600.json",
+    "C:\\Users\\Thembinkosi\\Desktop\\retail_management_system\\security_scan_report_20250902_124002.json"
+  ],
+  "summary": {
+    "penetration_tests": {
+      "status": "failed",
+      "passed": 0,
+      "failed": 0,
+      "warnings": 0,
+      "total": 0
+    },
+    "external_scan": {
+      "status": "not_run",
+      "vulnerabilities_found": 0,
+      "scan_success_rate": 0
+    },
+    "overall_status": "completed",
+    "recommendations": [
+      "Implement regular automated security testing",
+      "Set up continuous security monitoring",
+      "Conduct periodic penetration testing by certified professionals",
+      "Keep security patches and dependencies updated",
+      "Implement security awareness training for development team"
+    ]
+  }
+}

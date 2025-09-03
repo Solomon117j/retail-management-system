@@ -15,6 +15,52 @@ class Supplier(models.Model):
     address = models.CharField(max_length=200, blank=True, null=True)
     contract_start_date = models.DateField(blank=True, null=True)
     payment_terms = models.CharField(max_length=100, blank=True, null=True)
+
+    # Scalability Enhancement Fields
+    api_endpoint = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name="API Endpoint",
+        help_text="Third-party API endpoint for integration"
+    )
+    api_key = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="API Key"
+    )
+    on_time_delivery_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0.00,
+        verbose_name="On-Time Delivery Rate (%)"
+    )
+    quality_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        default=0.0,
+        verbose_name="Quality Rating (1-5)"
+    )
+    total_orders = models.PositiveIntegerField(default=0)
+    total_spent = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0.00
+    )
+    compliance_score = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0.00,
+        verbose_name="Compliance Score (%)"
+    )
+    tenant_id = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Tenant ID",
+        help_text="For multi-tenant architecture"
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

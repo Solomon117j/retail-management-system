@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Product Performance{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Product Performance</h1>
+
+    <h3>Product Performance Metrics</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Total Quantity Sold</th>
+                <th>Total Revenue</th>
+                <th>Average Price</th>
+                <th>Sales Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in product_performance %}
+            <tr>
+                <td>{{ product.product__name }}</td>
+                <td>{{ product.product__sku }}</td>
+                <td>{{ product.total_quantity }}</td>
+                <td>${{ product.total_revenue|floatformat:2 }}</td>
+                <td>${{ product.avg_price|floatformat:2 }}</td>
+                <td>{{ product.sales_count }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Low Stock Alerts</h3>
+    <div class="alert alert-warning">
+        <strong>Attention:</strong> The following products are at or below their reorder level.
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Current Stock</th>
+                <th>Reorder Level</th>
+                <th>Category</th>
+                <th>Brand</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in low_stock_products %}
+            <tr class="table-danger">
+                <td>{{ product.name }}</td>
+                <td>{{ product.sku }}</td>
+                <td>{{ product.stock_quantity }}</td>
+                <td>{{ product.reorder_level }}</td>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.brand.name }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No low stock products</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

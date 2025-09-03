@@ -23,6 +23,18 @@ class CustomerAccount(models.Model):
     address = models.TextField(blank=True)
     birth_date = models.DateField(null=True, blank=True)
     loyalty_points = models.IntegerField(default=0)
+
+    # Optimized UX Enhancement Fields
+    preferred_language = models.CharField(
+        max_length=10,
+        default='en',
+        choices=[('en', 'English'), ('es', 'Spanish'), ('fr', 'French'), ('si', 'siSwati')],
+        verbose_name="Preferred Language"
+    )
+    marketing_opt_in = models.BooleanField(default=False, verbose_name="Marketing Communications")
+    sms_notifications = models.BooleanField(default=False, verbose_name="SMS Notifications")
+    push_notifications = models.BooleanField(default=True, verbose_name="Push Notifications")
+
     date_joined = models.DateTimeField(auto_now_add=timezone.now)
     updated_at = models.DateTimeField(auto_now=timezone.now)
 
@@ -61,7 +73,9 @@ class OnlineOrder(models.Model):
     customer = models.ForeignKey(
         CustomerAccount,
         on_delete=models.PROTECT,
-        related_name='online_orders'
+        related_name='online_orders',
+        null=True,
+        blank=True  # Allow guest checkout
     )
     order_date = models.DateTimeField(default=timezone.now)
     shipping_address = models.CharField(max_length=200)
@@ -84,6 +98,12 @@ class OnlineOrder(models.Model):
         max_length=20,
         choices=PAYMENT_METHOD_CHOICES
     )
+
+    # Guest checkout support
+    guest_email = models.EmailField(blank=True, null=True, verbose_name="Guest Email")
+    guest_first_name = models.CharField(max_length=50, blank=True, null=True)
+    guest_last_name = models.CharField(max_length=50, blank=True, null=True)
+    guest_phone = models.CharField(max_length=20, blank=True, null=True)
     store_pickup = models.ForeignKey(
         'store_management.Store',
         on_delete=models.SET_NULL,
@@ -240,3 +260,65 @@ class CartItem(models.Model):
     @property
     def total_price(self):
         return self.quantity * self.product.unit_price
+
+class SavedPaymentMethod(models.Model):
+    """
+    Saved payment methods for faster checkout
+    """
+    PAYMENT_TYPE_CHOICES = [
+        ('credit_card', 'Credit Card'),
+        ('debit_card', 'Debit Card'),
+        ('digital_wallet', 'Digital Wallet'),
+    ]
+
+    customer = models.ForeignKey(
+        CustomerAccount,
+        on_delete=models.CASCADE,
+        related_name='saved_payment_methods'
+    )
+    payment_type = models.CharField(
+        max_length=20,
+        choices=PAYMENT_TYPE_CHOICES
+    )
+    card_last_four = models.CharField(
+        max_length=4,
+        blank=True,
+        null=True,
+        verbose_name="Last 4 Digits"
+    )
+    card_brand = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        verbose_name="Card Brand"
+    )
+    expiry_month = models.PositiveIntegerField(blank=True, null=True)
+    expiry_year = models.PositiveIntegerField(blank=True, null=True)
+    is_default = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Saved Payment Method"
+        verbose_name_plural = "Saved Payment Methods"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['customer', 'is_default'],
+                name='unique_default_payment',
+                condition=models.Q(is_default=True)
+            )
+        ]
+
+    def __str__(self):
+        if self.card_last_four:
+            return f"{self.get_payment_type_display()} ****{self.card_last_four}"
+        return f"{self.get_payment_type_display()}"
+
+    def save(self, *args, **kwargs):
+        if self.is_default:
+            # Remove default flag from other payment methods
+            SavedPaymentMethod.objects.filter(
+                customer=self.customer,
+                is_default=True
+            ).exclude(pk=self.pk).update(is_default=False)
+        super().save(*args, **kwargs)

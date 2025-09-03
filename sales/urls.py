@@ -33,4 +33,16 @@ urlpatterns = [
 
     # Order URLs
     path('orders/', views.CustomerOrderListView.as_view(), name='customer_order_list'),
+
+    # Dashboard and Analytics URLs
+    path('dashboard/', views.SalesDashboardView.as_view(), name='sales_dashboard'),
+    path('analytics/customers/', views.CustomerAnalyticsView.as_view(), name='customer_analytics'),
+    path('analytics/performance/', views.PerformanceReportView.as_view(), name='performance_report'),
+    path('analytics/products/', views.ProductPerformanceView.as_view(), name='product_performance'),
+
+    # POS and Quick Actions
+    path('pos/', views.QuickSaleView.as_view(), name='quick_sale'),
+
+    # Loyalty Dashboard
+    path('loyalty/dashboard/', views.LoyaltyDashboardView.as_view(), name='loyalty_dashboard'),
 ]

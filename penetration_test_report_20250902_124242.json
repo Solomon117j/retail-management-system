@@ -1,0 +1,67 @@
+{
+  "passed": 1,
+  "failed": 0,
+  "warnings": 0,
+  "tests": [
+    {
+      "name": "test_brute_force_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T12:42:39.643191"
+    },
+    {
+      "name": "Password Policy",
+      "result": "PASS",
+      "details": "Strong password policy enforced",
+      "timestamp": "2025-09-02T12:42:40.048870"
+    },
+    {
+      "name": "test_session_security",
+      "result": "ERROR",
+      "details": "Module \"retail_management_system.middleware\" does not define a \"CustomerRestrictionMiddleware\" attribute/class",
+      "timestamp": "2025-09-02T12:42:41.402197"
+    },
+    {
+      "name": "test_privilege_escalation",
+      "result": "ERROR",
+      "details": "Module \"retail_management_system.middleware\" does not define a \"CustomerRestrictionMiddleware\" attribute/class",
+      "timestamp": "2025-09-02T12:42:42.331440"
+    },
+    {
+      "name": "test_direct_object_reference",
+      "result": "ERROR",
+      "details": "Module \"retail_management_system.middleware\" does not define a \"CustomerRestrictionMiddleware\" attribute/class",
+      "timestamp": "2025-09-02T12:42:42.779823"
+    },
+    {
+      "name": "test_sql_injection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T12:42:42.780129"
+    },
+    {
+      "name": "test_xss_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T12:42:42.780332"
+    },
+    {
+      "name": "test_csrf_protection",
+      "result": "ERROR",
+      "details": "Module \"retail_management_system.middleware\" does not define a \"CustomerRestrictionMiddleware\" attribute/class",
+      "timestamp": "2025-09-02T12:42:42.781153"
+    },
+    {
+      "name": "test_file_upload_security",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T12:42:42.781440"
+    },
+    {
+      "name": "test_api_security",
+      "result": "ERROR",
+      "details": "Module \"retail_management_system.middleware\" does not define a \"CustomerRestrictionMiddleware\" attribute/class",
+      "timestamp": "2025-09-02T12:42:42.782030"
+    }
+  ]
+}

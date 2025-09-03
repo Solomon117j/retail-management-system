@@ -1,0 +1,103 @@
+{
+  "passed": 1,
+  "failed": 2,
+  "warnings": 6,
+  "tests": [
+    {
+      "name": "test_brute_force_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T13:09:39.697603"
+    },
+    {
+      "name": "Password Policy",
+      "result": "PASS",
+      "details": "Strong password policy enforced",
+      "timestamp": "2025-09-02T13:09:39.772476"
+    },
+    {
+      "name": "Session Security",
+      "result": "FAIL",
+      "details": "Session not maintained",
+      "timestamp": "2025-09-02T13:09:44.755421"
+    },
+    {
+      "name": "Session Security",
+      "result": "WARN",
+      "details": "Session may not be properly invalidated",
+      "timestamp": "2025-09-02T13:09:44.789301"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /admin/: 400",
+      "timestamp": "2025-09-02T13:09:45.205413"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /accounts/user/add/: 400",
+      "timestamp": "2025-09-02T13:09:45.251705"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /human_resources/employee/add/: 400",
+      "timestamp": "2025-09-02T13:09:45.302824"
+    },
+    {
+      "name": "Direct Object Reference",
+      "result": "WARN",
+      "details": "Unexpected response for /accounts/user/8933be79-1c81-4cd4-8a87-f7e64078017b/change/: 400",
+      "timestamp": "2025-09-02T13:09:45.672636"
+    },
+    {
+      "name": "Direct Object Reference",
+      "result": "WARN",
+      "details": "Unexpected response for /human_resources/employee/8933be79-1c81-4cd4-8a87-f7e64078017b/: 400",
+      "timestamp": "2025-09-02T13:09:45.974231"
+    },
+    {
+      "name": "test_sql_injection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T13:09:45.988500"
+    },
+    {
+      "name": "test_xss_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T13:09:46.037742"
+    },
+    {
+      "name": "CSRF Protection",
+      "result": "FAIL",
+      "details": "CSRF protection not enforced",
+      "timestamp": "2025-09-02T13:09:46.184801"
+    },
+    {
+      "name": "test_file_upload_security",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-02T13:09:46.185099"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/products/ returned 400",
+      "timestamp": "2025-09-02T13:09:46.261882"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/users/ returned 400",
+      "timestamp": "2025-09-02T13:09:46.318685"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/sales/ returned 400",
+      "timestamp": "2025-09-02T13:09:46.386891"
+    }
+  ]
+}

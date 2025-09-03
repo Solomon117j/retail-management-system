@@ -4,8 +4,11 @@
 
 {% block content %}
 <div class="container mt-4">
+    <div class="alert alert-info" role="alert">
+        <small><strong>Template:</strong> {{ template_name }}</small>
+    </div>
     <h1>My Account Details</h1>
-    
+
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">Account Information</h5>
@@ -21,7 +24,7 @@
                 <div class="col-md-6">
                     <p><strong>Account Created:</strong> {{ account.user.date_joined|date:"F j, Y" }}</p>
                     <p><strong>Last Login:</strong> {{ account.user.last_login|date:"F j, Y H:i" }}</p>
-                    <p><strong>Account Status:</strong> 
+                    <p><strong>Account Status:</strong>
                         {% if account.user.is_active %}
                             <span class="badge bg-success">Active</span>
                         {% else %}

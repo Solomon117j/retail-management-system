@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import Sum
 
 from .models import Product, StoreInventory, StockMovement, Brand, Category
-from .forms import ProductForm, StockAdjustmentForm
+from .forms import ProductForm, StockAdjustmentForm, BrandForm, CategoryForm
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -19,6 +19,15 @@ class ProductListView(LoginRequiredMixin, ListView):
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'inventory/product_detail.html'
+
+    def get_queryset(self):
+        return super().get_queryset().select_related(
+            'category', 'brand'
+        ).prefetch_related(
+            'inventory_records__store',
+            'stockmovement_set__store',
+            'stockmovement_set__created_by'
+        )
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -71,14 +80,14 @@ class StockListView(LoginRequiredMixin, ListView):
             qs = qs.filter(store_id=store_id)
         if product_name:
             qs = qs.filter(product__name__icontains=product_name)
-        return qs.order_by('store__name', 'product__name')
+        return qs.order_by('store__store_name', 'product__name')
 
     def get_context_data(self, **kwargs):
         from store_management.models import Store
         ctx = super().get_context_data(**kwargs)
         ctx['stores'] = Store.objects.all()
         # totals per store
-        ctx['totals'] = StoreInventory.objects.values('store__name').annotate(total=Sum('quantity'))
+        ctx['totals'] = StoreInventory.objects.values('store__store_name').annotate(total=Sum('quantity'))
         return ctx
 
 
@@ -111,15 +120,110 @@ class StockMovementListView(LoginRequiredMixin, ListView):
             qs = qs.filter(product_id=product_id)
         return qs
 
-class BrandListView(ListView):
+class BrandListView(LoginRequiredMixin, ListView):
     model = Brand
     template_name = 'inventory/brand_list.html'
+    context_object_name = 'brands'
+    paginate_by = 20
+
+
+class BrandCreateView(LoginRequiredMixin, CreateView):
+    model = Brand
+    form_class = BrandForm
+    template_name = 'inventory/brand_form.html'
+    success_url = reverse_lazy('inventory:brand_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Brand created successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the errors below.')
+        return super().form_invalid(form)
+
+
+class BrandUpdateView(LoginRequiredMixin, UpdateView):
+    model = Brand
+    form_class = BrandForm
+    template_name = 'inventory/brand_form.html'
+    success_url = reverse_lazy('inventory:brand_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Brand updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the errors below.')
+        return super().form_invalid(form)
+
+
+class BrandDeleteView(LoginRequiredMixin, DeleteView):
+    model = Brand
+    template_name = 'inventory/brand_confirm_delete.html'
+    success_url = reverse_lazy('inventory:brand_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_name'] = 'brand'
+        context['cancel_url'] = reverse_lazy('inventory:brand_list')
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Brand deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'inventory/category_list.html'
     context_object_name = 'categories'
+    paginate_by = 20
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'inventory/category_form.html'
+    success_url = reverse_lazy('inventory:category_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Category created successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the errors below.')
+        return super().form_invalid(form)
+
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'inventory/category_form.html'
+    success_url = reverse_lazy('inventory:category_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Category updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the errors below.')
+        return super().form_invalid(form)
+
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    template_name = 'inventory/category_confirm_delete.html'
+    success_url = reverse_lazy('inventory:category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_name'] = 'category'
+        context['cancel_url'] = reverse_lazy('inventory:category_list')
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Category deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
 
 class StoreInventoryListView(LoginRequiredMixin, ListView):

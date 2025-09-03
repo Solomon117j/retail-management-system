@@ -19,7 +19,7 @@
       <select name="store" class="form-select">
         <option value="">All stores</option>
         {% for s in stores %}
-          <option value="{{ s.id }}" {% if request.GET.store|default:'' == s.id|stringformat:'s' %}selected{% endif %}>{{ s.name }}</option>
+          <option value="{{ s.id }}" {% if request.GET.store|default:'' == s.id|stringformat:'s' %}selected{% endif %}>{{ s.store_name }}</option>
         {% endfor %}
       </select>
     </div>
@@ -48,7 +48,7 @@
           <tbody>
             {% for item in stocks %}
             <tr>
-              <td>{{ item.store.name }}</td>
+              <td>{{ item.store.store_name }}</td>
               <td>{{ item.product.name }}</td>
               <td class="text-end {% if item.quantity <= item.reorder_level %}text-danger fw-bold{% endif %}">{{ item.quantity }}</td>
               <td class="text-end">{{ item.reorder_level }}</td>

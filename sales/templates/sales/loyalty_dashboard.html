@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Loyalty Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Loyalty Dashboard</h1>
+
+    <div class="row my-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Points Issued</div>
+                <div class="card-body">
+                    <h3>{{ loyalty_stats.total_points_issued }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Points Redeemed</div>
+                <div class="card-body">
+                    <h3>{{ loyalty_stats.total_points_redeemed }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Active Points</div>
+                <div class="card-body">
+                    <h3>{{ loyalty_stats.active_points }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Customers with Points</div>
+                <div class="card-body">
+                    <h3>{{ loyalty_stats.total_customers }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Membership Level Distribution</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Membership Level</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for level in membership_levels %}
+                    <tr>
+                        <td>{{ level.membership_level }}</td>
+                        <td>{{ level.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2">No data available</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3>Top Loyalty Customers</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Loyalty Points</th>
+                        <th>Membership Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in top_loyalty_customers %}
+                    <tr>
+                        <td><a href="{% url 'sales:customer_detail' customer.id %}">{{ customer.first_name }} {{ customer.last_name }}</a></td>
+                        <td>{{ customer.loyalty_points }}</td>
+                        <td>{{ customer.membership_level }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3">No data available</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3>Recent Loyalty Activity</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Transaction Date</th>
+                <th>Points Earned</th>
+                <th>Points Redeemed</th>
+                <th>Sale</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in recent_activity %}
+            <tr>
+                <td><a href="{% url 'sales:customer_detail' transaction.customer.id %}">{{ transaction.customer.first_name }} {{ transaction.customer.last_name }}</a></td>
+                <td>{{ transaction.transaction_date|date:"Y-m-d H:i" }}</td>
+                <td class="text-success">+{{ transaction.points_earned }}</td>
+                <td class="text-danger">-{{ transaction.points_redeemed }}</td>
+                <td>
+                    {% if transaction.sale %}
+                    <a href="{% url 'sales:sale_detail' transaction.sale.id %}">#{{ transaction.sale.id }}</a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No recent activity</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

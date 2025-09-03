@@ -6,6 +6,10 @@ from django.views import View
 from django.utils import timezone
 from django.db.models import Sum
 from datetime import date
+from django.views.static import serve
+from django.http import HttpResponseNotFound
+from django.conf import settings
+import os
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboards/index.html'
@@ -67,11 +71,26 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 class CustomLogoutView(View):
     """Custom logout view that handles both GET and POST requests"""
-    
+
     def get(self, request):
         logout(request)
         return redirect('/accounts/login/')
-    
+
     def post(self, request):
         logout(request)
         return redirect('/accounts/login/')
+
+
+def secure_media_serve(request, path):
+    """
+    Custom media file serving view that rejects directory listing.
+    Returns 404 for directory requests to prevent folder opening.
+    """
+    full_path = os.path.join(settings.MEDIA_ROOT, path)
+
+    # Check if the path is a directory
+    if os.path.isdir(full_path):
+        return HttpResponseNotFound("Directory listing not allowed")
+
+    # If it's a file, serve it normally
+    return serve(request, path, document_root=settings.MEDIA_ROOT)

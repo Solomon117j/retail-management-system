@@ -1,656 +1,335 @@
-# Retail Management System - Comprehensive Documentation
+# Retail Management System — Comprehensive Documentation
 
 ## Table of Contents
-1. [System Overview](#system-overview)
-2. [Architecture & Technology Stack](#architecture--technology-stack)
-3. [Module Documentation](#module-documentation)
-4. [Database Schema](#database-schema)
-5. [User Management & Authentication](#user-management--authentication)
-6. [Business Workflows](#business-workflows)
-7. [API Endpoints](#api-endpoints)
-8. [Security & Permissions](#security--permissions)
-9. [Installation & Setup](#installation--setup)
-10. [Configuration](#configuration)
-11. [Deployment](#deployment)
-12. [Maintenance & Troubleshooting](#maintenance--troubleshooting)
+1. System Overview
+2. Architecture & Technology Stack
+3. Applications & Modules
+4. Data Model Overview
+5. Roles, Authentication & Authorization
+6. Core Workflows
+7. Frontend & Navigation
+8. Import/Export & Timezone
+9. Installation & Setup
+10. Configuration
+11. Running & Management Commands
+12. Testing & Sample Data
+13. Deployment Notes
+14. Security Practices
+15. Troubleshooting
 
 ---
 
-## System Overview
+## 1) System Overview
+A Django-based multi-app system for managing retail operations across stores, inventory, procurement, HR, sales, reporting, and e-commerce. It ships with Bootstrap templates, a shared base layout, and per-app UIs. The default DB is SQLite for development.
 
-The Retail Management System is a comprehensive Django-based enterprise solution designed to manage all aspects of retail operations. The system provides end-to-end functionality for inventory management, sales processing, human resources, procurement, and business analytics.
-
-### Key Features
-- **Multi-store support** with centralized management
-- **Real-time inventory tracking** across all locations
-- **Integrated POS system** with offline capability
-- **Employee management** with attendance and payroll
-- **Supplier relationship management**
-- **Comprehensive reporting and analytics**
-- **E-commerce integration**
-- **Role-based access control**
-
-### Target Users
-- **Store Managers**: Daily operations, inventory, sales
-- **HR Personnel**: Employee management, payroll, attendance
-- **Procurement Officers**: Supplier management, purchase orders
-- **Administrators**: System configuration, user management
-- **Executives**: Reports, analytics, business insights
+Key capabilities:
+- Multi-store operations with Store as a first-class entity
+- Inventory: products, brands, categories, store-specific inventory, stock movements
+- Procurement: suppliers, purchase orders, receiving
+- HR: employees, attendance, payroll
+- Sales: sales transactions and customer orders
+- E-commerce: product browse and online orders
+- Reporting and dashboards
 
 ---
 
-## Architecture & Technology Stack
+## 2) Architecture & Technology Stack
 
-### Backend Framework
-- **Django 4.x**: Primary web framework
-- **Django REST Framework**: API development
-- **PostgreSQL**: Primary database
-- **Redis**: Caching and session management
+Backend
+- Django (Python 3.13 runtime observed in __pycache__) 
+- SQLite (db.sqlite3) for development
 
-### Frontend Technologies
-- **Django Templates**: Server-side rendering
-- **Bootstrap 5**: Responsive UI framework
-- **jQuery**: JavaScript utilities
-- **Chart.js**: Data visualization
+Frontend
+- Django templates with Bootstrap 5
+- Font Awesome icons
+- Custom CSS/JS under /static and collected /staticfiles
 
-### Development Tools
-- **Python 3.9+**: Programming language
-- **pip**: Package management
-- **Git**: Version control
-- **Docker**: Containerization support
+Project layout (key paths)
+- Project settings: retail_management_system/settings.py
+- Project URLs: retail_management_system/urls.py
+- Base template: templates/base.html
+- Apps: accounts, inventory, procurement, sales, store_management, human_resources, reporting, e_commerce, dashboards
 
-### System Architecture
-```
-┌─────────────────────────────────────────┐
-│           Load Balancer                 │
-└─────────────────┬───────────────────────┘
-                  │
-┌─────────────────▼───────────────────────┐
-│          Web Server (Nginx)             │
-└─────────────────┬───────────────────────┘
-                  │
-┌─────────────────▼───────────────────────┐
-│         Django Application              │
-│  ┌─────────────┬─────────────┐        │
-│  │   WSGI      │   Django    │        │
-│  │  Server     │   App       │        │
-│  └─────────────┴─────────────┘        │
-└─────────────────┬───────────────────────┘
-                  │
-┌─────────────────▼───────────────────────┐
-│         Database Layer                  │
-│  ┌─────────────┬─────────────┐        │
-│  │ PostgreSQL  │    Redis    │        │
-│  │  Primary    │   Cache     │        │
-│  └─────────────┴─────────────┘        │
-└─────────────────────────────────────────┘
-```
+Notes
+- No DRF/API endpoints are currently implemented in the repo.
+- Redis/PostgreSQL are not required for local development.
 
 ---
 
-## Module Documentation
+## 3) Applications & Modules
 
-### 1. Accounts Module (`accounts/`)
-**Purpose**: User authentication and authorization management
+accounts
+- Authentication extensions and login templates in templates/registration/* (staff, customer flows)
 
-**Key Models**:
-- `User`: Extended Django user model with additional fields
-- `UserProfile`: Additional user information and preferences
+inventory
+- Models: Category, Brand, Product, StoreInventory, StockMovement (planned/used by flows)
+- URLs: product_list/create/detail/edit/delete; brand_list; category_list; stock_movement_list; storeinventory_list
+- Features: CRUD for products, brands, categories; store-level inventory; movements
 
-**Features**:
-- User registration and authentication
-- Password reset functionality
-- Profile management
-- Role-based permissions
+procurement
+- Models: Supplier, SupplierProduct, PurchaseOrder, PurchaseOrderItem
+- URLs: supplier_*, supplierproduct_*, purchaseorder_* (list/detail/create/update/delete), purchaseorder_status, purchaseorder_receive
+- Features: supplier management, PO lifecycle, receiving; integration point to increment store inventory on receive
 
-### 2. Inventory Module (`inventory/`)
-**Purpose**: Stock and inventory management across all stores
+store_management
+- Provides Store model and CRUD; store-level settings and navigation entry
 
-**Key Models**:
-- `Product`: Product catalog with variants
-- `Stock`: Inventory levels per store
-- `StockMovement`: Track all inventory changes
-- `Category`: Product categorization
+human_resources
+- Models: Employee, Attendance, Payroll
+- URLs: employee_list/create, attendance_list, payroll_list, exports
+- Features: attendance tracking, payroll management, CSV exports
 
-**Features**:
-- Real-time stock tracking
-- Low stock alerts
-- Barcode scanning support
-- Multi-location inventory
-- Stock adjustments and transfers
+sales
+- SalesTransaction, CustomerOrder (as per URLs/templates)
+- URLs: sales_transaction_list, customer_order_list
 
-### 3. Sales Module (`sales/`)
-**Purpose**: Point of sale and transaction processing
+reporting
+- Reporting pages and dashboards per app
 
-**Key Models**:
-- `Sale`: Complete transaction records
-- `SaleItem`: Individual line items
-- `SalesTransaction`: Payment processing
+e_commerce
+- Customer-facing browsing and order constructs
+- URLs: product_browse, online_order_list, customer_account_list
 
-**Features**:
-- POS interface for cashiers
-- Multiple payment methods
-- Receipt generation
-- Returns and refunds
-- Sales analytics
-
-### 4. Human Resources Module (`human_resources/`)
-**Purpose**: Employee lifecycle management
-
-**Key Models**:
-- `Employee`: Staff information and records
-- `Attendance`: Daily attendance tracking
-- `Payroll`: Salary processing and payslips
-- `Leave`: Leave management system
-
-**Features**:
-- Employee onboarding
-- Attendance tracking (biometric/RFID)
-- Payroll calculation
-- Leave management
-- Performance tracking
-
-### 5. Procurement Module (`procurement/`)
-**Purpose**: Supplier and purchase order management
-
-**Key Models**:
-- `Supplier`: Vendor information
-- `PurchaseOrder`: Purchase order management
-- `PurchaseItem`: Order line items
-
-**Features**:
-- Supplier relationship management
-- Purchase order creation
-- Delivery tracking
-- Supplier performance metrics
-
-### 6. Store Management (`store_management/`)
-**Purpose**: Individual store operations and settings
-
-**Key Models**:
-- `Store`: Store information and configuration
-- `StoreSettings`: Store-specific settings
-
-**Features**:
-- Multi-store support
-- Store-specific pricing
-- Local inventory management
-- Store performance tracking
-
-### 7. E-commerce (`e_commerce/`)
-**Purpose**: Online sales platform integration
-
-**Key Models**:
-- `CustomerAccount`: Online customer profiles
-- `OnlineOrder`: Web-based orders
-
-**Features**:
-- Online catalog
-- Shopping cart functionality
-- Payment gateway integration
-- Order fulfillment
-
-### 8. Reporting (`reporting/`)
-**Purpose**: Business intelligence and analytics
-
-**Features**:
-- Sales reports
-- Inventory reports
-- Employee reports
-- Financial analytics
-- Custom report builder
-
-### 9. Dashboards (`dashboards/`)
-**Purpose**: Executive and operational dashboards
-
-**Features**:
-- Real-time KPI monitoring
-- Sales performance dashboards
-- Inventory alerts
-- Employee attendance overview
+dashboards
+- Root dashboard at dashboards:dashboard
 
 ---
 
-## Database Schema
+## 4) Data Model Overview
 
-### Core Entity Relationships
+Core relationships (high-level):
+- Store 1—* StoreInventory (*per Product per Store*)
+- Product *—1 Brand, Product *—1 Category
+- StockMovement tracks quantity deltas per Product per Store (planned/used)
+- Supplier 1—* PurchaseOrder 1—* PurchaseOrderItem (references Product)
+- Employee has Attendance and Payroll entries
+- SalesTransaction and CustomerOrder reference products/items (via app logic)
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│    Store    │────<│   Product   │>────│  Category   │
-└─────────────┘     └─────────────┘     └─────────────┘
-        │                    │
-        │                    >────┌─────────────┐
-        │                         │    Stock    │
-        │                         └─────────────┘
-        │                                │
-┌─────────────┐     ┌─────────────┐     │
-│  Employee   │────<│   Payroll   │<────┘
-└─────────────┘     └─────────────┘
-        │
-        >────┌─────────────┐
-             │ Attendance  │
-             └─────────────┘
-
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Supplier  │────<│PurchaseOrder│>────│    Sale     │
-└─────────────┘     └─────────────┘     └─────────────┘
-                            │                    │
-                            │                    >────┌─────────────┐
-                            │                         │SaleTransaction│
-                            │                         └─────────────┘
-```
-
-### Key Tables Overview
-
-| Table Name | Purpose | Key Fields |
-|------------|---------|------------|
-| `auth_user` | User authentication | username, email, password |
-| `inventory_product` | Product catalog | name, sku, price, category |
-| `inventory_stock` | Inventory levels | product_id, store_id, quantity |
-| `sales_sale` | Transaction records | total_amount, payment_method, timestamp |
-| `hr_employee` | Employee information | name, email, store_id, position |
-| `hr_payroll` | Salary processing | employee_id, basic_salary, allowances |
+Planned/important constraints
+- StoreInventory: unique (store, product)
+- StockMovement: records type (inbound/outbound/adjustment) and quantities
 
 ---
 
-## User Management & Authentication
+## 5) Roles, Authentication & Authorization
 
-### User Roles & Permissions
+Roles observed in UI and templates
+- Staff (default back-office users)
+- Customer (limited navigation; separate login/registration screens)
 
-| Role | Permissions | Description |
-|------|-------------|-------------|
-| **Super Admin** | Full system access | Complete control over all modules |
-| **Store Manager** | Store operations | Inventory, sales, employees |
-| **Cashier** | POS operations | Process sales, view products |
-| **HR Manager** | HR functions | Employee management, payroll |
-| **Procurement Officer** | Purchasing | Suppliers, purchase orders |
-| **Accountant** | Financial | Reports, payroll approval |
-| **Viewer** | Read-only | Dashboards and reports |
+Permissions and visibility
+- Base navigation hides most management menus for user.is_customer
+- Staff get access to Stores, HR, Inventory, Procurement, Analytics
+- Customers see e-commerce options (browse, online orders, account) and Sales menu entries relevant to them
 
-### Authentication Flow
-1. User submits credentials via login form
-2. System validates against Django authentication
-3. Role-based permissions are loaded
-4. Redirect to appropriate dashboard
-5. Session management with Redis
+Authentication templates
+- templates/registration/login.html, staff_login.html, customer_login.html, customer_registration.html, logout.html
 
 ---
 
-## Business Workflows
+## 6) Core Workflows
 
-### 1. Product Lifecycle Workflow
-```
-New Product → Add to Catalog → Set Initial Stock → Set Pricing → Available for Sale
-     ↓              ↓              ↓              ↓              ↓
-  Supplier    Quality Check    Stock Entry    Price Update    POS/E-commerce
-```
+Inventory workflow
+1. Create Category/Brand
+2. Create Product
+3. Initialize StoreInventory (per store)
+4. Record StockMovements for adjustments/transfers
 
-### 2. Sales Process Workflow
-```
-Customer Purchase → Scan Items → Calculate Total → Process Payment → Generate Receipt
-        ↓              ↓              ↓              ↓              ↓
-   Inventory Check   Update Stock   Apply Discount   Record Sale   Update Analytics
-```
+Procurement workflow
+1. Create Supplier and SupplierProduct
+2. Create Purchase Order with items
+3. Update PO status and Receive goods
+4. Receiving should increment StoreInventory and log inbound StockMovement (planned/implemented per views)
 
-### 3. Employee Management Workflow
-```
-New Hire → Create Employee Record → Set Schedule → Track Attendance → Process Payroll
-    ↓              ↓              ↓              ↓              ↓
-  Onboarding    HR Approval    Shift Planning    Daily Check-in    Monthly Processing
-```
+HR workflow
+1. Create Employee
+2. Track Attendance
+3. Process Payroll
+4. Export CSVs where needed
 
-### 4. Procurement Workflow
-```
-Low Stock Alert → Create PO → Send to Supplier → Receive Goods → Update Inventory
-        ↓              ↓              ↓              ↓              ↓
-   System Detection   Manager Approval   Email Notification   Quality Check   Stock Update
-```
+Sales workflow
+1. Record SalesTransaction
+2. Manage CustomerOrder
+3. Reporting pulls sales analytics
 
----
-
-## API Endpoints
-
-### Authentication Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/auth/login/` | POST | User authentication |
-| `/api/auth/logout/` | POST | User logout |
-| `/api/auth/password/reset/` | POST | Password reset request |
-
-### Inventory Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/inventory/products/` | GET, POST | Product listing and creation |
-| `/api/inventory/stock/` | GET, PUT | Stock levels and updates |
-| `/api/inventory/categories/` | GET | Product categories |
-
-### Sales Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/sales/transactions/` | GET, POST | Sales records |
-| `/api/sales/receipts/<id>/` | GET | Receipt details |
-| `/api/sales/refunds/` | POST | Process refunds |
-
-### HR Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/hr/employees/` | GET, POST | Employee management |
-| `/api/hr/attendance/` | GET, POST | Attendance records |
-| `/api/hr/payroll/` | GET, POST | Payroll processing |
+E-commerce workflow
+1. Browse Products
+2. Place Online Orders
+3. Manage Customer Accounts
 
 ---
 
-## Security & Permissions
+## 7) Frontend & Navigation
 
-### Security Features
-- **CSRF Protection**: All forms include CSRF tokens
-- **SQL Injection Prevention**: Django ORM with parameterized queries
-- **XSS Protection**: Template auto-escaping
-- **Rate Limiting**: API endpoint throttling
-- **HTTPS Enforcement**: SSL/TLS encryption
-- **Secure Password Storage**: PBKDF2 password hashing
+Base template: templates/base.html
+- Bootstrap 5, Font Awesome, custom main.css, main.js
+- Navbar links conditionally rendered by user role
+- Menus:
+  - Stores: list/create
+  - HR: employees, attendance, payroll, exports
+  - Inventory: products, brands, categories, stock movement, store inventory
+  - Sales: transactions, customer orders
+  - Ecommerce: browse, online orders, customer accounts
+  - Procurement: suppliers, purchase orders, create PO
+  - Analytics: analytics:dashboard (visible to staff)
 
-### Permission Matrix
-
-| Module | Super Admin | Store Manager | Cashier | HR Manager |
-|--------|-------------|---------------|---------|------------|
-| **Products** | CRUD | CRUD | R | R |
-| **Inventory** | CRUD | CRUD | R | - |
-| **Sales** | CRUD | CRUD | CR | R |
-| **Employees** | CRUD | CRUD | - | CRUD |
-| **Payroll** | CRUD | R | - | CRUD |
-| **Reports** | CRUD | CRUD | R | CRUD |
+Shared includes
+- templates/includes/pagination.html
 
 ---
 
-## Installation & Setup
+## 8) Import/Export & Timezone
 
-### Prerequisites
-- Python 3.9 or higher
-- PostgreSQL 12 or higher
-- Redis server
-- Node.js (for frontend assets)
+Exports (HR examples seen in nav)
+- Employees CSV: hr:employee_export?format=csv
+- Attendance CSV: hr:attendance_export?format=csv
+- Payroll CSV: hr:payroll_export?format=csv
 
-### Installation Steps
+Timezone considerations
+- See EXPORT_TIMEZONE_FIX.md for known adjustments and best practices (ensure timezone-aware datetimes when exporting; align with USE_TZ in settings).
 
-1. **Clone the Repository**
+---
+
+## 9) Installation & Setup
+
+Prerequisites
+- Python 3.11+ (project compiled with 3.13 locally; Python 3.10+ recommended)
+- pip
+
+Steps
+1. Create and activate a virtual environment
+   - Windows PowerShell
+     ```powershell
+     python -m venv env
+     .\env\Scripts\Activate.ps1
+     ```
+   - macOS/Linux
+     ```bash
+     python -m venv env
+     source env/bin/activate
+     ```
+2. Install Django (requirements.txt may be absent)
+   ```bash
+   pip install django
+   ```
+3. Apply migrations
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+4. Create a superuser
+   ```bash
+   python manage.py createsuperuser
+   ```
+5. Run the server
+   ```bash
+   python manage.py runserver
+   ```
+
+Default DB
+- SQLite file db.sqlite3 is included/created locally; no external DB setup required for development.
+
+Static/Media
+- Development uses /static and /media directories
+- For production, configure STATIC_ROOT and MEDIA_ROOT; run collectstatic
+
+---
+
+## 10) Configuration
+
+Key settings (retail_management_system/settings.py)
+- Installed apps include: accounts, inventory, procurement, sales, store_management, human_resources, reporting, e_commerce, dashboards
+- Templates directory includes /templates with base.html
+- Static files served from /static; collected into /staticfiles in production
+- Authentication templates under templates/registration
+
+Environment
+- For production, set DEBUG=False, ALLOWED_HOSTS, DATABASES, STATIC_ROOT, MEDIA_ROOT
+
+---
+
+## 11) Running & Management Commands
+
+Common commands
+- runserver: start dev server
+- makemigrations/migrate: schema management
+- createsuperuser: admin login
+
+Helper scripts in repo (optional utilities)
+- create_test_data.py, populate_inventory.py, populate_stores.py
+- create_test_staff_users.py, create_test_customer_users.py, create_superuser.py
+- check_product_images.py, assign_images_to_products.py
+- add_inventory_to_products.py
+- reset.py
+- diagnose_teststaff3.py
+- populate_ecommerce_products.py
+
+Run a script
 ```bash
-git clone <repository-url>
-cd retail_management_system
+python script_name.py
 ```
-
-2. **Create Virtual Environment**
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or
-venv\Scripts\activate  # Windows
-```
-
-3. **Install Dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Database Setup**
-```bash
-# Create PostgreSQL database
-createdb retail_management
-
-# Run migrations
-python manage.py makemigrations
-python manage.py migrate
-```
-
-5. **Create Superuser**
-```bash
-python manage.py createsuperuser
-```
-
-6. **Load Initial Data**
-```bash
-python manage.py loaddata fixtures/initial_data.json
-```
-
-7. **Collect Static Files**
-```bash
-python manage.py collectstatic
-```
-
-8. **Run Development Server**
-```bash
-python manage.py runserver
-```
+Note: Some scripts may assume existing data or paths; review each file before running.
 
 ---
 
-## Configuration
+## 12) Testing & Sample Data
 
-### Environment Variables
-Create a `.env` file in the project root:
+Tests present
+- tests within app folders (e.g., store_management/tests.py)
+- top-level quick scripts for smoke testing login, product creation, relationships:
+  - test_staff_login.py, test_customer_login.py, test_customer_login_verification.py, test_product_creation.py, test_manager_relationships.py
 
-```bash
-# Database Configuration
-DATABASE_URL=postgresql://user:password@localhost:5432/retail_management
-REDIS_URL=redis://localhost:6379/0
-
-# Security Settings
-SECRET_KEY=your-secret-key-here
-DEBUG=False
-ALLOWED_HOSTS=localhost,127.0.0.1,your-domain.com
-
-# Email Configuration
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-
-# Payment Gateway
-STRIPE_PUBLIC_KEY=pk_test_your_stripe_key
-STRIPE_SECRET_KEY=sk_test_your_stripe_key
-```
-
-### Settings Configuration
-Key settings in `settings.py`:
-
-```python
-# Core settings
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    # Custom apps
-    'accounts',
-    'inventory',
-    'sales',
-    'human_resources',
-    'procurement',
-    'e_commerce',
-    'dashboards',
-    'reporting',
-]
-
-# Security settings
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-```
+Suggested flow
+1. Run migrations and create superuser
+2. Use populate_* scripts to seed minimal data
+3. Log in as staff and explore Inventory/Procurement/HR flows
+4. Log in as customer and verify e-commerce navigation and restrictions
 
 ---
 
-## Deployment
+## 13) Deployment Notes
 
-### Production Deployment Checklist
+Baseline
+- Use a production-grade DB (e.g., PostgreSQL) if needed
+- Configure SECRET_KEY, DEBUG=False, ALLOWED_HOSTS
+- Configure STATIC_ROOT and run `python manage.py collectstatic`
+- Serve via WSGI (gunicorn/uwsgi + reverse proxy) or a PaaS with Django support
 
-1. **Security Hardening**
-   - [ ] Set `DEBUG=False`
-   - [ ] Configure proper `ALLOWED_HOSTS`
-   - [ ] Set up SSL certificates
-   - [ ] Configure firewall rules
+Data & media
+- Persist MEDIA_ROOT on durable storage
 
-2. **Performance Optimization**
-   - [ ] Enable Gzip compression
-   - [ ] Configure CDN for static files
-   - [ ] Set up database connection pooling
-   - [ ] Enable caching with Redis
-
-3. **Monitoring Setup**
-   - [ ] Configure error logging (Sentry)
-   - [ ] Set up performance monitoring
-   - [ ] Configure backup automation
-   - [ ] Set up health checks
-
-### Docker Deployment
-
-```dockerfile
-# Dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-RUN python manage.py collectstatic --noinput
-
-EXPOSE 8000
-
-CMD ["gunicorn", "retail_management_system.wsgi:application", "--bind", "0.0.0.0:8000"]
-```
-
-### Docker Compose Configuration
-
-```yaml
-# docker-compose.yml
-version: '3.8'
-
-services:
-  web:
-    build: .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-      - redis
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/retail_management
-      - REDIS_URL=redis://redis:6379/0
-
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=retail_management
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:6-alpine
-
-volumes:
-  postgres_data:
-```
+Migrations
+- Run migrations on deploy; apply data migrations as required
 
 ---
 
-## Maintenance & Troubleshooting
+## 14) Security Practices
 
-### Regular Maintenance Tasks
+- CSRF enabled for all forms
+- Django ORM for SQL injection protection
+- Auto-escaping templates for XSS reduction
+- Use LoginRequired on management views; staff-only where applicable
+- Strong passwords and per-user roles; never commit secrets
+- For production: HTTPS, secure session/cookie settings, HSTS at proxy layer
 
-#### Daily
-- Check system health status
-- Review error logs
-- Monitor disk space
-- Verify backup completion
-
-#### Weekly
-- Update security patches
-- Review performance metrics
-- Clean up old sessions
-- Check database integrity
-
-#### Monthly
-- Full system backup
-- Security audit
-- Performance optimization review
-- Update documentation
-
-### Common Issues & Solutions
-
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| **Database Connection Error** | "could not connect to database" | Check PostgreSQL service, verify credentials |
-| **Static Files Not Loading** | Missing CSS/JS | Run `collectstatic`, check nginx configuration |
-| **Permission Denied** | 403 Forbidden | Check user permissions, verify group membership |
-| **Memory Issues** | Slow performance | Increase server memory, optimize queries |
-| **Email Not Sending** | Failed notifications | Check email configuration, verify SMTP settings |
-
-### Log Files Location
-- **Application Logs**: `/var/log/retail_management/app.log`
-- **Error Logs**: `/var/log/retail_management/error.log`
-- **Access Logs**: `/var/log/nginx/access.log`
-- **Database Logs**: `/var/log/postgresql/postgresql.log`
-
-### Backup Strategy
-
-#### Database Backup
-```bash
-# Daily backup
-pg_dump retail_management > backup_$(date +%Y%m%d).sql
-
-# Restore from backup
-psql retail_management < backup_20240101.sql
-```
-
-#### File Backup
-```bash
-# Backup media files
-tar -czf media_backup_$(date +%Y%m%d).tar.gz media/
-
-# Backup static files
-tar -czf static_backup_$(date +%Y%m%d).tar.gz staticfiles/
-```
+See SECURITY_PROTOCOLS.md for expanded guidelines if present.
 
 ---
 
-## Support & Contact
+## 15) Troubleshooting
 
-### Technical Support
-- **Documentation**: [System Wiki](https://wiki.yourcompany.com)
-- **Issue Tracker**: [GitHub Issues](https://github.com/yourcompany/retail_management/issues)
-- **Email**: support@yourcompany.com
+Common issues
+- Cannot log in: ensure migrations applied and superuser created
+- Missing menus: user might be a customer; staff menus hidden for is_customer
+- Static not loading (dev): check DEBUG=True and STATIC_URL; (prod) run collectstatic and serve via web server
+- Timezone mismatch in exports: confirm USE_TZ=True and follow EXPORT_TIMEZONE_FIX.md
+- Inventory totals incorrect: verify StoreInventory exists for each product/store and StockMovements applied
 
-### Training Resources
-- **User Manual**: Available in the `/docs` directory
-- **Video Tutorials**: [Training Portal](https://training.yourcompany.com)
-- **API Documentation**: Available at `/api/docs/` when running
-
-### Community
-- **Developer Forum**: [Community Forum](https://forum.yourcompany.com)
-- **Feature Requests**: [Product Roadmap](https://roadmap.yourcompany.com)
-- **Contributing Guide**: [CONTRIBUTING.md](CONTRIBUTING.md)
+Where to look
+- BASE_HTML_IMPROVEMENTS.md for UI/nav improvements context
+- ATTENDANCE_FORM_IMPROVEMENTS.md, STORE_FORM_IMPROVEMENTS.md for feature-specific notes
+- SYSTEM_DOCUMENTATION.md and SYSTEM_FILE_HIERARCHY.md for broader reference
 
 ---
 
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| **1.0.0** | 2024-01-15 | Initial release |
-| **1.1.0** | 2024-02-01 | Added e-commerce module |
-| **1.2.0** | 2024-03-15 | Enhanced reporting features |
-| **1.3.0** | 2024-04-01 | Mobile responsive design |
-
----
-
-*This documentation is maintained by the Retail Management System team. For updates or corrections, please submit a pull request or contact the development team.*
-
-**Last Updated**: January 2024
-**Document Version**: 1.0.0
+Last updated: Generated to reflect the current repository state (SQLite dev DB, Django templates, no DRF endpoints).

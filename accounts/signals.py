@@ -54,7 +54,7 @@ def manage_user_profiles(sender, instance, created, **kwargs):
     elif hasattr(instance, 'employee_profile'):
         logger.info("Removing employee profile (is_employee=False)")
         try:
-            instance.employee_profile.delete()
+            instance.employee_profile.all().delete()
             logger.info("Employee profile deleted successfully")
         except Exception as e:
             logger.error(f"Error deleting employee profile: {e}")

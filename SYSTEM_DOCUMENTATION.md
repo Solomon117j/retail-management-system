@@ -1089,7 +1089,16 @@ python manage.py collectstatic
 
 #### 6. Run Development Server
 ```bash
+# Standard Django development server
 python manage.py runserver
+
+# Enhanced development server with Django Extensions (recommended)
+# Provides SSL support, Werkzeug debugger, and other advanced features
+python manage.py runserver_plus
+
+# Or use the provided convenience scripts:
+# Windows: double-click runserver_plus.bat
+# Cross-platform: python runserver_plus.py
 ```
 
 ### 8.3 Production Deployment

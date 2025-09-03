@@ -20,9 +20,15 @@ urlpatterns = [
 
     # Brands
     path('brands/', views.BrandListView.as_view(), name='brand_list'),
+    path('brand/create/', views.BrandCreateView.as_view(), name='brand_create'),
+    path('brand/<int:pk>/edit/', views.BrandUpdateView.as_view(), name='brand_edit'),
+    path('brand/<int:pk>/delete/', views.BrandDeleteView.as_view(), name='brand_delete'),
 
     # Categories
     path('categories/', views.CategoryListView.as_view(), name='category_list'),
+    path('category/create/', views.CategoryCreateView.as_view(), name='category_create'),
+    path('category/<int:pk>/edit/', views.CategoryUpdateView.as_view(), name='category_edit'),
+    path('category/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
 
     # Store Inventory
     path('store-inventory/', views.StoreInventoryListView.as_view(), name='storeinventory_list'),

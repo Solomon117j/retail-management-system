@@ -18,14 +18,4 @@ urlpatterns = [
     path('departments/<uuid:pk>/', views.DepartmentDetailView.as_view() , name='department_detail'),
     path('departments/<uuid:pk>/edit/', views.DepartmentUpdateView.as_view() , name='department_edit'),
     path('departments/<uuid:pk>/delete/', views.DepartmentDeleteView.as_view(), name='department_delete'),
-    
-    # Employee URLs (UUID primary keys)
-    path('employees/', views.EmployeeListView.as_view(), name='employee_list'),
-    path('employees/create/', views.EmployeeCreateView.as_view(), name='employee_create'),
-    path('employees/<uuid:pk>/', views.EmployeeDetailView.as_view(), name='employee_detail'),
-    path('employees/<uuid:pk>/edit/', views.EmployeeUpdateView.as_view(), name='employee_update'),
-    path('employees/<uuid:pk>/delete/', views.EmployeeDeleteView.as_view(), name='employee_delete'),
-
-    # Manager URLs (Employee PK is UUID)
-    path('managers/<uuid:pk>/subordinates/', views.ManagerSubordinatesView.as_view(), name='manager_subordinates'),
 ]

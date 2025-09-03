@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Performance Report{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Performance Report</h1>
+
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request.GET.start_date }}">
+            </div>
+            <div class="col-md-4">
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request.GET.end_date }}">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary mt-4">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <h3>Employee Performance</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Total Sales</th>
+                <th>Total Revenue</th>
+                <th>Average Sale</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employee_performance %}
+            <tr>
+                <td>{{ emp.employee__first_name }} {{ emp.employee__last_name }}</td>
+                <td>{{ emp.total_sales }}</td>
+                <td>${{ emp.total_revenue|floatformat:2 }}</td>
+                <td>${{ emp.avg_sale|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Store Performance</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Store</th>
+                <th>Total Sales</th>
+                <th>Total Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for store in store_performance %}
+            <tr>
+                <td>{{ store.store__name }}</td>
+                <td>{{ store.total_sales }}</td>
+                <td>${{ store.total_revenue|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Payment Method Distribution</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Payment Method</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for method in payment_methods %}
+            <tr>
+                <td>{{ method.payment_method }}</td>
+                <td>{{ method.count }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="2">No data available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

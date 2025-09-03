@@ -1,0 +1,51 @@
+{
+  "scan_info": {
+    "target_url": "http://localhost:8000",
+    "target_host": "localhost",
+    "scan_start": "2025-09-02T12:32:51.412092",
+    "scan_end": "2025-09-02T12:36:00.708339",
+    "duration_seconds": 189.296247
+  },
+  "results": {
+    "port_scan": {
+      "open_ports": [],
+      "total_checked": 10,
+      "status": "completed"
+    },
+    "ssl_scan": {
+      "error": "[WinError 10061] No connection could be made because the target machine actively refused it",
+      "status": "failed"
+    },
+    "web_vulnerabilities": {
+      "vulnerabilities": [],
+      "total_found": 0,
+      "status": "completed"
+    },
+    "security_headers": {
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D507EDE190>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+      "status": "failed"
+    },
+    "directory_enumeration": {
+      "found_directories": [],
+      "total_checked": 17,
+      "status": "completed"
+    },
+    "sql_injection": {
+      "vulnerable_endpoints": [],
+      "total_tested": 12,
+      "status": "completed"
+    },
+    "xss_scan": {
+      "vulnerable_endpoints": [],
+      "total_tested": 9,
+      "status": "completed"
+    }
+  },
+  "summary": {
+    "total_vulnerabilities": 0,
+    "high_severity": 0,
+    "medium_severity": 0,
+    "low_severity": 0,
+    "scan_success_rate": 71.42857142857143
+  }
+}

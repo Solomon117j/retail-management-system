@@ -29,7 +29,7 @@
             {% for mv in movements %}
             <tr>
               <td>{{ mv.created_at|date:'Y-m-d H:i' }}</td>
-              <td>{{ mv.store.name }}</td>
+              <td>{{ mv.store.store_name }}</td>
               <td>{{ mv.product.name }}</td>
               <td>{{ mv.get_movement_type_display }}</td>
               <td class="text-end">{{ mv.quantity }}</td>

@@ -116,6 +116,40 @@
             width: 20px;
             text-align: center;
         }
+
+        /* Sub-menu Styling for Inventory Dropdown */
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+            margin-left: -1px;
+            border-radius: 0 8px 8px 8px;
+        }
+
+        .dropdown-submenu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu .dropdown-toggle::after {
+            content: "\f105";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-left: 0.5rem;
+        }
+
+        .dropdown-submenu .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+
+        .dropdown-submenu .dropdown-item i {
+            width: 18px;
+            text-align: center;
+            margin-right: 0.5rem;
+        }
     </style>
     
     {% block extra_css %}{% endblock %}
@@ -154,20 +188,10 @@
                                     <i class="fas fa-store me-2"></i>Store Management
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'store_management:employee_list' %}">
-                                    <i class="fas fa-users me-2"></i>Employee Management
-                                </a>
-                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="{% url 'store_management:store_create' %}">
                                     <i class="fas fa-plus me-2"></i>Add New Store
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'store_management:employee_create' %}">
-                                    <i class="fas fa-user-plus me-2"></i>Add New Employee
                                 </a>
                             </li>
                         </ul>
@@ -194,6 +218,13 @@
                                     <i class="fas fa-money-bill-wave me-2"></i>Payroll Management
                                 </a>
                             </li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Training</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'hr:training_list' %}"><i class="fas fa-chalkboard-teacher"></i> View Training</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hr:training_create' %}"><i class="fas fa-plus"></i> Add Training</a></li>
+                                </ul>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="{% url 'hr:employee_create' %}">
@@ -201,20 +232,25 @@
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'hr:employee_export' %}?format=csv">
-                                    <i class="fas fa-download me-2"></i>Export Employees
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=csv">
-                                    <i class="fas fa-clock me-2"></i>Export Attendance
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'hr:payroll_export' %}?format=csv">
-                                    <i class="fas fa-file-export me-2"></i>Export Payroll
-                                </a>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Export</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'hr:employee_export' %}?format=csv">
+                                            <i class="fas fa-download me-2"></i>Employee Data
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'hr:attendance_export' %}?format=csv">
+                                            <i class="fas fa-clock me-2"></i>Attendance Records
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'hr:payroll_export' %}?format=csv">
+                                            <i class="fas fa-file-export me-2"></i>Payroll Data
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
@@ -222,24 +258,102 @@
                     {% if not user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Inventory
+                            <i class="fas fa-boxes"></i> Inventory
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="inventoryDropdown">
-                            <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}">Products</a></li>
-                            <li><a class="dropdown-item" href="{% url 'inventory:brand_list' %}">Brands</a></li>
-                            <li><a class="dropdown-item" href="{% url 'inventory:category_list' %}">Categories</a></li>
-                            <li><a class="dropdown-item" href="{% url 'inventory:stock_movement_list' %}">Stock Movement</a></li>
-                            <li><a class="dropdown-item" href="{% url 'inventory:storeinventory_list' %}">Store Inventory</a></li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Products</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}"><i class="fas fa-box"></i> View Products</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:product_create' %}"><i class="fas fa-plus"></i> Add Product</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Brands</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'inventory:brand_list' %}"><i class="fas fa-tags"></i> View Brands</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:brand_create' %}"><i class="fas fa-plus"></i> Add Brand</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Categories</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'inventory:category_list' %}"><i class="fas fa-list"></i> View Categories</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:category_create' %}"><i class="fas fa-plus"></i> Add Category</a></li>
+                                </ul>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#">Stock Management</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_list' %}"><i class="fas fa-list"></i> Stock List</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_movement_list' %}"><i class="fas fa-exchange-alt"></i> Stock Movement</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:storeinventory_list' %}"><i class="fas fa-warehouse"></i> Store Inventory</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_adjust' %}"><i class="fas fa-edit"></i> Stock Adjustment</a></li>
+                                </ul>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}"><i class="fas fa-file-alt"></i> Inventory Report</a></li>
                         </ul>
                     </li>
                     {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Sales
+                            <i class="fas fa-cash-register"></i> Sales
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="salesDropdown">
-                            <li><a class="dropdown-item" href="{% url 'sales:sales_transaction_list' %}">Sales Transactions</a></li>
-                            <li><a class="dropdown-item" href="{% url 'sales:customer_order_list' %}">Customer Orders</a></li>
+                            <!-- Sales Dashboard -->
+                            <li><a class="dropdown-item" href="{% url 'sales:sales_dashboard' %}"><i class="fas fa-tachometer-alt"></i> Sales Dashboard</a></li>
+                            <li><hr class="dropdown-divider"></li>
+
+                            <!-- Customer Management -->
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-users"></i> Customer Management</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'sales:customer_list' %}"><i class="fas fa-list"></i> View Customers</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:customer_create' %}"><i class="fas fa-plus"></i> Add Customer</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:customer_analytics' %}"><i class="fas fa-chart-line"></i> Customer Analytics</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Sales Management -->
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-shopping-cart"></i> Sales Management</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'sales:sale_list' %}"><i class="fas fa-list"></i> View Sales</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:sale_create' %}"><i class="fas fa-plus-circle"></i> New Sale</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:quick_sale' %}"><i class="fas fa-bolt"></i> Quick Sale (POS)</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Returns & Loyalty -->
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-undo"></i> Returns & Loyalty</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'sales:return_create' %}"><i class="fas fa-reply"></i> Process Return</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:loyaltytransaction_create' %}"><i class="fas fa-star"></i> Loyalty Transaction</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:loyalty_dashboard' %}"><i class="fas fa-gift"></i> Loyalty Dashboard</a></li>
+                                </ul>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <!-- Reports & Analytics -->
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-chart-bar"></i> Reports & Analytics</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'analytics:sales_report' %}"><i class="fas fa-chart-line"></i> Sales Reports</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:performance_report' %}"><i class="fas fa-trophy"></i> Performance Reports</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'sales:product_performance' %}"><i class="fas fa-box"></i> Product Performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'analytics:dashboard' %}"><i class="fas fa-analytics"></i> Business Analytics</a></li>
+                                </ul>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <!-- Transactions & Orders -->
+                            <li><a class="dropdown-item" href="{% url 'sales:sales_transaction_list' %}"><i class="fas fa-exchange-alt"></i> Sales Transactions</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sales:customer_order_list' %}"><i class="fas fa-clipboard-list"></i> Customer Orders</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -389,7 +503,6 @@
                     <h5 class="footer-title">Quick Actions</h5>
                     <div class="footer-links">
                         <a href="{% url 'store_management:store_create' %}"><i class="fas fa-plus"></i>Add New Store</a>
-                        <a href="{% url 'hr:employee_create' %}"><i class="fas fa-user-plus"></i>Add Employee</a>
                         <a href="{% url 'inventory:product_create' %}"><i class="fas fa-box"></i>Add Product</a>
                         <a href="{% url 'sales:sale_create' %}"><i class="fas fa-plus-circle"></i>New Sale</a>
                         <a href="{% url 'procurement:supplier_create' %}"><i class="fas fa-truck-loading"></i>Add Supplier</a>
@@ -412,8 +525,8 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="footer-title">Support & Contact</h5>
                     <div class="footer-links mb-3">
-                        <a href="mailto:support@retailmgmt.com"><i class="fas fa-envelope"></i>support@retailmgmt.com</a>
-                        <a href="tel:+26878117803"><i class="fas fa-phone"></i>+268 (7811) -7803</a>
+                        <a href="mailto:support@retailmgmt.com"><i class="fas fa-envelope"></i>support@example.com</a>
+                        <a href="tel:+26878117803"><i class="fas fa-phone"></i>+268 (0000) - 0000</a>
                         <a href="#"><i class="fas fa-map-marker-alt"></i>Mbabane, Eswatini</a>
                         <a href="#"><i class="fas fa-question-circle"></i>Help Center</a>
                         <a href="#"><i class="fas fa-book"></i>Documentation</a>
@@ -457,6 +570,52 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- Sub-menu JavaScript for Inventory Dropdown -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle sub-menu functionality for inventory dropdown
+            const inventoryDropdown = document.getElementById('inventoryDropdown');
+            const subMenus = document.querySelectorAll('.dropdown-submenu');
+
+            subMenus.forEach(function(subMenu) {
+                const toggle = subMenu.querySelector('.dropdown-toggle');
+                const menu = subMenu.querySelector('.dropdown-menu');
+
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Hide other sub-menus
+                    subMenus.forEach(function(otherSubMenu) {
+                        if (otherSubMenu !== subMenu) {
+                            otherSubMenu.querySelector('.dropdown-menu').classList.remove('show');
+                        }
+                    });
+
+                    // Toggle current sub-menu
+                    menu.classList.toggle('show');
+                });
+            });
+
+            // Close sub-menus when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!inventoryDropdown.contains(e.target)) {
+                    subMenus.forEach(function(subMenu) {
+                        subMenu.querySelector('.dropdown-menu').classList.remove('show');
+                    });
+                }
+            });
+
+            // Close sub-menus when main dropdown closes
+            inventoryDropdown.addEventListener('hidden.bs.dropdown', function() {
+                subMenus.forEach(function(subMenu) {
+                    subMenu.querySelector('.dropdown-menu').classList.remove('show');
+                });
+            });
+        });
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

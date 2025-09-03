@@ -203,23 +203,87 @@ class AttendanceCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         try:
-            return super().form_valid(form)
+            # Check if this is an AJAX request
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                attendance = form.save()
+                return JsonResponse({
+                    'success': True,
+                    'id': str(attendance.id),
+                    'message': f'Attendance record for {attendance.employee.get_full_name()} saved successfully!'
+                })
+            else:
+                return super().form_valid(form)
         except Exception as e:
             if 'UNIQUE constraint failed' in str(e):
-                messages.error(
-                    self.request,
-                    'Attendance record already exists for this employee on the selected date. '
-                    'Please update the existing record instead.'
-                )
-                return self.form_invalid(form)
+                if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': False,
+                        'errors': {
+                            '__all__': ['Attendance record already exists for this employee on the selected date. Please update the existing record instead.']
+                        }
+                    }, status=400)
+                else:
+                    messages.error(
+                        self.request,
+                        'Attendance record already exists for this employee on the selected date. '
+                        'Please update the existing record instead.'
+                    )
+                    return self.form_invalid(form)
             else:
-                raise e
+                if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': False,
+                        'errors': {'__all__': ['An error occurred while saving the attendance record.']}
+                    }, status=500)
+                else:
+                    raise e
+
+    def form_invalid(self, form):
+        # Check if this is an AJAX request
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors
+            }, status=400)
+        else:
+            return super().form_invalid(form)
 
 class AttendanceUpdateView(LoginRequiredMixin, UpdateView):
     model = Attendance
     form_class = AttendanceForm
     template_name = 'human_resources/attendance_form.html'
     success_url = reverse_lazy('hr:attendance_list')
+
+    def form_valid(self, form):
+        try:
+            # Check if this is an AJAX request
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                attendance = form.save()
+                return JsonResponse({
+                    'success': True,
+                    'id': str(attendance.id),
+                    'message': f'Attendance record for {attendance.employee.get_full_name()} updated successfully!'
+                })
+            else:
+                return super().form_valid(form)
+        except Exception as e:
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'errors': {'__all__': ['An error occurred while updating the attendance record.']}
+                }, status=500)
+            else:
+                raise e
+
+    def form_invalid(self, form):
+        # Check if this is an AJAX request
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors
+            }, status=400)
+        else:
+            return super().form_invalid(form)
 
 class AttendanceDetailView(LoginRequiredMixin, DetailView):
     model = Attendance

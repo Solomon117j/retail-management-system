@@ -305,6 +305,11 @@ class Payroll(models.Model):
     def __str__(self):
         return f"{self.employee} - {self.pay_period_start} to {self.pay_period_end}"
 
+    @property
+    def gross_pay(self):
+        """Calculate gross pay as base salary + overtime + bonus"""
+        return self.base_salary + self.overtime_pay + self.bonus
+
     def save(self, *args, **kwargs):
         """Automatically calculate net pay before saving"""
         self.net_pay = (self.base_salary +
