@@ -526,15 +526,17 @@ graph TD
 **Purpose**: Central hub for system overview and navigation
 
 **Key Features**:
-- System statistics overview
-- Quick access to all modules
-- Recent activity feed
-- Performance metrics
-- User profile management
+- Landing page accessible to anonymous users without login
+- System statistics overview (for authenticated users)
+- Quick access to all modules (for authenticated users)
+- Recent activity feed (for authenticated users)
+- Performance metrics (for authenticated users)
+- User profile management (for authenticated users)
 
 **Main Views**:
-- `DashboardView`: Main dashboard with statistics
-- Navigation to all system modules
+- `LandingPageView`: Public landing page at '/' (anonymous access)
+- `DashboardView`: Main dashboard with statistics (authenticated users)
+- Navigation to all system modules (authenticated users)
 
 ### 5.2 Human Resources Module
 **Purpose**: Complete employee lifecycle management

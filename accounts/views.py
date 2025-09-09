@@ -62,19 +62,44 @@ class CustomerLoginView(LoginView):
 
     def form_valid(self, form):
         user = form.get_user()
+        logger.info(f"Customer login attempt - User ID: {user.id}, Username: {user.username}, Email: {user.email}")
+        logger.info(f"User flags - is_customer: {user.is_customer}, is_employee: {user.is_employee}, is_staff: {user.is_staff}, is_active: {user.is_active}")
+
+        # Check if user has customer flag set
+        if not user.is_customer:
+            logger.warning(f"User {user.username} attempted customer login but is_customer=False")
+            messages.error(self.request, "This account is not configured as a customer account.")
+            return redirect('accounts:customer_login')
+
+        # Check if user is active
+        if not user.is_active:
+            logger.warning(f"Inactive user {user.username} attempted login")
+            messages.error(self.request, "This account is inactive.")
+            return redirect('accounts:customer_login')
+
         try:
             customer_account = CustomerAccount.objects.get(user=user)
-            logger.info(f"Customer login - User ID: {user.id}, Username: {user.username}")
-            logger.info(f"User is_customer: {user.is_customer}, is_employee: {user.is_employee}")
+            logger.info(f"CustomerAccount found - ID: {customer_account.id}, Email: {customer_account.email}")
         except CustomerAccount.DoesNotExist:
-            logger.error(f"Customer account does not exist for User ID: {user.id}, Username: {user.username}")
+            logger.error(f"CustomerAccount does not exist for User ID: {user.id}, Username: {user.username}")
+            logger.error(f"Available CustomerAccount objects: {list(CustomerAccount.objects.values_list('user__username', flat=True))}")
             messages.error(self.request, "Customer account does not exist. Please contact support.")
             return redirect('accounts:customer_login')
-        logger.info(f"User is_customer: {user.is_customer}, is_employee: {user.is_employee}")
+        except Exception as e:
+            logger.error(f"Unexpected error retrieving CustomerAccount for user {user.username}: {e}", exc_info=True)
+            messages.error(self.request, "An unexpected error occurred during login. Please contact support.")
+            return redirect('accounts:customer_login')
+
         # Handle authentication manually to avoid calling parent method twice
         login(self.request, user)
-        logger.info("Login successful, redirecting to customer account list")
+        logger.info(f"Customer login successful for user {user.username}, redirecting to customer account list")
         return redirect('e_commerce:customer_account_list')
+
+    def form_invalid(self, form):
+        logger.warning(f"Customer login form invalid - Errors: {form.errors}")
+        for field, errors in form.errors.items():
+            logger.warning(f"Field '{field}': {errors}")
+        return super().form_invalid(form)
 
 
 

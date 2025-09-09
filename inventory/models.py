@@ -15,6 +15,30 @@ class Category(models.Model):
         related_name='children',
         verbose_name="Parent Category"
     )
+
+    # Ownership and access control fields
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_categories'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_categories'
+    )
+    department = models.ForeignKey(
+        'store_management.Department',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='categories'
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -77,6 +101,29 @@ class Brand(models.Model):
         help_text="Upload brand guidelines, fonts, or other assets"
     )
 
+    # Ownership and access control fields
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_brands'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_brands'
+    )
+    department = models.ForeignKey(
+        'store_management.Department',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='brands'
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -129,6 +176,30 @@ class Product(models.Model):
         blank=True,
         null=True
     )
+
+    # Ownership and access control fields
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_products'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_products'
+    )
+    department = models.ForeignKey(
+        'store_management.Department',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='products'
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -165,6 +236,23 @@ class StoreInventory(models.Model):
     reorder_level = models.IntegerField(default=10)
     last_restock_date = models.DateField(blank=True, null=True)
     aisle_location = models.CharField(max_length=20, blank=True, null=True)
+
+    # Ownership and access control fields
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_inventory_records'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_inventory_records'
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

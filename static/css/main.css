@@ -1,0 +1,264 @@
+/* Footer Styling */
+.footer-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 0.5rem;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.25rem 0;
+    border-radius: 4px;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    padding-left: 0.5rem;
+    background: rgba(40, 167, 69, 0.2);
+}
+
+.footer-links a i {
+    width: 20px;
+    text-align: center;
+}
+
+.copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Delete Confirmation Modal Styling */
+.delete-modal .modal-header {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border-bottom: none;
+}
+
+.delete-modal .modal-header .btn-close {
+    filter: invert(1);
+}
+
+.delete-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.delete-item-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.btn-delete-confirm {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-delete-confirm:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    color: white;
+}
+
+/* Export Button Styling */
+.export-dropdown .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+}
+
+.export-dropdown .dropdown-item {
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.export-dropdown .dropdown-item:hover {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.export-dropdown .dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Sub-menu Styling for Inventory Dropdown */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    margin-left: -1px;
+    border-radius: 0 8px 8px 8px;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu .dropdown-toggle::after {
+    content: "\f105";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-left: 0.5rem;
+}
+
+.dropdown-submenu .dropdown-item {
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-submenu .dropdown-item i {
+    width: 18px;
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+/* Purchase Order Status Badges */
+.status-badge {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.status-badge.status-draft {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.status-badge.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-badge.status-approved {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.status-badge.status-shipped {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.status-received {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.status-badge.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Purchase Order Form Enhancements */
+.item-form {
+    transition: background-color 0.2s ease;
+}
+
+.item-form:hover {
+    background-color: #f8f9fa;
+}
+
+.item-total {
+    font-weight: 600;
+    color: #28a745;
+}
+
+/* Purchase Order Card Styling */
+.purchase-order-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.purchase-order-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+/* Action Buttons Styling */
+.btn-group .btn {
+    border-radius: 0.375rem !important;
+    margin: 0 1px;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 0.375rem !important;
+    border-bottom-left-radius: 0.375rem !important;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+}
+
+/* Responsive Table Enhancements */
+@media (max-width: 768px) {
+    .table-responsive .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .table-responsive .btn-group .btn {
+        border-radius: 0.375rem !important;
+        margin: 0;
+    }
+}
+
+/* Purchase Order Detail Page Enhancements */
+.border-start {
+    border-left-width: 4px !important;
+}
+
+.border-primary { border-left-color: #007bff !important; }
+.border-info { border-left-color: #0dcaf0 !important; }
+.border-success { border-left-color: #198754 !important; }
+.border-warning { border-left-color: #ffc107 !important; }
+.border-danger { border-left-color: #dc3545 !important; }
+.border-secondary { border-left-color: #6c757d !important; }
+
+/* Form Validation Styling */
+.was-validated .form-control:valid,
+.form-control.is-valid {
+    border-color: #198754;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='m2.3 6.73 4.47-4.47-1.41-1.41L.88 5.32l-1.41-1.41L0 4.5z'/%3e%3c/svg%3e");
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+}

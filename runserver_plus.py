@@ -17,37 +17,35 @@ def main():
     # Set Django settings module
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'retail_management_system.settings')
 
-    # SSL certificate paths
-    certs_dir = Path(current_dir) / "certs"
-    cert_file = certs_dir / "devserver.crt"
-    key_file = certs_dir / "devserver.key"
+    # Check if SSL certificates exist
+    cert_file = Path("certs/devserver.crt")
+    key_file = Path("certs/devserver.key")
 
-    # Check if certificates exist
     if not cert_file.exists() or not key_file.exists():
-        print("SSL certificates not found. Generating certificates...")
+        print("SSL certificates not found. Generating new certificates...")
         try:
-            subprocess.run([sys.executable, 'generate_proper_ssl_certs.py'], check=True)
-        except subprocess.CalledProcessError:
-            print("Failed to generate certificates. Please run generate_proper_ssl_certs.py manually.")
+            # Run the certificate generation script
+            result = subprocess.run([sys.executable, 'generate_ssl_certs.py'], check=True)
+            print("SSL certificates generated successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error generating certificates: {e}")
+            print("Please run 'python generate_ssl_certs.py' manually to generate certificates.")
             sys.exit(1)
 
-    # Run the runserver_plus command with SSL
+    # Run the runserver_plus command with SSL support
     try:
-        print("Starting Django development server with runserver_plus (HTTPS)...")
-        print("Enhanced features available: SSL support, Werkzeug debugger, etc.")
-        print(f"SSL Certificate: {cert_file}")
-        print(f"SSL Private Key: {key_file}")
+        print("Starting Django development server with SSL support...")
         print("Access the site at: https://127.0.0.1:8000")
-        print("Note: You may need to accept the security warning for the self-signed certificate")
+        print("Note: You may see a security warning in your browser due to self-signed certificate.")
         print("Press Ctrl+C to stop the server")
         print("-" * 70)
 
         # Run the command with SSL support
         cmd = [
             sys.executable, 'manage.py', 'runserver_plus',
+            '127.0.0.1:8000',
             '--cert', str(cert_file),
-            '--key', str(key_file),
-            '127.0.0.1:8000'
+            '--key', str(key_file)
         ]
         subprocess.run(cmd, check=True)
 

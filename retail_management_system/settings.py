@@ -212,10 +212,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Static files directories
-# Removed STATICFILES_DIRS since static files are now app-specific
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 
 # Static files collection directory (for production)

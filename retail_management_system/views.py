@@ -11,6 +11,19 @@ from django.http import HttpResponseNotFound
 from django.conf import settings
 import os
 
+
+from inventory.models import Product
+
+class LandingPageView(TemplateView):
+    template_name = 'landing.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add featured or latest products for preview on landing page
+        products = Product.objects.filter(available_online=True).order_by('-id')[:6]
+        context['featured_products'] = products
+        return context
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboards/index.html'
     

@@ -1,0 +1,115 @@
+{
+  "passed": 6,
+  "failed": 1,
+  "warnings": 5,
+  "tests": [
+    {
+      "name": "test_brute_force_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-09T11:23:20.809957"
+    },
+    {
+      "name": "Password Policy",
+      "result": "PASS",
+      "details": "Strong password policy enforced",
+      "timestamp": "2025-09-09T11:23:20.821835"
+    },
+    {
+      "name": "Session Security",
+      "result": "PASS",
+      "details": "Session maintained correctly",
+      "timestamp": "2025-09-09T11:23:23.668658"
+    },
+    {
+      "name": "Session Security",
+      "result": "PASS",
+      "details": "Session invalidated on logout",
+      "timestamp": "2025-09-09T11:23:23.695033"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /admin/: 302",
+      "timestamp": "2025-09-09T11:23:24.020281"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /accounts/user/add/: 404",
+      "timestamp": "2025-09-09T11:23:24.229686"
+    },
+    {
+      "name": "Privilege Escalation",
+      "result": "WARN",
+      "details": "Unexpected response for /human_resources/employee/add/: 404",
+      "timestamp": "2025-09-09T11:23:24.291604"
+    },
+    {
+      "name": "Direct Object Reference",
+      "result": "WARN",
+      "details": "Unexpected response for /accounts/user/7cf147e3-fc1e-4f79-90e3-790f3be5defa/change/: 404",
+      "timestamp": "2025-09-09T11:23:24.543135"
+    },
+    {
+      "name": "Direct Object Reference",
+      "result": "WARN",
+      "details": "Unexpected response for /human_resources/employee/7cf147e3-fc1e-4f79-90e3-790f3be5defa/: 404",
+      "timestamp": "2025-09-09T11:23:24.676630"
+    },
+    {
+      "name": "test_sql_injection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-09T11:23:24.677333"
+    },
+    {
+      "name": "test_xss_protection",
+      "result": "ERROR",
+      "details": "'str' object has no attribute 'value'",
+      "timestamp": "2025-09-09T11:23:24.677733"
+    },
+    {
+      "name": "CSRF Protection",
+      "result": "FAIL",
+      "details": "CSRF protection not enforced",
+      "timestamp": "2025-09-09T11:23:25.046454"
+    },
+    {
+      "name": "File Upload Security",
+      "result": "PASS",
+      "details": "Malicious file malicious.php rejected",
+      "timestamp": "2025-09-09T11:23:25.097076"
+    },
+    {
+      "name": "File Upload Security",
+      "result": "PASS",
+      "details": "Malicious file script.js rejected",
+      "timestamp": "2025-09-09T11:23:25.153326"
+    },
+    {
+      "name": "File Upload Security",
+      "result": "PASS",
+      "details": "Malicious file exploit.exe rejected",
+      "timestamp": "2025-09-09T11:23:25.245334"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/products/ returned 404",
+      "timestamp": "2025-09-09T11:23:25.377665"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/users/ returned 404",
+      "timestamp": "2025-09-09T11:23:25.486438"
+    },
+    {
+      "name": "API Security",
+      "result": "INFO",
+      "details": "API /api/sales/ returned 404",
+      "timestamp": "2025-09-09T11:23:25.598189"
+    }
+  ]
+}

@@ -172,17 +172,18 @@ class PurchaseOrderCreateView(LoginRequiredMixin, CreateView):
     model = PurchaseOrder
     template_name = 'procurement/purchaseorder_form.html'
     fields = ['supplier', 'store', 'expected_delivery_date']
-    
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['created_by'] = self.request.user
-        return initial
-    
+
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        # Get the employee profile from the user
+        try:
+            employee = self.request.user.employee_profile.get()
+            form.instance.created_by = employee
+        except Employee.DoesNotExist:
+            # If no employee profile, set to None
+            form.instance.created_by = None
         form.instance.status = 'draft'
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         return reverse('procurement:purchaseorder_update', kwargs={'pk': self.object.pk})
 

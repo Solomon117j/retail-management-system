@@ -118,6 +118,7 @@ Roles observed in UI and templates
 - Customer (limited navigation; separate login/registration screens)
 
 Permissions and visibility
+- Landing page ('/') is accessible to anonymous users without login
 - Base navigation hides most management menus for user.is_customer
 - Staff get access to Stores, HR, Inventory, Procurement, Analytics
 - Customers see e-commerce options (browse, online orders, account) and Sales menu entries relevant to them

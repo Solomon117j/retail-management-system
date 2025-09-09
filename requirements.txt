@@ -1,0 +1,55 @@
+# Core Django Framework
+Django==5.2.4
+django-extensions==3.2.3
+django-debug-toolbar==4.4.6
+
+# Database
+psycopg2-binary==2.9.10
+
+# Environment and Configuration
+python-dotenv==1.0.1
+
+# File Processing and Security
+python-magic==0.4.27
+
+# System Monitoring
+psutil==6.1.0
+
+# HTTP and Networking
+requests==2.32.3
+
+# Data Processing
+pandas==2.2.3
+openpyxl==3.1.5
+
+# Development and Testing
+pytest==8.3.3
+pytest-django==4.9.0
+
+# Security and SSL
+cryptography==43.0.1
+
+# Image Processing (for product images)
+Pillow==11.0.0
+
+# Email (if needed for notifications)
+# django-smtp-ssl==1.0 (if using custom SMTP)
+
+# Additional utilities that might be needed
+# djangorestframework==3.15.2 (if using DRF)
+# django-cors-headers==4.6.0 (if needed for CORS)
+# django-filter==24.3 (for filtering)
+# django-storages==1.14.4 (for cloud storage)
+
+# Monitoring and Logging
+# sentry-sdk==2.15.0 (for error monitoring)
+
+# Caching (if needed)
+# redis==5.1.0
+# django-redis==5.4.0
+
+# Task Queue (if needed)
+# celery==5.4.0
+
+# Documentation (if needed)
+# sphinx==8.1.3

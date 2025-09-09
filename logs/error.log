@@ -809,3 +809,2393 @@ ERROR 2025-09-03 13:22:42,011 ERROR django.security:291 _check_response_security
 None
 ERROR 2025-09-03 13:22:42,013 ERROR django.server:213 log_message "GET /sales/customers/ HTTP/1.1" 500 145
 None
+ERROR 2025-09-03 13:42:16,348 ERROR django.request:253 log_response Internal Server Error: /sales/customers/
+(<class 'django.template.exceptions.TemplateDoesNotExist'>, TemplateDoesNotExist('pagination.html'), <traceback object at 0x00000297E812EAC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 199, in render
+    template = context.template.engine.select_template(template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 214, in select_template
+    raise TemplateDoesNotExist(", ".join(not_found))
+django.template.exceptions.TemplateDoesNotExist: pagination.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 109, in render
+    reraise(exc, self.backend)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 130, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: pagination.html
+ERROR 2025-09-03 13:42:16,367 ERROR django.security:291 _check_response_security Server error 500 on /sales/customers/
+None
+ERROR 2025-09-03 13:42:16,382 ERROR django.server:213 log_message "GET /sales/customers/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-03 13:57:09,098 ERROR django.request:253 log_response Internal Server Error: /sales/analytics/customers/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column sales_customer.customer_account_id does not exist\nLINE 1: ...(SELECT DISTINCT "sales_customer"."id" AS "col1", "sales_cus...\n                                                             ^\n'), <traceback object at 0x000001C3FB9A0C40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column sales_customer.customer_account_id does not exist
+LINE 1: ...(SELECT DISTINCT "sales_customer"."id" AS "col1", "sales_cus...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\sales\views.py", line 462, in get_context_data
+    ).distinct().count()
+                 ~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column sales_customer.customer_account_id does not exist
+LINE 1: ...(SELECT DISTINCT "sales_customer"."id" AS "col1", "sales_cus...
+                                                             ^
+
+ERROR 2025-09-03 13:57:09,332 ERROR django.security:291 _check_response_security Server error 500 on /sales/analytics/customers/
+None
+ERROR 2025-09-03 13:57:09,334 ERROR django.server:213 log_message "GET /sales/analytics/customers/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-03 13:58:27,008 ERROR django.request:253 log_response Internal Server Error: /sales/pos/
+(<class 'psycopg2.errors.InvalidCursorName'>, InvalidCursorName('cursor "_django_curs_2168_sync_1" does not exist\n'), <traceback object at 0x000001F51805FB40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column sales_customer.customer_account_id does not exist
+LINE 1: ...URSOR WITH HOLD FOR SELECT "sales_customer"."id", "sales_cus...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column sales_customer.customer_account_id does not exist
+LINE 1: ...URSOR WITH HOLD FOR SELECT "sales_customer"."id", "sales_cus...
+                                                             ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1081, in render
+    return render_value_in_context(output, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1058, in render_value_in_context
+    value = str(value)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\utils.py", line 79, in __str__
+    return self.as_widget()
+           ~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\boundfield.py", line 108, in as_widget
+    return widget.render(
+           ~~~~~~~~~~~~~^
+        name=self.html_initial_name if only_initial else self.html_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        renderer=self.form.renderer,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 329, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 830, in get_context
+    context = super().get_context(name, value, attrs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 781, in get_context
+    context["widget"]["optgroups"] = self.optgroups(
+                                     ~~~~~~~~~~~~~~^
+        name, context["widget"]["value"], attrs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 721, in optgroups
+    for index, (option_value, option_label) in enumerate(self.choices):
+                                               ~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\models.py", line 1424, in __iter__
+    for obj in queryset:
+               ^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 502, in _iterator
+    yield from iterable
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1626, in execute_sql
+    cursor.close()
+    ~~~~~~~~~~~~^^
+psycopg2.errors.InvalidCursorName: cursor "_django_curs_2168_sync_1" does not exist
+
+ERROR 2025-09-03 13:58:27,196 ERROR django.security:291 _check_response_security Server error 500 on /sales/pos/
+None
+ERROR 2025-09-03 13:58:27,198 ERROR django.server:213 log_message "GET /sales/pos/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-03 21:10:53,696 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:10:53,756 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:10:53,758 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:10:53,761 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:22:27,810 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:22:27,816 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:22:27,825 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:22:27,825 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:06,766 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:06,770 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:07,021 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:07,138 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:07,149 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:07,233 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:08,985 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,020 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,068 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,171 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,934 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,940 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:09,999 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:26:10,101 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:38:48,460 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:38:48,636 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:38:48,785 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:38:48,869 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:41,571 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:41,594 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:41,595 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:41,619 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:43,915 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:44,089 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:44,167 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:39:44,175 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:08,482 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:08,607 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:08,619 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:08,798 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:14,405 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:14,423 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:14,468 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-03 21:41:14,491 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 09:34:53,903 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("'dashboards' is not a registered namespace"), <traceback object at 0x000002AAD8A16440>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 81, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'dashboards'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 94, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 117, in form_valid
+    return redirect('dashboards:dashboard')  # Ensure this URL name is correct
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\shortcuts.py", line 51, in redirect
+    resolve_url(to, *args, **kwargs),
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\shortcuts.py", line 184, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 92, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'dashboards' is not a registered namespace
+ERROR 2025-09-04 09:34:57,710 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-04 09:34:57,777 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:43:24,306 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("'dashboards' is not a registered namespace"), <traceback object at 0x000002AAD8A14C80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 81, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'dashboards'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 94, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 117, in form_valid
+    return redirect('dashboards:dashboard')  # Ensure this URL name is correct
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\shortcuts.py", line 51, in redirect
+    resolve_url(to, *args, **kwargs),
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\shortcuts.py", line 184, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 92, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'dashboards' is not a registered namespace
+ERROR 2025-09-04 09:43:24,375 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-04 09:43:24,420 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:50:49,370 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000188AEF19340>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 09:51:02,595 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-09-04 09:51:02,608 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:57:02,135 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000188AF0E6A40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 09:57:02,163 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-09-04 09:57:02,166 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:57:21,993 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000188AF00AE80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 09:57:22,001 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-09-04 09:57:22,002 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:57:23,889 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000188AF098DC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 09:57:23,933 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-09-04 09:57:23,974 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 09:57:49,846 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000188AF051DC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 09:57:49,920 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-09-04 09:57:50,023 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 10:01:39,419 ERROR django.request:253 log_response Internal Server Error: /
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'home' not found. 'home' is not a valid view function or pattern name."), <traceback object at 0x00000255E8B12B80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-09-04 10:01:40,943 ERROR django.security:291 _check_response_security Server error 500 on /
+None
+ERROR 2025-09-04 10:01:40,946 ERROR django.server:213 log_message "GET / HTTP/1.1" 500 145
+None
+ERROR 2025-09-04 10:14:49,506 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,595 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,895 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,899 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,902 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,905 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,921 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:14:49,926 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:16:46,133 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:16:46,149 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:16:46,169 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:16:46,194 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:21:22,754 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,091 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,097 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,248 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,263 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,299 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:23:08,302 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:26:28,541 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:26:28,701 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:26:28,932 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-04 10:26:29,141 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 16:45:33,348 ERROR django.request:253 log_response Internal Server Error: /e_commerce/products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x000001782269C340>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 16:45:33,399 ERROR django.security:291 _check_response_security Server error 500 on /e_commerce/products/
+None
+ERROR 2025-09-06 16:45:33,566 ERROR django.server:213 log_message "GET /e_commerce/products/ HTTP/1.1" 500 237446
+None
+ERROR 2025-09-06 16:55:55,883 ERROR django.request:253 log_response Internal Server Error: /e_commerce/products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x0000017822F1E280>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 16:55:55,933 ERROR django.security:291 _check_response_security Server error 500 on /e_commerce/products/
+None
+ERROR 2025-09-06 16:55:56,157 ERROR django.server:213 log_message "GET /e_commerce/products/ HTTP/1.1" 500 237425
+None
+ERROR 2025-09-06 17:04:33,007 ERROR django.request:253 log_response Internal Server Error: /e_commerce/products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x0000017823556240>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 17:04:33,037 ERROR django.security:291 _check_response_security Server error 500 on /e_commerce/products/
+None
+ERROR 2025-09-06 17:04:33,154 ERROR django.server:213 log_message "GET /e_commerce/products/ HTTP/1.1" 500 237444
+None
+ERROR 2025-09-06 17:06:38,527 ERROR django.request:253 log_response Internal Server Error: /e_commerce/products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x0000017822EF16C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 17:06:38,562 ERROR django.security:291 _check_response_security Server error 500 on /e_commerce/products/
+None
+ERROR 2025-09-06 17:06:38,699 ERROR django.server:213 log_message "GET /e_commerce/products/ HTTP/1.1" 500 237581
+None
+ERROR 2025-09-06 17:08:54,821 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:08:54,821 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:08:54,824 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:08:54,825 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,932 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,965 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,977 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,979 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,984 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:09:00,986 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:13:09,258 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:13:38,474 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:14:26,337 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:14:26,657 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:31,580 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:31,614 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:31,625 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:31,627 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:32,761 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:32,783 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:32,790 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:21:32,868 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:22:10,172 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:22:10,217 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:22:10,233 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:22:10,240 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:29:42,205 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:29:42,252 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:29:42,265 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:29:42,269 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:31:50,503 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:31:50,554 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:31:50,599 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:31:50,770 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:33:30,009 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:33:30,012 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:33:30,046 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:33:30,059 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:21,570 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:21,603 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:21,613 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:21,615 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:22,964 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:23,017 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:23,019 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:36:23,099 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-06 17:37:30,038 ERROR django.request:253 log_response Internal Server Error: /products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x000001FC676D1E00>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 17:37:30,092 ERROR django.security:291 _check_response_security Server error 500 on /products/
+None
+ERROR 2025-09-06 17:37:30,202 ERROR django.server:213 log_message "GET /products/ HTTP/1.1" 500 237273
+None
+ERROR 2025-09-06 17:38:30,805 ERROR django.request:253 log_response Internal Server Error: /products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x000001FC67A75200>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 17:38:30,828 ERROR django.security:291 _check_response_security Server error 500 on /products/
+None
+ERROR 2025-09-06 17:38:30,935 ERROR django.server:213 log_message "GET /products/ HTTP/1.1" 500 237272
+None
+ERROR 2025-09-06 17:40:21,145 ERROR django.request:253 log_response Internal Server Error: /products/
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('column inventory_product.created_by_id does not exist\nLINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...\n                                                             ^\n'), <traceback object at 0x000001FC688AC780>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 178, in get
+    context = self.get_context_data()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\e_commerce\views.py", line 249, in get_context_data
+    ctx = super().get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 128, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(
+                                              ~~~~~~~~~~~~~~~~~~~~~~^
+        queryset, page_size
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\list.py", line 73, in paginate_queryset
+    page = paginator.page(page_number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 234, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.created_by_id does not exist
+LINE 1: ...col12", "inventory_product"."barcode" AS "col13", "inventory...
+                                                             ^
+
+ERROR 2025-09-06 17:40:21,205 ERROR django.security:291 _check_response_security Server error 500 on /products/
+None
+ERROR 2025-09-06 17:40:21,387 ERROR django.server:213 log_message "GET /products/ HTTP/1.1" 500 237409
+None
+ERROR 2025-09-08 17:50:15,726 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-08 17:50:15,728 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-08 17:50:15,762 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-08 17:50:15,763 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-09 11:26:22,313 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-09 12:45:09,561 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B109C00>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:45:14,653 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:45:14,904 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:45:59,291 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AC5FD40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:45:59,376 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:45:59,540 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:46:14,251 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AC5FFC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:46:14,359 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:46:14,503 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:47:30,593 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B109740>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:47:30,615 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:47:30,635 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:47:37,173 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B25AE80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:47:37,218 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:47:37,223 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:50:50,223 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B245380>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:50:50,281 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:50:50,307 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 12:53:33,170 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AA0A3C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 12:53:33,210 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 12:53:33,238 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 13:45:01,733 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AB1C1C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 13:45:01,768 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 13:45:01,787 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 13:47:02,005 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B23E200>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 13:47:02,157 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 13:47:02,233 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 13:49:26,239 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AC2B2C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 13:49:26,319 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 13:49:26,404 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 13:49:43,493 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2B1434C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 13:49:43,550 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 13:49:44,108 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None
+ERROR 2025-09-09 13:52:10,860 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/create/
+(<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid filter: 'add_class'"), <traceback object at 0x0000017D2AA63BC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 489, in parse
+    raise self.error(token, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
+ERROR 2025-09-09 13:52:11,093 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/create/
+None
+ERROR 2025-09-09 13:52:11,294 ERROR django.server:213 log_message "GET /procurement/orders/create/ HTTP/1.1" 500 145
+None

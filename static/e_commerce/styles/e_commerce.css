@@ -1,0 +1,27 @@
+/* E-Commerce Module Styles */
+
+/* ===== GENERAL E-COMMERCE STYLES ===== */
+.ecommerce-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.ecommerce-header {
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(111, 66, 193, 0.3);
+}
+
+.ecommerce-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.ecommerce-header .subtitle {

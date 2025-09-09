@@ -1,0 +1,173 @@
+/* ========================================
+   STORE MANAGEMENT - SPECIFIC STYLES
+   ======================================== */
+
+/* Store Cards */
+.store-card {
+    border-left: 4px solid var(--brand-primary);
+    transition: all var(--transition-normal);
+}
+
+.store-card:hover {
+    border-left-color: var(--brand-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.store-card .store-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.store-status.active {
+    color: var(--success-color);
+}
+
+.store-status.inactive {
+    color: var(--danger-color);
+}
+
+/* Store Form Enhancements */
+.store-form-container {
+    animation: slideUp var(--transition-normal) ease-out;
+}
+
+.form-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.form-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--brand-primary), var(--brand-secondary));
+}
+
+.input-group-text {
+    background-color: var(--gray-100);
+    border-color: var(--gray-300);
+    color: var(--gray-600);
+}
+
+/* Department Management */
+.department-card {
+    border-top: 3px solid var(--info-color);
+    transition: all var(--transition-normal);
+}
+
+.department-card:hover {
+    border-top-color: var(--brand-secondary);
+    box-shadow: var(--shadow-md);
+}
+
+/* Store Statistics */
+.store-stats {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.store-stats .stat-item {
+    text-align: center;
+    padding: var(--spacing-md);
+}
+
+.store-stats .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+}
+
+.store-stats .stat-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+/* Location Display */
+.location-display {
+    background: var(--gray-50);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    border-left: 3px solid var(--info-color);
+}
+
+.location-display .address-line {
+    margin-bottom: var(--spacing-xs);
+}
+
+.location-display .address-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Manager Information */
+.manager-info {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+}
+
+.manager-info .manager-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Form Validation Styles */
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: var(--success-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.94-.94 1.38 1.38 3.68-3.68.94.94-4.62 4.62z'/%3e%3c/svg%3e");
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 1.4 1.4M7.2 4.6l-1.4 1.4'/%3e%3c/svg%3e");
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .store-form-container {
+        margin: 0 var(--spacing-md);
+    }
+    
+    .form-section {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .form-actions .btn {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .store-stats .stat-item {
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .form-actions,
+    .btn {
+        display: none !important;
+    }
+    
+    .form-section {
+        box-shadow: none !important;
+        border: 1px solid var(--gray-300) !important;
+        break-inside: avoid;
+    }
+}

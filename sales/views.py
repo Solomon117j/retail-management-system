@@ -419,7 +419,12 @@ class SalesDashboardView(LoginRequiredMixin, ListView):
             sale_date__date__gte=this_month
         ).aggregate(total=models.Sum('total_amount'))['total'] or 0
 
-        context['total_customers'] = Customer.objects.count()
+        # Combined customer count from both Customer and CustomerAccount models
+        from e_commerce.models import CustomerAccount
+        sales_customers_count = Customer.objects.count()
+        ecommerce_customers_count = CustomerAccount.objects.count()
+        context['total_customers'] = sales_customers_count + ecommerce_customers_count
+
         context['total_products_sold'] = SaleItem.objects.filter(
             sale__sale_date__date__gte=this_month
         ).aggregate(total=models.Sum('quantity'))['total'] or 0
@@ -450,27 +455,59 @@ class CustomerAnalyticsView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Customer analytics
-        context['total_customers'] = Customer.objects.count()
-        context['active_customers'] = Customer.objects.filter(
-            purchases__sale_date__date__gte=datetime.date.today() - datetime.timedelta(days=30)
+        # Combined customer analytics from both models
+        from e_commerce.models import CustomerAccount
+        sales_customers_count = Customer.objects.count()
+        ecommerce_customers_count = CustomerAccount.objects.count()
+        context['total_customers'] = sales_customers_count + ecommerce_customers_count
+
+        # Active customers (those with recent activity)
+        thirty_days_ago = datetime.date.today() - datetime.timedelta(days=30)
+        active_sales_customers = Customer.objects.filter(
+            purchases__sale_date__date__gte=thirty_days_ago
         ).distinct().count()
 
-        # Membership distribution
+        active_ecommerce_customers = CustomerAccount.objects.filter(
+            online_orders__order_date__date__gte=thirty_days_ago
+        ).distinct().count()
+
+        context['active_customers'] = active_sales_customers + active_ecommerce_customers
+
+        # Membership distribution (only from sales customers)
         context['membership_distribution'] = Customer.objects.values(
             'membership_level'
         ).annotate(count=models.Count('id')).order_by('-count')
 
-        # Top customers by spending
+        # Top customers by spending (only from sales customers)
         context['top_customers'] = Customer.objects.annotate(
             total_spent=models.Sum('purchases__total_amount')
         ).filter(total_spent__isnull=False).order_by('-total_spent')[:10]
 
-        # Loyalty points distribution
+        # Combined loyalty points distribution
+        sales_loyalty_stats = Customer.objects.aggregate(
+            avg=models.Avg('loyalty_points'),
+            max=models.Max('loyalty_points'),
+            total=models.Sum('loyalty_points')
+        )
+
+        ecommerce_loyalty_stats = CustomerAccount.objects.aggregate(
+            avg=models.Avg('loyalty_points'),
+            max=models.Max('loyalty_points'),
+            total=models.Sum('loyalty_points')
+        )
+
+        # Combine the stats
+        total_sales_points = sales_loyalty_stats['total'] or 0
+        total_ecommerce_points = ecommerce_loyalty_stats['total'] or 0
+        total_customers_with_points = (
+            Customer.objects.filter(loyalty_points__gt=0).count() +
+            CustomerAccount.objects.filter(loyalty_points__gt=0).count()
+        )
+
         context['loyalty_stats'] = {
-            'avg_points': Customer.objects.aggregate(avg=models.Avg('loyalty_points'))['avg'] or 0,
-            'max_points': Customer.objects.aggregate(max=models.Max('loyalty_points'))['max'] or 0,
-            'total_points': Customer.objects.aggregate(total=models.Sum('loyalty_points'))['total'] or 0,
+            'avg_points': (total_sales_points + total_ecommerce_points) / max(total_customers_with_points, 1),
+            'max_points': max(sales_loyalty_stats['max'] or 0, ecommerce_loyalty_stats['max'] or 0),
+            'total_points': total_sales_points + total_ecommerce_points,
         }
 
         return context
