@@ -78,3 +78,5 @@ SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path:
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/create/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/create/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/create/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: customer1 IP: 127.0.0.1 Path: / Method: GET
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN

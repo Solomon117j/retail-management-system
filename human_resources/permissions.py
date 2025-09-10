@@ -45,7 +45,7 @@ def require_permission(permission_codename, redirect_url=None, message=None):
         @wraps(view_func)
         def wrapper(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect('login')
+                return redirect('accounts:login')
             
             if not has_permission(request.user, permission_codename):
                 if message:
@@ -82,10 +82,10 @@ def require_any_permission(*permission_codenames, redirect_url=None, message=Non
         @wraps(view_func)
         def wrapper(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect('login')
-            
+                return redirect('accounts:login')
+
             has_any_permission = any(
-                has_permission(request.user, perm) 
+                has_permission(request.user, perm)
                 for perm in permission_codenames
             )
             
@@ -124,8 +124,8 @@ def require_all_permissions(*permission_codenames, redirect_url=None, message=No
         @wraps(view_func)
         def wrapper(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect('login')
-            
+                return redirect('accounts:login')
+
             missing_permissions = [
                 perm for perm in permission_codenames
                 if not has_permission(request.user, perm)
@@ -223,8 +223,8 @@ class PermissionMixin:
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('login')
-        
+            return redirect('accounts:login')
+
         # Check single permission
         if self.required_permission:
             if not has_permission(request.user, self.required_permission):

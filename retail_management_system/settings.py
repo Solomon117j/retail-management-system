@@ -32,6 +32,9 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 # Parse ALLOWED_HOSTS from environment variable
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS if host.strip()]
+# Ensure testserver is always included for testing
+if 'testserver' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append('testserver')
 
 # Production Security Settings
 if not DEBUG:
@@ -223,6 +226,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Media files (user uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

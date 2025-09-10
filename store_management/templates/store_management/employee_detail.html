@@ -283,7 +283,7 @@
                                 <label class="fw-bold text-muted">Manager</label>
                                 <div>
                                     {% if employee.manager %}
-                                        <a href="{% url 'store_management:employee_detail' employee.manager.pk %}">
+                                        <a href="{% url 'hr:employee_detail' employee.manager.pk %}">
                                             {{ employee.manager.get_full_name }}
                                         </a>
                                     {% else %}
@@ -390,7 +390,7 @@
                             {{ subordinate.first_name.0 }}{{ subordinate.last_name.0 }}
                         </div>
                         <div>
-                            <a href="{% url 'store_management:employee_detail' subordinate.pk %}">
+                            <a href="{% url 'hr:employee_detail' subordinate.pk %}">
                                 {{ subordinate.get_full_name }}
                             </a>
                             <br>

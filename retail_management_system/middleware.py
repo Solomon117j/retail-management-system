@@ -2,29 +2,42 @@
 from django.shortcuts import redirect
 from django.conf import settings
 
+import logging
+
 class LoginRequiredMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
+        self.logger = logging.getLogger('middleware.LoginRequired')
 
     def __call__(self, request):
-        # URLs that don't require authentication - allow exact matches and prefixes
-        exact_open_urls = ['/', '/products/', '/accounts/login/', '/accounts/register/', '/admin/login/', '/admin/', '/favicon.ico']
+        # Define landing page path
+        landing_page = '/'
+        
+        # Paths that unauthenticated users are allowed to access
+        exact_open_urls = [
+            landing_page,
+            '/favicon.ico',
+            '/static/',
+            '/media/',
+        ]
         prefix_open_urls = ['/static/', '/media/']
 
-        # Allow access if user is authenticated or path is in open URLs
+        self.logger.debug(f"LoginRequiredMiddleware: request.path={request.path}, user_authenticated={request.user.is_authenticated}")
+
+        # If user is authenticated, allow request
         if request.user.is_authenticated:
             return self.get_response(request)
 
-        # For anonymous users, check if path is allowed
-        if request.path in exact_open_urls or any(request.path.startswith(url) for url in prefix_open_urls):
+        # If unauthenticated and accessing landing page, allow
+        if request.path == landing_page or any(request.path.startswith(url) for url in prefix_open_urls):
             return self.get_response(request)
 
-        # If not allowed, redirect to login (avoid redirect loops)
-        if request.path != settings.LOGIN_URL:
-            return redirect(settings.LOGIN_URL + f'?next={request.path}')
+        # Redirect all other unauthenticated requests to landing page
+        if request.path != landing_page:
+            self.logger.debug(f"Redirecting unauthenticated user to landing page: {landing_page}")
+            return redirect(f'{landing_page}?next={request.path}')
 
         return self.get_response(request)
-
 class CustomerRestrictionMiddleware:
     """
     Restrict customers to customer-facing areas only.

@@ -15,7 +15,9 @@
 12. Testing & Sample Data
 13. Deployment Notes
 14. Security Practices
-15. Troubleshooting
+15. Production Readiness Assessment
+16. Security Audit & Penetration Testing
+17. Troubleshooting
 
 ---
 
@@ -36,23 +38,34 @@ Key capabilities:
 ## 2) Architecture & Technology Stack
 
 Backend
-- Django (Python 3.13 runtime observed in __pycache__) 
-- SQLite (db.sqlite3) for development
+- Django 5.2.4 (Python 3.13 runtime)
+- Database: SQLite (development), PostgreSQL (production-ready)
+- Security: Cryptography, SSL/TLS support
+- Monitoring: psutil for system monitoring
+- File Processing: python-magic for secure file handling
+- Data Processing: pandas, openpyxl for exports
+- Testing: pytest, pytest-django
+- Development: django-extensions, django-debug-toolbar
 
 Frontend
-- Django templates with Bootstrap 5
-- Font Awesome icons
+- Django templates with Bootstrap 5.1.3
+- Font Awesome 6.0.0 icons
 - Custom CSS/JS under /static and collected /staticfiles
+- Responsive design with Bootstrap components
 
 Project layout (key paths)
 - Project settings: retail_management_system/settings.py
 - Project URLs: retail_management_system/urls.py
 - Base template: templates/base.html
-- Apps: accounts, inventory, procurement, sales, store_management, human_resources, reporting, e_commerce, dashboards
+- Apps: accounts, inventory, procurement, sales, store_management, human_resources, reporting, e_commerce, dashboards, api
+- Middleware: Custom security, logging, file upload restrictions
+- Logs: Comprehensive logging (security, audit, performance, error)
 
 Notes
-- No DRF/API endpoints are currently implemented in the repo.
-- Redis/PostgreSQL are not required for local development.
+- API framework ready (api/ app exists, DRF not yet implemented)
+- Production database migration to PostgreSQL completed
+- SSL/TLS certificates and HTTPS configuration available
+- Security scanning and penetration testing tools integrated
 
 ---
 
@@ -306,6 +319,7 @@ Migrations
 
 ## 14) Security Practices
 
+Core Security Features:
 - CSRF enabled for all forms
 - Django ORM for SQL injection protection
 - Auto-escaping templates for XSS reduction
@@ -313,7 +327,25 @@ Migrations
 - Strong passwords and per-user roles; never commit secrets
 - For production: HTTPS, secure session/cookie settings, HSTS at proxy layer
 
-See SECURITY_PROTOCOLS.md for expanded guidelines if present.
+Advanced Security Features:
+- Custom middleware: CustomerRestrictionMiddleware, SecureFileUploadMiddleware, logging_middleware
+- SSL/TLS certificate generation and testing scripts
+- Security scanning tools: penetration_test_suite.py, security_scanner.py
+- Comprehensive logging: security.log, audit.log, performance.log, error.log
+- File upload security with python-magic for type validation
+- Environment-based configuration for sensitive settings
+- Argon2 password hashing with strong validation (12+ characters)
+- Session security with timeout and concurrent session control
+
+Security Testing:
+- Automated penetration testing suite
+- Manual security audit checklist
+- OWASP ZAP, Nikto, SQLMap, Nmap integration
+- SSL/TLS configuration testing
+- Database security assessment
+
+See SECURITY_PROTOCOLS.md and SECURITY_AUDIT_PENETRATION_TESTING_PLAN.md for expanded guidelines.
+
 
 ---
 
@@ -333,4 +365,34 @@ Where to look
 
 ---
 
-Last updated: Generated to reflect the current repository state (SQLite dev DB, Django templates, no DRF endpoints).
+## 16) Production Readiness Assessment
+
+See PRODUCTION_READINESS_ASSESSMENT.md for full details.
+
+Summary:
+- Current status: Limited testing completed; not fully ready for production.
+- Database: PostgreSQL configured; migration completed.
+- Security: Production security settings implemented; SSL/TLS verified.
+- Static files: Production static file configuration in place.
+- Testing: Partial testing completed; some issues with DB conflicts.
+- Deployment: No verified deployment strategy; needs containerization or cloud deployment.
+- Immediate next steps: Database migration verification, security hardening, static files setup, comprehensive testing, deployment preparation.
+
+---
+
+## 17) Security Audit & Penetration Testing
+
+See SECURITY_AUDIT_PENETRATION_TESTING_PLAN.md for full details.
+
+Summary:
+- Comprehensive manual and automated security testing plan.
+- Covers authentication, authorization, input validation, session management, file upload, API, and network security.
+- Includes test cases for brute force, SQL injection, XSS, CSRF, privilege escalation, and more.
+- Automated tools: OWASP ZAP, Nikto, SQLMap, Nmap, SSLScan.
+- Recommendations: Implement automated testing, enhance monitoring, strengthen authentication, improve API and database security.
+- Implementation timeline: Immediate to long-term phases with clear milestones.
+- Success metrics and risk assessment included.
+
+---
+
+Last updated: September 2025 - Updated to reflect current repository state with PostgreSQL support, advanced security features, SSL/TLS configuration, and production readiness assessment.

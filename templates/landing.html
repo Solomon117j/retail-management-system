@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block freeze_nav %}True{% endblock %}
 
 {% block title %}Welcome to Retail Management System{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section bg-primary text-white py-5">
+<section class="hero-section text-white py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
@@ -21,19 +24,6 @@
                     <a href="{% url 'accounts:customer_register' %}" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-user-plus me-2"></i>Join Now
                     </a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <svg width="300" height="250" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="50" y="50" width="200" height="150" rx="10" fill="#fff" stroke="#007bff" stroke-width="3"/>
-                        <path d="M75,75 L75,175 M95,75 L95,175 M115,75 L115,175 M135,75 L135,175 M155,75 L155,175 M175,75 L175,175 M195,75 L195,175 M215,75 L215,175" stroke="#007bff" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M85,40 Q125,15 165,40" stroke="#007bff" stroke-width="4" stroke-linecap="round" fill="none"/>
-                        <circle cx="85" cy="35" r="4" fill="#007bff"/>
-                        <circle cx="125" cy="25" r="4" fill="#007bff"/>
-                        <circle cx="165" cy="35" r="4" fill="#007bff"/>
-                        <text x="150" y="130" text-anchor="middle" fill="#007bff" font-size="14" font-weight="bold">RMS</text>
-                    </svg>
                 </div>
             </div>
         </div>
@@ -59,15 +49,7 @@
                     <p>Track stock levels, manage suppliers, and optimize your inventory with real-time updates and automated alerts.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100 text-center p-4 border rounded">
-                    <div class="feature-icon mb-3">
-                        <i class="fas fa-cash-register fa-3x text-success"></i>
-                    </div>
-                    <h4 class="fw-bold">Sales & POS</h4>
-                    <p>Process transactions efficiently with our point-of-sale system, manage customer relationships, and track sales performance.</p>
-                </div>
-            </div>
+
             <div class="col-md-4">
                 <div class="feature-card h-100 text-center p-4 border rounded">
                     <div class="feature-icon mb-3">
@@ -161,10 +143,13 @@
 
 <style>
 .hero-section {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     min-height: 60vh;
     display: flex;
     align-items: center;
+    background-image: url('{% static 'images/BackGround.jpg' %}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .feature-card {

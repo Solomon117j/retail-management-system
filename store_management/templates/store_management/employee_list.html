@@ -30,7 +30,7 @@
 .stat-card {
     border: none;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(202, 187, 187, 0.1);
     transition: transform 0.2s;
 }
 
@@ -290,7 +290,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a href="{% url 'store_management:employee_detail' employee.pk %}" 
+                                    <a href="{% url 'hr:employee_detail' employee.pk %}"
                                        class="btn btn-sm btn-outline-primary"
                                        data-bs-toggle="tooltip" title="View Details">
                                         <i class="fas fa-eye"></i>
