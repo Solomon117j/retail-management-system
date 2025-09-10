@@ -1,0 +1,116 @@
+@import './variables.css';
+
+/* ===== BUTTONS ===== */
+
+.btn {
+  display: inline-block;
+  font-weight: var(--font-weight-semibold);
+  color: var(--white);
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  border-radius: var(--border-radius-md);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), color var(--transition-normal);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: var(--white);
+  outline: none;
+}
+
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Variants */
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: var(--secondary-hover);
+  border-color: var(--secondary-hover);
+  color: var(--white);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: var(--success-hover);
+  border-color: var(--success-hover);
+  color: var(--white);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
+  color: var(--white);
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+  border-color: var(--warning-color);
+  color: var(--dark-color);
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+  background-color: var(--warning-hover);
+  border-color: var(--warning-hover);
+  color: var(--dark-color);
+}
+
+.btn-info {
+  background-color: var(--info-color);
+  border-color: var(--info-color);
+}
+
+.btn-info:hover,
+.btn-info:focus {
+  background-color: var(--info-hover);
+  border-color: var(--info-hover);
+  color: var(--white);
+}
+
+/* Outline buttons */
+
+.btn-outline-primary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+}
+
+/* Add more outline variants as needed */
