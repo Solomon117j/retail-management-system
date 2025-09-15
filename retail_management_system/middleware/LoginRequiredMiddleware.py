@@ -13,6 +13,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
         self.get_response = get_response
         # URLs that don't require authentication
         self.exempt_urls = [
+            '/',
             '/accounts/login/',
             '/accounts/login/generic/',
             '/accounts/login/customer/',

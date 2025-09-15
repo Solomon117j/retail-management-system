@@ -17,6 +17,12 @@ from inventory.models import Product
 class LandingPageView(TemplateView):
     template_name = 'landing.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        # Redirect authenticated users to dashboard
+        if request.user.is_authenticated:
+            return redirect('dashboards:dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add featured or latest products for preview on landing page
@@ -87,11 +93,11 @@ class CustomLogoutView(View):
 
     def get(self, request):
         logout(request)
-        return redirect('/accounts/login/')
+        return redirect('home')
 
     def post(self, request):
         logout(request)
-        return redirect('/accounts/login/')
+        return redirect('home')
 
 
 def secure_media_serve(request, path):

@@ -1,6 +1,6 @@
 # human_resources/forms.py
 from django import forms
-from .models import Attendance, Payroll, Employee, Training
+from .models import Attendance, Payroll, Employee, Training, LeaveApplication
 from django.utils import timezone
 
 
@@ -123,8 +123,9 @@ class AttendanceForm(forms.ModelForm):
                 'Clock in time is required when status is "Present"'
             )
         
-        # If status is 'absent' or 'on_leave', clock times should be empty
-        if status in ['absent', 'on_leave']:
+        # If status is 'absent' or 'on_leave' or any leave type, clock times should be empty
+        leave_statuses = ['absent', 'on_leave', 'sick_leave', 'vacational_leave', 'maternity_leave', 'study_leave', 'compassionate_leave']
+        if status in leave_statuses:
             if clock_in or clock_out:
                 raise forms.ValidationError(
                     'Clock times should not be set when employee is absent or on leave'
@@ -394,3 +395,67 @@ class TrainingForm(forms.ModelForm):
                 'Training completion date cannot be in the future'
             )
         return date
+
+
+class LeaveApplicationForm(forms.ModelForm):
+    class Meta:
+        model = LeaveApplication
+        fields = ['leave_type', 'start_date', 'end_date', 'reason']
+        widgets = {
+            'leave_type': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'start_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'end_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'reason': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Please provide a reason for your leave application'
+            })
+        }
+
+        help_texts = {
+            'leave_type': 'Select the type of leave you are applying for',
+            'start_date': 'First day of leave',
+            'end_date': 'Last day of leave',
+            'reason': 'Optional: Provide details about your leave request'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Make certain fields required
+        self.fields['leave_type'].required = True
+        self.fields['start_date'].required = True
+        self.fields['end_date'].required = True
+        self.fields['reason'].required = False
+
+        # Set default start_date to today if creating new
+        if not self.instance.pk:
+            self.fields['start_date'].initial = timezone.now().date()
+
+    def clean_start_date(self):
+        """Validate that start date is not in the past"""
+        start_date = self.cleaned_data.get('start_date')
+        if start_date and start_date < timezone.now().date():
+            raise forms.ValidationError(
+                'Leave start date cannot be in the past'
+            )
+        return start_date
+
+    def clean_end_date(self):
+        """Validate that end date is after start date"""
+        end_date = self.cleaned_data.get('end_date')
+        start_date = self.cleaned_data.get('start_date')
+
+        if end_date and start_date and end_date < start_date:
+            raise forms.ValidationError(
+                'Leave end date must be after or equal to start date'
+            )
+        return end_date

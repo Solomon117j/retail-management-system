@@ -3321,3 +3321,1209 @@ ERROR 2025-09-10 09:08:35,329 ERROR django.server:193 log_message You're accessi
 None
 ERROR 2025-09-10 09:08:35,403 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
 None
+ERROR 2025-09-10 11:34:29,310 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:34:29,314 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:34:29,319 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:34:29,706 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:36:59,796 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:36:59,800 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:36:59,801 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 11:36:59,804 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-10 15:18:07,430 ERROR django.request:253 log_response Internal Server Error: /hr/payroll/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'training_export' not found. 'training_export' is not a valid view function or pattern name."), <traceback object at 0x00000128F03B77C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'training_export' not found. 'training_export' is not a valid view function or pattern name.
+ERROR 2025-09-10 15:18:07,490 ERROR django.security:291 _check_response_security Server error 500 on /hr/payroll/
+None
+ERROR 2025-09-10 15:18:07,602 ERROR django.server:213 log_message "GET /hr/payroll/ HTTP/1.1" 500 187193
+None
+ERROR 2025-09-12 10:45:05,886 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC6A96580>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:45:05,955 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:45:06,210 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255088
+None
+ERROR 2025-09-12 10:47:52,874 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC6D6D100>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:47:53,197 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:47:53,650 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255085
+None
+ERROR 2025-09-12 10:47:58,114 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC6F76D00>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:47:58,166 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:47:58,439 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 10:49:01,144 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC74472C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:49:01,178 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:49:01,310 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 10:51:48,650 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC74D8FC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:51:48,686 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:51:48,911 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 10:52:03,096 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC759B300>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:52:03,184 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:52:03,442 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 10:54:06,221 ERROR django.request:253 log_response Internal Server Error: /accounts/register/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC7A99FC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 35, in post
+    user.set_password(form.cleaned_data['password'])
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:54:06,229 ERROR django.security:291 _check_response_security Server error 500 on /accounts/register/
+None
+ERROR 2025-09-12 10:54:06,303 ERROR django.server:213 log_message "POST /accounts/register/ HTTP/1.1" 500 139949
+None
+ERROR 2025-09-12 10:55:53,775 ERROR django.request:253 log_response Internal Server Error: /accounts/register/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC7B0FD40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 35, in post
+    user.set_password(form.cleaned_data['password'])
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+                    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:55:53,787 ERROR django.security:291 _check_response_security Server error 500 on /accounts/register/
+None
+ERROR 2025-09-12 10:55:53,900 ERROR django.server:213 log_message "POST /accounts/register/ HTTP/1.1" 500 139948
+None
+ERROR 2025-09-12 10:55:58,397 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC7B97640>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:55:58,438 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:55:58,563 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 10:58:10,002 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC805D7C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 10:58:10,045 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 10:58:10,187 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 11:00:00,422 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC80EB380>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 11:00:00,491 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 11:00:00,975 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None
+ERROR 2025-09-12 11:00:17,634 ERROR django.request:253 log_response Internal Server Error: /accounts/login/staff/
+(<class 'ValueError'>, ValueError("Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'"), <traceback object at 0x0000015AC81BA3C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\accounts\views.py", line 119, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 80, in check_password
+    is_correct, must_update = verify_password(password, encoded, preferred=preferred)
+                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 59, in verify_password
+    must_update = hasher_changed or preferred.must_update(encoded)
+                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 453, in must_update
+    decoded = self.decode(encoded)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 410, in decode
+    argon2 = self._load_library()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\venv\Lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-09-12 11:00:17,655 ERROR django.security:291 _check_response_security Server error 500 on /accounts/login/staff/
+None
+ERROR 2025-09-12 11:00:17,811 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
+None

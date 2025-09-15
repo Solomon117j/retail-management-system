@@ -1,6 +1,7 @@
 # store_management/forms.py
 from django import forms
 from .models import Department, Store
+from human_resources.models import Employee
 
 
 class DepartmentForm(forms.ModelForm):
@@ -21,9 +22,20 @@ class DepartmentForm(forms.ModelForm):
 
 
 class StoreForm(forms.ModelForm):
+    country_code = forms.CharField(
+        max_length=5,
+        initial='+268',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '+268'
+        }),
+        help_text='Country code (e.g., +268 for Eswatini)'
+    )
+
     class Meta:
         model = Store
-        fields = ['store_name', 'address', 'city', 'region', 'postal_code', 'phone', 'opening_date']
+        fields = ['store_name', 'address', 'city', 'region', 'postal_code', 'phone', 'opening_date', 'manager']
         widgets = {
             'store_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -52,13 +64,16 @@ class StoreForm(forms.ModelForm):
             }),
             'phone': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': '26878117803',
+                'placeholder': '78117803',
                 'maxlength': 20
             }),
             'opening_date': forms.DateInput(attrs={
                 'type': 'date',
                 'class': 'form-control'
-            })
+            }),
+            'manager': forms.Select(attrs={
+                'class': 'form-control',
+            }),
         }
 
         help_texts = {
@@ -67,8 +82,9 @@ class StoreForm(forms.ModelForm):
             'city': 'City where the store is located',
             'region': 'State, province, or region',
             'postal_code': 'ZIP code or postal code (optional)',
-            'phone': 'Main contact phone number for the store (11 digits)',
-            'opening_date': 'Date when the store first opened'
+            'phone': 'Local phone number (without country code, e.g., 78117803)',
+            'opening_date': 'Date when the store first opened',
+            'manager': 'Select the store manager from the list of employees (optional)'
         }
 
     def __init__(self, *args, **kwargs):
@@ -85,21 +101,37 @@ class StoreForm(forms.ModelForm):
         # Set postal_code as optional
         self.fields['postal_code'].required = False
 
+        # Set manager as optional and set queryset
+        self.fields['manager'].required = False
+        self.fields['manager'].queryset = Employee.objects.all().order_by('first_name', 'last_name')
+
+        # If editing existing instance, split phone into country code and local number
+        if self.instance and self.instance.pk and self.instance.phone:
+            phone_str = str(self.instance.phone)
+            if len(phone_str) == 11:
+                self.fields['country_code'].initial = '+268'  # Assuming +268 for existing
+                self.fields['phone'].initial = phone_str[3:]  # Remove first 3 digits (268)
+
     def clean_phone(self):
         """Validate phone number: require 11 digits, return digits only"""
         phone = self.cleaned_data.get('phone')
-        if phone:
-            # Remove all non-digit characters
-            digits_only = ''.join(filter(str.isdigit, phone))
+        country_code = self.cleaned_data.get('country_code')
+        if phone and country_code:
+            # Remove all non-digit characters from phone and country code
+            digits_only_phone = ''.join(filter(str.isdigit, phone))
+            digits_only_code = ''.join(filter(str.isdigit, country_code))
 
-            # Require exactly 11 digits (e.g., 26878117803)
-            if len(digits_only) != 11:
+            # Combine country code digits and phone digits
+            full_number = digits_only_code + digits_only_phone
+
+            # Require exactly 11 digits total (e.g., 26878117803)
+            if len(full_number) != 11:
                 raise forms.ValidationError(
-                    'Phone number must be 11 digits long (e.g., 26878117803)'
+                    'Full phone number including country code must be 11 digits long (e.g., +268 78117803)'
                 )
 
-            # Store normalized digits-only value
-            return digits_only
+            # Store normalized digits-only value (just phone part)
+            return digits_only_phone
 
         return phone
 

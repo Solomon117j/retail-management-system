@@ -5,7 +5,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section text-white py-5">
+<section class="hero-section py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
@@ -141,13 +141,14 @@
 
 <style>
 .hero-section {
-    min-height: 60vh;
+    min-height: 20vh;
     display: flex;
     align-items: center;
     background-image: url('{% static 'images/BackGround.jpg' %}');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
+    color: black;
 }
 
 .feature-card {

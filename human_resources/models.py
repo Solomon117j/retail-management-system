@@ -213,6 +213,11 @@ class Attendance(models.Model):
         ('absent', 'Absent'),
         ('late', 'Late'),
         ('on_leave', 'On Leave'),
+        ('sick_leave', 'Sick Leave'),
+        ('vacational_leave', 'Vacational Leave'),
+        ('maternity_leave', 'Maternity Leave'),
+        ('study_leave', 'Study Leave'),
+        ('compassionate_leave', 'Compassionate Leave'),
     ]
 
     employee = models.ForeignKey(
@@ -324,3 +329,64 @@ def clean(self):
 
     if self.payment_date and self.payment_date < self.pay_period_end:
         raise ValidationError("Payment date cannot be before pay period end")
+
+class LeaveApplication(models.Model):
+    LEAVE_TYPE_CHOICES = [
+        ('sick_leave', 'Sick Leave'),
+        ('vacational_leave', 'Vacational Leave'),
+        ('maternity_leave', 'Maternity Leave'),
+        ('study_leave', 'Study Leave'),
+        ('compassionate_leave', 'Compassionate Leave'),
+        ('annual_leave', 'Annual Leave'),
+        ('unpaid_leave', 'Unpaid Leave'),
+        ('other', 'Other'),
+    ]
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    employee = models.ForeignKey(
+        Employee,
+        on_delete=models.CASCADE,
+        related_name='leave_applications'
+    )
+    leave_type = models.CharField(
+        max_length=30,
+        choices=LEAVE_TYPE_CHOICES,
+        default='annual_leave'
+    )
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    approved_by = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='approved_leave_applications'
+    )
+    applied_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-applied_at']
+        verbose_name = _("Leave Application")
+        verbose_name_plural = _("Leave Applications")
+
+    def __str__(self):
+        return f"{self.employee.get_full_name()} - {self.leave_type} from {self.start_date} to {self.end_date}"
+
+    def clean(self):
+        if self.start_date > self.end_date:
+            raise ValidationError("Start date must be before or equal to end date.")
+        if self.start_date < timezone.now().date():
+            raise ValidationError("Start date cannot be in the past.")

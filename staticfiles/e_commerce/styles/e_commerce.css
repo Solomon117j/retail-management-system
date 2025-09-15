@@ -1,5 +1,13 @@
 /* E-Commerce Module Styles */
 
+/* ===== GENERAL STYLES ===== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
 /* ===== GENERAL E-COMMERCE STYLES ===== */
 .ecommerce-container {
     max-width: 1200px;
@@ -25,3 +33,6 @@
 }
 
 .ecommerce-header .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}

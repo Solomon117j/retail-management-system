@@ -13,6 +13,14 @@ class Store(models.Model):
     postal_code = models.CharField(max_length=20, blank=True, null=True)
     phone = models.CharField(max_length=20)
     opening_date = models.DateField()
+    manager = models.ForeignKey(
+        'human_resources.Employee',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='managed_stores',
+        verbose_name="Store Manager"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

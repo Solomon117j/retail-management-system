@@ -1,8 +1,8 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from .models import Attendance, Payroll, Employee, Training
-from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm
+from .models import Attendance, Payroll, Employee, Training, LeaveApplication
+from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm, LeaveApplicationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
 from django.contrib import messages
@@ -192,6 +192,11 @@ class AttendanceListView(LoginRequiredMixin, ListView):
         context['late_today_count'] = status_counts.get('late', 0)
         context['absent_today_count'] = status_counts.get('absent', 0)
         context['on_leave_today_count'] = status_counts.get('on_leave', 0)
+        context['sick_leave_today_count'] = status_counts.get('sick_leave', 0)
+        context['vacational_leave_today_count'] = status_counts.get('vacational_leave', 0)
+        context['maternity_leave_today_count'] = status_counts.get('maternity_leave', 0)
+        context['study_leave_today_count'] = status_counts.get('study_leave', 0)
+        context['compassionate_leave_today_count'] = status_counts.get('compassionate_leave', 0)
 
         return context
 
@@ -371,6 +376,9 @@ class TrainingCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, f'Training record for {form.instance.employee.get_full_name()} created successfully!')
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('hr:training_list')
+
 class TrainingUpdateView(LoginRequiredMixin, UpdateView):
     model = Training
     form_class = TrainingForm
@@ -380,6 +388,9 @@ class TrainingUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, f'Training record for {form.instance.employee.get_full_name()} updated successfully!')
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('hr:training_list')
 
 class TrainingDetailView(LoginRequiredMixin, DetailView):
     model = Training
@@ -402,8 +413,6 @@ class TrainingDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, f'Training record "{training.training_name}" for {employee_name} deleted successfully!')
         return super().delete(request, *args, **kwargs)
 
-
-
 class ExportMixin:
     def get_filename(self, model_name, format_type):
         return f"{model_name}_{self.request.GET.get('filter', '')}_{self.get_timestamp()}.{format_type}"
@@ -411,6 +420,132 @@ class ExportMixin:
     def get_timestamp(self):
         from django.utils import timezone
         return timezone.now().strftime("%Y%m%d_%H%M%S")
+
+class TrainingExportView(LoginRequiredMixin, ExportMixin, View):
+    def get(self, request, *args, **kwargs):
+        try:
+            format_type = request.GET.get('format', 'csv')
+            queryset = self.get_queryset()
+
+            if format_type == 'csv':
+                return self.export_csv(queryset)
+            elif format_type == 'excel':
+                return self.export_excel(queryset)
+            else:
+                return HttpResponse("Invalid export format", status=400)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Training export error: {str(e)}")
+            return HttpResponse(f"Export failed: {str(e)}", status=500)
+
+    def get_queryset(self):
+        queryset = Training.objects.select_related('employee')
+        employee_id = self.request.GET.get('employee')
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
+
+        if employee_id:
+            queryset = queryset.filter(employee_id=employee_id)
+        if date_from:
+            queryset = queryset.filter(date_completed__gte=date_from)
+        if date_to:
+            queryset = queryset.filter(date_completed__lte=date_to)
+
+        return queryset.order_by('-date_completed')
+
+    def export_csv(self, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("training", "csv")}"'
+
+        writer = csv.writer(response)
+        # Write headers
+        writer.writerow([
+            'Employee ID', 'Employee Name', 'Training Name', 'Training Type',
+            'Date Completed', 'Duration (hours)', 'Trainer', 'Cost',
+            'Certification', 'Notes', 'Created At', 'Updated At'
+        ])
+
+        # Write data
+        for record in queryset:
+            writer.writerow([
+                str(record.employee.id),
+                record.employee.get_full_name(),
+                record.training_name,
+                record.training_type,
+                record.date_completed,
+                record.duration_hours,
+                record.trainer or '',
+                record.cost,
+                'Yes' if record.certification_earned else 'No',
+                record.notes or '',
+                record.created_at,
+                record.updated_at
+            ])
+
+        return response
+
+    def export_excel(self, queryset):
+        from django.utils import timezone
+
+        # Create a DataFrame
+        data = []
+        for record in queryset:
+            # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
+            created_at = record.created_at
+            updated_at = record.updated_at
+
+            if created_at and timezone.is_aware(created_at):
+                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if updated_at and timezone.is_aware(updated_at):
+                updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
+
+            data.append({
+                'Employee ID': str(record.employee.id),
+                'Employee Name': record.employee.get_full_name(),
+                'Training Name': record.training_name,
+                'Training Type': record.training_type,
+                'Date Completed': record.date_completed,
+                'Duration (hours)': record.duration_hours,
+                'Trainer': record.trainer or '',
+                'Cost': float(record.cost) if record.cost else 0,
+                'Certification': 'Yes' if record.certification_earned else 'No',
+                'Notes': record.notes or '',
+                'Created At': created_at,
+                'Updated At': updated_at
+            })
+
+        df = pd.DataFrame(data)
+
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Training')
+
+            # Get the workbook and worksheet for formatting
+            workbook = writer.book
+            worksheet = writer.sheets['Training']
+
+            # Auto-adjust column widths
+            for column in worksheet.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                worksheet.column_dimensions[column_letter].width = adjusted_width
+
+        response = HttpResponse(
+            output.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("training", "xlsx")}"'
+
+        return response
 
 class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
     def get(self, request, *args, **kwargs):
@@ -819,3 +954,210 @@ def attendance_create(request):
     else:
         form = AttendanceForm()
     return render(request, 'human_resources/attendance_form.html', {'form': form})
+
+
+# Leave Application Views
+class LeaveApplicationListView(LoginRequiredMixin, ListView):
+    model = LeaveApplication
+    template_name = 'human_resources/leave_application_list.html'
+    context_object_name = 'leave_applications'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset().select_related('employee')
+        # Filter by employee if requested
+        employee_id = self.request.GET.get('employee')
+        if employee_id:
+            queryset = queryset.filter(employee_id=employee_id)
+
+        # Filter by status
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+
+        # Filter by leave type
+        leave_type = self.request.GET.get('leave_type')
+        if leave_type:
+            queryset = queryset.filter(leave_type=leave_type)
+
+        return queryset.order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add statistics
+        context['total_applications'] = LeaveApplication.objects.count()
+        context['pending_applications'] = LeaveApplication.objects.filter(status='pending').count()
+        context['approved_applications'] = LeaveApplication.objects.filter(status='approved').count()
+        context['rejected_applications'] = LeaveApplication.objects.filter(status='rejected').count()
+        return context
+
+
+class LeaveApplicationCreateView(LoginRequiredMixin, CreateView):
+    model = LeaveApplication
+    form_class = LeaveApplicationForm
+    template_name = 'human_resources/leave_application_form.html'
+    success_url = reverse_lazy('hr:leave_application_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Leave application for {form.instance.employee.get_full_name()} created successfully!')
+        return super().form_valid(form)
+
+
+class LeaveApplicationUpdateView(LoginRequiredMixin, UpdateView):
+    model = LeaveApplication
+    form_class = LeaveApplicationForm
+    template_name = 'human_resources/leave_application_form.html'
+    success_url = reverse_lazy('hr:leave_application_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Leave application for {form.instance.employee.get_full_name()} updated successfully!')
+        return super().form_valid(form)
+
+
+class LeaveApplicationDetailView(LoginRequiredMixin, DetailView):
+    model = LeaveApplication
+    template_name = 'human_resources/leave_application_detail.html'
+    context_object_name = 'leave_application'
+
+
+class LeaveApplicationDeleteView(LoginRequiredMixin, DeleteView):
+    model = LeaveApplication
+    template_name = 'human_resources/leave_application_confirm_delete.html'
+    success_url = reverse_lazy('hr:leave_application_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employee_name'] = self.object.employee.get_full_name()
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        leave_app = self.get_object()
+        employee_name = leave_app.employee.get_full_name()
+        messages.success(request, f'Leave application for {employee_name} deleted successfully!')
+        return super().delete(request, *args, **kwargs)
+
+
+class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
+    def get(self, request, *args, **kwargs):
+        try:
+            format_type = request.GET.get('format', 'csv')
+            queryset = self.get_queryset()
+
+            if format_type == 'csv':
+                return self.export_csv(queryset)
+            elif format_type == 'excel':
+                return self.export_excel(queryset)
+            else:
+                return HttpResponse("Invalid export format", status=400)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Leave application export error: {str(e)}")
+            return HttpResponse(f"Export failed: {str(e)}", status=500)
+
+    def get_queryset(self):
+        queryset = LeaveApplication.objects.select_related('employee')
+        employee_id = self.request.GET.get('employee')
+        status = self.request.GET.get('status')
+        leave_type = self.request.GET.get('leave_type')
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
+
+        if employee_id:
+            queryset = queryset.filter(employee_id=employee_id)
+        if status:
+            queryset = queryset.filter(status=status)
+        if leave_type:
+            queryset = queryset.filter(leave_type=leave_type)
+        if date_from:
+            queryset = queryset.filter(start_date__gte=date_from)
+        if date_to:
+            queryset = queryset.filter(end_date__lte=date_to)
+
+        return queryset.order_by('-created_at')
+
+    def export_csv(self, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("leave_applications", "csv")}"'
+
+        writer = csv.writer(response)
+        # Write headers
+        writer.writerow([
+            'Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date',
+            'Reason', 'Status', 'Created At', 'Updated At'
+        ])
+
+        # Write data
+        for record in queryset:
+            writer.writerow([
+                str(record.employee.id),
+                record.employee.get_full_name(),
+                record.get_leave_type_display(),
+                record.start_date,
+                record.end_date,
+                record.reason or '',
+                record.get_status_display(),
+                record.created_at,
+                record.updated_at
+            ])
+
+        return response
+
+    def export_excel(self, queryset):
+        from django.utils import timezone
+
+        # Create a DataFrame
+        data = []
+        for record in queryset:
+            # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
+            created_at = record.created_at
+            updated_at = record.updated_at
+
+            if created_at and timezone.is_aware(created_at):
+                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if updated_at and timezone.is_aware(updated_at):
+                updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
+
+            data.append({
+                'Employee ID': str(record.employee.id),
+                'Employee Name': record.employee.get_full_name(),
+                'Leave Type': record.get_leave_type_display(),
+                'Start Date': record.start_date,
+                'End Date': record.end_date,
+                'Reason': record.reason or '',
+                'Status': record.get_status_display(),
+                'Created At': created_at,
+                'Updated At': updated_at
+            })
+
+        df = pd.DataFrame(data)
+
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Leave Applications')
+
+            # Get the workbook and worksheet for formatting
+            workbook = writer.book
+            worksheet = writer.sheets['Leave Applications']
+
+            # Auto-adjust column widths
+            for column in worksheet.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                worksheet.column_dimensions[column_letter].width = adjusted_width
+
+        response = HttpResponse(
+            output.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("leave_applications", "xlsx")}"'
+
+        return response

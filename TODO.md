@@ -1,12 +1,13 @@
-# Freeze Navigation on Landing Page - TODO
+# TODO: Add Staff Leaves in HR Module
 
 ## Tasks
-- [x] Edit templates/base.html to add conditional CSS class for frozen navigation
-- [x] Add CSS styles for .nav-frozen class to disable interactions
-- [x] Edit templates/landing.html to activate frozen navigation
-- [x] Test the changes to ensure navigation is frozen on landing page only
+- [ ] Update Attendance model STATUS_CHOICES to include new leave types: Sick, Vacational, Maternity, Study, Compassionate
+- [ ] Update AttendanceForm in forms.py to reflect new status choices
+- [ ] Update AttendanceListView in views.py to include statistics for new leave types
+- [ ] Run database migrations to apply model changes
+- [ ] Test attendance creation and listing with new leave types
 
-## Status
-- Current: Implementation and testing completed
-- Next: None
-pytho
+## Completed
+- [x] Analyze existing HR module structure
+- [x] Create comprehensive plan
+- [x] Get user confirmation

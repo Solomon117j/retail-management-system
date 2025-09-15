@@ -1,7 +1,7 @@
 # human_resources/urls.py
 from django.urls import path
 from . import views
-from .views import AttendanceExportView, PayrollExportView
+from .views import AttendanceExportView, PayrollExportView, TrainingExportView, LeaveApplicationExportView
 
 app_name = 'hr'
 
@@ -34,8 +34,17 @@ urlpatterns = [
     path('training/<uuid:pk>/edit/', views.TrainingUpdateView.as_view(), name='training_update'),
     path('training/<uuid:pk>/delete/', views.TrainingDeleteView.as_view(), name='training_delete'),
 
+    # Leave Application URLs
+    path('leave-applications/', views.LeaveApplicationListView.as_view(), name='leave_application_list'),
+    path('leave-applications/create/', views.LeaveApplicationCreateView.as_view(), name='leave_application_create'),
+    path('leave-applications/<uuid:pk>/', views.LeaveApplicationDetailView.as_view(), name='leave_application_detail'),
+    path('leave-applications/<uuid:pk>/edit/', views.LeaveApplicationUpdateView.as_view(), name='leave_application_update'),
+    path('leave-applications/<uuid:pk>/delete/', views.LeaveApplicationDeleteView.as_view(), name='leave_application_delete'),
+
     # Export URLs
     path('employees/export/', views.EmployeeExportView.as_view(), name='employee_export'),
     path('attendance/export/', AttendanceExportView.as_view(), name='attendance_export'),
     path('payroll/export/', PayrollExportView.as_view(), name='payroll_export'),
+    path('training/export/', TrainingExportView.as_view(), name='training_export'),
+    path('leave-applications/export/', LeaveApplicationExportView.as_view(), name='leave_application_export'),
 ]
