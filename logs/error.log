@@ -4527,3 +4527,47 @@ ERROR 2025-09-12 11:00:17,655 ERROR django.security:291 _check_response_security
 None
 ERROR 2025-09-12 11:00:17,811 ERROR django.server:213 log_message "POST /accounts/login/staff/ HTTP/1.1" 500 255084
 None
+ERROR 2025-09-30 16:22:44,678 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:22:44,715 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:22:44,731 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:22:44,735 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:23:45,473 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:23:45,477 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:23:55,564 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:23:55,585 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:24:24,642 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:24:24,645 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:32:53,908 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:32:53,914 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:38:46,190 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:38:46,201 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:16,598 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:16,603 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:16,605 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:16,621 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:18,165 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:18,167 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:18,171 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-09-30 16:40:18,173 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None

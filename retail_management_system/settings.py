@@ -161,10 +161,10 @@ WSGI_APPLICATION = 'retail_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'retail_management'),
-        'USER': os.environ.get('POSTGRES_USER', 'thembinkosi'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'Only4u@2025@#'),
-        'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
+        'NAME': os.environ.get('POSTGRES_DB', 'retail_management_system'),
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'Only4u@12345'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }

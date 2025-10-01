@@ -21,7 +21,7 @@ The Retail Management System is built using Django 5.2.4 with a modular architec
 ┌─────────────────────────────────────────────────────────────┐
 │                    PRESENTATION LAYER                       │
 ├─────────────────────────────────────────────────────────────┤
-│  Web Browser (HTML/CSS/JavaScript)                         │
+│  Web Browser (HTML/CSS/JavaScript)                          │
 │  - Bootstrap 5.1.3 Framework                               │
 │  - Font Awesome Icons                                       │
 │  - Custom CSS/JS                                           │
@@ -1091,12 +1091,24 @@ python manage.py collectstatic
 
 #### 6. Run Development Server
 ```bash
-# Standard Django development server
+# Standard Django development server (recommended for development)
 python manage.py runserver
 
-# Enhanced development server with Django Extensions (recommended)
-# Provides SSL support, Werkzeug debugger, and other advanced features
+# Enhanced development server with Django Extensions
+# Note: runserver_plus with SSL may cause HTTP to HTTPS redirects in browsers
+# For development without SSL redirects, use the standard runserver
 python manage.py runserver_plus
+
+# To run with SSL (if needed for testing HTTPS features):
+# python manage.py runserver_plus --cert certs/devserver.crt --key certs/devserver.key
+# Note: This serves HTTPS only; access via https://127.0.0.1:8000/
+
+# If you experience HTTP to HTTPS redirects even with standard runserver:
+# This is caused by browser HSTS (HTTP Strict Transport Security) cache
+# Clear HSTS for localhost in your browser:
+# - Chrome/Edge: chrome://net-internals/#hsts → Query "localhost" → Delete
+# - Firefox: Developer Tools (F12) → Network → Right-click request → Disable HSTS
+# - Safari: Clear browsing data or use private browsing mode
 
 # Or use the provided convenience scripts:
 # Windows: double-click runserver_plus.bat
