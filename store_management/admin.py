@@ -5,8 +5,8 @@ from django.contrib import admin
 from .models import Store, Department
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('store_name', 'city', 'region', 'postal_code', 'phone', 'opening_date')
-    search_fields = ('store_name', 'city', 'region')
+    list_display = ('name', 'city', 'region', 'postal_code', 'phone', 'opening_date')
+    search_fields = ('name', 'city', 'region')
     list_filter = ('region',)
 
 @admin.register(Department)

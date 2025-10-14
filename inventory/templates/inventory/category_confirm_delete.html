@@ -1,82 +1,10 @@
-{% extends 'delete_confirm.html' %}
-
-{% block title %}Delete Category - {{ block.super }}{% endblock %}
-
-{% block item_details %}
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-hashtag"></i>ID:
-    </span>
-    <span class="detail-value">{{ object.pk }}</span>
-</div>
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-list"></i>Category Name:
-    </span>
-    <span class="detail-value">{{ object.name }}</span>
-</div>
-{% if object.description %}
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-align-left"></i>Description:
-    </span>
-    <span class="detail-value">{{ object.description }}</span>
-</div>
-{% endif %}
-{% if object.parent %}
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-sitemap"></i>Parent Category:
-    </span>
-    <span class="detail-value">{{ object.parent.name }}</span>
-</div>
-{% endif %}
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-calendar-plus"></i>Created:
-    </span>
-    <span class="detail-value">{{ object.created_at|date:"M d, Y H:i" }}</span>
-</div>
-<div class="detail-item">
-    <span class="detail-label">
-        <i class="fas fa-calendar-edit"></i>Last Updated:
-    </span>
-    <span class="detail-value">{{ object.updated_at|date:"M d, Y H:i" }}</span>
-</div>
+{% extends "base.html" %}
+{% block content %}
+<h1>Delete Category</h1>
+<p>Are you sure you want to delete the category "{{ object.name }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Yes, Delete</button>
+  <a href="{% url 'inventory:category_list' %}">Cancel</a>
+</form>
 {% endblock %}
-
-{% block consequences %}
-<div class="consequences-list">
-    <h6>
-        <i class="fas fa-exclamation-circle me-2"></i>Consequences of deleting this category:
-    </h6>
-    <ul class="list-unstyled">
-        <li>The category will be permanently removed from the database</li>
-        <li>All products in this category will have their category field set to null</li>
-        {% if object.children.exists %}
-        <li>All subcategories will also be deleted (cascading delete)</li>
-        {% endif %}
-        <li>Product listings and reports will no longer show this category</li>
-        <li>E-commerce category browsing may be affected</li>
-        <li>This action cannot be reversed or undone</li>
-    </ul>
-</div>
-{% endblock %}
-
-{% load static %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add category-specific confirmation message
-    const originalConfirm = window.confirmDelete;
-    window.confirmDelete = function() {
-        return confirm(
-            `⚠️ DELETE CATEGORY: "{{ object.name }}" ⚠️\n\n` +
-            `WARNING: All products in this category will have their category field cleared.\n` +
-            `{% if object.children.exists %}WARNING: All subcategories will also be deleted!\n{% endif %}\n` +
-            `Are you absolutely sure you want to delete this category?\n\n` +
-            `This action is PERMANENT and CANNOT be undone!\n\n` +
-            `Click OK to proceed with deletion, or Cancel to abort.`
-        );
-    };
-});
-</script>

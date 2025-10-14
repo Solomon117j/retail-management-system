@@ -1,62 +1,216 @@
 {% extends "base.html" %}
+{% load static %}
+{% load math_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'procurement/css/procurement.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Purchase Order #{{ order.id }}</h1>
-<p><strong>Supplier:</strong> {{ order.supplier.name }}</p>
-<p><strong>Store:</strong> {{ order.store.name }}</p>
-<p><strong>Order Date:</strong> {{ order.order_date|date:"Y-m-d" }}</p>
-<p><strong>Expected Delivery:</strong> {{ order.expected_delivery_date|date:"Y-m-d"|default:"-" }}</p>
-<p><strong>Status:</strong> {{ order.get_status_display }}</p>
-<p><strong>Total Amount:</strong> SZL{{ order.total_amount|default:"0.00" }}</p>
-<p><strong>Created By:</strong> {{ order.created_by.get_full_name }}</p>
-<p><strong>Created At:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
-<p><strong>Updated At:</strong> {{ order.updated_at|date:"Y-m-d H:i" }}</p>
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'procurement:purchaseorder_list' %}">Purchase Orders</a></li>
+                    <li class="breadcrumb-item active">Purchase Order-{{ order.id }}</li>
+                </ol>
+            </nav>
+            <h1 class="h2 mb-0">
+                <i class="fas fa-file-invoice me-2"></i>Purchase Order #{{ order.id }}
+                <span class="badge status-badge status-{{ order.status }} ms-2">{{ order.get_status_display }}</span>
+            </h1>
+        </div>
+        <div class="col-auto">
+            <div class="btn-group" role="group">
+                {% if can_edit %}
+                    <a href="{% url 'procurement:purchaseorder_update' order.pk %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit me-1"></i>Edit Order
+                    </a>
+                {% endif %}
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-cogs me-1"></i>Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if can_edit %}
+                        <li>
+                            <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="pending" class="dropdown-item">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit for Approval
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="cancelled" class="dropdown-item text-danger">
+                                    <i class="fas fa-times me-2"></i>Cancel Order
+                                </button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if order.status == 'pending' and perms.procurement.approve_purchase_orders %}
+                        <li>
+                            <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="approved" class="dropdown-item text-success">
+                                    <i class="fas fa-check me-2"></i>Approve Order
+                                </button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if order.status == 'approved' %}
+                        <li>
+                            <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="shipped" class="dropdown-item">
+                                    <i class="fas fa-truck me-2"></i>Mark as Shipped
+                                </button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if order.status == 'shipped' %}
+                        <li>
+                            <a href="{% url 'procurement:purchaseorder_receive' order.pk %}" class="dropdown-item">
+                                <i class="fas fa-box-open me-2"></i>Receive Shipment
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h2>Order Items</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Received</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>SZL{{ item.unit_price }}</td>
-            <td>SZL{{ item.total }}</td>
-            <td>{{ item.received_quantity }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="row">
+        <!-- Order Information -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Order Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-5">Supplier:</dt>
+                                <dd class="col-sm-7">
+                                    <a href="{% url 'procurement:supplier_detail' order.supplier.pk %}" class="text-decoration-none">
+                                        {{ order.supplier.name }}
+                                    </a>
+                                </dd>
 
-<div class="actions">
-    {% if can_edit %}
-        <a href="{% url 'procurement:purchaseorder_update' order.pk %}">Edit Order</a>
-        <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}">
-            {% csrf_token %}
-            <button type="submit" name="action" value="pending">Submit for Approval</button>
-            <button type="submit" name="action" value="cancelled">Cancel Order</button>
-        </form>
-    {% endif %}
-    
-    {% if order.status == 'approved' %}
-        <form method="post" action="{% url 'procurement:purchaseorder_status' order.pk %}">
-            {% csrf_token %}
-            <button type="submit" name="action" value="shipped">Mark as Shipped</button>
-        </form>
-    {% endif %}
-    
-    {% if order.status == 'shipped' %}
-        <a href="{% url 'procurement:purchaseorder_receive' order.pk %}">Receive Shipment</a>
-    {% endif %}
-    
-    <a href="{% url 'procurement:purchaseorder_list' %}">Back to List</a>
+                                <dt class="col-sm-5">Store:</dt>
+                                <dd class="col-sm-7">{{ order.store.name }}</dd>
+
+                                <dt class="col-sm-5">Order Date:</dt>
+                                <dd class="col-sm-7">{{ order.order_date|date:"M d, Y" }}</dd>
+
+                                <dt class="col-sm-5">Expected Delivery:</dt>
+                                <dd class="col-sm-7">
+                                    {% if order.expected_delivery_date %}
+                                        <span {% if order.expected_delivery_date < order.order_date|date:"Y-m-d" %}class="overdue"{% endif %}>
+                                            {{ order.expected_delivery_date|date:"M d, Y" }}
+                                        </span>
+                                        {% if order.expected_delivery_date < order.order_date|date:"Y-m-d" %}
+                                            <small class="text-danger d-block">Overdue</small>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="text-muted">Not specified</span>
+                                    {% endif %}
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-5">Status:</dt>
+                                <dd class="col-sm-7">
+                                    <span class="badge status-badge status-{{ order.status }}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </dd>
+
+                                <dt class="col-sm-5">Total Amount:</dt>
+                                <dd class="col-sm-7">
+                                    <strong class="text-success h5">SZL {{ order.total_amount|default:"0.00"|floatformat:2 }}</strong>
+                                </dd>
+
+                                <dt class="col-sm-5">Created By:</dt>
+                                <dd class="col-sm-7">
+                                    {% if order.created_by %}
+                                        {{ order.created_by.get_full_name|default:order.created_by.username }}
+                                    {% else %}
+                                        <span class="text-muted">System</span>
+                                    {% endif %}
+                                </dd>
+
+                                <dt class="col-sm-5">Created:</dt>
+                                <dd class="col-sm-7">{{ order.created_at|date:"M d, Y H:i" }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Order Items</h5>
+                    <span class="badge bg-secondary">{{ items|length }} items</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-center">Ordered</th>
+                                    <th class="text-center">Received</th>
+                                    <th class="text-center">Remaining</th>
+                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-end">Total</th>
+                                    <th class="text-center">Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong>{{ item.product.name }}</strong>
+                                            {% if item.product.sku %}
+                                                <small class="text-muted">SKU: {{ item.product.sku }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class="text-center">{{ item.quantity }}</td>
+                                    <td class="text-center">{{ item.received_quantity|default:0 }}</td>
+                                    <td class="text-center">{{ item.quantity|sub:item.received_quantity|default:0 }}</td>
+                                    <td class="text-end">SZL {{ item.unit_price|floatformat:2 }}</td>
+                                    <td class="text-end">SZL {{ item.total|floatformat:2 }}</td>
+                                    <td class="text-center">
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar" role="progressbar" style="width: {% widthratio item.received_quantity item.quantity 100 %}%;" aria-valuenow="{{ item.received_quantity }}" aria-valuemin="0" aria-valuemax="{{ item.quantity }}">
+                                                {{ item.received_quantity }}/{{ item.quantity }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Additional content can be added here if needed -->
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
+{% endblock %}
+{% block content %}
+<div class="inventory-form-container">
+  <div class="card inventory-card">
+    <div class="card-header inventory-card-header">
+      <h1><i class="fas fa-clipboard-list me-2"></i>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Inventory Record</h1>
+    </div>
+    <div class="card-body inventory-card-body">
+      <div class="inventory-progress">
+        <div class="inventory-progress-bar" id="formProgress" style="width: 0%"></div>
+      </div>
+      <form method="post" class="inventory-form">
+        {% csrf_token %}
+
+        <h5 class="inventory-section-title"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-box"></i>
+              {{ form.product }}
+              <label for="{{ form.product.id_for_label }}">
+                {{ form.product.label }}{% if form.product.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.product.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.product.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-store"></i>
+              {{ form.store }}
+              <label for="{{ form.store.id_for_label }}">
+                {{ form.store.label }}{% if form.store.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.store.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.store.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-warehouse me-2"></i>Inventory Details</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-hashtag"></i>
+              {{ form.quantity }}
+              <label for="{{ form.quantity.id_for_label }}">
+                {{ form.quantity.label }}{% if form.quantity.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.quantity.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.quantity.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-map-marker-alt"></i>
+              {{ form.location }}
+              <label for="{{ form.location.id_for_label }}">
+                {{ form.location.label }}{% if form.location.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.location.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.location.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-hashtag"></i>
+              {{ form.batch_number }}
+              <label for="{{ form.batch_number.id_for_label }}">
+                {{ form.batch_number.label }}
+              </label>
+              {% if form.batch_number.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.batch_number.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-calendar-times"></i>
+              {{ form.expiration_date }}
+              <label for="{{ form.expiration_date.id_for_label }}">
+                {{ form.expiration_date.label }}
+              </label>
+              {% if form.expiration_date.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.expiration_date.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-dollar-sign me-2"></i>Pricing & Supplier</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-dollar-sign"></i>
+              {{ form.cost_price }}
+              <label for="{{ form.cost_price.id_for_label }}">
+                {{ form.cost_price.label }}
+              </label>
+              {% if form.cost_price.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.cost_price.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-truck"></i>
+              {{ form.supplier }}
+              <label for="{{ form.supplier.id_for_label }}">
+                {{ form.supplier.label }}
+              </label>
+              {% if form.supplier.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.supplier.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="inventory-btn-group">
+          <button type="submit" class="inventory-btn-primary">
+            <i class="fas fa-save me-1"></i>Save Inventory Record
+          </button>
+          <a href="{% url 'inventory:inventoryrecord-list' %}" class="inventory-btn-secondary">
+            <i class="fas fa-times me-1"></i>Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'inventory/js/inventory.js' %}"></script>
+{% endblock %}

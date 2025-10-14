@@ -163,7 +163,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
         formset = context['formset']
         
         with transaction.atomic():
-            form.instance.created_by = self.request.user
+            form.instance.created_by = self.request.user.employee_profile
             self.object = form.save()
             
             if formset.is_valid():
@@ -619,12 +619,8 @@ class QuickSaleView(LoginRequiredMixin, CreateView):
         else:
             context['formset'] = SaleItemFormSet()
 
-        # Popular products for quick selection
-        context['popular_products'] = Product.objects.filter(
-            saleitem__sale__sale_date__date__gte=datetime.date.today() - datetime.timedelta(days=30)
-        ).annotate(
-            sales_count=models.Count('saleitem')
-        ).order_by('-sales_count')[:10]
+        # Popular products for quick selection - removed as inventory app is deleted
+        context['popular_products'] = []
 
         return context
 
@@ -633,7 +629,7 @@ class QuickSaleView(LoginRequiredMixin, CreateView):
         formset = context['formset']
 
         with transaction.atomic():
-            form.instance.created_by = self.request.user
+            form.instance.created_by = self.request.user.employee_profile
             self.object = form.save()
 
             if formset.is_valid():

@@ -11,9 +11,6 @@ from django.http import HttpResponseNotFound
 from django.conf import settings
 import os
 
-
-from inventory.models import Product
-
 class LandingPageView(TemplateView):
     template_name = 'landing.html'
 
@@ -26,8 +23,7 @@ class LandingPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add featured or latest products for preview on landing page
-        products = Product.objects.filter(available_online=True).order_by('-id')[:6]
-        context['featured_products'] = products
+        context['featured_products'] = []
         return context
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -87,6 +83,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         
         return context
 
+    # Add recent pending online orders for staff dashboard
+    def get_recent_online_orders(self):
+        try:
+            from e_commerce.models import OnlineOrder
+            return OnlineOrder.objects.filter(
+                status__in=['pending', 'processing']
+            ).select_related('customer').order_by('-order_date')[:10]
+        except:
+            return []
 
 class CustomLogoutView(View):
     """Custom logout view that handles both GET and POST requests"""

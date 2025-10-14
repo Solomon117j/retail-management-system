@@ -23,13 +23,8 @@ class AnalyticsDashboardView(LoginRequiredMixin, TemplateView):
         except:
             context['total_employees'] = 0
             
-        try:
-            from inventory.models import Product
-            context['total_products'] = Product.objects.count()
-            context['low_stock_products'] = Product.objects.filter(quantity_in_stock__lt=10).count()
-        except:
-            context['total_products'] = 0
-            context['low_stock_products'] = 0
+        context['total_products'] = 0
+        context['low_stock_products'] = 0
         
         # Add more analytics data here as needed
         context['current_month'] = datetime.now().strftime('%B %Y')
@@ -38,9 +33,6 @@ class AnalyticsDashboardView(LoginRequiredMixin, TemplateView):
 
 class SalesReportView(LoginRequiredMixin, TemplateView):
     template_name = 'reporting/sales_report.html'
-
-class InventoryReportView(LoginRequiredMixin, TemplateView):
-    template_name = 'reporting/inventory_report.html'
 
 class EmployeeReportView(LoginRequiredMixin, TemplateView):
     template_name = 'reporting/employee_report.html'

@@ -17,7 +17,7 @@
                     <div class="btn-group" role="group">
                         <!-- Check for view_inventory permission -->
                         {% if perms.human_resources.view_inventory %}
-                            <a href="{% url 'inventory:product_list' %}" class="btn btn-primary">
+                            <a href="{% url 'inventory:product-list' %}" class="btn btn-primary">
                                 <i class="fas fa-list"></i> View Products
                             </a>
                         {% endif %}

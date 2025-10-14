@@ -4,6 +4,7 @@ from django.conf import settings  # Import settings to access AUTH_USER_MODEL
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
+# from inventory.models import Product
 
 class CustomerAccount(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -162,15 +163,18 @@ class OrderItem(models.Model):
     )
     product = models.ForeignKey(
         'inventory.Product',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='order_items'
     )
+    product_name = models.CharField(max_length=100, blank=True)  # Keep for display purposes
     quantity = models.PositiveIntegerField(
         validators=[MinValueValidator(1)]
     )
     unit_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(0.01)]
+        validators=[MinValueValidator(0.01)],
+        default=0.01
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -178,15 +182,11 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name = "Order Item"
         verbose_name_plural = "Order Items"
-        constraints = [
-            models.UniqueConstraint(
-                fields=['order', 'product'],
-                name='unique_order_product'
-            )
-        ]
+        # Removed unique constraint on product as field is removed
     
     def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
+        product_display = self.product.name if self.product else self.product_name
+        return f"{self.quantity} x {product_display}"
     
     @property
     def total_price(self):
@@ -236,7 +236,15 @@ class CartItem(models.Model):
     )
     product = models.ForeignKey(
         'inventory.Product',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='cart_items'
+    )
+    product_name = models.CharField(max_length=100, blank=True)  # Keep for display purposes
+    unit_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)],
+        default=0.01
     )
     quantity = models.PositiveIntegerField(
         default=1,
@@ -247,19 +255,15 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = "Cart Item"
         verbose_name_plural = "Cart Items"
-        constraints = [
-            models.UniqueConstraint(
-                fields=['cart', 'product'],
-                name='unique_cart_product'
-            )
-        ]
+        # Removed unique constraint on product as field is removed
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
+        product_display = self.product.name if self.product else self.product_name
+        return f"{self.quantity} x {product_display}"
 
     @property
     def total_price(self):
-        return self.quantity * self.product.unit_price
+        return self.quantity * self.unit_price
 
 class SavedPaymentMethod(models.Model):
     """

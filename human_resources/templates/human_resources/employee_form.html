@@ -116,11 +116,11 @@
             <form method="post" class="employee-form-container" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-                <!-- Personal Information -->
+                <!-- Basic Information -->
                 <div class="card mb-4">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0">
-                            <i class="fas fa-user me-2"></i>Personal Information
+                            <i class="fas fa-user me-2"></i>Basic Information
                         </h5>
                     </div>
                     <div class="card-body">
@@ -154,7 +154,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="row g-3 mt-2">
                             <div class="col-md-6">
                                 <label for="id_email" class="form-label">
@@ -185,7 +185,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         {% if not object %}
                         <div class="row g-3 mt-2">
                             <div class="col-md-12">
@@ -205,6 +205,294 @@
                             </div>
                         </div>
                         {% endif %}
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-id-card me-2"></i>Personal Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="id_date_of_birth" class="form-label">
+                                    <i class="fas fa-birthday-cake me-1"></i>Date of Birth
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-birthday-cake"></i>
+                                    </span>
+                                    {{ form.date_of_birth }}
+                                </div>
+                                {% if form.date_of_birth.errors %}
+                                    <div class="text-danger small mt-1">{{ form.date_of_birth.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_gender" class="form-label">
+                                    <i class="fas fa-venus-mars me-1"></i>Gender
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-venus-mars"></i>
+                                    </span>
+                                    {{ form.gender }}
+                                </div>
+                                {% if form.gender.errors %}
+                                    <div class="text-danger small mt-1">{{ form.gender.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_nationality" class="form-label">
+                                    <i class="fas fa-flag me-1"></i>Nationality
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-flag"></i>
+                                    </span>
+                                    {{ form.nationality }}
+                                </div>
+                                {% if form.nationality.errors %}
+                                    <div class="text-danger small mt-1">{{ form.nationality.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_marital_status" class="form-label">
+                                    <i class="fas fa-ring me-1"></i>Marital Status
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-ring"></i>
+                                    </span>
+                                    {{ form.marital_status }}
+                                </div>
+                                {% if form.marital_status.errors %}
+                                    <div class="text-danger small mt-1">{{ form.marital_status.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_languages_spoken" class="form-label">
+                                    <i class="fas fa-language me-1"></i>Languages Spoken
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-language"></i>
+                                    </span>
+                                    {{ form.languages_spoken }}
+                                </div>
+                                {% if form.languages_spoken.errors %}
+                                    <div class="text-danger small mt-1">{{ form.languages_spoken.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt me-2"></i>Address Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="id_street_address" class="form-label">
+                                    <i class="fas fa-home me-1"></i>Street Address
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-home"></i>
+                                    </span>
+                                    {{ form.street_address }}
+                                </div>
+                                {% if form.street_address.errors %}
+                                    <div class="text-danger small mt-1">{{ form.street_address.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-4">
+                                <label for="id_city" class="form-label">
+                                    <i class="fas fa-city me-1"></i>City
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-city"></i>
+                                    </span>
+                                    {{ form.city }}
+                                </div>
+                                {% if form.city.errors %}
+                                    <div class="text-danger small mt-1">{{ form.city.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_postal_code" class="form-label">
+                                    <i class="fas fa-mailbox me-1"></i>Postal Code
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-mailbox"></i>
+                                    </span>
+                                    {{ form.postal_code }}
+                                </div>
+                                {% if form.postal_code.errors %}
+                                    <div class="text-danger small mt-1">{{ form.postal_code.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_country" class="form-label">
+                                    <i class="fas fa-globe me-1"></i>Country
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-globe"></i>
+                                    </span>
+                                    {{ form.country }}
+                                </div>
+                                {% if form.country.errors %}
+                                    <div class="text-danger small mt-1">{{ form.country.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Contact -->
+                <div class="card mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Emergency Contact
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_emergency_contact_name" class="form-label">
+                                    <i class="fas fa-user-friends me-1"></i>Emergency Contact Name
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-friends"></i>
+                                    </span>
+                                    {{ form.emergency_contact_name }}
+                                </div>
+                                {% if form.emergency_contact_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.emergency_contact_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_emergency_contact_phone" class="form-label">
+                                    <i class="fas fa-phone-alt me-1"></i>Emergency Contact Phone
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </span>
+                                    {{ form.emergency_contact_phone }}
+                                </div>
+                                {% if form.emergency_contact_phone.errors %}
+                                    <div class="text-danger small mt-1">{{ form.emergency_contact_phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label for="id_emergency_contact_relationship" class="form-label">
+                                    <i class="fas fa-users me-1"></i>Relationship to Employee
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-users"></i>
+                                    </span>
+                                    {{ form.emergency_contact_relationship }}
+                                </div>
+                                {% if form.emergency_contact_relationship.errors %}
+                                    <div class="text-danger small mt-1">{{ form.emergency_contact_relationship.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Identification -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-id-badge me-2"></i>Identification
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_employee_id" class="form-label">
+                                    <i class="fas fa-hashtag me-1"></i>Employee ID
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-hashtag"></i>
+                                    </span>
+                                    {{ form.employee_id }}
+                                </div>
+                                {% if form.employee_id.errors %}
+                                    <div class="text-danger small mt-1">{{ form.employee_id.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_national_id" class="form-label">
+                                    <i class="fas fa-address-card me-1"></i>National ID
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-address-card"></i>
+                                    </span>
+                                    {{ form.national_id }}
+                                </div>
+                                {% if form.national_id.errors %}
+                                    <div class="text-danger small mt-1">{{ form.national_id.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_passport_number" class="form-label">
+                                    <i class="fas fa-passport me-1"></i>Passport Number
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-passport"></i>
+                                    </span>
+                                    {{ form.passport_number }}
+                                </div>
+                                {% if form.passport_number.errors %}
+                                    <div class="text-danger small mt-1">{{ form.passport_number.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_tax_id" class="form-label">
+                                    <i class="fas fa-file-invoice-dollar me-1"></i>Tax ID
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </span>
+                                    {{ form.tax_id }}
+                                </div>
+                                {% if form.tax_id.errors %}
+                                    <div class="text-danger small mt-1">{{ form.tax_id.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -246,8 +534,67 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="row g-3 mt-2">
+                            <div class="col-md-4">
+                                <label for="id_employment_type" class="form-label">
+                                    <i class="fas fa-clock me-1"></i>Employment Type
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    {{ form.employment_type }}
+                                </div>
+                                {% if form.employment_type.errors %}
+                                    <div class="text-danger small mt-1">{{ form.employment_type.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_contract_end_date" class="form-label">
+                                    <i class="fas fa-calendar-times me-1"></i>Contract End Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-times"></i>
+                                    </span>
+                                    {{ form.contract_end_date }}
+                                </div>
+                                {% if form.contract_end_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.contract_end_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_probation_end_date" class="form-label">
+                                    <i class="fas fa-user-clock me-1"></i>Probation End Date
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-clock"></i>
+                                    </span>
+                                    {{ form.probation_end_date }}
+                                </div>
+                                {% if form.probation_end_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.probation_end_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="id_work_schedule" class="form-label">
+                                    <i class="fas fa-business-time me-1"></i>Work Schedule
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-business-time"></i>
+                                    </span>
+                                    {{ form.work_schedule }}
+                                </div>
+                                {% if form.work_schedule.errors %}
+                                    <div class="text-danger small mt-1">{{ form.work_schedule.errors.0 }}</div>
+                                {% endif %}
+                            </div>
                             <div class="col-md-6">
                                 <label for="id_salary" class="form-label">
                                     <i class="fas fa-dollar-sign me-1"></i>Annual Salary
@@ -260,6 +607,9 @@
                                     <div class="text-danger small mt-1">{{ form.salary.errors.0 }}</div>
                                 {% endif %}
                             </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
                             <div class="col-md-6">
                                 <label for="id_manager" class="form-label">
                                     <i class="fas fa-user-tie me-1"></i>Reports To (Manager)
@@ -274,10 +624,24 @@
                                     <div class="text-danger small mt-1">{{ form.manager.errors.0 }}</div>
                                 {% endif %}
                             </div>
+                            <div class="col-md-6">
+                                <label for="id_performance_rating" class="form-label">
+                                    <i class="fas fa-star me-1"></i>Performance Rating
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    {{ form.performance_rating }}
+                                </div>
+                                {% if form.performance_rating.errors %}
+                                    <div class="text-danger small mt-1">{{ form.performance_rating.errors.0 }}</div>
+                                {% endif %}
+                            </div>
                         </div>
 
                         <div class="row g-3 mt-2">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="id_qualifications" class="form-label">
                                     <i class="fas fa-graduation-cap me-1"></i>Qualifications & Certifications
                                 </label>
@@ -291,6 +655,21 @@
                                     <div class="text-danger small mt-1">{{ form.qualifications.errors.0 }}</div>
                                 {% endif %}
                                 <small class="text-muted">List educational background, certifications, and relevant qualifications</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_skills" class="form-label">
+                                    <i class="fas fa-tools me-1"></i>Skills & Competencies
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-tools"></i>
+                                    </span>
+                                    {{ form.skills }}
+                                </div>
+                                {% if form.skills.errors %}
+                                    <div class="text-danger small mt-1">{{ form.skills.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">List key skills and competencies</small>
                             </div>
                         </div>
                     </div>

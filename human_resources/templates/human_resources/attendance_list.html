@@ -6,7 +6,7 @@
 {% block title %}Attendance Management - {{ block.super }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<link rel="stylesheet" href="{% static 'styles/hr.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -84,7 +84,7 @@
                         <span class="input-group-text">
                             <i class="fas fa-user"></i>
                         </span>
-                        <input type="text" name="employee" placeholder="Employee ID" 
+                        <input type="text" name="employee" placeholder="Employee ID"
                                class="form-control" value="{{ request.GET.employee }}">
                     </div>
                 </div>
@@ -96,6 +96,11 @@
                         <option value="absent" {% if request.GET.status == 'absent' %}selected{% endif %}>Absent</option>
                         <option value="late" {% if request.GET.status == 'late' %}selected{% endif %}>Late</option>
                         <option value="on_leave" {% if request.GET.status == 'on_leave' %}selected{% endif %}>On Leave</option>
+                        <option value="sick_leave" {% if request.GET.status == 'sick_leave' %}selected{% endif %}>Sick Leave</option>
+                        <option value="vacational_leave" {% if request.GET.status == 'vacational_leave' %}selected{% endif %}>Vacational Leave</option>
+                        <option value="maternity_leave" {% if request.GET.status == 'maternity_leave' %}selected{% endif %}>Maternity Leave</option>
+                        <option value="study_leave" {% if request.GET.status == 'study_leave' %}selected{% endif %}>Study Leave</option>
+                        <option value="compassionate_leave" {% if request.GET.status == 'compassionate_leave' %}selected{% endif %}>Compassionate Leave</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -109,6 +114,57 @@
                            value="{{ request.GET.date_to }}">
                 </div>
                 <div class="col-md-2">
+                    <label class="form-label">Approval Status</label>
+                    <select name="approval_status" class="form-select">
+                        <option value="">All Approvals</option>
+                        <option value="auto_approved" {% if request.GET.approval_status == 'auto_approved' %}selected{% endif %}>Auto Approved</option>
+                        <option value="pending" {% if request.GET.approval_status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if request.GET.approval_status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="rejected" {% if request.GET.approval_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Shift Type</label>
+                    <select name="shift_type" class="form-select">
+                        <option value="">All Shifts</option>
+                        <option value="morning" {% if request.GET.shift_type == 'morning' %}selected{% endif %}>Morning Shift</option>
+                        <option value="afternoon" {% if request.GET.shift_type == 'afternoon' %}selected{% endif %}>Afternoon Shift</option>
+                        <option value="evening" {% if request.GET.shift_type == 'evening' %}selected{% endif %}>Evening Shift</option>
+                        <option value="night" {% if request.GET.shift_type == 'night' %}selected{% endif %}>Night Shift</option>
+                        <option value="overtime" {% if request.GET.shift_type == 'overtime' %}selected{% endif %}>Overtime</option>
+                        <option value="flexible" {% if request.GET.shift_type == 'flexible' %}selected{% endif %}>Flexible Hours</option>
+                        <option value="other" {% if request.GET.shift_type == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Clock Method</label>
+                    <select name="clock_method" class="form-select">
+                        <option value="">All Methods</option>
+                        <option value="manual" {% if request.GET.clock_method == 'manual' %}selected{% endif %}>Manual Entry</option>
+                        <option value="biometric" {% if request.GET.clock_method == 'biometric' %}selected{% endif %}>Biometric Scanner</option>
+                        <option value="mobile_app" {% if request.GET.clock_method == 'mobile_app' %}selected{% endif %}>Mobile App</option>
+                        <option value="web_portal" {% if request.GET.clock_method == 'web_portal' %}selected{% endif %}>Web Portal</option>
+                        <option value="card_reader" {% if request.GET.clock_method == 'card_reader' %}selected{% endif %}>Card Reader</option>
+                        <option value="other" {% if request.GET.clock_method == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" placeholder="Location"
+                           class="form-control" value="{{ request.GET.location }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Approved By</label>
+                    <select name="approved_by" class="form-select">
+                        <option value="">All Approvers</option>
+                        {% for employee in employees %}
+                        <option value="{{ employee.id }}" {% if request.GET.approved_by == employee.id|stringformat:'s' %}selected{% endif %}>
+                            {{ employee.get_full_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
                     <label class="form-label">&nbsp;</label>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
@@ -155,6 +211,12 @@
                             <th data-sortable="employee">
                                 <i class="fas fa-user me-1"></i>Employee
                             </th>
+                            <th>
+                                <i class="fas fa-building me-1"></i>Department
+                            </th>
+                            <th>
+                                <i class="fas fa-store me-1"></i>Store
+                            </th>
                             <th data-sortable="status">
                                 <i class="fas fa-user-check me-1"></i>Status
                             </th>
@@ -168,7 +230,37 @@
                                 <i class="fas fa-clock me-1"></i>Hours
                             </th>
                             <th>
+                                <i class="fas fa-stopwatch me-1"></i>Total Hours
+                            </th>
+                            <th>
+                                <i class="fas fa-map-marker-alt me-1"></i>Location
+                            </th>
+                            <th>
+                                <i class="fas fa-clock me-1"></i>Shift
+                            </th>
+                            <th>
+                                <i class="fas fa-keyboard me-1"></i>Clock Method
+                            </th>
+                            <th>
+                                <i class="fas fa-plus-circle me-1"></i>Overtime
+                            </th>
+                            <th>
+                                <i class="fas fa-tasks me-1"></i>Approval
+                            </th>
+                            <th>
+                                <i class="fas fa-user-tie me-1"></i>Approved By
+                            </th>
+                            <th>
                                 <i class="fas fa-sticky-note me-1"></i>Notes
+                            </th>
+                            <th>
+                                <i class="fas fa-comment me-1"></i>Supervisor Notes
+                            </th>
+                            <th>
+                                <i class="fas fa-calendar-plus me-1"></i>Created At
+                            </th>
+                            <th>
+                                <i class="fas fa-calendar-check me-1"></i>Updated At
                             </th>
                             <th class="text-center">
                                 <i class="fas fa-cogs me-1"></i>Actions
@@ -194,6 +286,26 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                {% if attendance.employee.department %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.employee.department.department_name }}">
+                                        <i class="fas fa-building me-1"></i>{{ attendance.employee.department.department_name }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.employee.store %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.employee.store.store_name }}">
+                                        <i class="fas fa-store me-1"></i>{{ attendance.employee.store.store_name }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
                             <td data-sort="{{ attendance.status }}">
                                 <span class="status-badge {{ attendance.status }}">
                                     {% if attendance.status == 'present' %}
@@ -204,6 +316,16 @@
                                         <i class="fas fa-clock me-1"></i>
                                     {% elif attendance.status == 'on_leave' %}
                                         <i class="fas fa-umbrella-beach me-1"></i>
+                                    {% elif attendance.status == 'sick_leave' %}
+                                        <i class="fas fa-thermometer-half me-1"></i>
+                                    {% elif attendance.status == 'vacational_leave' %}
+                                        <i class="fas fa-plane me-1"></i>
+                                    {% elif attendance.status == 'maternity_leave' %}
+                                        <i class="fas fa-baby me-1"></i>
+                                    {% elif attendance.status == 'study_leave' %}
+                                        <i class="fas fa-graduation-cap me-1"></i>
+                                    {% elif attendance.status == 'compassionate_leave' %}
+                                        <i class="fas fa-heart me-1"></i>
                                     {% endif %}
                                     {{ attendance.get_status_display }}
                                 </span>
@@ -233,8 +355,80 @@
                                 {% endif %}
                             </td>
                             <td>
+                                {% if attendance.total_hours %}
+                                    <span class="fw-bold text-success">
+                                        <i class="fas fa-stopwatch me-1"></i>{{ attendance.total_hours }}h
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.location %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.location }}">
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ attendance.location }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.shift_type %}
+                                    <span class="badge bg-info">
+                                        <i class="fas fa-clock me-1"></i>{{ attendance.get_shift_type_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.overtime_hours %}
+                                    <span class="fw-bold text-warning">
+                                        <i class="fas fa-plus-circle me-1"></i>{{ attendance.overtime_hours }}h
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.clock_method %}
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-keyboard me-1"></i>{{ attendance.get_clock_method_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.approval_status %}
+                                    <span class="status-badge approval-{{ attendance.approval_status }}">
+                                        {% if attendance.approval_status == 'pending' %}
+                                            <i class="fas fa-clock me-1"></i>
+                                        {% elif attendance.approval_status == 'approved' %}
+                                            <i class="fas fa-check me-1"></i>
+                                        {% elif attendance.approval_status == 'rejected' %}
+                                            <i class="fas fa-times me-1"></i>
+                                        {% endif %}
+                                        {{ attendance.get_approval_status_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.approved_by %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.approved_by.get_full_name }}">
+                                        <i class="fas fa-user-tie me-1"></i>{{ attendance.approved_by.get_full_name }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
                                 {% if attendance.notes %}
-                                    <span class="text-truncate d-inline-block" style="max-width: 150px;" 
+                                    <span class="text-truncate d-inline-block" style="max-width: 150px;"
                                           title="{{ attendance.notes }}">
                                         <i class="fas fa-sticky-note me-1"></i>{{ attendance.notes }}
                                     </span>
@@ -242,19 +436,49 @@
                                     <span class="text-muted">No notes</span>
                                 {% endif %}
                             </td>
+                            <td>
+                                {% if attendance.supervisor_notes %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 150px;"
+                                          title="{{ attendance.supervisor_notes }}">
+                                        <i class="fas fa-comment me-1"></i>{{ attendance.supervisor_notes }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">No notes</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.created_at %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.created_at|date:'M d, Y g:i A' }}">
+                                        <i class="fas fa-calendar-plus me-1"></i>{{ attendance.created_at|date:"M d, Y" }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.updated_at %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 120px;"
+                                          title="{{ attendance.updated_at|date:'M d, Y g:i A' }}">
+                                        <i class="fas fa-calendar-check me-1"></i>{{ attendance.updated_at|date:"M d, Y" }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">--</span>
+                                {% endif %}
+                            </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a href="{% url 'hr:attendance_detail' attendance.id %}" 
+                                    <a href="{% url 'hr:attendance_detail' attendance.id %}"
                                        class="btn btn-sm btn-outline-primary"
                                        data-bs-toggle="tooltip" title="View Details">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{% url 'hr:attendance_update' attendance.pk %}" 
+                                    <a href="{% url 'hr:attendance_update' attendance.pk %}"
                                        class="btn btn-sm btn-outline-secondary"
                                        data-bs-toggle="tooltip" title="Edit Record">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{% url 'hr:attendance_delete' attendance.pk %}" 
+                                    <a href="{% url 'hr:attendance_delete' attendance.pk %}"
                                        class="btn btn-sm btn-outline-danger btn-delete"
                                        data-bs-toggle="tooltip" title="Delete Record"
                                        data-item-name="attendance record for {{ attendance.employee.get_full_name }}">
@@ -265,7 +489,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="8" class="text-center py-5">
+                            <td colspan="20" class="text-center py-5">
                                 <div class="text-muted">
                                     <i class="fas fa-clock fa-3x mb-3"></i>
                                     <h5>No attendance records found</h5>

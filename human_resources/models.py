@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 
@@ -20,8 +20,73 @@ class Employee(AbstractUser):
 
     # Additional fields
     phone = models.CharField(_("phone number"), max_length=20, blank=True, null=True)
+
+    # Personal Information
+    date_of_birth = models.DateField(_("date of birth"), blank=True, null=True)
+    gender = models.CharField(
+        _("gender"),
+        max_length=20,
+        choices=[
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+            ('prefer_not_to_say', 'Prefer not to say')
+        ],
+        blank=True,
+        null=True
+    )
+    marital_status = models.CharField(
+        _("marital status"),
+        max_length=15,
+        choices=[
+            ('single', 'Single'),
+            ('married', 'Married'),
+            ('divorced', 'Divorced'),
+            ('widowed', 'Widowed'),
+            ('separated', 'Separated')
+        ],
+        blank=True,
+        null=True
+    )
+    nationality = models.CharField(_("nationality"), max_length=50, blank=True, null=True)
+
+    # Address Information
+    street_address = models.CharField(_("street address"), max_length=255, blank=True, null=True)
+    city = models.CharField(_("city"), max_length=100, blank=True, null=True)
+    postal_code = models.CharField(_("postal code"), max_length=20, blank=True, null=True)
+    country = models.CharField(_("country"), max_length=50, blank=True, null=True, default='Eswatini')
+
+    # Emergency Contact
+    emergency_contact_name = models.CharField(_("emergency contact name"), max_length=100, blank=True, null=True)
+    emergency_contact_phone = models.CharField(_("emergency contact phone"), max_length=20, blank=True, null=True)
+    emergency_contact_relationship = models.CharField(_("emergency contact relationship"), max_length=50, blank=True, null=True)
+
+    # Identification
+    employee_id = models.CharField(_("employee ID"), max_length=20, unique=True, blank=True, null=True)
+    national_id = models.CharField(_("national ID"), max_length=20, unique=True, blank=True, null=True)
+    passport_number = models.CharField(_("passport number"), max_length=20, unique=True, blank=True, null=True)
+    tax_id = models.CharField(_("tax ID"), max_length=20, unique=True, blank=True, null=True)
+
+    # Employment Information
     hire_date = models.DateField(_("hire date"), blank=True, null=True)
     position = models.CharField(_("position"), max_length=50, blank=True)
+    employment_type = models.CharField(
+        _("employment type"),
+        max_length=20,
+        choices=[
+            ('full_time', 'Full Time'),
+            ('part_time', 'Part Time'),
+            ('contract', 'Contract'),
+            ('temporary', 'Temporary'),
+            ('intern', 'Intern')
+        ],
+        default='full_time'
+    )
+    contract_end_date = models.DateField(_("contract end date"), blank=True, null=True)
+    probation_end_date = models.DateField(_("probation end date"), blank=True, null=True)
+    work_schedule = models.CharField(_("work schedule"), max_length=50, blank=True, null=True)
+
+    # Financial Information
     salary = models.DecimalField(
         _("salary"),
         max_digits=10,
@@ -29,11 +94,34 @@ class Employee(AbstractUser):
         blank=True,
         null=True
     )
+
+    # Banking Information
+    bank_name = models.CharField(_("bank name"), max_length=100, blank=True, null=True)
+    account_number = models.CharField(_("account number"), max_length=30, blank=True, null=True)
+    branch_code = models.CharField(_("branch code"), max_length=20, blank=True, null=True)
+
+    # Skills and Qualifications
     qualifications = models.TextField(
         _("qualifications"),
         blank=True,
         null=True,
         help_text=_("List the employee's qualifications, certifications, and educational background")
+    )
+    skills = models.TextField(
+        _("skills"),
+        blank=True,
+        null=True,
+        help_text=_("List the employee's key skills and competencies")
+    )
+    languages_spoken = models.CharField(_("languages spoken"), max_length=255, blank=True, null=True)
+    performance_rating = models.DecimalField(
+        _("performance rating"),
+        max_digits=3,
+        decimal_places=1,
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(1.0), MaxValueValidator(5.0)],
+        help_text=_("Performance rating on a scale of 1.0 to 5.0")
     )
 
     # Relationships
@@ -100,12 +188,7 @@ class Employee(AbstractUser):
             ("manage_store_settings", "Can modify store configuration and settings"),
             ("manage_departments", "Can create/edit/delete store departments"),
 
-            # Inventory Permissions
-            ("access_inventory", "Can access inventory management system"),
-            ("view_inventory", "Can view inventory items and stock levels"),
-            ("edit_inventory", "Can modify inventory items and quantities"),
-            ("manage_inventory_categories", "Can organize inventory categories"),
-            ("perform_inventory_audit", "Can conduct physical inventory counts"),
+
 
             # Sales Permissions
             ("process_sales", "Can process in-store sales transactions"),
@@ -220,6 +303,32 @@ class Attendance(models.Model):
         ('compassionate_leave', 'Compassionate Leave'),
     ]
 
+    CLOCK_METHOD_CHOICES = [
+        ('manual', 'Manual Entry'),
+        ('biometric', 'Biometric Scanner'),
+        ('mobile_app', 'Mobile App'),
+        ('web_portal', 'Web Portal'),
+        ('card_reader', 'Card Reader'),
+        ('other', 'Other'),
+    ]
+
+    SHIFT_TYPE_CHOICES = [
+        ('morning', 'Morning Shift'),
+        ('afternoon', 'Afternoon Shift'),
+        ('evening', 'Evening Shift'),
+        ('night', 'Night Shift'),
+        ('overtime', 'Overtime'),
+        ('flexible', 'Flexible Hours'),
+        ('other', 'Other'),
+    ]
+
+    APPROVAL_STATUS_CHOICES = [
+        ('auto_approved', 'Auto Approved'),
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
     employee = models.ForeignKey(
         Employee,
         on_delete=models.CASCADE,
@@ -234,6 +343,62 @@ class Attendance(models.Model):
         default='present'
     )
     notes = models.TextField(max_length=200, blank=True, null=True)
+
+    # New comprehensive fields
+    location = models.CharField(
+        _("location"),
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text=_("Location where attendance was recorded (e.g., Main Office, Branch A)")
+    )
+    clock_method = models.CharField(
+        _("clock method"),
+        max_length=20,
+        choices=CLOCK_METHOD_CHOICES,
+        default='manual',
+        help_text=_("Method used to record attendance")
+    )
+    shift_type = models.CharField(
+        _("shift type"),
+        max_length=20,
+        choices=SHIFT_TYPE_CHOICES,
+        blank=True,
+        null=True,
+        help_text=_("Type of shift worked")
+    )
+    overtime_hours = models.DecimalField(
+        _("overtime hours"),
+        max_digits=4,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text=_("Additional hours worked beyond regular shift")
+    )
+    approved_by = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='approved_attendances',
+        verbose_name=_("approved by"),
+        help_text=_("Supervisor who approved this attendance record")
+    )
+    approval_status = models.CharField(
+        _("approval status"),
+        max_length=20,
+        choices=APPROVAL_STATUS_CHOICES,
+        default='auto_approved',
+        help_text=_("Current approval status of the attendance record")
+    )
+    supervisor_notes = models.TextField(
+        _("supervisor notes"),
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text=_("Comments or notes from the approving supervisor")
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -250,6 +415,30 @@ class Attendance(models.Model):
     def __str__(self):
         return f"{self.employee} - {self.date} ({self.status})"
 
+    @property
+    def total_hours_worked(self):
+        """Calculate total hours worked including overtime"""
+        if self.clock_in and self.clock_out:
+            # Calculate regular hours
+            in_minutes = self.clock_in.hour * 60 + self.clock_in.minute
+            out_minutes = self.clock_out.hour * 60 + self.clock_out.minute
+            regular_minutes = out_minutes - in_minutes
+            regular_hours = regular_minutes / 60.0
+
+            # Add overtime hours
+            return regular_hours + float(self.overtime_hours)
+        return float(self.overtime_hours)
+
+    @property
+    def regular_hours_worked(self):
+        """Calculate regular hours worked (clock in to clock out)"""
+        if self.clock_in and self.clock_out:
+            in_minutes = self.clock_in.hour * 60 + self.clock_in.minute
+            out_minutes = self.clock_out.hour * 60 + self.clock_out.minute
+            total_minutes = out_minutes - in_minutes
+            return total_minutes / 60.0
+        return 0.0
+
 
 class Payroll(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -259,6 +448,14 @@ class Payroll(models.Model):
         ('paid', 'Paid'),
     ]
 
+    PAYMENT_METHOD_CHOICES = [
+        ('bank_transfer', 'Bank Transfer'),
+        ('cash', 'Cash'),
+        ('check', 'Check'),
+        ('mobile_money', 'Mobile Money'),
+        ('other', 'Other'),
+    ]
+
     employee = models.ForeignKey(
         Employee,
         on_delete=models.CASCADE,
@@ -266,6 +463,8 @@ class Payroll(models.Model):
     )
     pay_period_start = models.DateField()
     pay_period_end = models.DateField()
+
+    # Basic Salary Components
     base_salary = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -283,17 +482,172 @@ class Payroll(models.Model):
         default=0,
         validators=[MinValueValidator(0)]
     )
+
+    # Allowances
+    housing_allowance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Housing allowance amount"
+    )
+    transport_allowance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Transport allowance amount"
+    )
+    medical_allowance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Medical allowance amount"
+    )
+    meal_allowance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Meal allowance amount"
+    )
+    other_allowances = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Other allowances"
+    )
+
+    # Taxes
+    income_tax = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Income tax amount"
+    )
+    social_security = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Social security contribution"
+    )
+    pension_contribution = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Pension fund contribution"
+    )
+    other_taxes = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Other tax deductions"
+    )
+
+    # Benefits
+    health_insurance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Health insurance premium"
+    )
+    retirement_fund = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Retirement fund contribution"
+    )
+
+    # Additional Deductions
+    loan_deductions = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Loan repayment deductions"
+    )
+    union_fees = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Union or association fees"
+    )
+    other_deductions = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Other miscellaneous deductions"
+    )
+
+    # Legacy deductions field (for backward compatibility)
     deductions = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        help_text="General deductions (legacy field)"
     )
+
+    # Payment Details
+    payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_METHOD_CHOICES,
+        default='bank_transfer',
+        help_text="Method of payment"
+    )
+    bank_reference = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Bank reference or transaction ID"
+    )
+    currency = models.CharField(
+        max_length=3,
+        default='SZL',
+        help_text="Currency code (e.g., SZL, USD)"
+    )
+
+    # Calculation Fields
+    regular_hours = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Regular working hours in pay period"
+    )
+    taxable_income = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Taxable income amount"
+    )
+    gross_income = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0)],
+        help_text="Total gross income"
+    )
+
+    # Final Calculations
     net_pay = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        help_text="Final net pay amount"
     )
+
     payment_date = models.DateField(null=True, blank=True)
     status = models.CharField(
         max_length=20,
@@ -311,16 +665,49 @@ class Payroll(models.Model):
         return f"{self.employee} - {self.pay_period_start} to {self.pay_period_end}"
 
     @property
+    def total_allowances(self):
+        """Calculate total allowances"""
+        return (self.housing_allowance + self.transport_allowance +
+                self.medical_allowance + self.meal_allowance + self.other_allowances)
+
+    @property
+    def total_taxes(self):
+        """Calculate total tax deductions"""
+        return self.income_tax + self.social_security + self.pension_contribution + self.other_taxes
+
+    @property
+    def total_benefits(self):
+        """Calculate total benefits"""
+        return self.health_insurance + self.retirement_fund
+
+    @property
+    def total_additional_deductions(self):
+        """Calculate total additional deductions"""
+        return self.loan_deductions + self.union_fees + self.other_deductions
+
+    @property
     def gross_pay(self):
-        """Calculate gross pay as base salary + overtime + bonus"""
-        return self.base_salary + self.overtime_pay + self.bonus
+        """Calculate gross pay as base salary + overtime + bonus + allowances"""
+        return self.base_salary + self.overtime_pay + self.bonus + self.total_allowances
+
+    @property
+    def total_deductions(self):
+        """Calculate total deductions including taxes and benefits"""
+        return (self.deductions + self.total_taxes + self.total_additional_deductions +
+                self.total_benefits)
 
     def save(self, *args, **kwargs):
-        """Automatically calculate net pay before saving"""
-        self.net_pay = (self.base_salary +
-                        self.overtime_pay +
-                        self.bonus -
-                        self.deductions)
+        """Automatically calculate comprehensive payroll amounts before saving"""
+        # Calculate gross income
+        self.gross_income = self.gross_pay
+
+        # Calculate taxable income (gross minus certain allowances if applicable)
+        # For simplicity, taxable income = gross income, but can be customized
+        self.taxable_income = self.gross_income
+
+        # Calculate net pay
+        self.net_pay = self.gross_income - self.total_deductions
+
         super().save(*args, **kwargs)
 
 def clean(self):

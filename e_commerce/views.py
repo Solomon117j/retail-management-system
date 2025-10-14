@@ -9,7 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OnlineOrder, OrderItem, CustomerAccount
 from .mixins import CustomerAccessMixin
 from sales.models import Customer
-from inventory.models import Product
+# Removed import of Product from inventory.models as inventory app is deleted
+# from inventory.models import Product
 
 class CustomerAccountListView(LoginRequiredMixin, ListView):
     model = CustomerAccount
@@ -85,9 +86,9 @@ class OnlineOrderCreateView(LoginRequiredMixin, CreateView):
         
         # Create formset for order items
         OrderItemFormSet = inlineformset_factory(
-            OnlineOrder, 
-            OrderItem, 
-            fields=('product', 'quantity', 'unit_price'),
+            OnlineOrder,
+            OrderItem,
+            fields=('product_name', 'quantity', 'unit_price'),
             extra=3,
             can_delete=True
         )
@@ -104,7 +105,7 @@ class OnlineOrderCreateView(LoginRequiredMixin, CreateView):
         formset = context['formset']
         
         with transaction.atomic():
-            form.instance.created_by = self.request.user
+            form.instance.created_by = self.request.user.employee_profile
             self.object = form.save(commit=False)
             self.object.save()  # Save first to get ID for formset
             
@@ -137,9 +138,9 @@ class OnlineOrderUpdateView(LoginRequiredMixin, UpdateView):
         
         # Create formset for order items
         OrderItemFormSet = inlineformset_factory(
-            OnlineOrder, 
-            OrderItem, 
-            fields=('product', 'quantity', 'unit_price'),
+            OnlineOrder,
+            OrderItem,
+            fields=('product_name', 'quantity', 'unit_price'),
             extra=1,
             can_delete=True
         )
@@ -183,7 +184,7 @@ class OnlineOrderDetailView(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['items'] = self.object.items.select_related('product')
+        context['items'] = self.object.items.all()
         context['can_edit'] = self.object.status in ['pending', 'processing']
         return context
 
@@ -219,73 +220,40 @@ class OnlineOrderDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 class ProductBrowseView(ListView):
-    model = Product
+    # Removed model = Product as inventory app is deleted
     template_name = 'e_commerce/product_list.html'
     context_object_name = 'products'
     paginate_by = 20
 
     def get_queryset(self):
-        # Base: in stock in any store AND marked available online
-        queryset = Product.objects.filter(
-            inventory_records__quantity__gt=0,
-            available_online=True,
-        ).select_related('category', 'brand').distinct()
-
-        # Filters: search, category, brand
-        q = self.request.GET.get('q')
-        category_id = self.request.GET.get('category')
-        brand_id = self.request.GET.get('brand')
-        if q:
-            queryset = queryset.filter(name__icontains=q)
-        if category_id:
-            queryset = queryset.filter(category_id=category_id)
-        if brand_id:
-            queryset = queryset.filter(brand_id=brand_id)
-
-        return queryset.distinct().order_by('name')
+        # Disabled as inventory app is deleted
+        return []
 
     def get_context_data(self, **kwargs):
-        from inventory.models import Category, Brand
+        # Disabled as inventory app is deleted
         ctx = super().get_context_data(**kwargs)
-        ctx['categories'] = Category.objects.all().order_by('name')
-        ctx['brands'] = Brand.objects.all().order_by('name')
-        ctx['selected_category'] = self.request.GET.get('category') or ''
-        ctx['selected_brand'] = self.request.GET.get('brand') or ''
-        ctx['q'] = self.request.GET.get('q') or ''
+        ctx['categories'] = []
+        ctx['brands'] = []
+        ctx['selected_category'] = ''
+        ctx['selected_brand'] = ''
+        ctx['q'] = ''
         return ctx
 
 
 class ProductDetailView(DetailView):
-    model = Product
+    # Removed model = Product as inventory app is deleted
     template_name = 'e_commerce/product_detail.html'
     context_object_name = 'product'
 
     def get_queryset(self):
-        # Only show products that are available online and in stock
-        return Product.objects.filter(
-            inventory_records__quantity__gt=0,
-            available_online=True,
-        ).select_related('category', 'brand').distinct()
+        # Disabled as inventory app is deleted
+        return []
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Calculate total stock across all stores
-        total_stock = self.object.inventory_records.aggregate(
-            total=models.Sum('quantity')
-        )['total'] or 0
-        context['total_stock'] = total_stock
-
-        # Determine stock status
-        if total_stock == 0:
-            context['stock_status'] = 'Out of Stock'
-            context['stock_badge_class'] = 'bg-danger'
-        elif total_stock <= 10:
-            context['stock_status'] = f'Low Stock ({total_stock} available)'
-            context['stock_badge_class'] = 'bg-warning'
-        else:
-            context['stock_status'] = f'In Stock ({total_stock} available)'
-            context['stock_badge_class'] = 'bg-success'
-
+        context['total_stock'] = 0
+        context['stock_status'] = 'Out of Stock'
+        context['stock_badge_class'] = 'bg-danger'
         return context
 
 # Make sure this model exists
@@ -296,34 +264,9 @@ import csv
 
 class AddToCartView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        product_id = request.POST.get('product_id')
-        quantity = int(request.POST.get('quantity', 1))
-
-        # Get product by pk and available_online
-        product = get_object_or_404(Product, pk=product_id, available_online=True)
-
-        # Check if product has inventory in any store
-        has_inventory = product.inventory_records.filter(quantity__gt=0).exists()
-        if not has_inventory:
-            messages.error(request, f'Product "{product.name}" is out of stock.')
-            return redirect('e_commerce:product_detail', pk=product.pk)
-
-        # Get or create cart for the customer
-        customer_account = get_object_or_404(CustomerAccount, user=request.user)
-        cart, created = Cart.objects.get_or_create(customer=customer_account)
-
-        # Get or create cart item
-        cart_item, created = CartItem.objects.get_or_create(
-            cart=cart,
-            product=product,
-            defaults={'quantity': quantity}
-        )
-        if not created:
-            cart_item.quantity += quantity
-            cart_item.save()
-
-        messages.success(request, f'Added {quantity} x {product.name} to cart')
-        return redirect('e_commerce:cart')
+        # Disabled as inventory app is deleted
+        messages.error(request, 'Product browsing is currently unavailable.')
+        return redirect('e_commerce:product_browse')
 
 class CartView(LoginRequiredMixin, ListView):
     template_name = 'e_commerce/cart.html'

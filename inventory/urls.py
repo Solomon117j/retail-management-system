@@ -1,35 +1,48 @@
-# inventory/urls.py
 from django.urls import path
-from . import views
+from .views import (
+    BrandListView, BrandCreateView, BrandUpdateView, BrandDeleteView, brand_export,
+    CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, category_export,
+    ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, product_export,
+    InventoryRecordListView, InventoryRecordCreateView, InventoryRecordUpdateView, InventoryRecordDeleteView, inventoryrecord_export,
+    StockMovementListView, StockMovementCreateView, StockMovementUpdateView, StockMovementDeleteView, stockmovement_export,
+    InventoryDashboardView,
+    StockManagementView,
+)
 
 app_name = 'inventory'
 
 urlpatterns = [
-    # Products
-    path('', views.ProductListView.as_view(), name='product_list'),
-    path('product/create/', views.ProductCreateView.as_view(), name='product_create'),
-    path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
-    path('product/add/', views.ProductCreateView.as_view(), name='product_add'),
-    path('product/<int:pk>/edit/', views.ProductUpdateView.as_view(), name='product_edit'),
-    path('product/<int:pk>/delete/', views.ProductDeleteView.as_view(), name='product_delete'),
+    path('brands/', BrandListView.as_view(), name='brand-list'),
+    path('brands/add/', BrandCreateView.as_view(), name='brand-add'),
+    path('brands/<int:pk>/edit/', BrandUpdateView.as_view(), name='brand-edit'),
+    path('brands/<int:pk>/delete/', BrandDeleteView.as_view(), name='brand-delete'),
+    path('brands/export/', brand_export, name='brand_export'),
 
-    # Stock
-    path('stock/', views.StockListView.as_view(), name='stock_list'),
-    path('stock/adjust/', views.StockAdjustmentCreateView.as_view(), name='stock_adjust'),
-    path('stock/movements/', views.StockMovementListView.as_view(), name='stock_movement_list'),
+    path('categories/', CategoryListView.as_view(), name='category-list'),
+    path('categories/add/', CategoryCreateView.as_view(), name='category_create'),
+    path('categories/<int:pk>/edit/', CategoryUpdateView.as_view(), name='category_update'),
+    path('categories/<int:pk>/delete/', CategoryDeleteView.as_view(), name='category_delete'),
+    path('categories/export/', category_export, name='category_export'),
 
-    # Brands
-    path('brands/', views.BrandListView.as_view(), name='brand_list'),
-    path('brand/create/', views.BrandCreateView.as_view(), name='brand_create'),
-    path('brand/<int:pk>/edit/', views.BrandUpdateView.as_view(), name='brand_edit'),
-    path('brand/<int:pk>/delete/', views.BrandDeleteView.as_view(), name='brand_delete'),
+    path('products/', ProductListView.as_view(), name='product-list'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('products/add/', ProductCreateView.as_view(), name='product_create'),
+    path('products/<int:pk>/edit/', ProductUpdateView.as_view(), name='product_update'),
+    path('products/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('products/export/', product_export, name='product_export'),
 
-    # Categories
-    path('categories/', views.CategoryListView.as_view(), name='category_list'),
-    path('category/create/', views.CategoryCreateView.as_view(), name='category_create'),
-    path('category/<int:pk>/edit/', views.CategoryUpdateView.as_view(), name='category_edit'),
-    path('category/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
+    path('inventoryrecords/', InventoryRecordListView.as_view(), name='inventoryrecord-list'),
+    path('inventoryrecords/add/', InventoryRecordCreateView.as_view(), name='inventoryrecord_create'),
+    path('inventoryrecords/<int:pk>/edit/', InventoryRecordUpdateView.as_view(), name='inventoryrecord_update'),
+    path('inventoryrecords/<int:pk>/delete/', InventoryRecordDeleteView.as_view(), name='inventoryrecord_delete'),
+    path('inventoryrecords/export/', inventoryrecord_export, name='inventoryrecord_export'),
 
-    # Store Inventory
-    path('store-inventory/', views.StoreInventoryListView.as_view(), name='storeinventory_list'),
+    path('stockmovements/', StockMovementListView.as_view(), name='stockmovement-list'),
+    path('stockmovements/add/', StockMovementCreateView.as_view(), name='stockmovement_create'),
+    path('stockmovements/<int:pk>/edit/', StockMovementUpdateView.as_view(), name='stockmovement_update'),
+    path('stockmovements/<int:pk>/delete/', StockMovementDeleteView.as_view(), name='stockmovement_delete'),
+    path('stockmovements/export/', stockmovement_export, name='stockmovement_export'),
+
+    path('dashboard/', InventoryDashboardView.as_view(), name='inventory-dashboard'),
+    path('stock-management/', StockManagementView.as_view(), name='stock-management'),
 ]

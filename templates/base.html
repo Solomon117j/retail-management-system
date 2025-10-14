@@ -133,38 +133,42 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="inventoryDropdown">
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Products</a>
+                                <a class="dropdown-item dropdown-toggle" href="{% url 'inventory:product-list' %}">Products</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}"><i class="fas fa-box"></i> View Products</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:product-list' %}"><i class="fas fa-box"></i> View Products</a></li>
                                     <li><a class="dropdown-item" href="{% url 'inventory:product_create' %}"><i class="fas fa-plus"></i> Add Product</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Brands</a>
+                                <a class="dropdown-item dropdown-toggle" href="{% url 'inventory:brand-list' %}">Brands</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'inventory:brand_list' %}"><i class="fas fa-tags"></i> View Brands</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'inventory:brand_create' %}"><i class="fas fa-plus"></i> Add Brand</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:brand-list' %}"><i class="fas fa-tags"></i> View Brands</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:brand-list' %}"><i class="fas fa-plus"></i> Add Brand</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Categories</a>
+                                <a class="dropdown-item dropdown-toggle" href="{% url 'inventory:category-list'%}">Categories</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'inventory:category_list' %}"><i class="fas fa-list"></i> View Categories</a></li>
+                                    {% for category in nav_categories %}
+                                    <li><a class="dropdown-item" href="{% url 'inventory:product-list' %}?category={{ category.id }}"><i class="fas fa-tag"></i> {{ category.name }}</a></li>
+                                    {% endfor %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:category-list' %}"><i class="fas fa-list"></i> View Categories</a></li>
                                     <li><a class="dropdown-item" href="{% url 'inventory:category_create' %}"><i class="fas fa-plus"></i> Add Category</a></li>
                                 </ul>
                             </li>
                             <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:stock-management' %}"><i class="fas fa-cogs"></i> Stock Management</a></li>
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Stock Management</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_list' %}"><i class="fas fa-list"></i> Stock List</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_movement_list' %}"><i class="fas fa-exchange-alt"></i> Stock Movement</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'inventory:storeinventory_list' %}"><i class="fas fa-warehouse"></i> Store Inventory</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'inventory:stock_adjust' %}"><i class="fas fa-edit"></i> Stock Adjustment</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stockmovement-list' %}"><i class="fas fa-list"></i> Stock List</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stockmovement-list' %}"><i class="fas fa-exchange-alt"></i> Stock Movement</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:inventoryrecord-list' %}"><i class="fas fa-warehouse"></i> Store Inventory</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'inventory:stockmovement-list' %}"><i class="fas fa-edit"></i> Stock Adjustment</a></li>
                                 </ul>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'inventory:product_list' %}"><i class="fas fa-file-alt"></i> Inventory Report</a></li>
+                            <li><a class="dropdown-item" href="{% url 'inventory:product-list' %}"><i class="fas fa-file-alt"></i> Inventory Report</a></li>
                         </ul>
                     </li>
                     {% endif %}
@@ -364,7 +368,7 @@
                         {% if not user.is_customer %}
                         <a href="{% url 'store_management:store_list' %}"><i class="fas fa-store"></i>Store Management</a>
                         <a href="{% url 'hr:employee_list' %}"><i class="fas fa-users"></i>HR & Payroll</a>
-                        <a href="{% url 'inventory:product_list' %}"><i class="fas fa-boxes"></i>Inventory</a>
+                        <a href="{% url 'inventory:product-list' %}"><i class="fas fa-boxes"></i>Inventory</a>
                         {% endif %}
                         <a href="{% url 'sales:sale_list' %}"><i class="fas fa-cash-register"></i>Sales</a>
                         <a href="{% url 'e_commerce:online_order_list' %}"><i class="fas fa-shopping-cart"></i>E-Commerce</a>
@@ -396,7 +400,7 @@
                         <a href="{% url 'hr:employee_export' %}?format=csv"><i class="fas fa-download"></i>Employee Data</a>
                         <a href="{% url 'hr:attendance_export' %}?format=csv"><i class="fas fa-clock"></i>Attendance Records</a>
                         <a href="{% url 'hr:payroll_export' %}?format=csv"><i class="fas fa-file-export"></i>Payroll Data</a>
-                        <a href="{% url 'inventory:product_list' %}"><i class="fas fa-warehouse"></i>Inventory Report</a>
+                        <a href="{% url 'inventory:product-list' %}"><i class="fas fa-warehouse"></i>Inventory Report</a>
                         <a href="{% url 'sales:sale_list' %}"><i class="fas fa-chart-bar"></i>Sales Report</a>
                         <a href="{% url 'analytics:dashboard' %}"><i class="fas fa-analytics"></i>Analytics Export</a>
                     </div>

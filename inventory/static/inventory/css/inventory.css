@@ -1,198 +1,895 @@
-/* ========================================
-   INVENTORY MODULE - SPECIFIC STYLES
-   ======================================== */
+/* Inventory Module Custom Styles */
 
-/* This file demonstrates how to extend the shared styles
-   for app-specific needs while maintaining consistency */
-
-/* ========================================
-   INVENTORY-SPECIFIC COMPONENTS
-   ======================================== */
-
-/* Product Cards */
-.product-card {
-    border-left: 4px solid var(--info-color);
-    transition: all var(--transition-normal);
+/* CSS Variables for consistency */
+:root {
+    --inventory-primary: #667eea;
+    --inventory-secondary: #764ba2;
+    --inventory-accent: #f093fb;
+    --inventory-success: #28a745;
+    --inventory-danger: #dc3545;
+    --inventory-warning: #ffc107;
+    --inventory-info: #17a2b8;
+    --inventory-light: #f8f9fa;
+    --inventory-dark: #343a40;
+    --border-radius: 8px;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --transition-fast: all 0.2s ease;
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
 }
 
-.product-card:hover {
-    border-left-color: var(--brand-secondary);
-    transform: translateX(5px);
+.inventory-form-container {
+    max-width: 800px;
+    margin: 2rem auto;
 }
 
-.product-card.featured {
-    border-left-color: var(--warning-color);
-    background: linear-gradient(135deg, var(--white), var(--gray-100));
-}
-
-/* Stock Status Indicators */
-.stock-indicator {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: var(--spacing-sm);
-}
-
-.stock-indicator.in-stock {
-    background-color: var(--success-color);
-}
-
-.stock-indicator.low-stock {
-    background-color: var(--warning-color);
-}
-
-.stock-indicator.out-of-stock {
-    background-color: var(--danger-color);
-}
-
-/* Category Tags */
-.category-tag {
-    background: linear-gradient(135deg, var(--brand-secondary), var(--info-color));
-    color: var(--white);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-lg);
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-/* Price Display */
-.price-display {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--brand-primary);
-}
-
-.price-display.discounted {
-    color: var(--danger-color);
-}
-
-.price-display .original-price {
-    text-decoration: line-through;
-    color: var(--gray-500);
-    font-size: 0.9rem;
-    margin-right: var(--spacing-sm);
-}
-
-/* Inventory Forms */
-.inventory-form .form-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.inventory-form .required-field label::after {
-    content: ' *';
-    color: var(--danger-color);
-}
-
-/* Stock Level Bars */
-.stock-level-bar {
-    height: 8px;
-    background-color: var(--gray-200);
-    border-radius: var(--border-radius-sm);
+.inventory-card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
-    margin-top: var(--spacing-xs);
+    transition: var(--transition-normal);
+    animation: fadeInUp 0.6s ease-out;
 }
 
-.stock-level-fill {
-    height: 100%;
-    transition: width var(--transition-normal);
+.inventory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
-.stock-level-fill.high {
-    background: linear-gradient(90deg, var(--success-color), #20c997);
-}
-
-.stock-level-fill.medium {
-    background: linear-gradient(90deg, var(--warning-color), #fd7e14);
-}
-
-.stock-level-fill.low {
-    background: linear-gradient(90deg, var(--danger-color), var(--brand-accent));
-}
-
-/* Barcode Scanner Styles */
-.barcode-scanner {
-    border: 2px dashed var(--gray-400);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
+.inventory-card-header {
+    background: linear-gradient(135deg, var(--inventory-primary) 0%, var(--inventory-secondary) 100%);
+    color: white;
+    padding: 2rem;
     text-align: center;
-    background-color: var(--gray-50);
-    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
 }
 
-.barcode-scanner:hover {
-    border-color: var(--brand-secondary);
-    background-color: var(--white);
+.inventory-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2s infinite;
 }
 
-.barcode-scanner.active {
-    border-color: var(--success-color);
-    background-color: rgba(40, 167, 69, 0.1);
+.inventory-card-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
-/* Inventory Grid Layout */
-.inventory-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
+.inventory-card-body {
+    padding: 2.5rem;
 }
 
-.inventory-grid-item {
-    background: var(--white);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
+.inventory-form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
 }
 
-.inventory-grid-item:hover {
-    box-shadow: var(--shadow-md);
+.inventory-form-group label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: var(--transition-normal);
+    pointer-events: none;
+}
+
+.inventory-form-group .form-control,
+.inventory-form-group .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    background: var(--inventory-light);
+    width: 100%;
+}
+
+.inventory-form-group .form-control:focus,
+.inventory-form-group .form-select:focus {
+    border-color: var(--inventory-primary);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: white;
+    transform: scale(1.02);
+}
+
+/* Floating Label Styles */
+.inventory-form-group.floating-label {
+    margin-bottom: 2rem;
+    min-height: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.inventory-form-group.floating-label label {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    background: white;
+    padding: 0 0.25rem;
+    color: #6c757d;
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.inventory-form-group.floating-label .form-control,
+.inventory-form-group.floating-label .form-select {
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.inventory-form-group.floating-label .form-control:focus + label,
+.inventory-form-group.floating-label .form-control:not(:placeholder-shown) + label,
+.inventory-form-group.floating-label .form-select:focus + label {
+    top: -0.5rem;
+    font-size: 0.875rem;
+    color: var(--inventory-primary);
+    font-weight: 600;
+}
+
+.inventory-form-group.floating-label .form-control:focus,
+.inventory-form-group.floating-label .form-select:focus {
+    border-color: var(--inventory-primary);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: white;
+}
+
+/* Enhanced Icon Integration */
+.inventory-form-group .input-group {
+    position: relative;
+}
+
+.inventory-form-group .input-group .form-control,
+.inventory-form-group .input-group .form-select {
+    padding-left: 2.5rem;
+}
+
+.inventory-form-group .input-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    z-index: 2;
+    font-size: 1.1rem;
+    transition: var(--transition-normal);
+}
+
+.inventory-form-group .form-control:focus ~ .input-icon,
+.inventory-form-group .form-select:focus ~ .input-icon {
+    color: var(--inventory-primary);
+}
+
+/* Improved Focus Effects */
+.inventory-form-group .form-control:focus,
+.inventory-form-group .form-select:focus {
+    border-color: var(--inventory-primary);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25), 0 4px 8px rgba(102, 126, 234, 0.1);
+    background: white;
     transform: translateY(-2px);
 }
 
+.inventory-form-group .form-control:focus + label,
+.inventory-form-group .form-select:focus + label {
+    color: var(--inventory-primary);
+}
+
+/* Enhanced Validation Styles */
+.inventory-form-group .is-invalid {
+    border-color: var(--inventory-danger) !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.inventory-form-group .is-valid {
+    border-color: var(--inventory-success) !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.inventory-form-group .invalid-feedback {
+    display: block;
+    color: var(--inventory-danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+.inventory-form-group .valid-feedback {
+    display: block;
+    color: var(--inventory-success);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.inventory-btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.inventory-btn-primary {
+    background: linear-gradient(135deg, var(--inventory-primary) 0%, var(--inventory-secondary) 100%);
+    border: 1px solid var(--inventory-primary);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    color: white;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    min-height: 40px;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.inventory-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.inventory-btn-primary:hover::before {
+    left: 100%;
+}
+
+.inventory-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--inventory-secondary);
+}
+
+.inventory-btn-primary:focus {
+    outline: 2px solid var(--inventory-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.25);
+}
+
+.inventory-btn-primary:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.inventory-btn-primary:disabled,
+.inventory-btn-primary.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
 /* ========================================
-   RESPONSIVE ADJUSTMENTS
+   INVENTORY-specific button styles - standardized with UIKit
    ======================================== */
+
+.inventory-btn-secondary {
+    background: var(--inventory-dark);
+    border: 1px solid var(--inventory-dark);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: var(--transition-normal);
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 40px;
+    font-size: var(--font-size-base);
+}
+
+.inventory-btn-secondary:hover {
+    background: #5a6268;
+    border-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.inventory-btn-secondary:focus {
+    outline: 2px solid var(--inventory-dark);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(52, 58, 64, 0.25);
+}
+
+.inventory-btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.inventory-btn-secondary:disabled,
+.inventory-btn-secondary.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Validation styles */
+.inventory-form-group .is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.inventory-form-group .invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.inventory-form-group .is-valid {
+    border-color: #28a745 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .inventory-form-container {
+        margin: 1rem;
+    }
+
+    .inventory-card-header {
+        padding: 1.5rem;
+    }
+
+    .inventory-card-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .inventory-card-body {
+        padding: 1.5rem;
+    }
+
+    .inventory-btn-group {
+        flex-direction: column;
+    }
+
+    .inventory-btn-primary,
+    .inventory-btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .inventory-form-group.floating-label label {
+        font-size: 0.9rem;
+    }
+
+    .inventory-form-group .form-control,
+    .inventory-form-group .form-select {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .inventory-form-group .input-icon {
+        font-size: 1rem;
+        left: 0.6rem;
+    }
+}
 
 @media (max-width: 576px) {
-    .inventory-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+    .inventory-form-container {
+        margin: 0.5rem;
     }
-    
-    .product-card {
-        margin-bottom: var(--spacing-md);
+
+    .inventory-card-body {
+        padding: 1rem;
     }
-    
-    .price-display {
+
+    .inventory-card-header {
+        padding: 1rem;
+    }
+
+    .inventory-card-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .row {
+        --bs-gutter-x: 0.5rem;
+    }
+
+    .col-md-6 {
+        padding: 0 0.25rem;
+    }
+}
+
+
+/* Loading state */
+.inventory-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.inventory-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Form progress indicator */
+.inventory-progress {
+    width: 100%;
+    height: 4px;
+    background: var(--inventory-light);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.inventory-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--inventory-primary), var(--inventory-secondary));
+    border-radius: var(--border-radius);
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.inventory-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: progressShimmer 1.5s infinite;
+}
+
+@keyframes progressShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Additional animations */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Better Icon Integration */
+.inventory-form-group.has-icon {
+    position: relative;
+}
+
+.inventory-form-group.has-icon .form-control,
+.inventory-form-group.has-icon .form-select {
+    padding-left: 2.5rem;
+}
+
+.inventory-form-group.has-icon .field-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    z-index: 2;
+    font-size: 1.1rem;
+    transition: var(--transition-normal);
+    pointer-events: none;
+}
+
+.inventory-form-group.has-icon .form-control:focus ~ .field-icon,
+.inventory-form-group.has-icon .form-select:focus ~ .field-icon {
+    color: var(--inventory-primary);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.inventory-form-group.has-icon.floating-label .field-icon {
+    top: 1.25rem;
+}
+
+.inventory-form-group.has-icon.floating-label .form-control:focus ~ .field-icon,
+.inventory-form-group.has-icon.floating-label .form-select:focus ~ .field-icon {
+    top: 0.75rem;
+}
+
+/* Enhanced Button States */
+.inventory-btn-primary:disabled,
+.inventory-btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.inventory-btn-primary:disabled:hover,
+.inventory-btn-secondary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Form Field Spacing Improvements */
+.inventory-form .row + .inventory-form-group {
+    margin-top: 1rem;
+}
+
+.inventory-form .inventory-form-group + .inventory-form-group {
+    margin-top: 1.5rem;
+}
+
+/* Improved Select Styling */
+.inventory-form-group .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+
+.inventory-form-group .form-select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23667eea'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+/* Textarea Enhancements */
+.inventory-form-group textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.inventory-form-group textarea.form-control:focus {
+    min-height: 120px;
+}
+
+/* Checkbox and Radio Enhancements */
+.inventory-form-group .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.inventory-form-group .form-check-input:checked {
+    background-color: var(--inventory-primary);
+    border-color: var(--inventory-primary);
+}
+
+.inventory-form-group .form-check-input:focus {
+    border-color: var(--inventory-primary);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Section Titles for Form Grouping */
+.inventory-section-title {
+    color: var(--inventory-dark);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--inventory-light);
+    position: relative;
+}
+
+.inventory-section-title i {
+    color: var(--inventory-primary);
+    margin-right: 0.5rem;
+}
+
+.inventory-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--inventory-primary), var(--inventory-secondary));
+    transition: width 0.3s ease;
+}
+
+.inventory-section-title:hover::after {
+    width: 100px;
+}
+
+/* Enhanced Typography */
+.inventory-card-header h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.inventory-form-group label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+/* Micro-interactions */
+.inventory-form-group .form-control,
+.inventory-form-group .form-select {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-form-group .form-control:hover,
+.inventory-form-group .form-select:hover {
+    border-color: var(--inventory-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.inventory-btn-primary:active,
+.inventory-btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Improved Focus States */
+.inventory-form-group .form-control:focus,
+.inventory-form-group .form-select:focus {
+    border-width: 2px;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25), 0 4px 12px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Floating Label Enhancements */
+.inventory-form-group.floating-label label {
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-form-group.floating-label .form-control:focus + label,
+.inventory-form-group.floating-label .form-control:not(:placeholder-shown) + label,
+.inventory-form-group.floating-label .form-select:focus + label {
+    color: var(--inventory-primary);
+    font-weight: 600;
+    transform: translateY(-1.5rem) scale(0.9);
+}
+
+/* Icon Animations */
+.inventory-form-group.has-icon .field-icon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-form-group.has-icon .form-control:focus ~ .field-icon,
+.inventory-form-group.has-icon .form-select:focus ~ .field-icon {
+    color: var(--inventory-primary);
+    transform: translateY(-50%) scale(1.1) rotate(5deg);
+}
+
+/* Progress Bar Animation */
+.inventory-progress-bar {
+    animation: progressFill 2s ease-out;
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    100% { width: var(--progress-width, 0%); }
+}
+
+/* Form Validation Enhancements */
+.inventory-form-group .is-valid {
+    animation: validPulse 0.6s ease-out;
+}
+
+.inventory-form-group .is-invalid {
+    animation: invalidShake 0.6s ease-out;
+}
+
+@keyframes validPulse {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+@keyframes invalidShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Button Hover Effects */
+.inventory-btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.inventory-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.inventory-btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+    .inventory-section-title {
         font-size: 1rem;
+        margin: 1.5rem 0 0.75rem 0;
+    }
+
+    .inventory-form-group.floating-label .form-control:focus + label,
+    .inventory-form-group.floating-label .form-control:not(:placeholder-shown) + label,
+    .inventory-form-group.floating-label .form-select:focus + label {
+        font-size: 0.8rem;
     }
 }
 
-@media (min-width: 768px) {
-    .inventory-grid {
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    }
+/* Accessibility Improvements */
+.inventory-form-group .form-control:focus,
+.inventory-form-group .form-select:focus {
+    outline: none;
 }
 
-/* ========================================
-   PRINT STYLES FOR INVENTORY
-   ======================================== */
+.inventory-btn-primary:focus,
+.inventory-btn-secondary:focus {
+    outline: 2px solid var(--inventory-primary);
+    outline-offset: 2px;
+}
 
-@media print {
-    .product-card {
-        break-inside: avoid;
-        margin-bottom: var(--spacing-md);
-    }
-    
-    .stock-indicator {
-        border: 1px solid var(--gray-400);
-    }
-    
-    .category-tag {
-        background: var(--white) !important;
-        color: var(--gray-800) !important;
-        border: 1px solid var(--gray-400);
-    }
+/* Loading States */
+.inventory-form.submitting {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.inventory-form.submitting::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid var(--inventory-light);
+    border-top: 4px solid var(--inventory-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Dashboard specific styles */
+.dashboard-stats {
+  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.stat-card {
+  cursor: default;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  background: white;
+}
+
+.stat-card:hover,
+.stat-card.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+  font-size: 3rem;
+  opacity: 0.85;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--inventory-primary), var(--inventory-secondary));
+  color: white !important;
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  color: white !important;
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(135deg, #f85032, #e73827);
+  color: white !important;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+}
+
+h2 {
+  border-bottom: 2px solid var(--inventory-primary);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-stats {
+    flex-direction: column;
+  }
+  .stat-card {
+    margin-bottom: 1rem;
+  }
 }

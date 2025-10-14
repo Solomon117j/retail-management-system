@@ -22,6 +22,18 @@
             <a href="{% url 'hr:training_create' %}" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Add Training Record
             </a>
+            <div class="btn-group ms-2" role="group">
+                <button type="button" class="btn btn-outline-success btn-sm export-btn"
+                        data-format="csv"
+                        data-bs-toggle="tooltip" title="Download filtered data as CSV">
+                    <i class="fas fa-download me-1"></i>Export CSV
+                </button>
+                <button type="button" class="btn btn-outline-info btn-sm export-btn"
+                        data-format="excel"
+                        data-bs-toggle="tooltip" title="Download filtered data as Excel">
+                    <i class="fas fa-file-excel me-1"></i>Export Excel
+                </button>
+            </div>
         </div>
     </div>
 
@@ -269,6 +281,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         });
     }
+
+    // Export functionality
+    const exportButtons = document.querySelectorAll('.export-btn');
+    exportButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const format = this.dataset.format;
+            const originalText = this.innerHTML;
+
+            // Show loading state
+            this.innerHTML = `<i class="fas fa-spinner fa-spin me-1"></i>Preparing ${format.toUpperCase()}...`;
+            this.disabled = true;
+
+            // Build export URL with current filters
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('format', format);
+
+            const exportUrl = "{% url 'hr:training_export' %}" + '?' + urlParams.toString();
+
+            // Create hidden link and trigger download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = exportUrl;
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Reset button after download starts
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.disabled = false;
+
+                // Show success message
+                if (typeof RMS !== 'undefined' && RMS.utils && RMS.utils.showToast) {
+                    RMS.utils.showToast(`${format.toUpperCase()} export started! Check your downloads.`, 'success', 3000);
+                } else {
+                    // Fallback notification
+                    const toast = document.createElement('div');
+                    toast.className = 'alert alert-success position-fixed';
+                    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                    toast.innerHTML = `<i class="fas fa-check me-2"></i>${format.toUpperCase()} export started! Check your downloads.`;
+                    document.body.appendChild(toast);
+
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                }
+            }, 1000);
+        });
+    });
 
     console.log('Training list enhancements initialized');
 });

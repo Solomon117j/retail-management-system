@@ -96,10 +96,22 @@
 
     <!-- Store Table -->
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
                 <i class="fas fa-list me-2"></i>Store Locations
             </h5>
+            <div class="btn-group" role="group">
+                <a href="{% url 'store_management:store_export' %}?format=csv"
+                   class="btn btn-outline-light btn-sm"
+                   data-bs-toggle="tooltip" title="Export as CSV">
+                    <i class="fas fa-download me-1"></i>CSV
+                </a>
+                <a href="{% url 'store_management:store_export' %}?format=excel"
+                   class="btn btn-outline-light btn-sm"
+                   data-bs-toggle="tooltip" title="Export as Excel">
+                    <i class="fas fa-file-excel me-1"></i>Excel
+                </a>
+            </div>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">

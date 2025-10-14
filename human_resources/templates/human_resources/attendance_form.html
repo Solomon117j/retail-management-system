@@ -216,9 +216,186 @@
                 </div>
             </div>
 
+            <!-- Additional Details Section -->
+            <div class="attendance-section">
+                <h4><i class="fas fa-info-circle me-2"></i>Additional Details</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.location.id_for_label }}" class="form-label">
+                                {{ form.location.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                {{ form.location }}
+                            </div>
+                            {% if form.location.help_text %}
+                                <div class="form-help-text">{{ form.location.help_text }}</div>
+                            {% endif %}
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.location.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.clock_method.id_for_label }}" class="form-label">
+                                {{ form.clock_method.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </span>
+                                {{ form.clock_method }}
+                            </div>
+                            {% if form.clock_method.help_text %}
+                                <div class="form-help-text">{{ form.clock_method.help_text }}</div>
+                            {% endif %}
+                            {% if form.clock_method.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.clock_method.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.shift_type.id_for_label }}" class="form-label">
+                                {{ form.shift_type.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-clock"></i>
+                                </span>
+                                {{ form.shift_type }}
+                            </div>
+                            {% if form.shift_type.help_text %}
+                                <div class="form-help-text">{{ form.shift_type.help_text }}</div>
+                            {% endif %}
+                            {% if form.shift_type.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.shift_type.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.overtime_hours.id_for_label }}" class="form-label">
+                                {{ form.overtime_hours.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                {{ form.overtime_hours }}
+                            </div>
+                            {% if form.overtime_hours.help_text %}
+                                <div class="form-help-text">{{ form.overtime_hours.help_text }}</div>
+                            {% endif %}
+                            {% if form.overtime_hours.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.overtime_hours.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approval Information Section -->
+            <div class="attendance-section">
+                <h4><i class="fas fa-check-circle me-2"></i>Approval Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.approved_by.id_for_label }}" class="form-label">
+                                {{ form.approved_by.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user-check"></i>
+                                </span>
+                                {{ form.approved_by }}
+                            </div>
+                            {% if form.approved_by.help_text %}
+                                <div class="form-help-text">{{ form.approved_by.help_text }}</div>
+                            {% endif %}
+                            {% if form.approved_by.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.approved_by.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.approval_status.id_for_label }}" class="form-label">
+                                {{ form.approval_status.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-tasks"></i>
+                                </span>
+                                {{ form.approval_status }}
+                            </div>
+                            {% if form.approval_status.help_text %}
+                                <div class="form-help-text">{{ form.approval_status.help_text }}</div>
+                            {% endif %}
+                            {% if form.approval_status.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.approval_status.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="{{ form.supervisor_notes.id_for_label }}" class="form-label">
+                                {{ form.supervisor_notes.label }}
+                            </label>
+                            {{ form.supervisor_notes }}
+                            <div class="form-text">
+                                <span id="supervisor-notes-counter">0</span>/500 characters
+                            </div>
+                            {% if form.supervisor_notes.help_text %}
+                                <div class="form-help-text">{{ form.supervisor_notes.help_text }}</div>
+                            {% endif %}
+                            {% if form.supervisor_notes.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.supervisor_notes.errors %}
+                                        <div><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Notes Section -->
             <div class="attendance-section">
-                <h4><i class="fas fa-sticky-note me-2"></i>Additional Notes</h4>
+                <h4><i class="fas fa-sticky-note me-2"></i>Employee Notes</h4>
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-3">
@@ -359,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const clockInInput = document.querySelector('#id_clock_in');
     const clockOutInput = document.querySelector('#id_clock_out');
     const notesTextarea = document.querySelector('#id_notes');
+    const supervisorNotesTextarea = document.querySelector('#id_supervisor_notes');
     const selectedEmployeeInfo = document.querySelector('#selected-employee-info');
     
     // Employee selection handler
@@ -480,6 +658,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         notesTextarea.addEventListener('input', updateCounter);
         updateCounter(); // Initial count
+    }
+
+    // Supervisor notes character counter
+    if (supervisorNotesTextarea) {
+        const supervisorCounter = document.querySelector('#supervisor-notes-counter');
+
+        function updateSupervisorCounter() {
+            const length = supervisorNotesTextarea.value.length;
+            supervisorCounter.textContent = length;
+
+            if (length > 450) {
+                supervisorCounter.className = 'text-warning';
+            } else if (length > 500) {
+                supervisorCounter.className = 'text-danger';
+            } else {
+                supervisorCounter.className = '';
+            }
+        }
+
+        supervisorNotesTextarea.addEventListener('input', updateSupervisorCounter);
+        updateSupervisorCounter(); // Initial count
     }
     
     // Set current time function

@@ -1715,3 +1715,954 @@ AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:u
 AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
 AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
 AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brand/2/edit/ Resource:/inventory/brand/2/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brand/2/edit/ Resource:/inventory/brand/2/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/customer/ Resource:/accounts/login/customer/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/customer/ Resource:/accounts/login/customer/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/register/ Resource:/accounts/register/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/register/ Resource:/accounts/register/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/register/ Resource:/accounts/register/ Result:HTTP_302
+AUDIT {asctime} User:customer IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:customer IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:HEAD /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/generic/ Resource:/accounts/login/generic/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/1/edit/ Resource:/inventory/brands/1/edit/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/orders/0d77c271-3a91-4625-b27c-6e6555113f59/status/ Resource:/e_commerce/orders/0d77c271-3a91-4625-b27c-6e6555113f59/status/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/attendance/d5e20205-affd-4ca7-baee-d54f877a28df/edit/ Resource:/hr/attendance/d5e20205-affd-4ca7-baee-d54f877a28df/edit/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/add/ Resource:/stores/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_403
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_403
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_403
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/brands/add/ Resource:/inventory/brands/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/categories/add/ Resource:/inventory/categories/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/create/ Resource:/procurement/suppliers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/add/ Resource:/inventory/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/1/edit/ Resource:/inventory/products/1/edit/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/create/ Resource:/procurement/orders/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/create/ Resource:/procurement/orders/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/create/ Resource:/procurement/orders/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/create/ Resource:/procurement/orders/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/create/ Resource:/procurement/orders/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/1/update/ Resource:/procurement/orders/1/update/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/1/update/ Resource:/procurement/orders/1/update/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/1/products/add/ Resource:/procurement/suppliers/1/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/1/products/add/ Resource:/procurement/suppliers/1/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/suppliers/2/products/add/ Resource:/procurement/suppliers/2/products/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/1/status/ Resource:/procurement/orders/1/status/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /procurement/orders/1/status/ Resource:/procurement/orders/1/status/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/customer/ Resource:/accounts/login/customer/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /sales/customers/create/ Resource:/sales/customers/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /sales/customers/create/ Resource:/sales/customers/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /sales/customers/create/ Resource:/sales/customers/create/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/employees/create/ Resource:/hr/employees/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/employees/48e20194-3b64-4a6f-878a-9d1f9e0e9be9/edit/ Resource:/hr/employees/48e20194-3b64-4a6f-878a-9d1f9e0e9be9/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/attendance/create/ Resource:/hr/attendance/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/auth/group/ Resource:/admin/auth/group/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/employees/48e20194-3b64-4a6f-878a-9d1f9e0e9be9/edit/ Resource:/hr/employees/48e20194-3b64-4a6f-878a-9d1f9e0e9be9/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown

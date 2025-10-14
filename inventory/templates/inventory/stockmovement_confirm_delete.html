@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Delete Stock Movement</h1>
+<p>Are you sure you want to delete the stock movement for "{{ object.product.name }}" at "{{ object.store.name }}" ({{ object.get_movement_type_display }})?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Yes, Delete</button>
+  <a href="{% url 'inventory:stockmovement_list' %}">Cancel</a>
+</form>
+{% endblock %}

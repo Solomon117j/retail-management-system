@@ -7,9 +7,11 @@ from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Supplier, SupplierProduct, PurchaseOrder, PurchaseOrderItem
+from .forms import SupplierForm, PurchaseOrderForm, PurchaseOrderItemForm, SupplierProductForm
 from inventory.models import Product, StockMovement
 from store_management.models import Store
 from human_resources.models import Employee
+import datetime
 
 # ====================
 # SUPPLIER VIEWS
@@ -31,11 +33,8 @@ class SupplierListView(LoginRequiredMixin, ListView):
 
 class SupplierCreateView(LoginRequiredMixin, CreateView):
     model = Supplier
+    form_class = SupplierForm
     template_name = 'procurement/supplier_form.html'
-    fields = [
-        'name', 'contact_person', 'email', 'phone', 'address',
-        'contract_start_date', 'payment_terms'
-    ]
     success_url = reverse_lazy('procurement:supplier_list')
 
     def form_valid(self, form):
@@ -44,11 +43,8 @@ class SupplierCreateView(LoginRequiredMixin, CreateView):
 
 class SupplierUpdateView(LoginRequiredMixin, UpdateView):
     model = Supplier
+    form_class = SupplierForm
     template_name = 'procurement/supplier_form.html'
-    fields = [
-        'name', 'contact_person', 'email', 'phone', 'address',
-        'contract_start_date', 'payment_terms'
-    ]
     success_url = reverse_lazy('procurement:supplier_list')
 
 class SupplierDetailView(LoginRequiredMixin, DetailView):
@@ -92,33 +88,33 @@ class SupplierDeleteView(LoginRequiredMixin, DeleteView):
 
 class SupplierProductCreateView(LoginRequiredMixin, CreateView):
     model = SupplierProduct
+    form_class = SupplierProductForm
     template_name = 'procurement/supplierproduct_form.html'
-    fields = ['product', 'supply_price', 'lead_time', 'minimum_order_quantity']
-    
+
     def get_initial(self):
         initial = super().get_initial()
         supplier = get_object_or_404(Supplier, pk=self.kwargs['supplier_id'])
         initial['supplier'] = supplier
         return initial
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['supplier'] = get_object_or_404(Supplier, pk=self.kwargs['supplier_id'])
         return context
-    
+
     def form_valid(self, form):
         supplier = get_object_or_404(Supplier, pk=self.kwargs['supplier_id'])
         form.instance.supplier = supplier
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         return reverse('procurement:supplier_detail', kwargs={'pk': self.kwargs['supplier_id']})
 
 class SupplierProductUpdateView(LoginRequiredMixin, UpdateView):
     model = SupplierProduct
+    form_class = SupplierProductForm
     template_name = 'procurement/supplierproduct_form.html'
-    fields = ['supply_price', 'lead_time', 'minimum_order_quantity']
-    
+
     def get_success_url(self):
         return reverse('procurement:supplier_detail', kwargs={'pk': self.object.supplier.pk})
 
@@ -170,36 +166,69 @@ class PurchaseOrderDetailView(LoginRequiredMixin, DetailView):
 
 class PurchaseOrderCreateView(LoginRequiredMixin, CreateView):
     model = PurchaseOrder
+    form_class = PurchaseOrderForm
     template_name = 'procurement/purchaseorder_form.html'
-    fields = ['supplier', 'store', 'expected_delivery_date']
 
-    def form_valid(self, form):
-        # Get the employee profile from the user
-        try:
-            employee = self.request.user.employee_profile.get()
-            form.instance.created_by = employee
-        except Employee.DoesNotExist:
-            # If no employee profile, set to None
-            form.instance.created_by = None
-        form.instance.status = 'draft'
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('procurement:purchaseorder_update', kwargs={'pk': self.object.pk})
-
-class PurchaseOrderUpdateView(LoginRequiredMixin, UpdateView):
-    model = PurchaseOrder
-    template_name = 'procurement/purchaseorder_form.html'
-    fields = ['supplier', 'store', 'expected_delivery_date']
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         # Create formset for order items
         PurchaseOrderItemFormSet = inlineformset_factory(
             PurchaseOrder,
             PurchaseOrderItem,
-            fields=('product', 'quantity', 'unit_price'),
+            form=PurchaseOrderItemForm,
+            extra=1,
+            can_delete=True
+        )
+
+        if self.request.POST:
+            context['formset'] = PurchaseOrderItemFormSet(self.request.POST)
+        else:
+            context['formset'] = PurchaseOrderItemFormSet()
+
+        # Add products to context for empty form template
+        from inventory.models import Product
+        context['products'] = Product.objects.all().order_by('name')
+
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        form.instance.created_by = self.request.user.employee_profile.first()
+        form.instance.status = 'draft'
+
+        with transaction.atomic():
+            self.object = form.save()
+
+            if formset.is_valid():
+                formset.instance = self.object
+                formset.save()
+
+                # Recalculate total amount
+                self.object.save()
+            else:
+                return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('procurement:purchaseorder_list')
+
+class PurchaseOrderUpdateView(LoginRequiredMixin, UpdateView):
+    model = PurchaseOrder
+    form_class = PurchaseOrderForm
+    template_name = 'procurement/purchaseorder_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Create formset for order items
+        PurchaseOrderItemFormSet = inlineformset_factory(
+            PurchaseOrder,
+            PurchaseOrderItem,
+            form=PurchaseOrderItemForm,
             extra=1,
             can_delete=True
         )
@@ -210,6 +239,10 @@ class PurchaseOrderUpdateView(LoginRequiredMixin, UpdateView):
             )
         else:
             context['formset'] = PurchaseOrderItemFormSet(instance=self.object)
+
+        # Add products to context for empty form template
+        from inventory.models import Product
+        context['products'] = Product.objects.all().order_by('name')
         
         return context
     
@@ -302,7 +335,7 @@ class PurchaseOrderReceiveView(LoginRequiredMixin, UpdateView):
                                 movement_type=StockMovement.MOVEMENT_IN,
                                 quantity=abs(delta),
                                 reference=f"PO-{self.object.id}",
-                                created_by=request.user,
+                                created_by=request.user.employee_profile.first(),
                                 note="Auto receive from Purchase Order"
                             )
                             # Update received_quantity to new value

@@ -1,167 +1,261 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    {% if object %}Edit Product{% else %}Add Product{% endif %} - Inventory
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
 {% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="mb-0">
-                        <i class="fas fa-box"></i>
-                        {% if object %}Edit Product{% else %}Add New Product{% endif %}
-                    </h3>
-                </div>
-                <div class="card-body">
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            {{ form.non_field_errors }}
-                        </div>
-                    {% endif %}
-                    
-                    <form method="post">
-                        {% csrf_token %}
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.name.id_for_label }}" class="form-label">Product Name *</label>
-                                {{ form.name }}
-                                {% if form.name.errors %}
-                                    <div class="text-danger">{{ form.name.errors }}</div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.category.id_for_label }}" class="form-label">Category *</label>
-                                {{ form.category }}
-                                {% if form.category.errors %}
-                                    <div class="text-danger">{{ form.category.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.brand.id_for_label }}" class="form-label">Brand</label>
-                                {{ form.brand }}
-                                {% if form.brand.errors %}
-                                    <div class="text-danger">{{ form.brand.errors }}</div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.barcode.id_for_label }}" class="form-label">Barcode</label>
-                                {{ form.barcode }}
-                                {% if form.barcode.errors %}
-                                    <div class="text-danger">{{ form.barcode.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
-                            {{ form.description }}
-                            {% if form.description.errors %}
-                                <div class="text-danger">{{ form.description.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.unit_price.id_for_label }}" class="form-label">Unit Price *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">SZL</span>
-                                    {{ form.unit_price }}
-                                </div>
-                                {% if form.unit_price.errors %}
-                                    <div class="text-danger">{{ form.unit_price.errors }}</div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.cost_price.id_for_label }}" class="form-label">Cost Price</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">SZL</span>
-                                    {{ form.cost_price }}
-                                </div>
-                                {% if form.cost_price.errors %}
-                                    <div class="text-danger">{{ form.cost_price.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.weight.id_for_label }}" class="form-label">Weight (kg)</label>
-                                {{ form.weight }}
-                                {% if form.weight.errors %}
-                                    <div class="text-danger">{{ form.weight.errors }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.dimensions.id_for_label }}" class="form-label">Dimensions</label>
-                                {{ form.dimensions }}
-                                {% if form.dimensions.errors %}
-                                    <div class="text-danger">{{ form.dimensions.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.image.id_for_label }}" class="form-label">Product Image</label>
-                            {{ form.image }}
-                            {% if form.image.errors %}
-                                <div class="text-danger">{{ form.image.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="form-check">
-                                {{ form.available_online }}
-                                <label class="form-check-label" for="{{ form.available_online.id_for_label }}">
-                                    Available Online
-                                </label>
-                            </div>
-                            {% if form.available_online.errors %}
-                                <div class="text-danger">{{ form.available_online.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="form-check">
-                                {{ form.is_perishable }}
-                                <label class="form-check-label" for="{{ form.is_perishable.id_for_label }}">
-                                    Perishable Item
-                                </label>
-                            </div>
-                            {% if form.is_perishable.errors %}
-                                <div class="text-danger">{{ form.is_perishable.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'inventory:product_list' %}" class="btn btn-secondary me-md-2">
-                                <i class="fas fa-times"></i> Cancel
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                {% if object %}Update Product{% else %}Add Product{% endif %}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="inventory-form-container">
+  <div class="card inventory-card">
+    <div class="card-header inventory-card-header">
+      <h1><i class="fas fa-box me-2"></i>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Product</h1>
     </div>
-</div>
+    <div class="card-body inventory-card-body">
+      <div class="inventory-progress">
+        <div class="inventory-progress-bar" id="formProgress" style="width: 0%"></div>
+      </div>
+      <form method="post" enctype="multipart/form-data" class="inventory-form">
+        {% csrf_token %}
 
-<style>
-.form-control, .form-select {
-    border-radius: 0.375rem;
-}
-</style>
+        <h5 class="inventory-section-title"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-tag"></i>
+              {{ form.name }}
+              <label for="{{ form.name.id_for_label }}">
+                {{ form.name.label }}{% if form.name.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.name.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.name.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-barcode"></i>
+              {{ form.sku }}
+              <label for="{{ form.sku.id_for_label }}">
+                {{ form.sku.label }}{% if form.sku.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.sku.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.sku.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-qrcode"></i>
+              {{ form.barcode }}
+              <label for="{{ form.barcode.id_for_label }}">
+                {{ form.barcode.label }}
+              </label>
+              {% if form.barcode.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.barcode.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-truck"></i>
+              {{ form.default_supplier }}
+              <label for="{{ form.default_supplier.id_for_label }}">
+                {{ form.default_supplier.label }}
+              </label>
+              {% if form.default_supplier.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.default_supplier.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-folder"></i>
+              {{ form.category }}
+              <label for="{{ form.category.id_for_label }}">
+                {{ form.category.label }}{% if form.category.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.category.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.category.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-tags"></i>
+              {{ form.brand }}
+              <label for="{{ form.brand.id_for_label }}">
+                {{ form.brand.label }}{% if form.brand.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.brand.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.brand.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-dollar-sign me-2"></i>Pricing & Inventory</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-dollar-sign"></i>
+              {{ form.unit_price }}
+              <label for="{{ form.unit_price.id_for_label }}">
+                {{ form.unit_price.label }}{% if form.unit_price.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.unit_price.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.unit_price.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-exclamation-triangle"></i>
+              {{ form.reorder_level }}
+              <label for="{{ form.reorder_level.id_for_label }}">
+                {{ form.reorder_level.label }}{% if form.reorder_level.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.reorder_level.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.reorder_level.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-ruler-combined me-2"></i>Dimensions</h5>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-weight"></i>
+              {{ form.weight }}
+              <label for="{{ form.weight.id_for_label }}">
+                {{ form.weight.label }}
+              </label>
+              {% if form.weight.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.weight.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-ruler-horizontal"></i>
+              {{ form.length }}
+              <label for="{{ form.length.id_for_label }}">
+                {{ form.length.label }}
+              </label>
+              {% if form.length.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.length.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-ruler-vertical"></i>
+              {{ form.width }}
+              <label for="{{ form.width.id_for_label }}">
+                {{ form.width.label }}
+              </label>
+              {% if form.width.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.width.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-ruler-combined"></i>
+              {{ form.height }}
+              <label for="{{ form.height.id_for_label }}">
+                {{ form.height.label }}
+              </label>
+              {% if form.height.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.height.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-file-alt me-2"></i>Additional Details</h5>
+        <div class="inventory-form-group floating-label has-icon">
+          <i class="field-icon fas fa-align-left"></i>
+          {{ form.description }}
+          <label for="{{ form.description.id_for_label }}">
+            {{ form.description.label }}
+          </label>
+          {% if form.description.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.description.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="inventory-form-group">
+          <label for="{{ form.image.id_for_label }}">
+            <i class="fas fa-image me-1"></i>{{ form.image.label }}
+          </label>
+          {{ form.image }}
+          {% if form.image.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.image.errors.0 }}
+            </div>
+          {% endif %}
+          {% if form.instance.image %}
+            <div class="mt-2">
+              <img src="{{ form.instance.image.url }}" alt="Current image" style="max-width: 200px; max-height: 200px;">
+              <p class="small text-muted mt-1">Current image</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="inventory-form-group">
+          <div class="form-check">
+            {{ form.is_active }}
+            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+              <i class="fas fa-toggle-on me-1"></i>{{ form.is_active.label }}
+            </label>
+          </div>
+          {% if form.is_active.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.is_active.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="inventory-btn-group">
+          <button type="submit" class="inventory-btn-primary">
+            <i class="fas fa-save me-1"></i>Save Product
+          </button>
+          <a href="{% url 'inventory:product-list' %}" class="inventory-btn-secondary">
+            <i class="fas fa-times me-1"></i>Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'inventory/js/inventory.js' %}"></script>
 {% endblock %}

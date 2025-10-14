@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
+# from inventory.models import Product
 
 # Create your models here.
 # procurement/models.py
@@ -60,6 +61,32 @@ class Supplier(models.Model):
         verbose_name="Tenant ID",
         help_text="For multi-tenant architecture"
     )
+    website = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name="Website",
+        help_text="Supplier's website URL"
+    )
+    tax_id = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Tax ID",
+        help_text="Supplier's tax identification number"
+    )
+    industry = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Industry",
+        help_text="Industry or sector the supplier operates in"
+    )
+    notes = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Notes",
+        help_text="Additional notes about the supplier"
+    )
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -74,7 +101,7 @@ class SupplierProduct(models.Model):
         related_name='supplier_products'
     )
     product = models.ForeignKey(
-        'inventory.Product',  # Reference to Product in inventory app
+        'inventory.Product',
         on_delete=models.CASCADE
     )
     supply_price = models.DecimalField(
@@ -101,7 +128,7 @@ class SupplierProduct(models.Model):
                 name='unique_supplier_product'
             )
         ]
-    
+
     def __str__(self):
         return f"{self.product.name} from {self.supplier.name}"
 
@@ -139,7 +166,7 @@ class PurchaseOrder(models.Model):
         validators=[MinValueValidator(0.01)]
     )
     created_by = models.ForeignKey(
-        'human_resources.Employee',  # Reference to Employee model
+        'accounts.Employee',  # Reference to Employee model
         on_delete=models.SET_NULL,
         blank=True,
         null=True

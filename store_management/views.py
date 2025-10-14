@@ -3,12 +3,15 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-from store_management.models import Store , Department 
+from django.http import HttpResponse
+from store_management.models import Store , Department
 
 from django.views.generic import TemplateView
 from django.db.models import Q, Count
 from django.contrib import messages
 
+import csv
+from openpyxl import Workbook
 
 from .forms import DepartmentForm, StoreForm
 
@@ -156,7 +159,7 @@ class DepartmentDetailView(DetailView):
     model = Department
     template_name = 'store_management/department_detail.html'  # Your template path
     context_object_name = 'department'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add store to context from the department's foreign key
@@ -165,3 +168,125 @@ class DepartmentDetailView(DetailView):
         # Removed employees context as per request
         # context['employees'] = self.object.employees.all()
         return context
+
+
+def store_export(request):
+    format_type = request.GET.get('format', 'csv').lower()
+    queryset = Store.objects.all()
+
+    # Apply filters if any
+    search = request.GET.get('search')
+    if search:
+        queryset = queryset.filter(
+            Q(store_name__icontains=search) | Q(city__icontains=search) | Q(region__icontains=search)
+        )
+
+    region = request.GET.get('region')
+    if region:
+        queryset = queryset.filter(region=region)
+
+    if format_type == 'excel':
+        # Create Excel response
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="stores.xlsx"'
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Stores'
+
+        # Header
+        headers = ['Store Name', 'Address', 'City', 'Region', 'Postal Code', 'Phone', 'Opening Date', 'Manager']
+        for col_num, header in enumerate(headers, 1):
+            ws.cell(row=1, column=col_num, value=header)
+
+        # Data
+        for row_num, store in enumerate(queryset, 2):
+            ws.cell(row=row_num, column=1, value=store.store_name)
+            ws.cell(row=row_num, column=2, value=store.address)
+            ws.cell(row=row_num, column=3, value=store.city)
+            ws.cell(row=row_num, column=4, value=store.region)
+            ws.cell(row=row_num, column=5, value=store.postal_code or '')
+            ws.cell(row=row_num, column=6, value=store.phone)
+            ws.cell(row=row_num, column=7, value=store.opening_date.strftime('%Y-%m-%d'))
+            ws.cell(row=row_num, column=8, value=store.manager.get_full_name() if store.manager else 'Unassigned')
+
+        wb.save(response)
+        return response
+
+    else:  # Default to CSV
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="stores.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Store Name', 'Address', 'City', 'Region', 'Postal Code', 'Phone', 'Opening Date', 'Manager'])
+
+        for store in queryset:
+            writer.writerow([
+                store.store_name,
+                store.address,
+                store.city,
+                store.region,
+                store.postal_code or '',
+                store.phone,
+                store.opening_date.strftime('%Y-%m-%d'),
+                store.manager.get_full_name() if store.manager else 'Unassigned',
+            ])
+
+        return response
+
+
+def department_export(request):
+    format_type = request.GET.get('format', 'csv').lower()
+    queryset = Department.objects.select_related('store').all()
+
+    # Apply filters if any
+    search = request.GET.get('search')
+    if search:
+        queryset = queryset.filter(
+            Q(department_name__icontains=search) | Q(description__icontains=search) | Q(store__store_name__icontains=search)
+        )
+
+    store_id = request.GET.get('store')
+    if store_id:
+        queryset = queryset.filter(store_id=store_id)
+
+    if format_type == 'excel':
+        # Create Excel response
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="departments.xlsx"'
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Departments'
+
+        # Header
+        headers = ['Department Name', 'Description', 'Store', 'Created At']
+        for col_num, header in enumerate(headers, 1):
+            ws.cell(row=1, column=col_num, value=header)
+
+        # Data
+        for row_num, department in enumerate(queryset, 2):
+            ws.cell(row=row_num, column=1, value=department.department_name)
+            ws.cell(row=row_num, column=2, value=department.description or '')
+            ws.cell(row=row_num, column=3, value=department.store.store_name)
+            ws.cell(row=row_num, column=4, value=department.created_at.strftime('%Y-%m-%d %H:%M:%S'))
+
+        wb.save(response)
+        return response
+
+    else:  # Default to CSV
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="departments.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Department Name', 'Description', 'Store', 'Created At'])
+
+        for department in queryset:
+            writer.writerow([
+                department.department_name,
+                department.description or '',
+                department.store.store_name,
+                department.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            ])
+
+        return response

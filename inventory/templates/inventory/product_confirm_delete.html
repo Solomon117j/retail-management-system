@@ -1,53 +1,10 @@
-{% extends 'base.html' %}
-
-{% block title %}Delete Product - {{ product.name }}{% endblock %}
-
+{% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <h3 class="mb-0">
-                        <i class="fas fa-exclamation-triangle"></i> Delete Product
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-warning">
-                        <h5><i class="fas fa-warning"></i> Warning!</h5>
-                        <p>Are you sure you want to delete the product <strong>"{{ product.name }}"</strong>?</p>
-                        <p class="mb-0">This action cannot be undone.</p>
-                    </div>
-                    
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>Product Details:</h6>
-                            <ul class="list-unstyled mb-0">
-                                <li><strong>Name:</strong> {{ product.name }}</li>
-                                <li><strong>Category:</strong> {{ product.category.name|default:"-" }}</li>
-                                <li><strong>Brand:</strong> {{ product.brand.name|default:"-" }}</li>
-                                <li><strong>Unit Price:</strong> SZL{{ product.unit_price }}</li>
-                                {% if product.barcode %}
-                                <li><strong>Barcode:</strong> {{ product.barcode }}</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'inventory:product_detail' product.pk %}" class="btn btn-secondary me-md-2">
-                                <i class="fas fa-times"></i> Cancel
-                            </a>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Yes, Delete Product
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<h1>Delete Product</h1>
+<p>Are you sure you want to delete the product "{{ object.name }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Yes, Delete</button>
+  <a href="{% url 'inventory:product_list' %}">Cancel</a>
+</form>
 {% endblock %}

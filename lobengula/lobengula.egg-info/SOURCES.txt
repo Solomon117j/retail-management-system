@@ -1,0 +1,8 @@
+README.md
+main.py
+pyproject.toml
+lobengula.egg-info/PKG-INFO
+lobengula.egg-info/SOURCES.txt
+lobengula.egg-info/dependency_links.txt
+lobengula.egg-info/requires.txt
+lobengula.egg-info/top_level.txt

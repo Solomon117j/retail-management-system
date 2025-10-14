@@ -12,7 +12,6 @@ class CustomerRestrictionMiddleware(MiddlewareMixin):
         self.restricted_paths = [
             '/admin/',
             '/human_resources/',
-            '/inventory/',
             '/sales/',
             '/procurement/',
             '/store_management/',

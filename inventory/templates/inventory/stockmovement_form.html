@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
+{% endblock %}
+{% block content %}
+<div class="inventory-form-container">
+  <div class="card inventory-card">
+    <div class="card-header inventory-card-header">
+      <h1><i class="fas fa-exchange-alt me-2"></i>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Stock Movement</h1>
+    </div>
+    <div class="card-body inventory-card-body">
+      <div class="inventory-progress">
+        <div class="inventory-progress-bar" id="formProgress" style="width: 0%"></div>
+      </div>
+      <form method="post" class="inventory-form">
+        {% csrf_token %}
+
+        <h5 class="inventory-section-title"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-box"></i>
+              {{ form.product }}
+              <label for="{{ form.product.id_for_label }}">
+                {{ form.product.label }}{% if form.product.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.product.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.product.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-store"></i>
+              {{ form.store }}
+              <label for="{{ form.store.id_for_label }}">
+                {{ form.store.label }}{% if form.store.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.store.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.store.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-exchange-alt me-2"></i>Movement Details</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-hashtag"></i>
+              {{ form.quantity }}
+              <label for="{{ form.quantity.id_for_label }}">
+                {{ form.quantity.label }}{% if form.quantity.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.quantity.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.quantity.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="inventory-form-group floating-label has-icon">
+              <i class="field-icon fas fa-arrows-alt"></i>
+              {{ form.movement_type }}
+              <label for="{{ form.movement_type.id_for_label }}">
+                {{ form.movement_type.label }}{% if form.movement_type.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if form.movement_type.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.movement_type.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <h5 class="inventory-section-title"><i class="fas fa-file-alt me-2"></i>Additional Information</h5>
+        <div class="inventory-form-group floating-label has-icon">
+          <i class="field-icon fas fa-comment"></i>
+          {{ form.reason }}
+          <label for="{{ form.reason.id_for_label }}">
+            {{ form.reason.label }}{% if form.reason.field.required %} <span class="text-danger">*</span>{% endif %}
+          </label>
+          {% if form.reason.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.reason.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="inventory-form-group floating-label has-icon">
+          <i class="field-icon fas fa-link"></i>
+          {{ form.reference }}
+          <label for="{{ form.reference.id_for_label }}">
+            {{ form.reference.label }}
+          </label>
+          {% if form.reference.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.reference.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="inventory-btn-group">
+          <button type="submit" class="inventory-btn-primary">
+            <i class="fas fa-save me-1"></i>Save Stock Movement
+          </button>
+          <a href="{% url 'inventory:stockmovement-list' %}" class="inventory-btn-secondary">
+            <i class="fas fa-times me-1"></i>Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'inventory/js/inventory.js' %}"></script>
+{% endblock %}

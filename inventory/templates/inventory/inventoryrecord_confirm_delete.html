@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Delete Inventory Record</h1>
+<p>Are you sure you want to delete the inventory record for "{{ object.product.name }}" at "{{ object.store.name }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Yes, Delete</button>
+  <a href="{% url 'inventory:inventoryrecord_list' %}">Cancel</a>
+</form>
+{% endblock %}

@@ -26,7 +26,6 @@ ROLE_HIERARCHY = {
     'superuser': 100,  # Full system access
     'manager': 80,     # Store/department management
     'hr_manager': 70,  # HR and payroll management
-    'inventory_manager': 60,  # Inventory management
     'sales_person': 50,  # Sales processing
     'staff': 40,       # General staff access
     'customer': 10,    # Customer access only
@@ -39,13 +38,7 @@ PERMISSION_GROUPS = {
         'store_management.manage_store_settings',
         'store_management.manage_departments',
     ],
-    'inventory': [
-        'inventory.access_inventory',
-        'inventory.view_inventory',
-        'inventory.edit_inventory',
-        'inventory.manage_inventory_categories',
-        'inventory.perform_inventory_audit',
-    ],
+
     'sales': [
         'sales.process_sales',
         'sales.void_sales',
@@ -314,8 +307,6 @@ def get_user_role(user) -> str:
     # Check role-based permissions
     if user.has_perm('human_resources.manage_employee_records'):
         return 'hr_manager'
-    elif user.has_perm('inventory.manage_inventory_categories'):
-        return 'inventory_manager'
     elif user.has_perm('sales.manage_sales_promotions'):
         return 'sales_person'
     elif user.has_perm('store_management.manage_store_settings'):

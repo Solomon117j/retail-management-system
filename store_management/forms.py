@@ -35,9 +35,15 @@ class StoreForm(forms.ModelForm):
 
     class Meta:
         model = Store
-        fields = ['store_name', 'address', 'city', 'region', 'postal_code', 'phone', 'opening_date', 'manager']
+        fields = [
+            'name', 'address', 'city', 'region', 'postal_code', 'phone', 'opening_date', 'manager',
+            'email', 'website_url', 'fax_number', 'secondary_contact',
+            'store_type', 'store_size', 'description', 'status',
+            'opening_time', 'closing_time',
+            'latitude', 'longitude'
+        ]
         widgets = {
-            'store_name': forms.TextInput(attrs={
+            'name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter store name',
                 'maxlength': 100
@@ -74,24 +80,95 @@ class StoreForm(forms.ModelForm):
             'manager': forms.Select(attrs={
                 'class': 'form-control',
             }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'store@example.com',
+                'maxlength': 254
+            }),
+            'website_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.storewebsite.com',
+                'maxlength': 200
+            }),
+            'fax_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '78117804',
+                'maxlength': 20
+            }),
+            'secondary_contact': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Assistant Manager Name',
+                'maxlength': 100
+            }),
+            'store_type': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'store_size': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': '500.00',
+                'step': '0.01',
+                'min': '0'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Additional notes about the store...'
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'opening_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control'
+            }),
+            'closing_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control'
+            }),
+            'latitude': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': '-26.3051',
+                'step': '0.000001',
+                'min': '-90',
+                'max': '90'
+            }),
+            'longitude': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': '31.1367',
+                'step': '0.000001',
+                'min': '-180',
+                'max': '180'
+            }),
         }
 
         help_texts = {
-            'store_name': 'Enter a unique name for this store location',
+            'name': 'Enter a unique name for this store location',
             'address': 'Full street address including building number',
             'city': 'City where the store is located',
             'region': 'State, province, or region',
             'postal_code': 'ZIP code or postal code (optional)',
             'phone': 'Local phone number (without country code, e.g., 78117803)',
             'opening_date': 'Date when the store first opened',
-            'manager': 'Select the store manager from the list of employees (optional)'
+            'manager': 'Select the store manager from the list of employees (optional)',
+            'email': 'Store email address for customer inquiries',
+            'website_url': 'Store website URL (optional)',
+            'fax_number': 'Fax number for business communications (optional)',
+            'secondary_contact': 'Additional contact person (optional)',
+            'store_type': 'Type of store location',
+            'store_size': 'Store size in square meters',
+            'description': 'Additional notes or description about the store',
+            'status': 'Current operational status of the store',
+            'opening_time': 'Daily opening time (optional)',
+            'closing_time': 'Daily closing time (optional)',
+            'latitude': 'GPS latitude coordinate (optional)',
+            'longitude': 'GPS longitude coordinate (optional)'
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Make certain fields required
-        self.fields['store_name'].required = True
+        self.fields['name'].required = True
         self.fields['address'].required = True
         self.fields['city'].required = True
         self.fields['region'].required = True

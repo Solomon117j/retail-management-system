@@ -1,45 +1,242 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ supplier.name }}</h1>
-<p><strong>Contact:</strong> {{ supplier.contact_person|default:"-" }}</p>
-<p><strong>Email:</strong> {{ supplier.email|default:"-" }}</p>
-<p><strong>Phone:</strong> {{ supplier.phone|default:"-" }}</p>
-<p><strong>Address:</strong> {{ supplier.address|default:"-" }}</p>
-<p><strong>Contract Start:</strong> {{ supplier.contract_start_date|date:"Y-m-d"|default:"-" }}</p>
-<p><strong>Payment Terms:</strong> {{ supplier.payment_terms|default:"-" }}</p>
-<p><strong>Created:</strong> {{ supplier.created_at|date:"Y-m-d H:i" }}</p>
-<p><strong>Updated:</strong> {{ supplier.updated_at|date:"Y-m-d H:i" }}</p>
+<div class="form-container-professional">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-professional">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'procurement:supplier_list' %}">Suppliers</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ supplier.name }}</li>
+        </ol>
+    </nav>
 
-<h2>Supplier Products</h2>
-<ul>
-    {% for product in products %}
-    <li>
-        {{ product.product.name }} - SZL{{ product.supply_price }} 
-        (MOQ: {{ product.minimum_order_quantity }})
-        <a href="{% url 'procurement:supplierproduct_update' product.pk %}">Edit</a>
-        <a href="{% url 'procurement:supplierproduct_delete' product.pk %}">Delete</a>
-    </li>
-    {% empty %}
-    <li>No products available</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'procurement:supplierproduct_create' supplier.pk %}">Add Product</a>
+    <!-- Main Header -->
+    <div class="form-header-professional">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="header-text">
+                <h1>{{ supplier.name }}</h1>
+                <p class="header-subtitle">Supplier Details & Management</p>
+            </div>
+            <div class="supplier-logo">
+                {% if supplier.logo %}
+                    <img src="{{ supplier.logo.url }}" alt="{{ supplier.name }} Logo" class="supplier-logo-img">
+                {% else %}
+                    <div class="supplier-logo-placeholder">
+                        <i class="fas fa-image"></i>
+                        <span>No Logo</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-<h2>Purchase Orders</h2>
-<ul>
-    {% for order in orders %}
-    <li>
-        <a href="{% url 'procurement:purchaseorder_detail' order.pk %}">PO-{{ order.id }}</a> 
-        - {{ order.get_status_display }} ({{ order.order_date|date:"Y-m-d" }})
-    </li>
-    {% empty %}
-    <li>No purchase orders</li>
-    {% endfor %}
-</ul>
+    <!-- Quick Stats Card -->
+    <div class="summary-card-professional">
+        <div class="card-header-professional">
+            <h4><i class="fas fa-chart-line"></i> Quick Stats</h4>
+        </div>
+        <div class="card-body-professional">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <i class="fas fa-boxes fa-2x text-primary mb-2"></i>
+                        <h3>{{ products|length }}</h3>
+                        <p class="text-muted">Products</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <i class="fas fa-shopping-cart fa-2x text-success mb-2"></i>
+                        <h3>{{ orders|length }}</h3>
+                        <p class="text-muted">Orders</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <i class="fas fa-calendar-alt fa-2x text-info mb-2"></i>
+                        <h3>{{ supplier.contract_start_date|date:"Y"|default:"N/A" }}</h3>
+                        <p class="text-muted">Contract Year</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="actions">
-    <a href="{% url 'procurement:supplier_update' supplier.pk %}">Edit Supplier</a>
-    <a href="{% url 'procurement:supplier_list' %}">Back to List</a>
+    <!-- Supplier Information Card -->
+    <div class="summary-card-professional">
+        <div class="card-header-professional">
+            <h4><i class="fas fa-info-circle"></i> Supplier Information</h4>
+        </div>
+        <div class="card-body-professional">
+            <dl class="row">
+                <dt class="col-sm-3"><i class="fas fa-user"></i> Contact Person:</dt>
+                <dd class="col-sm-9">{{ supplier.contact_person|default:"Not specified" }}</dd>
+
+                <dt class="col-sm-3"><i class="fas fa-envelope"></i> Email:</dt>
+                <dd class="col-sm-9">
+                    {% if supplier.email %}
+                        <a href="mailto:{{ supplier.email }}" class="text-decoration-none">{{ supplier.email }}</a>
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3"><i class="fas fa-phone"></i> Phone:</dt>
+                <dd class="col-sm-9">
+                    {% if supplier.phone %}
+                        <a href="tel:{{ supplier.phone }}" class="text-decoration-none">{{ supplier.phone }}</a>
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-3"><i class="fas fa-map-marker-alt"></i> Address:</dt>
+                <dd class="col-sm-9">{{ supplier.address|default:"Not specified" }}</dd>
+
+                <dt class="col-sm-3"><i class="fas fa-calendar-check"></i> Contract Start:</dt>
+                <dd class="col-sm-9">{{ supplier.contract_start_date|date:"M d, Y"|default:"Not specified" }}</dd>
+
+                <dt class="col-sm-3"><i class="fas fa-credit-card"></i> Payment Terms:</dt>
+                <dd class="col-sm-9">{{ supplier.payment_terms|default:"Not specified" }}</dd>
+
+                <dt class="col-sm-3"><i class="fas fa-clock"></i> Created:</dt>
+                <dd class="col-sm-9">{{ supplier.created_at|date:"M d, Y H:i" }}</dd>
+
+                <dt class="col-sm-3"><i class="fas fa-edit"></i> Last Updated:</dt>
+                <dd class="col-sm-9">{{ supplier.updated_at|date:"M d, Y H:i" }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Supplier Products Section -->
+    <div class="form-section-professional">
+        <div class="section-header">
+            <div class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h3>Supplier Products</h3>
+                <p>Manage products supplied by this supplier</p>
+            </div>
+            <div class="section-actions">
+                <a href="{% url 'procurement:supplierproduct_create' supplier.pk %}" class="btn-add-professional">
+                    <i class="fas fa-plus"></i> Add Product
+                </a>
+            </div>
+        </div>
+        <div class="section-content">
+            {% if products %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Supply Price</th>
+                                <th>MOQ</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr class="table-row-hover">
+                                <td><strong>{{ product.product.name }}</strong></td>
+                                <td><span class="badge badge-primary">SZL{{ product.supply_price }}</span></td>
+                                <td><span class="badge badge-info">{{ product.minimum_order_quantity }}</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{% url 'procurement:supplierproduct_update' product.pk %}" class="btn btn-sm btn-outline-primary" title="Edit Product">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'procurement:supplierproduct_delete' product.pk %}" class="btn btn-sm btn-outline-danger" title="Delete Product">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No products available for this supplier.</p>
+                    <a href="{% url 'procurement:supplierproduct_create' supplier.pk %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add First Product
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Purchase Orders Section -->
+    <div class="form-section-professional">
+        <div class="section-header">
+            <div class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3>Purchase Orders</h3>
+                <p>View all purchase orders from this supplier</p>
+            </div>
+        </div>
+        <div class="section-content">
+            {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>PO #</th>
+                                <th>Status</th>
+                                <th>Order Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'procurement:purchaseorder_detail' order.pk %}" class="text-decoration-none">
+                                        PO-{{ order.id }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ order.status|lower }}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ order.order_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'procurement:purchaseorder_detail' order.pk %}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No purchase orders found for this supplier.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="form-actions-professional">
+        <a href="{% url 'procurement:supplier_list' %}" class="btn-cancel-professional">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+        <a href="{% url 'procurement:supplier_update' supplier.pk %}" class="btn-submit-professional">
+            <i class="fas fa-edit"></i> Edit Supplier
+        </a>
+    </div>
 </div>
 {% endblock %}

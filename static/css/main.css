@@ -69,14 +69,50 @@
 
 .btn-delete-confirm {
     background: linear-gradient(135deg, #dc3545, #c82333);
-    border: none;
+    border: 1px solid #dc3545;
     color: white;
     font-weight: 600;
+    min-height: 40px;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
 }
 
 .btn-delete-confirm:hover {
     background: linear-gradient(135deg, #c82333, #bd2130);
+    border-color: #c82333;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-delete-confirm:focus {
+    outline: 2px solid #dc3545;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.25);
+}
+
+.btn-delete-confirm:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-delete-confirm:disabled,
+.btn-delete-confirm.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Export Button Styling */

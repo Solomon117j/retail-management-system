@@ -169,11 +169,46 @@ class AttendanceListView(LoginRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related('employee', 'approved_by', 'employee__store', 'employee__department')
         # Filter by employee if requested
         employee_id = self.request.GET.get('employee')
         if employee_id:
             queryset = queryset.filter(employee_id=employee_id)
+
+        # Filter by approval_status
+        approval_status = self.request.GET.get('approval_status')
+        if approval_status:
+            queryset = queryset.filter(approval_status=approval_status)
+
+        # Filter by shift_type
+        shift_type = self.request.GET.get('shift_type')
+        if shift_type:
+            queryset = queryset.filter(shift_type=shift_type)
+
+        # Filter by location
+        location = self.request.GET.get('location')
+        if location:
+            queryset = queryset.filter(location__icontains=location)
+
+        # Filter by clock_method
+        clock_method = self.request.GET.get('clock_method')
+        if clock_method:
+            queryset = queryset.filter(clock_method=clock_method)
+
+        # Filter by approved_by
+        approved_by_id = self.request.GET.get('approved_by')
+        if approved_by_id:
+            queryset = queryset.filter(approved_by_id=approved_by_id)
+
+        # Filter by date range
+        date_from = self.request.GET.get('date_from')
+        if date_from:
+            queryset = queryset.filter(date__gte=date_from)
+
+        date_to = self.request.GET.get('date_to')
+        if date_to:
+            queryset = queryset.filter(date__lte=date_to)
+
         return queryset.order_by('-date')
 
     def get_context_data(self, **kwargs):
@@ -414,8 +449,8 @@ class TrainingDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 class ExportMixin:
-    def get_filename(self, model_name, format_type):
-        return f"{model_name}_{self.request.GET.get('filter', '')}_{self.get_timestamp()}.{format_type}"
+    def get_filename(self, request, model_name, format_type):
+        return f"{model_name}_{request.GET.get('filter', '')}_{self.get_timestamp()}.{format_type}"
 
     def get_timestamp(self):
         from django.utils import timezone
@@ -456,14 +491,14 @@ class TrainingExportView(LoginRequiredMixin, ExportMixin, View):
 
     def export_csv(self, queryset):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("training", "csv")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "training", "csv")}"'
 
         writer = csv.writer(response)
         # Write headers
         writer.writerow([
-            'Employee ID', 'Employee Name', 'Training Name', 'Training Type',
-            'Date Completed', 'Duration (hours)', 'Trainer', 'Cost',
-            'Certification', 'Notes', 'Created At', 'Updated At'
+            'Employee ID', 'Employee Name', 'Training Name', 'Description',
+            'Date Completed', 'Certification Status', 'Provider', 'Duration (hours)',
+            'Cost', 'Certificate Number', 'Expiry Date', 'Created At', 'Updated At'
         ])
 
         # Write data
@@ -472,13 +507,14 @@ class TrainingExportView(LoginRequiredMixin, ExportMixin, View):
                 str(record.employee.id),
                 record.employee.get_full_name(),
                 record.training_name,
-                record.training_type,
+                record.description or '',
                 record.date_completed,
+                record.certification_status or '',
+                record.provider or '',
                 record.duration_hours,
-                record.trainer or '',
                 record.cost,
-                'Yes' if record.certification_earned else 'No',
-                record.notes or '',
+                record.certificate_number or '',
+                record.expiry_date,
                 record.created_at,
                 record.updated_at
             ])
@@ -543,7 +579,7 @@ class TrainingExportView(LoginRequiredMixin, ExportMixin, View):
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("training", "xlsx")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "training", "xlsx")}"'
 
         return response
 
@@ -552,11 +588,11 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
         try:
             format_type = request.GET.get('format', 'csv')
             queryset = self.get_queryset()
-            
+
             if format_type == 'csv':
-                return self.export_csv(queryset)
+                return self.export_csv(request, queryset)
             elif format_type == 'excel':
-                return self.export_excel(queryset)
+                return self.export_excel(request, queryset)
             else:
                 return HttpResponse("Invalid export format", status=400)
         except Exception as e:
@@ -564,7 +600,7 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
             import logging
             logger = logging.getLogger(__name__)
             logger.error(f"Attendance export error: {str(e)}")
-            
+
             # Return a simple error response
             return HttpResponse(f"Export failed: {str(e)}", status=500)
     
@@ -586,17 +622,19 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
             
         return queryset.order_by('-date')
     
-    def export_csv(self, queryset):
+    def export_csv(self, request, queryset):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("attendance", "csv")}"'
-        
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(request, "attendance", "csv")}"'
+
         writer = csv.writer(response)
         # Write headers
         writer.writerow([
             'Employee ID', 'Employee Name', 'Date', 'Clock In', 'Clock Out',
-            'Status', 'Notes', 'Created At', 'Updated At'
+            'Status', 'Hours Worked', 'Total Hours', 'Overtime Hours', 'Location',
+            'Shift Type', 'Clock Method', 'Approval Status', 'Approved By',
+            'Notes', 'Supervisor Notes', 'Created At', 'Updated At'
         ])
-        
+
         # Write data
         for record in queryset:
             writer.writerow([
@@ -606,28 +644,37 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
                 record.clock_in,
                 record.clock_out,
                 record.get_status_display(),
+                record.regular_hours_worked,
+                record.total_hours_worked,
+                record.overtime_hours,
+                record.location,
+                record.get_shift_type_display(),
+                record.get_clock_method_display(),
+                record.get_approval_status_display(),
+                record.approved_by.get_full_name() if record.approved_by else '',
                 record.notes,
+                record.supervisor_notes,
                 record.created_at,
                 record.updated_at
             ])
-        
+
         return response
     
     def export_excel(self, queryset):
         from django.utils import timezone
-        
+
         # Create a DataFrame
         data = []
         for record in queryset:
             # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
             created_at = record.created_at
             updated_at = record.updated_at
-            
+
             if created_at and timezone.is_aware(created_at):
                 created_at = timezone.localtime(created_at).replace(tzinfo=None)
             if updated_at and timezone.is_aware(updated_at):
                 updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
-            
+
             data.append({
                 'Employee ID': str(record.employee.id),
                 'Employee Name': record.employee.get_full_name(),
@@ -635,22 +682,31 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
                 'Clock In': record.clock_in.strftime('%H:%M') if record.clock_in else '',
                 'Clock Out': record.clock_out.strftime('%H:%M') if record.clock_out else '',
                 'Status': record.get_status_display(),
+                'Hours Worked': record.regular_hours_worked,
+                'Total Hours': record.total_hours_worked,
+                'Overtime Hours': record.overtime_hours,
+                'Location': record.location,
+                'Shift Type': record.get_shift_type_display(),
+                'Clock Method': record.get_clock_method_display(),
+                'Approval Status': record.get_approval_status_display(),
+                'Approved By': record.approved_by.get_full_name() if record.approved_by else '',
                 'Notes': record.notes or '',
+                'Supervisor Notes': record.supervisor_notes or '',
                 'Created At': created_at,
                 'Updated At': updated_at
             })
-        
+
         df = pd.DataFrame(data)
-        
+
         # Create Excel file in memory
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name='Attendance')
-            
+
             # Get the workbook and worksheet for formatting
             workbook = writer.book
             worksheet = writer.sheets['Attendance']
-            
+
             # Auto-adjust column widths
             for column in worksheet.columns:
                 max_length = 0
@@ -663,13 +719,13 @@ class AttendanceExportView(LoginRequiredMixin, ExportMixin, View):
                         pass
                 adjusted_width = min(max_length + 2, 50)
                 worksheet.column_dimensions[column_letter].width = adjusted_width
-        
+
         response = HttpResponse(
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("attendance", "xlsx")}"'
-        
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "attendance", "xlsx")}"'
+
         return response
 
 class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
@@ -704,7 +760,7 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
     
     def export_csv(self, queryset):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("payroll", "csv")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "payroll", "csv")}"'
         
         writer = csv.writer(response)
         # Write headers
@@ -793,7 +849,7 @@ class PayrollExportView(LoginRequiredMixin, ExportMixin, View):
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("payroll", "xlsx")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "payroll", "xlsx")}"'
         
         return response
 
@@ -846,7 +902,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
     
     def export_csv(self, queryset):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("employees", "csv")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "employees", "csv")}"'
         
         writer = csv.writer(response)
         # Write headers
@@ -939,7 +995,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("employees", "xlsx")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "employees", "xlsx")}"'
         
         return response
 
@@ -1078,7 +1134,7 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
 
     def export_csv(self, queryset):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("leave_applications", "csv")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "leave_applications", "csv")}"'
 
         writer = csv.writer(response)
         # Write headers
@@ -1158,6 +1214,6 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="{self.get_filename("leave_applications", "xlsx")}"'
+        response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "leave_applications", "xlsx")}"'
 
         return response

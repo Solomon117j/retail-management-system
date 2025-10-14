@@ -1,293 +1,184 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}{{ object.name }} - Product Details{% endblock %}
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
+<style>
+.product-detail-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.detail-value {
+    color: #6c757d;
+}
+
+.status-badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'inventory:product_list' %}">Products</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
+            <li class="breadcrumb-item"><a href="{% url 'inventory:product-list' %}">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
         </ol>
     </nav>
 
     <!-- Product Header -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            {% if object.image %}
-                <img src="{{ object.image.url }}" class="img-fluid rounded shadow" alt="{{ object.name }}" style="max-height: 300px; width: 100%; object-fit: contain;">
-            {% else %}
-                <div class="bg-light d-flex align-items-center justify-content-center rounded shadow" style="height: 300px;">
-                    <span class="text-muted">No image available</span>
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="col-md-8">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h1 class="mb-2">{{ object.name }}</h1>
-                    <p class="text-muted mb-2">
-                        <strong>Category:</strong> {{ object.category.name }}
-                        {% if object.brand %}
-                            | <strong>Brand:</strong> {{ object.brand.name }}
-                        {% endif %}
-                    </p>
-                </div>
-                <div class="btn-group">
-                    <a href="{% url 'inventory:product_edit' object.pk %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-edit"></i> Edit
+    <div class="card product-detail-card mb-4">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">
+                    <i class="fas fa-box me-2"></i>{{ product.name }}
+                </h2>
+                <div class="btn-group" role="group">
+                    <a href="{% url 'inventory:product_update' product.pk %}" class="btn btn-light btn-sm">
+                        <i class="fas fa-edit me-1"></i>Edit
                     </a>
-                    <a href="{% url 'inventory:product_delete' object.pk %}" class="btn btn-outline-danger btn-sm">
-                        <i class="fas fa-trash"></i> Delete
+                    <a href="{% url 'inventory:product_delete' product.pk %}" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-trash me-1"></i>Delete
                     </a>
                 </div>
             </div>
-
-            {% if object.description %}
-                <p class="mt-3">{{ object.description }}</p>
-            {% endif %}
         </div>
-    </div>
 
-    <!-- Pricing Information -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-dollar-sign"></i> Pricing & Profit Information</h5>
+        <div class="card-body">
+            <div class="row">
+                <!-- Product Avatar -->
+                <div class="col-md-3 text-center mb-3">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded" style="max-width: 120px; max-height: 120px;">
+                    {% else %}
+                        <div class="product-avatar mx-auto" style="width: 120px; height: 120px; font-size: 3rem;">
+                            {{ product.name.0|upper }}
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="card-body">
+
+                <!-- Product Details -->
+                <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <h4 class="text-primary">SZL{{ object.unit_price }}</h4>
-                                <small class="text-muted">Unit Price</small>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <span class="detail-label">Name:</span>
+                                <span class="detail-value">{{ product.name }}</span>
+                            </div>
+                            {% if product.sku %}
+                            <div class="mb-3">
+                                <span class="detail-label">SKU:</span>
+                                <span class="detail-value">{{ product.sku }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="mb-3">
+                                <span class="detail-label">Category:</span>
+                                <span class="badge bg-info">{{ product.category.name }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="detail-label">Brand:</span>
+                                <span class="badge bg-secondary">{{ product.brand.name }}</span>
                             </div>
                         </div>
-                        {% if object.cost_price %}
-                            <div class="col-md-3">
-                                <div class="text-center">
-                                    <h4 class="text-info">SZL{{ object.cost_price }}</h4>
-                                    <small class="text-muted">Cost Price</small>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <span class="detail-label">Unit Price:</span>
+                                <span class="detail-value fs-5 text-primary">${{ product.unit_price }}</span>
                             </div>
-                            <div class="col-md-3">
-                                <div class="text-center">
-                                    <h4 class="text-success">SZL{{ object.profit_amount }}</h4>
-                                    <small class="text-muted">Profit Amount</small>
-                                </div>
+                            <div class="mb-3">
+                                <span class="detail-label">Status:</span>
+                                {% if product.is_active %}
+                                    <span class="badge bg-success status-badge">
+                                        <i class="fas fa-check me-1"></i>Active
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger status-badge">
+                                        <i class="fas fa-times me-1"></i>Inactive
+                                    </span>
+                                {% endif %}
                             </div>
-                            <div class="col-md-3">
-                                <div class="text-center">
-                                    <h4 class="text-warning">{{ object.profit_margin }}%</h4>
-                                    <small class="text-muted">Profit Margin</small>
-                                </div>
+                            <div class="mb-3">
+                                <span class="detail-label">Created:</span>
+                                <span class="detail-value">{{ product.created_at|date:"M d, Y" }} at {{ product.created_at|time:"H:i" }}</span>
                             </div>
-                        {% else %}
-                            <div class="col-md-9">
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    Cost price not set. Profit calculations unavailable.
-                                </div>
+                            <div class="mb-3">
+                                <span class="detail-label">Last Updated:</span>
+                                <span class="detail-value">{{ product.created_at|date:"M d, Y" }} at {{ product.created_at|time:"H:i" }}</span>
                             </div>
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Stock Levels -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-warehouse"></i> Stock Levels</h5>
-                    <a href="{% url 'inventory:stock_adjust' %}?product={{ object.pk }}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Adjust Stock
-                    </a>
-                </div>
-                <div class="card-body">
-                    {% if object.inventory_records.exists %}
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Store</th>
-                                        <th>Current Stock</th>
-                                        <th>Reorder Level</th>
-                                        <th>Status</th>
-                                        <th>Last Restock</th>
-                                        <th>Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for inventory in object.inventory_records.all %}
-                                    <tr>
-                                        <td>{{ inventory.store.name }}</td>
-                                        <td>
-                                            <span class="badge bg-{% if inventory.quantity <= inventory.reorder_level %}danger{% elif inventory.quantity <= inventory.reorder_level|add:10 %}warning{% else %}success{% endif %}">
-                                                {{ inventory.quantity }}
-                                            </span>
-                                        </td>
-                                        <td>{{ inventory.reorder_level }}</td>
-                                        <td>
-                                            {% if inventory.quantity <= inventory.reorder_level %}
-                                                <span class="text-danger">Low Stock</span>
-                                            {% elif inventory.quantity <= inventory.reorder_level|add:10 %}
-                                                <span class="text-warning">Reorder Soon</span>
-                                            {% else %}
-                                                <span class="text-success">In Stock</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ inventory.last_restock_date|default:"-" }}</td>
-                                        <td>{{ inventory.aisle_location|default:"-" }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
-                            No inventory records found for this product.
-                            <a href="{% url 'inventory:stock_adjust' %}?product={{ object.pk }}" class="alert-link">Add stock</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
+    <!-- Additional Details -->
+    <div class="card product-detail-card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>Additional Details
+            </h5>
         </div>
-    </div>
-
-    <!-- Recent Stock Movements -->
-    <div class="row mb-4">
-        <div class="col-12">
-                <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-history"></i> Recent Stock Movements</h5>
-                    <a href="{% url 'inventory:stock_movement_list' %}?product={{ object.pk }}" class="btn btn-outline-info btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-                <div class="card-body">
-                    {% if object.stockmovement_set.exists %}
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Type</th>
-                                        <th>Quantity</th>
-                                        <th>Store</th>
-                                        <th>Reference</th>
-                                        <th>User</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for movement in object.stockmovement_set.all|slice:":10" %}
-                                    <tr>
-                                        <td>{{ movement.created_at|date:"M d, Y H:i" }}</td>
-                                        <td>
-                                            <span class="badge bg-{% if movement.movement_type == 'IN' %}success{% elif movement.movement_type == 'OUT' %}danger{% elif movement.movement_type == 'ADJUST' %}warning{% else %}info{% endif %}">
-                                                {{ movement.get_movement_type_display }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {% if movement.movement_type == 'ADJUST' %}
-                                                {{ movement.quantity }}
-                                            {% else %}
-                                                {% if movement.movement_type in 'IN,TRANSFER_IN' %}+{% endif %}
-                                                {% if movement.movement_type in 'OUT,TRANSFER_OUT' %}-{% endif %}
-                                                {{ movement.quantity }}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ movement.store.name }}</td>
-                                        <td>{{ movement.reference|default:"-" }}</td>
-                                        <td>{{ movement.created_by.get_full_name|default:movement.created_by.username }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <div class="alert alert-secondary">
-                            <i class="fas fa-clock"></i> No stock movements recorded yet.
-                        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    {% if product.barcode %}
+                    <div class="mb-3">
+                        <span class="detail-label">Barcode:</span>
+                        <span class="detail-value">{{ product.barcode }}</span>
+                    </div>
                     {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Specifications -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Product Specifications</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {% if object.barcode %}
-                            <div class="col-md-4 mb-3">
-                                <strong>Barcode:</strong> {{ object.barcode }}
-                            </div>
-                        {% endif %}
-                        {% if object.weight %}
-                            <div class="col-md-4 mb-3">
-                                <strong>Weight:</strong> {{ object.weight }} kg
-                            </div>
-                        {% endif %}
-                        {% if object.dimensions %}
-                            <div class="col-md-4 mb-3">
-                                <strong>Dimensions:</strong> {{ object.dimensions }}
-                            </div>
-                        {% endif %}
-                        <div class="col-md-4 mb-3">
-                            <strong>Perishable:</strong>
-                            <span class="badge bg-{% if object.is_perishable %}danger{% else %}success{% endif %}">
-                                {% if object.is_perishable %}Yes{% else %}No{% endif %}
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <strong>Available Online:</strong>
-                            <span class="badge bg-{% if object.available_online %}success{% else %}secondary{% endif %}">
-                                {% if object.available_online %}Yes{% else %}No{% endif %}
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <strong>Created:</strong> {{ object.created_at|date:"M d, Y" }}
-                        </div>
-                        {% if object.updated_at != object.created_at %}
-                            <div class="col-md-4 mb-3">
-                                <strong>Last Updated:</strong> {{ object.updated_at|date:"M d, Y H:i" }}
-                            </div>
-                        {% endif %}
+                    {% if product.default_supplier %}
+                    <div class="mb-3">
+                        <span class="detail-label">Default Supplier:</span>
+                        <span class="detail-value">{{ product.default_supplier.name }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <span class="detail-label">Reorder Level:</span>
+                        <span class="detail-value">{{ product.reorder_level }}</span>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    {% if product.weight or product.length or product.width or product.height %}
+                    <div class="mb-3">
+                        <span class="detail-label">Dimensions:</span>
+                        <span class="detail-value">
+                            {% if product.weight %}Weight: {{ product.weight }} kg<br>{% endif %}
+                            {% if product.length %}Length: {{ product.length }} cm<br>{% endif %}
+                            {% if product.width %}Width: {{ product.width }} cm<br>{% endif %}
+                            {% if product.height %}Height: {{ product.height }} cm{% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
+            {% if product.description %}
+            <div class="mb-3">
+                <span class="detail-label">Description:</span>
+                <span class="detail-value">{{ product.description }}</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     <!-- Action Buttons -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between">
-                <a href="{% url 'inventory:product_list' %}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to Products
-                </a>
-                <div class="btn-group">
-                    <a href="{% url 'inventory:stock_adjust' %}?product={{ object.pk }}" class="btn btn-success">
-                        <i class="fas fa-plus-circle"></i> Adjust Stock
-                    </a>
-                    <a href="{% url 'inventory:stock_movement_list' %}?product={{ object.pk }}" class="btn btn-info">
-                        <i class="fas fa-history"></i> Movement History
-                    </a>
-                </div>
-            </div>
-        </div>
+    <div class="text-center">
+        <a href="{% url 'inventory:product-list' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Products
+        </a>
     </div>
 </div>
 {% endblock %}

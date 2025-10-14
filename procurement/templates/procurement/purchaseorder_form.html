@@ -1,46 +1,483 @@
 {% extends "base.html" %}
+{% load static %}
+{% load math_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'procurement/css/procurement.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>{% if object %}Edit{% else %}Create{% endif %} Purchase Order</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    
-    <h2>Order Items</h2>
-    {{ formset.management_form }}
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-                <th>Delete?</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in formset %}
-            <tr class="item-form">
-                <td>{{ form.product }}{{ form.product.errors }}</td>
-                <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
-                <td>{{ form.unit_price }}{{ form.unit_price.errors }}</td>
-                <td class="item-total">
-                    {% if form.instance.quantity and form.instance.unit_price %}
-                    SZL{{ form.instance.total|floatformat:2 }}
-                    {% else %}
-                    SZL0.00
-                    {% endif %}
-                </td>
-                <td>{{ form.DELETE }}</td>
-                {{ form.id }}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <div class="actions">
-        <button type="submit">Save Order</button>
-        <a href="{% if object %}{% url 'procurement:purchaseorder_detail' object.pk %}{% else %}{% url 'procurement:purchaseorder_list' %}{% endif %}">Cancel</a>
+<div class="container-fluid">
+    <!-- Professional Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb breadcrumb-professional">
+            <li class="breadcrumb-item">
+                <a href="{% url 'procurement:purchaseorder_list' %}">
+                    <i class="fas fa-shopping-cart me-1"></i>Purchase Orders
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {% if object %}Edit Order #{{ object.id }}{% else %}New Purchase Order{% endif %}
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Professional Form Container -->
+    <div class="form-container-professional">
+        <!-- Form Header -->
+        <div class="form-header-professional">
+            <div class="header-content">
+                <div class="header-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="header-text">
+                    <h1>{% if object %}Edit Purchase Order{% else %}Create New Purchase Order{% endif %}</h1>
+                    <p class="header-subtitle">Manage your procurement orders professionally</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form -->
+        <form method="post" class="professional-form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Order Details Section -->
+            <div class="form-section-professional">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle section-icon"></i>
+                        <div>
+                            <h3>Order Details</h3>
+                            <p>Basic information for this purchase order</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-professional">
+                                <label for="{{ form.supplier.id_for_label }}" class="form-label-professional">
+                                    <i class="fas fa-building input-icon"></i>
+                                    {{ form.supplier.label }}
+                                </label>
+                                {{ form.supplier }}
+                                {% if form.supplier.errors %}
+                                    <div class="invalid-feedback-professional">{{ form.supplier.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-professional">
+                                <label for="{{ form.store.id_for_label }}" class="form-label-professional">
+                                    <i class="fas fa-store input-icon"></i>
+                                    {{ form.store.label }}
+                                </label>
+                                {{ form.store }}
+                                {% if form.store.errors %}
+                                    <div class="invalid-feedback-professional">{{ form.store.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-professional">
+                                <label for="{{ form.expected_delivery_date.id_for_label }}" class="form-label-professional">
+                                    <i class="fas fa-calendar-alt input-icon"></i>
+                                    {{ form.expected_delivery_date.label }}
+                                </label>
+                                {{ form.expected_delivery_date }}
+                                {% if form.expected_delivery_date.errors %}
+                                    <div class="invalid-feedback-professional">{{ form.expected_delivery_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items Section -->
+            <div class="form-section-professional">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-list-ul section-icon"></i>
+                        <div>
+                            <h3>Order Items</h3>
+                            <p>Add products and quantities for this order</p>
+                        </div>
+                    </div>
+                    <div class="section-actions">
+                        <button type="button" class="btn btn-add-professional" id="addItem">
+                            <i class="fas fa-plus"></i>
+                            Add Item
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <!-- Formset Management -->
+                    {{ formset.management_form }}
+
+                    <!-- Items Container -->
+                    <div id="items-container" class="items-container-professional">
+                        {% for item_form in formset %}
+                            <div class="item-card-professional{% if item_form.instance.pk %} existing-item{% else %} empty-item{% endif %}" data-form-index="{{ forloop.counter0 }}">
+                                <div class="item-header">
+                                    <span class="item-number">Item {{ forloop.counter }}</span>
+                                    <button type="button" class="btn btn-remove-professional remove-item" title="Remove Item">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="item-content">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group-professional">
+                                                <label class="form-label-professional">{{ item_form.product.label }}</label>
+                                                {{ item_form.product }}
+                                                {% if item_form.product.errors %}
+                                                    <div class="invalid-feedback-professional">{{ item_form.product.errors.0 }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group-professional">
+                                                <label class="form-label-professional">{{ item_form.quantity.label }}</label>
+                                                {{ item_form.quantity }}
+                                                {% if item_form.quantity.errors %}
+                                                    <div class="invalid-feedback-professional">{{ item_form.quantity.errors.0 }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group-professional">
+                                                <label class="form-label-professional">{{ item_form.unit_price.label }}</label>
+                                                {{ item_form.unit_price }}
+                                                {% if item_form.unit_price.errors %}
+                                                    <div class="invalid-feedback-professional">{{ item_form.unit_price.errors.0 }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="total-display-professional">
+                                                <span class="item-total-professional">SZL 0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Hidden DELETE field -->
+                                    {{ item_form.DELETE }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Empty Form Template -->
+                    <div id="empty-form" style="display: none;">
+                        <div class="item-card-professional empty-item" data-form-index="__prefix__">
+                            <div class="item-header">
+                                <span class="item-number">Item __prefix__</span>
+                                <button type="button" class="btn btn-remove-professional remove-item" title="Remove Item">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="item-content">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group-professional">
+                                            <label class="form-label-professional">Product</label>
+                                            <select name="__prefix__-product" class="form-select">
+                                                <option value="">Select Product</option>
+                                                {% for product in products %}
+                                                    <option value="{{ product.id }}">{{ product.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group-professional">
+                                            <label class="form-label-professional">Quantity</label>
+                                            <input type="number" name="__prefix__-quantity" class="form-control quantity" min="1" step="1" placeholder="Qty">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group-professional">
+                                            <label class="form-label-professional">Unit Price (SZL)</label>
+                                            <input type="number" name="__prefix__-unit_price" class="form-control unit-price" step="0.01" min="0.01" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="total-display-professional">
+                                            <span class="item-total-professional">SZL 0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Hidden DELETE field -->
+                                <input type="checkbox" name="__prefix__-DELETE" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary Section -->
+            <div class="form-section-professional">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-calculator section-icon"></i>
+                        <div>
+                            <h3>Order Summary</h3>
+                            <p>Review order totals and item count</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="total-breakdown">
+                        <div class="total-row">
+                            <span class="total-label">Items in Order:</span>
+                            <span class="total-value" id="item-count">0</span>
+                        </div>
+                        <div class="total-row final-total">
+                            <span class="total-label">Total Amount:</span>
+                            <span class="total-value" id="grand-total">SZL 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions-professional">
+                <a href="{% url 'procurement:purchaseorder_list' %}" class="btn btn-cancel-professional">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-submit-professional">
+                    <i class="fas fa-save"></i>
+                    {% if object %}Update Order{% else %}Create Order{% endif %}
+                </button>
+            </div>
+        </form>
     </div>
-</form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var formsetPrefix = '{{ formset.prefix }}';
+    var formCount = {{ formset.total_form_count }};
+    var emptyForm = document.getElementById('empty-form').innerHTML;
+    var managementForm = document.querySelector('#id_' + formsetPrefix + '-TOTAL_FORMS');
+
+    // Calculate total for individual items
+    function calculateItemTotal(row) {
+        var quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+        var unitPrice = parseFloat(row.querySelector('.unit-price').value) || 0;
+        var total = quantity * unitPrice;
+        var totalSpan = row.querySelector('.item-total-professional');
+        if (totalSpan) {
+            totalSpan.textContent = 'SZL ' + total.toFixed(2);
+        }
+        return total;
+    }
+
+    // Calculate grand total
+    function calculateGrandTotal() {
+        var grandTotal = 0;
+        var itemCount = 0;
+        document.querySelectorAll('.item-card-professional').forEach(function(row) {
+            var deleteCheckbox = row.querySelector('input[name$="-DELETE"]');
+            if (!deleteCheckbox || !deleteCheckbox.checked) {
+                var quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+                var productSelect = row.querySelector('select[name$="-product"]');
+                var productSelected = productSelect && productSelect.value && productSelect.value !== '';
+                if (quantity > 0 && productSelected) {
+                    grandTotal += calculateItemTotal(row);
+                    itemCount++;
+                }
+            }
+        });
+        var grandTotalElement = document.getElementById('grand-total');
+        var itemCountElement = document.getElementById('item-count');
+        if (grandTotalElement) {
+            grandTotalElement.textContent = 'SZL ' + grandTotal.toFixed(2);
+        }
+        if (itemCountElement) {
+            itemCountElement.textContent = itemCount;
+        }
+    }
+
+    // Event listeners for quantity and price changes
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('quantity') || e.target.classList.contains('unit-price')) {
+            var row = e.target.closest('.item-card-professional');
+            calculateItemTotal(row);
+            calculateGrandTotal();
+        }
+    });
+
+    // Event listener for product selection changes
+    document.addEventListener('change', function(e) {
+        if (e.target.name && e.target.name.endsWith('-product')) {
+            calculateGrandTotal();
+        }
+    });
+
+    // Add new item
+    var addItemBtn = document.getElementById('addItem');
+    if (addItemBtn) {
+        addItemBtn.addEventListener('click', function() {
+            var container = document.getElementById('items-container');
+            if (!container) return;
+
+            var newFormHtml = emptyForm.replace(/__prefix__/g, formCount);
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newFormHtml;
+            var newForm = tempDiv.firstElementChild;
+            newForm.setAttribute('data-form-index', formCount);
+            container.appendChild(newForm);
+
+            // Update item numbers
+            updateItemNumbers();
+
+            // Add event listeners to new form
+            var newRow = newForm.querySelector('.item-card-professional');
+            if (newRow) {
+                var quantityInput = newRow.querySelector('.quantity');
+                var unitPriceInput = newRow.querySelector('.unit-price');
+                var productSelect = newRow.querySelector('select[name$="-product"]');
+                if (quantityInput) {
+                    quantityInput.addEventListener('input', function() {
+                        calculateItemTotal(newRow);
+                        calculateGrandTotal();
+                    });
+                }
+                if (unitPriceInput) {
+                    unitPriceInput.addEventListener('input', function() {
+                        calculateItemTotal(newRow);
+                        calculateGrandTotal();
+                    });
+                }
+                if (productSelect) {
+                    productSelect.addEventListener('change', function() {
+                        calculateGrandTotal();
+                    });
+                }
+
+                // Remove item functionality
+                var removeBtn = newRow.querySelector('.remove-item');
+                if (removeBtn) {
+                    removeBtn.addEventListener('click', function() {
+                        var deleteCheckbox = newRow.querySelector('input[name$="-DELETE"]');
+                        if (deleteCheckbox) {
+                            deleteCheckbox.checked = true;
+                            newRow.style.opacity = '0.5';
+                            newRow.style.pointerEvents = 'none';
+                        } else {
+                            newRow.remove();
+                        }
+                        updateItemNumbers();
+                        calculateGrandTotal();
+                    });
+                }
+            }
+
+            formCount++;
+            if (managementForm) {
+                managementForm.value = formCount;
+            }
+            calculateGrandTotal();
+        });
+    }
+
+    // Update item numbers
+    function updateItemNumbers() {
+        document.querySelectorAll('.item-card-professional').forEach(function(card, index) {
+            var itemNumber = card.querySelector('.item-number');
+            if (itemNumber) {
+                itemNumber.textContent = 'Item ' + (index + 1);
+            }
+        });
+    }
+
+    // Remove item functionality for existing items
+    document.querySelectorAll('.remove-item').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var row = this.closest('.item-card-professional');
+            var deleteCheckbox = row.querySelector('input[name$="-DELETE"]');
+            if (deleteCheckbox) {
+                deleteCheckbox.checked = true;
+                row.style.opacity = '0.5';
+                row.style.pointerEvents = 'none';
+            } else {
+                row.remove();
+            }
+            updateItemNumbers();
+            calculateGrandTotal();
+        });
+    });
+
+    // Handle delete checkbox changes
+    document.addEventListener('change', function(e) {
+        if (e.target.name && e.target.name.endsWith('-DELETE')) {
+            var row = e.target.closest('.item-card-professional');
+            if (e.target.checked) {
+                row.style.opacity = '0.5';
+                row.style.pointerEvents = 'none';
+            } else {
+                row.style.opacity = '1';
+                row.style.pointerEvents = 'auto';
+            }
+            calculateGrandTotal();
+        }
+    });
+
+    // Initial calculation and numbering
+    updateItemNumbers();
+    calculateGrandTotal();
+
+    // Form validation
+    var form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submit event triggered');
+            var hasItems = false;
+            document.querySelectorAll('.item-card-professional').forEach(function(row) {
+                var deleteCheckbox = row.querySelector('input[name$="-DELETE"]');
+                if (!deleteCheckbox || !deleteCheckbox.checked) {
+                    var product = row.querySelector('select[name$="-product"]');
+                    var quantity = row.querySelector('input[name$="-quantity"]');
+                    console.log('Checking row:', row, 'product:', product ? product.value : 'no product', 'quantity:', quantity ? quantity.value : 'no quantity');
+                    if (product && quantity && product.value && parseInt(quantity.value) > 0) {
+                        hasItems = true;
+                        console.log('Found valid item');
+                    }
+                }
+            });
+
+            console.log('hasItems:', hasItems);
+            if (!hasItems) {
+                e.preventDefault();
+                // Professional alert using a modal or toast notification
+                showAlert('Please add at least one item to the order.', 'warning');
+                return false;
+            }
+        });
+    }
+
+    // Professional alert function
+    function showAlert(message, type) {
+        type = type || 'info';
+        // Create alert element
+        var alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-' + type + ' alert-dismissible fade show position-fixed';
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+
+        document.body.appendChild(alertDiv);
+
+        // Auto remove after 5 seconds
+        setTimeout(function() {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+});
+</script>
 {% endblock %}

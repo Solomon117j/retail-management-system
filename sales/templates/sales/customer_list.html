@@ -34,6 +34,11 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Join Date</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>Social Media</th>
+                <th>Contact Method</th>
+                <th>Marketing Opt-in</th>
                 <th>Membership</th>
                 <th>Loyalty Points</th>
                 <th>Actions</th>
@@ -50,6 +55,11 @@
                 <td>{{ customer.email|default:"-" }}</td>
                 <td>{{ customer.phone|default:"-" }}</td>
                 <td>{{ customer.join_date|date:"Y-m-d"|default:"-" }}</td>
+                <td>{{ customer.date_of_birth|date:"Y-m-d"|default:"-" }}</td>
+                <td>{{ customer.get_gender_display|default:"-" }}</td>
+                <td>{{ customer.social_media|default:"-" }}</td>
+                <td>{{ customer.get_preferred_contact_method_display|default:"-" }}</td>
+                <td>{{ customer.marketing_opt_in|yesno:"Yes,No" }}</td>
                 <td>{{ customer.get_membership_level_display }}</td>
                 <td>{{ customer.loyalty_points }}</td>
                 <td>
@@ -59,7 +69,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7" class="text-center">No customers found</td>
+                <td colspan="12" class="text-center">No customers found</td>
             </tr>
             {% endfor %}
         </tbody>

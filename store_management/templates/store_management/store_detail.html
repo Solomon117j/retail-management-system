@@ -50,6 +50,14 @@
                                     <strong>{{ store.city }}, {{ store.region }}</strong>
                                     {% if store.postal_code %}{{ store.postal_code }}{% endif %}
                                 </div>
+                                {% if store.latitude and store.longitude %}
+                                <div class="mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>
+                                        GPS: {{ store.latitude }}, {{ store.longitude }}
+                                    </small>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -62,6 +70,36 @@
                                         {{ store.phone }}
                                     </a>
                                 </p>
+                                {% if store.fax_number %}
+                                <p class="mb-1">
+                                    <i class="fas fa-fax me-2"></i>
+                                    <a href="tel:{{ store.fax_number }}" class="text-decoration-none">
+                                        {{ store.fax_number }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {% if store.email %}
+                                <p class="mb-1">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    <a href="mailto:{{ store.email }}" class="text-decoration-none">
+                                        {{ store.email }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {% if store.website_url %}
+                                <p class="mb-1">
+                                    <i class="fas fa-globe me-2"></i>
+                                    <a href="{{ store.website_url }}" target="_blank" class="text-decoration-none">
+                                        {{ store.website_url }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {% if store.secondary_contact %}
+                                <p class="mb-1">
+                                    <i class="fas fa-user me-2"></i>
+                                    {{ store.secondary_contact }}
+                                </p>
+                                {% endif %}
                             </div>
                             <div class="mb-3">
                                 <h6 class="text-brand-primary">
@@ -74,6 +112,18 @@
                             </div>
                         </div>
                     </div>
+                    {% if store.description %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <h6 class="text-brand-primary">
+                                    <i class="fas fa-info-circle me-1"></i>Description
+                                </h6>
+                                <p class="mb-0">{{ store.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -202,10 +252,82 @@
                         <div class="text-center text-muted">
                             <i class="fas fa-user-slash fa-2x mb-2"></i>
                             <p class="mb-2">No manager assigned</p>
-                            <a href="{% url 'store_management:store_update' store.pk %}" 
+                            <a href="{% url 'store_management:store_update' store.pk %}"
                                class="btn btn-sm btn-outline-primary">
                                 Assign Manager
                             </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Store Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-store me-2"></i>Store Details
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Store Type</small>
+                            <div class="fw-bold">{{ store.get_store_type_display|default:"Not specified" }}</div>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Store Size</small>
+                            <div class="fw-bold">{{ store.store_size|default:"Not specified" }}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Status</small>
+                            <div class="fw-bold">
+                                {% if store.status == 'active' %}
+                                    <span class="badge bg-success">Active</span>
+                                {% elif store.status == 'inactive' %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% elif store.status == 'under_construction' %}
+                                    <span class="badge bg-warning">Under Construction</span>
+                                {% elif store.status == 'closed' %}
+                                    <span class="badge bg-danger">Closed</span>
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Country Code</small>
+                            <div class="fw-bold">{{ store.country_code|default:"Not specified" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operating Hours -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-clock me-2"></i>Operating Hours
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% if store.opening_time and store.closing_time %}
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-sun text-warning me-2"></i>
+                            <span class="fw-bold">Opening:</span>
+                            <span class="ms-2">{{ store.opening_time|time:"g:i A" }}</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-moon text-info me-2"></i>
+                            <span class="fw-bold">Closing:</span>
+                            <span class="ms-2">{{ store.closing_time|time:"g:i A" }}</span>
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="fas fa-clock fa-2x mb-2"></i>
+                            <p class="mb-0">Operating hours not set</p>
                         </div>
                     {% endif %}
                 </div>

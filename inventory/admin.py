@@ -1,40 +1,30 @@
 from django.contrib import admin
+from .models import Brand, Category, Product, InventoryRecord, StockMovement
 
-# Register your models here.
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'created_at', 'updated_at')
+    search_fields = ('name',)
 
-from .models import Product, Category, Brand, StoreInventory, StockMovement
-from .forms import ProductForm
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'created_at', 'updated_at')
+    search_fields = ('name',)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    form = ProductForm
-    list_display = ['name', 'category', 'brand', 'unit_price', 'available_online', 'is_perishable']
-    list_filter = ['available_online', 'is_perishable', 'category', 'brand']
-    search_fields = ['name', 'description', 'barcode']
-    readonly_fields = ['created_at', 'updated_at']
-    fieldsets = (
-        ('Basic Information', {
-            'fields': ('name', 'description', 'category', 'brand')
-        }),
-        ('Pricing', {
-            'fields': ('unit_price', 'cost_price')
-        }),
-        ('Physical Properties', {
-            'fields': ('weight', 'dimensions', 'is_perishable')
-        }),
-        ('E-commerce', {
-            'fields': ('image', 'available_online')
-        }),
-        ('Identification', {
-            'fields': ('barcode',)
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
-    )
+    list_display = ('name', 'sku', 'category', 'brand', 'unit_price', 'reorder_level', 'is_active', 'created_at')
+    list_filter = ('category', 'brand', 'is_active')
+    search_fields = ('name', 'sku')
 
-admin.site.register(Category)
-admin.site.register(Brand)
-admin.site.register(StoreInventory)
-admin.site.register(StockMovement)
+@admin.register(InventoryRecord)
+class InventoryRecordAdmin(admin.ModelAdmin):
+    list_display = ('product', 'store', 'quantity', 'location', 'created_at', 'updated_at')
+    list_filter = ('store', 'location')
+    search_fields = ('product__name',)
+
+@admin.register(StockMovement)
+class StockMovementAdmin(admin.ModelAdmin):
+    list_display = ('product', 'store', 'quantity', 'movement_type', 'created_by', 'created_at')
+    list_filter = ('movement_type', 'store')
+    search_fields = ('product__name', 'reason')

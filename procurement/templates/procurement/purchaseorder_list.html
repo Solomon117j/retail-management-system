@@ -1,80 +1,221 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'procurement/css/procurement.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Purchase Orders</h1>
-<a href="{% url 'procurement:purchaseorder_create' %}">Create New Order</a>
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2 mb-0"><i class="fas fa-file-invoice me-2"></i>Purchase Orders</h1>
+            <p class="text-muted">Manage your procurement orders and track deliveries</p>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'procurement:purchaseorder_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create New Order
+            </a>
+        </div>
+    </div>
 
-<form method="get">
-    <select name="status">
-        <option value="">All Statuses</option>
-        {% for value, display in status_choices %}
-        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ display }}</option>
-        {% endfor %}
-    </select>
-    
-    <select name="supplier">
-        <option value="">All Suppliers</option>
-        {% for supplier in suppliers %}
-        <option value="{{ supplier.id }}" {% if request.GET.supplier == supplier.id|stringformat:"s" %}selected{% endif %}>{{ supplier.name }}</option>
-        {% endfor %}
-    </select>
-    
-    <button type="submit">Filter</button>
-</form>
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card summary-card border-primary">
+                <div class="card-body text-center">
+                    <div class="h4 mb-0 text-primary">{{ orders|length }}</div>
+                    <small class="text-muted">Total Orders</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card border-warning">
+                <div class="card-body text-center">
+                    <div class="h4 mb-0 text-warning">{{ orders|length|add:"0" }}</div>
+                    <small class="text-muted">Pending Approval</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card border-info">
+                <div class="card-body text-center">
+                    <div class="h4 mb-0 text-info">{{ orders|length|add:"0" }}</div>
+                    <small class="text-muted">Shipped</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card border-success">
+                <div class="card-body text-center">
+                    <div class="h4 mb-0 text-success">{{ orders|length|add:"0" }}</div>
+                    <small class="text-muted">Received</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Supplier</th>
-            <th>Store</th>
-            <th>Order Date</th>
-            <th>Status</th>
-            <th>Total Amount</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr>
-            <td><a href="{% url 'procurement:purchaseorder_detail' order.pk %}">PO-{{ order.id }}</a></td>
-            <td>{{ order.supplier.name }}</td>
-            <td>{{ order.store.name }}</td>
-            <td>{{ order.order_date|date:"Y-m-d" }}</td>
-            <td>{{ order.get_status_display }}</td>
-            <td>SZL{{ order.total_amount|default:"0.00" }}</td>
-            <td>
-                <a href="{% url 'procurement:purchaseorder_update' order.pk %}">Edit</a>
-                {% if order.status in 'draft,pending' %}
-                <a href="{% url 'procurement:purchaseorder_delete' order.pk %}">Delete</a>
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Search</label>
+                    <input type="text" class="form-control" id="search" name="search" value="{{ request.GET.search }}" placeholder="Search by order ID or supplier...">
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">All Statuses</option>
+                        {% for value, display in status_choices %}
+                        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="supplier" class="form-label">Supplier</label>
+                    <select class="form-select" id="supplier" name="supplier">
+                        <option value="">All Suppliers</option>
+                        {% for supplier in suppliers %}
+                        <option value="{{ supplier.id }}" {% if request.GET.supplier == supplier.id|stringformat:"s" %}selected{% endif %}>{{ supplier.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-filter me-1"></i>Filter
+                    </button>
+                    <a href="{% url 'procurement:purchaseorder_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i>Clear
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Supplier</th>
+                            <th>Store</th>
+                            <th>Order Date</th>
+                            <th>Expected Delivery</th>
+                            <th>Status</th>
+                            <th class="text-end">Total Amount</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr class="order-card order-{{ order.status }}">
+                            <td>
+                                <a href="{% url 'procurement:purchaseorder_detail' order.pk %}" class="text-decoration-none fw-bold">
+                                    PO-{{ order.id }}
+                                </a>
+                            </td>
+                            <td>{{ order.supplier.name }}</td>
+                            <td>{{ order.store.name }}</td>
+                            <td>{{ order.order_date|date:"M d, Y" }}</td>
+                            <td>
+                                {% if order.expected_delivery_date %}
+                                    <span {% if order.expected_delivery_date < order.order_date|date:"Y-m-d" %}class="overdue"{% endif %}>
+                                        {{ order.expected_delivery_date|date:"M d, Y" }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge status-badge status-{{ order.status }}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="text-end fw-bold">SZL {{ order.total_amount|default:"0.00"|floatformat:2 }}</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'procurement:purchaseorder_detail' order.pk %}" class="btn btn-sm btn-outline-primary" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    {% if order.status in 'draft,pending' %}
+                                    <a href="{% url 'procurement:purchaseorder_update' order.pk %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'procurement:purchaseorder_delete' order.pk %}" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this order?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                                    <p>No purchase orders found matching your criteria.</p>
+                                    <a href="{% url 'procurement:purchaseorder_create' %}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Create Your First Order
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Purchase orders pagination">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.supplier %}&supplier={{ request.GET.supplier }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.supplier %}&supplier={{ request.GET.supplier }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
                 {% endif %}
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7">No orders found</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
-{% if page_obj.paginator.num_pages > 1 %}
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.supplier %}&supplier={{ request.GET.supplier }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.supplier %}&supplier={{ request.GET.supplier }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.supplier %}&supplier={{ request.GET.supplier }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock %}

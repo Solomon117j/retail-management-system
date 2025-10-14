@@ -3,6 +3,57 @@
    ======================================== */
 
 /* ========================================
+   HR-specific button styles - standardized with UIKit
+   ======================================== */
+
+.hr-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: 1px solid #28a745;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    min-height: 40px;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.hr-btn:hover {
+    background: linear-gradient(135deg, #20c997, #17a2b8);
+    border-color: #20c997;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.hr-btn:focus {
+    outline: 2px solid #28a745;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.25);
+}
+
+.hr-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.hr-btn:disabled,
+.hr-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ========================================
    STATISTICS DASHBOARD
    ======================================== */
 
@@ -338,6 +389,22 @@
     color: var(--white);
 }
 
+/* Approval Status Badges */
+.status-badge.approval-pending {
+    background: var(--warning-color);
+    color: var(--white);
+}
+
+.status-badge.approval-approved {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.status-badge.approval-rejected {
+    background: var(--danger-color);
+    color: var(--white);
+}
+
 /* Employee Card */
 .employee-card {
     background: var(--gray-50);
@@ -622,23 +689,23 @@
     .payroll-form-container {
         margin: 0 var(--spacing-md);
     }
-    
+
     .attendance-section,
     .payroll-section {
         padding: var(--spacing-lg);
         margin-bottom: var(--spacing-md);
     }
-    
+
     .clock-btn {
         padding: var(--spacing-md);
         font-size: 1rem;
         margin-bottom: var(--spacing-sm);
     }
-    
+
     .employee-card {
         margin-bottom: var(--spacing-md);
     }
-    
+
     .time-calculator {
         margin-top: var(--spacing-lg);
     }
@@ -654,14 +721,14 @@
     .clock-btn {
         display: none !important;
     }
-    
+
     .attendance-section,
     .payroll-section {
         box-shadow: none !important;
         border: 1px solid var(--gray-300) !important;
         break-inside: avoid;
     }
-    
+
     .status-badge {
         border: 1px solid var(--gray-400) !important;
         color: var(--gray-800) !important;

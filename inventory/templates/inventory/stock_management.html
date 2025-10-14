@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Stock Management - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
+<style>
+.stock-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.management-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    height: 100%;
+}
+
+.management-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.management-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.btn-management {
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+.btn-management:hover {
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Stock Management Header -->
+    <div class="stock-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-cogs me-2"></i>
+                    Stock Management
+                </h1>
+                <p class="mb-0 opacity-75">
+                    Comprehensive stock tracking, inventory records, and movement management
+                </p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'inventory:inventory-dashboard' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-boxes position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ total_inventory_records }}</span>
+                    <span class="stat-label">Inventory Records</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-exchange-alt position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ total_stock_movements }}</span>
+                    <span class="stat-label">Stock Movements</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-exclamation-triangle position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ low_stock_count }}</span>
+                    <span class="stat-label">Low Stock Alerts</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-times-circle position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ out_of_stock_count }}</span>
+                    <span class="stat-label">Out of Stock</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Sections -->
+    <div class="row">
+        <!-- Inventory Records Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card management-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-warehouse me-2"></i>Inventory Records
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="management-icon text-primary">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <h6 class="card-title">Track Current Stock Levels</h6>
+                    <p class="card-text text-muted">
+                        Manage inventory records, track quantities, expiration dates, and stock locations across all stores.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:inventoryrecord-list' %}" class="btn btn-primary btn-management">
+                            <i class="fas fa-list me-2"></i>View Inventory Records
+                        </a>
+                        <a href="{% url 'inventory:inventoryrecord_create' %}" class="btn btn-outline-primary btn-management">
+                            <i class="fas fa-plus me-2"></i>Add New Record
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Movements Management -->
+        <div class="col-lg-6 mb-4">
+            <div class="card management-card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-exchange-alt me-2"></i>Stock Movements
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="management-icon text-success">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h6 class="card-title">Monitor Stock Changes</h6>
+                    <p class="card-text text-muted">
+                        Track all stock movements including receipts, issues, adjustments, and transfers between stores.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:stockmovement-list' %}" class="btn btn-success btn-management">
+                            <i class="fas fa-list me-2"></i>View Stock Movements
+                        </a>
+                        <a href="{% url 'inventory:stockmovement_create' %}" class="btn btn-outline-success btn-management">
+                            <i class="fas fa-plus me-2"></i>Record Movement
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Stock Movements -->
+    {% if recent_movements %}
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-clock me-2"></i>Recent Stock Movements
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th><i class="fas fa-box me-1"></i>Product</th>
+                            <th><i class="fas fa-store me-1"></i>Store</th>
+                            <th><i class="fas fa-hashtag me-1"></i>Quantity</th>
+                            <th><i class="fas fa-exchange-alt me-1"></i>Type</th>
+                            <th><i class="fas fa-calendar me-1"></i>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movement in recent_movements %}
+                        <tr>
+                            <td>
+                                <strong>{{ movement.product.name }}</strong>
+                                {% if movement.product.sku %}
+                                <br><small class="text-muted">SKU: {{ movement.product.sku }}</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ movement.store.name }}</td>
+                            <td>
+                                <span class="fw-bold">{{ movement.quantity }}</span>
+                            </td>
+                            <td>
+                            {% if movement.movement_type == 'IN' %}
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-arrow-down me-1"></i>Stock In
+                                    </span>
+                                {% elif movement.movement_type == 'OUT' %}
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-arrow-up me-1"></i>Stock Out
+                                    </span>
+                                {% elif movement.movement_type == 'ADJ' %}
+                                    <span class="badge bg-warning">
+                                        <i class="fas fa-balance-scale me-1"></i>Adjustment
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>{{ movement.created_at|date:"M d, Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'inventory:stockmovement-list' %}" class="btn btn-outline-info">
+                    <i class="fas fa-arrow-right me-2"></i>View All Movements
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Alerts
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Monitor stock levels and alerts</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:inventoryrecord-list' %}?status=expiring_soon" class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-clock me-1"></i>Expiring Soon
+                        </a>
+                        <a href="{% url 'inventory:inventoryrecord-list' %}?status=expired" class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-times-circle me-1"></i>Expired Items
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Reports
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Generate stock reports</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:inventoryrecord_export' %}?format=excel" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-file-excel me-1"></i>Inventory Report
+                        </a>
+                        <a href="{% url 'inventory:stockmovement_export' %}?format=excel" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-file-excel me-1"></i>Movement Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-tools me-2"></i>Tools
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Stock management tools</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:stockmovement_create' %}?movement_type=adjustment" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-balance-scale me-1"></i>Stock Adjustment
+                        </a>
+                        <a href="{% url 'inventory:inventory-dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Stock Management page loaded');
+});
+</script>
+{% endblock %}

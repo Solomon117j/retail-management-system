@@ -14,13 +14,7 @@ class Command(BaseCommand):
             ("manage_store_settings", "Can modify store configuration and settings"),
             ("manage_departments", "Can create/edit/delete store departments"),
         ],
-        "Inventory": [
-            ("access_inventory", "Can access inventory management system"),
-            ("view_inventory", "Can view inventory items and stock levels"),
-            ("edit_inventory", "Can modify inventory items and quantities"),
-            ("manage_inventory_categories", "Can organize inventory categories"),
-            ("perform_inventory_audit", "Can conduct physical inventory counts"),
-        ],
+
         "Sales": [
             ("process_sales", "Can process in-store sales transactions"),
             ("void_sales", "Can void/completely cancel sales transactions"),
@@ -61,12 +55,12 @@ class Command(BaseCommand):
     # Job Titles with Permission Groups and Specific Adjustments
     role_permissions = {
         "Store Manager": {
-            "groups": ["StoreManagement", "Inventory", "Sales", "Procurement", 
+            "groups": ["StoreManagement", "Sales", "Procurement",
                       "HumanResources", "ECommerce", "Reporting", "Cross-Module"],
             "additional_permissions": []
         },
         "Assistant Manager": {
-            "groups": ["StoreManagement", "Inventory", "Sales", "Procurement", "ECommerce"],
+            "groups": ["StoreManagement", "Sales", "Procurement", "ECommerce"],
             "exclusions": ["manage_store_settings", "approve_purchase_orders"],
             "additional_permissions": ["view_sales_reports", "access_hr_reports"]
         },
