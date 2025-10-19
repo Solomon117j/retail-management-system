@@ -108,7 +108,7 @@
                         | {{ employee.position }}
                     {% endif %}
                     {% if employee.store %}
-                        | {{ employee.store.store_name }}
+                        | {{ employee.store.name }}
                     {% endif %}
                 </p>
                 <div class="d-flex flex-wrap gap-2">
@@ -302,7 +302,7 @@
                                 <div>
                                     {% if employee.store %}
                                         <a href="{% url 'store_management:store_detail' employee.store.pk %}">
-                                            <strong>{{ employee.store.store_name }}</strong>
+                                            <strong>{{ employee.store.name }}</strong>
                                         </a>
                                         <br>
                                         <small class="text-muted">

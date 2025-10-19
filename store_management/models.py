@@ -24,6 +24,14 @@ class Store(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     """Stores model."""
 
+    store_number = models.CharField(
+        max_length=20,
+        unique=True,
+        blank=True,
+        null=True,
+        verbose_name="Store Number",
+        help_text="Unique store identifier, auto-generated if left blank"
+    )
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=50)
@@ -94,6 +102,33 @@ class Store(models.Model):
 
     class Meta:
         db_table = 'store_management_store'
+
+    def save(self, *args, **kwargs):
+        if not self.store_number:
+            # Generate unique store number
+            import random
+            import string
+            while True:
+                store_number = ''.join(random.choices(string.digits, k=6))
+                if not Store.objects.filter(store_number=store_number).exists():
+                    self.store_number = store_number
+                    break
+        super().save(*args, **kwargs)
+
+    def generate_barcode_image(self):
+        """Generate barcode image for the store number."""
+        from barcode import Code128
+        from barcode.writer import ImageWriter
+        from io import BytesIO
+
+        # Create barcode
+        barcode = Code128(self.store_number, writer=ImageWriter())
+
+        # Generate barcode as image in memory
+        buffer = BytesIO()
+        barcode.write(buffer)
+        buffer.seek(0)
+        return buffer
 
     def __str__(self):
         return self.name

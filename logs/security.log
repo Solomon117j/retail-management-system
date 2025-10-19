@@ -276,3 +276,99 @@ SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path:
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/1/update/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /analytics/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /analytics/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /analytics/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /analytics/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /dashboards/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /stores/departments/export/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/supplier-products/4/delete/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/supplier-products/4/update/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/supplier-products/4/update/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/suppliers/11/update/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/employees/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: admin IP: 172.20.0.1 Path: /e_commerce/orders/47a106d3-8d17-4179-a663-efa769e67c6d/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: admin IP: 172.20.0.1 Path: /e_commerce/orders/47a106d3-8d17-4179-a663-efa769e67c6d/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: admin IP: 172.20.0.1 Path: /e_commerce/orders/47a106d3-8d17-4179-a663-efa769e67c6d/update/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/products/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /stores/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/payroll/cbb64ace-7411-4c30-9e05-553fdb0a0c98/delete/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /e_commerce/cart/add/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/add/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/add/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/add/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/cart/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/guest-checkout/ Method: GET

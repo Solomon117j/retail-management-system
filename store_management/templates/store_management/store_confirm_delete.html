@@ -1,6 +1,6 @@
 {% extends 'delete_confirm.html' %}
 
-{% block title %}Delete Store: {{ store.store_name }} - {{ block.super }}{% endblock %}
+{% block title %}Delete Store: {{ store.name }} - {{ block.super }}{% endblock %}
 
 {% block item_details %}
 <div class="detail-item">
@@ -9,7 +9,7 @@
 </div>
 <div class="detail-item">
     <span class="detail-label">Store Name:</span>
-    <span class="detail-value">{{ store.store_name }}</span>
+    <span class="detail-value">{{ store.name }}</span>
 </div>
 <div class="detail-item">
     <span class="detail-label">Address:</span>

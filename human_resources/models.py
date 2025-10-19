@@ -644,7 +644,6 @@ class Payroll(models.Model):
     net_pay = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(0)],
         help_text="Final net pay amount"
     )
 
@@ -710,12 +709,12 @@ class Payroll(models.Model):
 
         super().save(*args, **kwargs)
 
-def clean(self):
-    if self.pay_period_start >= self.pay_period_end:
-        raise ValidationError("Pay period start must be before end date")
+    def clean(self):
+        if self.pay_period_start >= self.pay_period_end:
+            raise ValidationError("Pay period start must be before end date")
 
-    if self.payment_date and self.payment_date < self.pay_period_end:
-        raise ValidationError("Payment date cannot be before pay period end")
+        if self.payment_date and self.payment_date < self.pay_period_end:
+            raise ValidationError("Payment date cannot be before pay period end")
 
 class LeaveApplication(models.Model):
     LEAVE_TYPE_CHOICES = [

@@ -57,9 +57,13 @@
                     <td><a href="{% url 'e_commerce:order_detail' order.pk %}">#{{ order.id }}</a></td>
                     <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
                     <td>
-                        <a href="{% url 'e_commerce:customer_account_detail' order.customer.pk %}">
-                            {{ order.customer.first_name }} {{ order.customer.last_name }}
-                        </a>
+                        {% if order.customer %}
+                            <a href="{% url 'e_commerce:customer_account_detail' order.customer.pk %}">
+                                {{ order.customer.first_name }} {{ order.customer.last_name }}
+                            </a>
+                        {% else %}
+                            {{ order.guest_first_name }} {{ order.guest_last_name }} (Guest)
+                        {% endif %}
                     </td>
                     <td>{{ order.get_shipping_method_display }}</td>
                     <td>

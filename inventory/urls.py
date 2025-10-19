@@ -4,9 +4,10 @@ from .views import (
     CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, category_export,
     ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, product_export,
     InventoryRecordListView, InventoryRecordCreateView, InventoryRecordUpdateView, InventoryRecordDeleteView, inventoryrecord_export,
-    StockMovementListView, StockMovementCreateView, StockMovementUpdateView, StockMovementDeleteView, stockmovement_export,
+    StockMovementListView, StockMovementDetailView, StockMovementCreateView, StockMovementUpdateView, StockMovementDeleteView, stockmovement_export,
     InventoryDashboardView,
     StockManagementView,
+    push_to_ecommerce,
 )
 
 app_name = 'inventory'
@@ -38,6 +39,7 @@ urlpatterns = [
     path('inventoryrecords/export/', inventoryrecord_export, name='inventoryrecord_export'),
 
     path('stockmovements/', StockMovementListView.as_view(), name='stockmovement-list'),
+    path('stockmovements/<int:pk>/', StockMovementDetailView.as_view(), name='stockmovement_detail'),
     path('stockmovements/add/', StockMovementCreateView.as_view(), name='stockmovement_create'),
     path('stockmovements/<int:pk>/edit/', StockMovementUpdateView.as_view(), name='stockmovement_update'),
     path('stockmovements/<int:pk>/delete/', StockMovementDeleteView.as_view(), name='stockmovement_delete'),
@@ -45,4 +47,5 @@ urlpatterns = [
 
     path('dashboard/', InventoryDashboardView.as_view(), name='inventory-dashboard'),
     path('stock-management/', StockManagementView.as_view(), name='stock-management'),
+    path('products/push-to-ecommerce/', push_to_ecommerce, name='push_to_ecommerce'),
 ]

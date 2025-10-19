@@ -1,6 +1,6 @@
 # ecommerce/urls.py
 from django.urls import path
-from . import views 
+from . import views
 from .views import CustomerAccountListView, CustomerAccountDetailView
 
 
@@ -22,7 +22,10 @@ from .views import (
     CartView,
     RemoveFromCartView,
     CheckoutView,
+    GuestCheckoutView,
+    PaymentFormView,
     OrderExportView,
+    PaymentWebhookView,
 )
 
 urlpatterns = [
@@ -42,9 +45,14 @@ urlpatterns = [
     # Cart functionality
     path('cart/', CartView.as_view(), name='cart'),
     path('cart/add/', AddToCartView.as_view(), name='add_to_cart'),
-    path('cart/remove/<uuid:pk>/', RemoveFromCartView.as_view(), name='remove_from_cart'),
+    path('cart/remove/<str:pk>/', RemoveFromCartView.as_view(), name='remove_from_cart'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('payment-form/', PaymentFormView.as_view(), name='payment_form'),
+    path('guest-checkout/', GuestCheckoutView.as_view(), name='guest_checkout'),
 
     # Data export
     path('orders/export/', OrderExportView.as_view(), name='order_export'),
+
+    # Stripe Webhook URL
+    path('webhook/', PaymentWebhookView.as_view(), name='stripe_webhook'),
 ]

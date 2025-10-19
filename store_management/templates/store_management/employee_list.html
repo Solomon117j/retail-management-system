@@ -155,7 +155,7 @@
                         <option value="">All Stores</option>
                         {% for store in stores %}
                             <option value="{{ store.id }}" {% if request.GET.store == store.id|stringformat:"s" %}selected{% endif %}>
-                                {{ store.store_name }}
+                                {{ store.name }}
                             </option>
                         {% endfor %}
                     </select>
@@ -254,10 +254,10 @@
                                     <span class="text-muted">Not assigned</span>
                                 {% endif %}
                             </td>
-                            <td data-sort="{% if employee.store %}{{ employee.store.store_name }}{% endif %}">
+                            <td data-sort="{% if employee.store %}{{ employee.store.name }}{% endif %}">
                                 {% if employee.store %}
                                     <div>
-                                        <strong>{{ employee.store.store_name }}</strong>
+                                        <strong>{{ employee.store.name }}</strong>
                                         <br>
                                         <small class="text-muted">{{ employee.store.city }}</small>
                                     </div>

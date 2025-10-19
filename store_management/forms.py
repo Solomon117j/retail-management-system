@@ -5,9 +5,18 @@ from human_resources.models import Employee
 
 
 class DepartmentForm(forms.ModelForm):
+    store = forms.ModelChoiceField(
+        queryset=Store.objects.all(),
+        empty_label="Select a store",
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        }),
+        required=True
+    )
+
     class Meta:
         model = Department
-        fields = ['department_name', 'description']
+        fields = ['store', 'department_name', 'description']
         widgets = {
             'department_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -19,6 +28,13 @@ class DepartmentForm(forms.ModelForm):
                 'placeholder': 'Enter department description (optional)'
             })
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # If store is already set (e.g., when creating from store detail), make it hidden
+        if self.instance and self.instance.store:
+            self.fields['store'].widget = forms.HiddenInput()
+            self.fields['store'].required = False
 
 
 class StoreForm(forms.ModelForm):
@@ -189,26 +205,44 @@ class StoreForm(forms.ModelForm):
                 self.fields['country_code'].initial = '+268'  # Assuming +268 for existing
                 self.fields['phone'].initial = phone_str[3:]  # Remove first 3 digits (268)
 
+    def clean_country_code(self):
+        """Validate country code: must contain only digits after removing + sign"""
+        country_code = self.cleaned_data.get('country_code')
+        if country_code:
+            # Check that country code contains only digits after removing + sign
+            clean_country_code = country_code.lstrip('+')
+            if not clean_country_code.isdigit():
+                raise forms.ValidationError(
+                    'Country code must contain only digits (no letters or special characters)'
+                )
+        return country_code
+
     def clean_phone(self):
-        """Validate phone number: require 11 digits, return digits only"""
+        """Validate phone number: require exactly 11 digits total, no letters allowed"""
         phone = self.cleaned_data.get('phone')
         country_code = self.cleaned_data.get('country_code')
-        if phone and country_code:
-            # Remove all non-digit characters from phone and country code
-            digits_only_phone = ''.join(filter(str.isdigit, phone))
-            digits_only_code = ''.join(filter(str.isdigit, country_code))
 
+        # Always validate if phone is provided (required field)
+        if phone:
+            # Check that phone contains only digits
+            if not phone.isdigit():
+                raise forms.ValidationError(
+                    'Phone number must contain only digits (no letters or special characters)'
+                )
+
+        if phone and country_code:
             # Combine country code digits and phone digits
-            full_number = digits_only_code + digits_only_phone
+            clean_country_code = country_code.lstrip('+')
+            full_number = clean_country_code + phone
 
             # Require exactly 11 digits total (e.g., 26878117803)
             if len(full_number) != 11:
                 raise forms.ValidationError(
-                    'Full phone number including country code must be 11 digits long (e.g., +268 78117803)'
+                    'Full phone number including country code must be exactly 11 digits long (e.g., +268 78117803)'
                 )
 
             # Store normalized digits-only value (just phone part)
-            return digits_only_phone
+            return phone
 
         return phone
 

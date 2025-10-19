@@ -22,7 +22,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'human_resources/employee_list.html'
     context_object_name = 'employees'
-    paginate_by = 20
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = Employee.objects.select_related('store', 'department', 'manager')
@@ -35,7 +35,8 @@ class EmployeeListView(LoginRequiredMixin, ListView):
                 Q(last_name__icontains=search) |
                 Q(email__icontains=search) |
                 Q(position__icontains=search) |
-                Q(username__icontains=search)
+                Q(username__icontains=search) |
+                Q(employee_id__icontains=search)
             )
         
         # Filter by store
@@ -361,7 +362,7 @@ class PayrollCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('hr:payroll_list')
 
     def form_valid(self, form):
-        # Note: removed created_by since it's not in the model
+        messages.success(self.request, f'Payroll record for {form.instance.employee.get_full_name()} created successfully!')
         return super().form_valid(form)
 
 class PayrollUpdateView(LoginRequiredMixin, UpdateView):
@@ -369,6 +370,10 @@ class PayrollUpdateView(LoginRequiredMixin, UpdateView):
     form_class = PayrollForm
     template_name = 'human_resources/payroll_form.html'
     success_url = reverse_lazy('hr:payroll_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Payroll record for {form.instance.employee.get_full_name()} updated successfully!')
+        return super().form_valid(form)
 
 class PayrollDetailView(LoginRequiredMixin, DetailView):
     model = Payroll
@@ -881,7 +886,8 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
                 Q(email__icontains=search) |
-                Q(position__icontains=search)
+                Q(position__icontains=search) |
+                Q(employee_id__icontains=search)
             )
         
         store_id = self.request.GET.get('store')
@@ -924,7 +930,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 employee.position or '',
                 employee.hire_date or '',
                 employee.salary or '',
-                employee.store.store_name if employee.store else '',
+                employee.store.name if employee.store else '',
                 employee.department.department_name if employee.department else '',
                 employee.manager.get_full_name() if employee.manager else '',
                 'Yes' if employee.is_active else 'No',
@@ -959,7 +965,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 'Position': employee.position or '',
                 'Hire Date': employee.hire_date,
                 'Salary': float(employee.salary) if employee.salary else 0,
-                'Store': employee.store.store_name if employee.store else '',
+                'Store': employee.store.name if employee.store else '',
                 'Department': employee.department.department_name if employee.department else '',
                 'Manager': employee.manager.get_full_name() if employee.manager else '',
                 'Active': 'Yes' if employee.is_active else 'No',

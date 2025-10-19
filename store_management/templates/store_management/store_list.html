@@ -68,27 +68,30 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <input type="text" id="table-search" class="form-control" 
-                               placeholder="Search stores by name, city, or region...">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex gap-2">
-                        <select class="form-select" id="region-filter">
+                    <form method="get" class="d-flex gap-2">
+                        <div class="input-group flex-grow-1">
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" name="search" class="form-control"
+                                   placeholder="Search stores by name, city, or region..."
+                                   value="{{ search_query }}">
+                        </div>
+                        <select class="form-select" name="region" style="max-width: 200px;">
                             <option value="">All Regions</option>
-                            {% regroup stores by region as region_list %}
                             {% for region in region_list %}
-                                <option value="{{ region.grouper }}">{{ region.grouper }}</option>
+                                <option value="{{ region }}" {% if region == selected_region %}selected{% endif %}>{{ region }}</option>
                             {% endfor %}
                         </select>
-                        <button class="btn btn-outline-secondary" onclick="clearFilters()">
-                            <i class="fas fa-times"></i>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
                         </button>
-                    </div>
+                        {% if search_query or selected_region %}
+                        <a href="{% url 'store_management:store_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        {% endif %}
+                    </form>
                 </div>
             </div>
         </div>
@@ -118,8 +121,8 @@
                 <table class="table table-hover mb-0" data-searchable data-sortable>
                     <thead class="table-light">
                         <tr>
-                            <th data-sortable="id">
-                                <i class="fas fa-hashtag me-1"></i>ID
+                            <th data-sortable="store_number">
+                                <i class="fas fa-hashtag me-1"></i>Store Number
                             </th>
                             <th data-sortable="name">
                                 <i class="fas fa-store me-1"></i>Store Name
@@ -144,11 +147,11 @@
                     <tbody>
                         {% for store in stores %}
                         <tr>
-                            <td data-sort="{{ store.id }}">
-                                <span class="badge bg-secondary">{{ store.id }}</span>
+                            <td data-sort="{{ store.store_number }}">
+                                <span class="badge bg-secondary">{{ store.store_number }}</span>
                             </td>
-                            <td data-sort="{{ store.store_name }}">
-                                <strong>{{ store.store_name }}</strong>
+                            <td data-sort="{{ store.name }}">
+                                <strong>{{ store.name }}</strong>
                             </td>
                             <td data-sort="{{ store.city }}">
                                 <div class="location-display">
@@ -239,47 +242,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Pagination -->
+    {% include 'includes/pagination.html' %}
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Region filter functionality
-    const regionFilter = document.querySelector('#region-filter');
-    const tableRows = document.querySelectorAll('tbody tr');
-    
-    if (regionFilter) {
-        regionFilter.addEventListener('change', function() {
-            const selectedRegion = this.value.toLowerCase();
-            
-            tableRows.forEach(row => {
-                if (selectedRegion === '') {
-                    row.style.display = '';
-                } else {
-                    const locationCell = row.querySelector('td:nth-child(3)');
-                    if (locationCell) {
-                        const locationText = locationCell.textContent.toLowerCase();
-                        row.style.display = locationText.includes(selectedRegion) ? '' : 'none';
-                    }
-                }
-            });
-        });
-    }
-    
-    // Clear filters function
-    window.clearFilters = function() {
-        document.querySelector('#table-search').value = '';
-        document.querySelector('#region-filter').value = '';
-        
-        tableRows.forEach(row => {
-            row.style.display = '';
-        });
-        
-        RMS.utils.showToast('Filters cleared', 'info', 2000);
-    };
-    
-    console.log('Store list enhancements initialized');
-});
-</script>
-{% endblock %}
+
+

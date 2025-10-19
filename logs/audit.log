@@ -2666,3 +2666,445 @@ AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:u
 AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
 AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
 AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/employees/create/ Resource:/hr/employees/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/employees/dff6f305-17df-4b25-bc4f-ab74eb930d71/edit/ Resource:/hr/employees/dff6f305-17df-4b25-bc4f-ab74eb930d71/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/store/ Resource:/admin/store_management/store/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/store/ Resource:/admin/store_management/store/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/department/ Resource:/admin/store_management/department/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/department/ Resource:/admin/store_management/department/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/department/ Resource:/admin/store_management/department/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/76/change/ Resource:/admin/inventory/product/76/change/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/19/edit/ Resource:/inventory/products/19/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/19/edit/ Resource:/inventory/products/19/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/2/edit/ Resource:/inventory/products/2/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/3/edit/ Resource:/inventory/products/3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/4/edit/ Resource:/inventory/products/4/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/5/edit/ Resource:/inventory/products/5/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/6/edit/ Resource:/inventory/products/6/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/1/edit/ Resource:/inventory/products/1/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/7/edit/ Resource:/inventory/products/7/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/8/edit/ Resource:/inventory/products/8/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/9/edit/ Resource:/inventory/products/9/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/10/edit/ Resource:/inventory/products/10/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/11/edit/ Resource:/inventory/products/11/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/12/edit/ Resource:/inventory/products/12/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/13/edit/ Resource:/inventory/products/13/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/14/edit/ Resource:/inventory/products/14/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/15/edit/ Resource:/inventory/products/15/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/16/edit/ Resource:/inventory/products/16/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/17/edit/ Resource:/inventory/products/17/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/18/edit/ Resource:/inventory/products/18/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/20/edit/ Resource:/inventory/products/20/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/products/21/edit/ Resource:/inventory/products/21/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/stockmovements/add/ Resource:/inventory/stockmovements/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /inventory/stockmovements/add/ Resource:/inventory/stockmovements/add/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/e_commerce/orderitem/ Resource:/admin/e_commerce/orderitem/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/human_resources/attendance/ Resource:/admin/human_resources/attendance/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/human_resources/attendance/ Resource:/admin/human_resources/attendance/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/store_management/store/ Resource:/admin/store_management/store/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/store_management/department/ Resource:/admin/store_management/department/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/human_resources/employee/ Resource:/admin/human_resources/employee/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/human_resources/employee/ Resource:/admin/human_resources/employee/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/human_resources/employee/ Resource:/admin/human_resources/employee/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/store_management/store/ Resource:/admin/store_management/store/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/stockmovement/ Resource:/admin/inventory/stockmovement/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/brand/ Resource:/admin/inventory/brand/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/category/ Resource:/admin/inventory/category/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/category/ Resource:/admin/inventory/category/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:172.20.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:admin IP:172.20.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:172.20.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /admin/login/ Resource:/admin/login/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /admin/login/ Resource:/admin/login/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /admin/login/ Resource:/admin/login/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /admin/login/ Resource:/admin/login/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /admin/login/ Resource:/admin/login/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /admin/login/ Resource:/admin/login/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/remove/3/ Resource:/e_commerce/cart/remove/3/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/remove/3/ Resource:/e_commerce/cart/remove/3/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/inventory/product/ Resource:/admin/inventory/product/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/remove/19/ Resource:/e_commerce/cart/remove/19/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/ Resource:/accounts/login/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/remove/19/ Resource:/e_commerce/cart/remove/19/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/remove/19/ Resource:/e_commerce/cart/remove/19/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Resource:/stores/97b97ffd-087b-42ee-a5fd-699300cf58e3/edit/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /hr/payroll/create/ Resource:/hr/payroll/create/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/ Resource:/admin/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/store/ Resource:/admin/store_management/store/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Resource:/admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Resource:/admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /admin/jsi18n/ Resource:/admin/jsi18n/ Result:HTTP_200
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Resource:/admin/store_management/store/f6749799-87f1-4d12-92f8-42d35d6e3ace/change/ Result:HTTP_302
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /admin/login/ Resource:/admin/login/ Result:HTTP_200
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/register/ Resource:/accounts/register/ Result:HTTP_200
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:GET /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_200
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:INITIATED
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Unknown IP:unknown Action:unknown Resource:unknown Result:unknown
+AUDIT {asctime} User:Anonymous IP:127.0.0.1 Action:POST /accounts/login/staff/ Resource:/accounts/login/staff/ Result:HTTP_302
+AUDIT {asctime} User:thembinkosi IP:127.0.0.1 Action:GET /accounts/logout/ Resource:/accounts/logout/ Result:HTTP_302
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/cart/add/ Resource:/e_commerce/cart/add/ Result:INITIATED
+AUDIT {asctime} User: IP:127.0.0.1 Action:POST /e_commerce/guest-checkout/ Resource:/e_commerce/guest-checkout/ Result:INITIATED

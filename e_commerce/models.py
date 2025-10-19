@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 from django.db import models
 from django.conf import settings  # Import settings to access AUTH_USER_MODEL
 from django.utils import timezone
@@ -70,6 +71,14 @@ class OnlineOrder(models.Model):
         ('debit_card', 'Debit Card'),
         ('digital_wallet', 'Digital Wallet'),
     ]
+
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
+    ]
     
     customer = models.ForeignKey(
         CustomerAccount,
@@ -99,12 +108,52 @@ class OnlineOrder(models.Model):
         max_length=20,
         choices=PAYMENT_METHOD_CHOICES
     )
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='pending'
+    )
+    payment_transaction_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        unique=True
+    )
+    payment_date = models.DateTimeField(blank=True, null=True)
 
     # Guest checkout support
     guest_email = models.EmailField(blank=True, null=True, verbose_name="Guest Email")
     guest_first_name = models.CharField(max_length=50, blank=True, null=True)
     guest_last_name = models.CharField(max_length=50, blank=True, null=True)
     guest_phone = models.CharField(max_length=20, blank=True, null=True)
+
+    # Enhanced guest information
+    guest_company = models.CharField(max_length=100, blank=True, null=True, verbose_name="Company Name")
+    guest_birth_date = models.DateField(blank=True, null=True, verbose_name="Date of Birth")
+    guest_preferred_language = models.CharField(
+        max_length=10,
+        default='en',
+        choices=[('en', 'English'), ('es', 'Spanish'), ('fr', 'French'), ('si', 'siSwati')],
+        verbose_name="Preferred Language"
+    )
+
+    # Billing address (separate from shipping)
+    billing_address = models.TextField(blank=True, null=True, verbose_name="Billing Address")
+    billing_city = models.CharField(max_length=100, blank=True, null=True)
+    billing_state = models.CharField(max_length=100, blank=True, null=True)
+    billing_postal_code = models.CharField(max_length=20, blank=True, null=True)
+    billing_country = models.CharField(max_length=100, blank=True, null=True)
+
+    # Marketing and communication preferences
+    guest_marketing_opt_in = models.BooleanField(default=False, verbose_name="Marketing Communications")
+    guest_sms_notifications = models.BooleanField(default=False, verbose_name="SMS Notifications")
+    guest_push_notifications = models.BooleanField(default=True, verbose_name="Push Notifications")
+
+    # Order customization
+    order_notes = models.TextField(blank=True, null=True, verbose_name="Order Notes/Special Instructions")
+    gift_wrapping = models.BooleanField(default=False, verbose_name="Gift Wrapping")
+    gift_message = models.TextField(blank=True, null=True, verbose_name="Gift Message")
+    loyalty_program_signup = models.BooleanField(default=False, verbose_name="Join Loyalty Program")
     store_pickup = models.ForeignKey(
         'store_management.Store',
         on_delete=models.SET_NULL,
@@ -221,8 +270,16 @@ class Cart(models.Model):
         return sum(item.quantity for item in self.items.all())
 
     @property
-    def total_price(self):
+    def subtotal(self):
         return sum(item.total_price for item in self.items.all())
+
+    @property
+    def tax_amount(self):
+        return Decimal(self.subtotal) * Decimal('0.15')  # 15% tax
+
+    @property
+    def total_price(self):
+        return self.subtotal + self.tax_amount
 
 class CartItem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

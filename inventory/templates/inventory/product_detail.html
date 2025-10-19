@@ -58,14 +58,12 @@
 
         <div class="card-body">
             <div class="row">
-                <!-- Product Avatar -->
+                <!-- Product Image -->
                 <div class="col-md-3 text-center mb-3">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded" style="max-width: 120px; max-height: 120px;">
                     {% else %}
-                        <div class="product-avatar mx-auto" style="width: 120px; height: 120px; font-size: 3rem;">
-                            {{ product.name.0|upper }}
-                        </div>
+                        <img src="{% static 'images/default_product.png' %}" alt="Default Product Image" class="img-fluid rounded" style="max-width: 120px; max-height: 120px;">
                     {% endif %}
                 </div>
 
@@ -106,6 +104,18 @@
                                 {% else %}
                                     <span class="badge bg-danger status-badge">
                                         <i class="fas fa-times me-1"></i>Inactive
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <span class="detail-label">Show Online:</span>
+                                {% if product.show_online %}
+                                    <span class="badge bg-primary status-badge">
+                                        <i class="fas fa-globe me-1"></i>Yes
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary status-badge">
+                                        <i class="fas fa-eye-slash me-1"></i>No
                                     </span>
                                 {% endif %}
                             </div>

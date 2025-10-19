@@ -38,6 +38,7 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     reorder_level = models.IntegerField(default=10, verbose_name="Reorder Level")
     is_active = models.BooleanField(default=True, verbose_name="Active")
+    show_online = models.BooleanField(default=False, verbose_name="Show Online")
     barcode = models.CharField(max_length=100, blank=True, null=True, unique=True, verbose_name="Barcode")
     weight = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, verbose_name="Weight (kg)")
     length = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, verbose_name="Length (cm)")

@@ -10,7 +10,7 @@ psycopg2-binary==2.9.10
 python-dotenv==1.0.1
 
 # File Processing and Security
-python-magic-bin==0.4.14
+python-magic==0.4.27
 
 # System Monitoring
 psutil==6.1.0
@@ -36,9 +36,9 @@ Pillow==11.0.0
 # django-smtp-ssl==1.0 (if using custom SMTP)
 
 # Additional utilities that might be needed
-# djangorestframework==3.15.2 (if using DRF)
-# django-cors-headers==4.6.0 (if needed for CORS)
-# django-filter==24.3 (for filtering)
+djangorestframework==3.15.2
+django-cors-headers==4.6.0 (if needed for CORS)
+django-filter==24.3 (for filtering)
 # django-storages==1.14.4 (for cloud storage)
 
 # Monitoring and Logging
@@ -59,3 +59,12 @@ whitenoise==6.10.0
 
 # Argon2 for password hashing
 argon2-cffi==25.1.0
+
+# Stripe Payment Gateway
+stripe==10.12.0
+
+# PDF Generation
+reportlab==4.2.2
+
+# Barcode Generation
+python-barcode==0.15.1

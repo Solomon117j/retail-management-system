@@ -27,7 +27,7 @@ urlpatterns = [
     # Product browse moved to /products/
     path('products/', ProductBrowseView.as_view(), name='product_browse'),
     path('hr/', include('human_resources.urls')),
-    path('inventory/', include('inventory.urls')),
+    path('inventory/', include('inventory.urls', namespace='inventory')),
     path('analytics/', include('reporting.urls')),
     path('stores/', include('store_management.urls')),
     path('procurement/', include('procurement.urls')),

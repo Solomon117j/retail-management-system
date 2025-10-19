@@ -36,3 +36,6 @@ class SalesReportView(LoginRequiredMixin, TemplateView):
 
 class EmployeeReportView(LoginRequiredMixin, TemplateView):
     template_name = 'reporting/employee_report.html'
+
+class InventoryReportView(LoginRequiredMixin, TemplateView):
+    template_name = 'reporting/inventory_report.html'

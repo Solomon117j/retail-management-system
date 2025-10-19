@@ -1,0 +1,106 @@
+/* Product Card Professional Styling */
+
+/* Card hover effects */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.product-card:hover .hover-overlay {
+    opacity: 1 !important;
+}
+
+/* Image container styling */
+.product-card .position-relative {
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+}
+
+/* Badge positioning */
+.product-card .badge {
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styling */
+.product-card .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.product-card .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-card .input-group .input-group-text {
+    border-radius: 8px 0 0 8px;
+}
+
+.product-card .input-group .form-control {
+    border-radius: 0;
+}
+
+.product-card .input-group .btn {
+    border-radius: 0 8px 8px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-card {
+        margin-bottom: 1rem;
+    }
+
+    .product-card .card-body {
+        padding: 1rem !important;
+    }
+
+    .product-card .position-relative {
+        height: 150px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card .h6 {
+        font-size: 0.9rem !important;
+    }
+
+    .product-card .h5 {
+        font-size: 1rem !important;
+    }
+}
+
+/* Loading animation for images */
+.product-card img {
+    transition: opacity 0.3s ease;
+}
+
+.product-card img.loaded {
+    opacity: 1;
+}
+
+/* Focus states for accessibility */
+.product-card .btn:focus,
+.product-card .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Stretched link positioning */
+.product-card .stretched-link {
+    position: static !important;
+}
+
+.product-card .stretched-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}

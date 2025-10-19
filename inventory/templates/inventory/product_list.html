@@ -190,6 +190,13 @@
                 <i class="fas fa-list me-2"></i>Product Directory
             </h5>
             <div class="btn-group" role="group">
+                <form method="post" action="{% url 'inventory:push_to_ecommerce' %}" id="push-form" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-sm"
+                            data-bs-toggle="tooltip" title="Push selected products to e-commerce">
+                        <i class="fas fa-upload me-1"></i>Push to E-commerce
+                    </button>
+                </form>
                 <a href="{% url 'inventory:product_export' %}?format=csv&{{ request.GET.urlencode }}"
                    class="btn btn-outline-light btn-sm"
                    data-bs-toggle="tooltip" title="Export as CSV">
@@ -207,6 +214,9 @@
                 <table class="table table-hover mb-0" data-searchable data-sortable>
                     <thead class="table-light">
                         <tr>
+                            <th>
+                                <input type="checkbox" id="select-all" class="form-check-input">
+                            </th>
                             <th data-sortable="name">
                                 <i class="fas fa-box me-1"></i>Product
                             </th>
@@ -245,11 +255,16 @@
                     <tbody>
                         {% for product in products %}
                         <tr>
+                            <td>
+                                <input type="checkbox" name="selected_products" value="{{ product.pk }}" class="form-check-input product-checkbox">
+                            </td>
                             <td data-sort="{{ product.name }}">
                                 <div class="d-flex align-items-center">
-                                    <div class="product-avatar me-2">
-                                        {{ product.name.0|upper }}
-                                    </div>
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                                    {% else %}
+                                        <img src="{% static 'images/default_product.png' %}" alt="Default Product Image" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                                    {% endif %}
                                     <div>
                                         <div class="fw-bold">{{ product.name }}</div>
                                         {% if product.sku %}
@@ -336,7 +351,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="11" class="text-center py-5">
+                            <td colspan="12" class="text-center py-5">
                                 <div class="text-muted">
                                     <i class="fas fa-boxes fa-3x mb-3"></i>
                                     <h5>No products found</h5>
@@ -435,7 +450,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-    
+
+    // Select all functionality
+    const selectAllCheckbox = document.getElementById('select-all');
+    const productCheckboxes = document.querySelectorAll('.product-checkbox');
+
+    if (selectAllCheckbox && productCheckboxes.length > 0) {
+        // Handle select all checkbox
+        selectAllCheckbox.addEventListener('change', function() {
+            productCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Handle individual checkboxes
+        productCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
+                selectAllCheckbox.checked = checkedBoxes.length === productCheckboxes.length;
+                selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < productCheckboxes.length;
+            });
+        });
+    }
+
     console.log('Inventory Product list enhancements initialized');
 });
 </script>

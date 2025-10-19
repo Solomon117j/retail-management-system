@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Stock Movement Detail - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'inventory/css/inventory.css' %}">
+<style>
+.detail-header {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.detail-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #495057;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.movement-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.status-in {
+    background-color: #d4edda;
+    border: 2px solid #c3e6cb;
+    color: #155724;
+}
+
+.status-out {
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+    color: #721c24;
+}
+
+.status-adjustment {
+    background-color: #fff3cd;
+    border: 2px solid #ffeaa7;
+    color: #856404;
+}
+
+.info-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #007bff;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    top: 1.5rem;
+    width: 2px;
+    height: calc(100% - 1rem);
+    background-color: #dee2e6;
+}
+
+.timeline-item:last-child::after {
+    display: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="detail-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-exchange-alt me-2"></i>
+                    Stock Movement Detail
+                </h1>
+                <p class="mb-0 opacity-75">
+                    Movement ID: #{{ stockmovement.pk }}
+                </p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'inventory:stockmovement-list' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Details -->
+        <div class="col-lg-8">
+            <div class="detail-card card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Movement Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-label">Product</div>
+                            <div class="detail-value">
+                                <strong>{{ stockmovement.product.name }}</strong>
+                                {% if stockmovement.product.sku %}
+                                <br><small class="text-muted">SKU: {{ stockmovement.product.sku }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="detail-label">Store</div>
+                            <div class="detail-value">
+                                <span class="badge bg-info">{{ stockmovement.store.name }}</span>
+                            </div>
+
+                            <div class="detail-label">Quantity</div>
+                            <div class="detail-value">
+                                <span class="fw-bold fs-5">{{ stockmovement.quantity }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-label">Movement Type</div>
+                            <div class="detail-value">
+                                {% if stockmovement.movement_type == 'in' %}
+                                    <span class="badge status-in movement-badge">
+                                        <i class="fas fa-arrow-down me-1"></i>{{ stockmovement.get_movement_type_display }}
+                                    </span>
+                                {% elif stockmovement.movement_type == 'out' %}
+                                    <span class="badge status-out movement-badge">
+                                        <i class="fas fa-arrow-up me-1"></i>{{ stockmovement.get_movement_type_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge status-adjustment movement-badge">
+                                        <i class="fas fa-balance-scale me-1"></i>{{ stockmovement.get_movement_type_display }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <div class="detail-label">Reason</div>
+                            <div class="detail-value">
+                                {% if stockmovement.reason %}
+                                    {{ stockmovement.get_reason_display }}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="detail-label">Reference</div>
+                            <div class="detail-value">
+                                {% if stockmovement.reference %}
+                                    <code>{{ stockmovement.reference }}</code>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="detail-card card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Movement Timeline
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline-item">
+                        <div class="fw-bold">Movement Created</div>
+                        <div class="text-muted">{{ stockmovement.created_at|date:"M d, Y \a\t g:i A" }}</div>
+                        <small class="text-muted">{{ stockmovement.created_at|timesince }} ago</small>
+                    </div>
+                    {% if stockmovement.created_by %}
+                    <div class="timeline-item">
+                        <div class="fw-bold">Performed By</div>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                 style="width: 40px; height: 40px; font-size: 1rem; font-weight: bold;">
+                                {{ stockmovement.created_by.get_full_name|default:stockmovement.created_by.username|slice:":1"|upper }}
+                            </div>
+                            <div>
+                                <div class="fw-bold">{{ stockmovement.created_by.get_full_name|default:stockmovement.created_by.username }}</div>
+                                <small class="text-muted">{{ stockmovement.created_by.username }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="detail-card card">
+                <div class="card-header bg-warning text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'inventory:stockmovement_update' stockmovement.pk %}" class="btn btn-outline-primary">
+                            <i class="fas fa-edit me-1"></i>Edit Movement
+                        </a>
+                        <a href="{% url 'inventory:stockmovement_create' %}" class="btn btn-outline-success">
+                            <i class="fas fa-plus me-1"></i>Add New Movement
+                        </a>
+                        <a href="{% url 'inventory:product_detail' stockmovement.product.pk %}" class="btn btn-outline-info">
+                            <i class="fas fa-box me-1"></i>View Product
+                        </a>
+                        <a href="{% url 'inventory:stockmovement-list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-list me-1"></i>View All Movements
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Information -->
+            <div class="detail-card card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-link me-2"></i>Related Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="info-section">
+                        <h6 class="text-primary mb-2">
+                            <i class="fas fa-box me-1"></i>Product Details
+                        </h6>
+                        <p class="mb-1"><strong>Category:</strong> {{ stockmovement.product.category.name }}</p>
+                        <p class="mb-1"><strong>Brand:</strong> {{ stockmovement.product.brand.name }}</p>
+                        <p class="mb-0"><strong>Unit Price:</strong> ${{ stockmovement.product.unit_price }}</p>
+                    </div>
+
+                    <div class="info-section">
+                        <h6 class="text-primary mb-2">
+                            <i class="fas fa-store me-1"></i>Store Information
+                        </h6>
+                        <p class="mb-1"><strong>Location:</strong> {{ stockmovement.store.city }}, {{ stockmovement.store.region }}</p>
+                        <p class="mb-0"><strong>Type:</strong> {{ stockmovement.store.get_store_type_display }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="detail-card card">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Quick Stats
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="fs-4 fw-bold text-primary">{{ stockmovement.product.inventory_records.filter(store=stockmovement.store).first.quantity|default:0 }}</div>
+                            <small class="text-muted">Current Stock</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="fs-4 fw-bold text-success">{{ stockmovement.product.reorder_level|default:0 }}</div>
+                            <small class="text-muted">Reorder Level</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    console.log('Stock movement detail page initialized');
+});
+</script>
+{% endblock %}

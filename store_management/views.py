@@ -5,6 +5,10 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from store_management.models import Store , Department
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
+from io import BytesIO
 
 from django.views.generic import TemplateView
 from django.db.models import Q, Count
@@ -14,6 +18,7 @@ import csv
 from openpyxl import Workbook
 
 from .forms import DepartmentForm, StoreForm
+from retail_management_system.mixins import PaginationMixin
 
 import logging
 
@@ -39,14 +44,31 @@ def department_edit(request, pk):
         'department': department
     })
 
-class StoreListView(ListView):
+class StoreListView(PaginationMixin, ListView):
     model = Store
     context_object_name = 'stores'
     template_name = 'store_management/store_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) |
+                Q(city__icontains=search) |
+                Q(region__icontains=search)
+            )
+        region = self.request.GET.get('region')
+        if region:
+            queryset = queryset.filter(region=region)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['region_list'] = Store.objects.values_list('region', flat=True).distinct()
+        context['search_query'] = self.request.GET.get('search', '')
+        context['selected_region'] = self.request.GET.get('region', '')
         return context
 
 class StoreDetailView(DetailView):
@@ -94,23 +116,35 @@ from django.shortcuts import get_object_or_404
 class DepartmentCreateView(CreateView):
     model = Department
     form_class = DepartmentForm
-    
+
     def form_valid(self, form):
         # Use id instead of store_id
         store = get_object_or_404(Store, id=self.kwargs['store_id'])
         form.instance.store = store
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Use id here too
         context['store'] = get_object_or_404(Store, id=self.kwargs['store_id'])
         return context
-    
+
     def get_success_url(self):
         return reverse('store_management:department_list', kwargs={
             'store_id': self.kwargs['store_id']
         })
+
+class DepartmentCreateStandaloneView(CreateView):
+    model = Department
+    form_class = DepartmentForm
+    template_name = 'store_management/department_form.html'
+    success_url = reverse_lazy('store_management:all_departments_list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Ensure we create a new instance
+        kwargs['instance'] = None
+        return kwargs
 # views.py
 class DepartmentUpdateView(UpdateView):
     model = Department
@@ -137,10 +171,11 @@ class DepartmentDeleteView(DeleteView):
         return reverse_lazy('store_management:department_list', kwargs={'store_id': self.object.store.id})
 
 
-class DepartmentListView(ListView):
+class DepartmentListView(PaginationMixin, ListView):
     model = Department
     context_object_name = 'departments'
     template_name = 'store_management/department_list.html'
+    paginate_by = 10
 
     def get_queryset(self):
         store_id = self.kwargs['store_id']
@@ -152,6 +187,28 @@ class DepartmentListView(ListView):
         store_id = self.kwargs['store_id']
         # Use id field instead of store_id
         context['store'] = get_object_or_404(Store, id=store_id)
+        return context
+
+class AllDepartmentsListView(PaginationMixin, ListView):
+    model = Department
+    context_object_name = 'departments'
+    template_name = 'store_management/all_departments_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Department.objects.select_related('store').order_by('store__name', 'department_name')
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(department_name__icontains=search) |
+                Q(description__icontains=search) |
+                Q(store__name__icontains=search)
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_query'] = self.request.GET.get('search', '')
         return context
 #
 
@@ -178,7 +235,7 @@ def store_export(request):
     search = request.GET.get('search')
     if search:
         queryset = queryset.filter(
-            Q(store_name__icontains=search) | Q(city__icontains=search) | Q(region__icontains=search)
+            Q(name__icontains=search) | Q(city__icontains=search) | Q(region__icontains=search)
         )
 
     region = request.GET.get('region')
@@ -201,7 +258,7 @@ def store_export(request):
 
         # Data
         for row_num, store in enumerate(queryset, 2):
-            ws.cell(row=row_num, column=1, value=store.store_name)
+            ws.cell(row=row_num, column=1, value=store.name)
             ws.cell(row=row_num, column=2, value=store.address)
             ws.cell(row=row_num, column=3, value=store.city)
             ws.cell(row=row_num, column=4, value=store.region)
@@ -222,7 +279,7 @@ def store_export(request):
 
         for store in queryset:
             writer.writerow([
-                store.store_name,
+                store.name,
                 store.address,
                 store.city,
                 store.region,
@@ -243,7 +300,7 @@ def department_export(request):
     search = request.GET.get('search')
     if search:
         queryset = queryset.filter(
-            Q(department_name__icontains=search) | Q(description__icontains=search) | Q(store__store_name__icontains=search)
+            Q(department_name__icontains=search) | Q(description__icontains=search) | Q(store__name__icontains=search)
         )
 
     store_id = request.GET.get('store')
@@ -268,7 +325,7 @@ def department_export(request):
         for row_num, department in enumerate(queryset, 2):
             ws.cell(row=row_num, column=1, value=department.department_name)
             ws.cell(row=row_num, column=2, value=department.description or '')
-            ws.cell(row=row_num, column=3, value=department.store.store_name)
+            ws.cell(row=row_num, column=3, value=department.store.name)
             ws.cell(row=row_num, column=4, value=department.created_at.strftime('%Y-%m-%d %H:%M:%S'))
 
         wb.save(response)
@@ -285,8 +342,66 @@ def department_export(request):
             writer.writerow([
                 department.department_name,
                 department.description or '',
-                department.store.store_name,
+                department.store.name,
                 department.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             ])
 
         return response
+
+
+def generate_store_pdf(request, pk):
+    """Generate PDF with store details and barcode."""
+    store = get_object_or_404(Store, pk=pk)
+
+    # Create PDF response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="store_{store.store_number}.pdf"'
+
+    # Create PDF
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    # Title
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(100, height - 50, "Store Information")
+
+    # Store details
+    p.setFont("Helvetica", 12)
+    y_position = height - 80
+
+    p.drawString(100, y_position, f"Store Number: {store.store_number}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Store Name: {store.name}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Address: {store.address}")
+    y_position -= 20
+    p.drawString(100, y_position, f"City: {store.city}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Region: {store.region}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Phone: {store.phone}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Opening Date: {store.opening_date.strftime('%Y-%m-%d')}")
+    y_position -= 20
+    p.drawString(100, y_position, f"Manager: {store.manager.get_full_name() if store.manager else 'Unassigned'}")
+
+    # Generate and add barcode
+    try:
+        barcode_buffer = store.generate_barcode_image()
+        barcode_image = ImageReader(barcode_buffer)
+        p.drawImage(barcode_image, 100, y_position - 150, width=200, height=100)
+        p.drawString(100, y_position - 170, f"Barcode: {store.store_number}")
+    except Exception as e:
+        p.drawString(100, y_position - 150, f"Barcode generation failed: {str(e)}")
+
+    # Save PDF
+    p.showPage()
+    p.save()
+
+    # Get PDF data from buffer
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response

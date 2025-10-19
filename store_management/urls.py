@@ -16,8 +16,11 @@ urlpatterns = [
     # Department URLs (store_id is UUID)
     path('<uuid:store_id>/departments/', views.DepartmentListView.as_view(), name='department_list'),
     path('<uuid:store_id>/departments/create/', views.DepartmentCreateView.as_view(), name='department_create'),
+    path('departments/create/', views.DepartmentCreateStandaloneView.as_view(), name='department_create_standalone'),
     path('departments/<uuid:pk>/', views.DepartmentDetailView.as_view() , name='department_detail'),
     path('departments/<uuid:pk>/edit/', views.DepartmentUpdateView.as_view() , name='department_edit'),
     path('departments/<uuid:pk>/delete/', views.DepartmentDeleteView.as_view(), name='department_delete'),
+    path('departments/', views.AllDepartmentsListView.as_view(), name='all_departments_list'),
     path('departments/export/', views.department_export, name='department_export'),
+    path('<uuid:pk>/pdf/', views.generate_store_pdf, name='generate_store_pdf'),
 ]

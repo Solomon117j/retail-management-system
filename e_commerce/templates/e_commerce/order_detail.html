@@ -21,9 +21,13 @@
             <div class="card-body">
                 <p><strong>Date:</strong> {{ order.order_date|date:"Y-m-d H:i" }}</p>
                 <p><strong>Customer:</strong>
-                    <a href="{% url 'e_commerce:customer_account_detail' order.customer.pk %}">
-                        {{ order.customer.first_name }} {{ order.customer.last_name }}
-                    </a>
+                    {% if order.customer %}
+                        <a href="{% url 'e_commerce:customer_account_detail' order.customer.pk %}">
+                            {{ order.customer.first_name }} {{ order.customer.last_name }}
+                        </a>
+                    {% else %}
+                        {{ order.guest_first_name }} {{ order.guest_last_name }} (Guest)
+                    {% endif %}
                 </p>
                 <p><strong>Status:</strong> 
                     <span class="badge bg-{% if order.status == 'delivered' %}success
