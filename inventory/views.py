@@ -9,7 +9,6 @@ import csv
 from openpyxl import Workbook
 from .models import Brand, Category, Product, InventoryRecord, StockMovement
 from .forms import BrandForm, CategoryForm, ProductForm, InventoryRecordForm, StockMovementForm
-from store_management.models import Store
 
 # Brand Views
 class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -83,44 +82,13 @@ class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'inventory/product_list.html'
     context_object_name = 'products'
     permission_required = 'inventory.view_product'
-    paginate_by = 10
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        # Search filter
-        search = self.request.GET.get('search')
-        if search:
-            queryset = queryset.filter(
-                Q(name__icontains=search) | Q(sku__icontains=search)
-            )
-
-        # Category filter
-        category = self.request.GET.get('category')
-        if category:
-            queryset = queryset.filter(category_id=category)
-
-        # Brand filter
-        brand = self.request.GET.get('brand')
-        if brand:
-            queryset = queryset.filter(brand_id=brand)
-
-        # Status filter
-        status = self.request.GET.get('status')
-        if status == 'active':
-            queryset = queryset.filter(is_active=True)
-        elif status == 'inactive':
-            queryset = queryset.filter(is_active=False)
-
-        return queryset
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_products'] = Product.objects.count()
         context['active_products'] = Product.objects.filter(is_active=True).count()
         context['inactive_products'] = Product.objects.filter(is_active=False).count()
-        context['categories'] = Category.objects.all()
-        context['brands'] = Brand.objects.all()
         return context
 
 class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -181,48 +149,6 @@ class StockMovementListView(LoginRequiredMixin, PermissionRequiredMixin, ListVie
     model = StockMovement
     template_name = 'inventory/stockmovement_list.html'
     context_object_name = 'stockmovements'
-    permission_required = 'inventory.view_stockmovement'
-
-    def get_queryset(self):
-        queryset = super().get_queryset().select_related('product', 'store', 'performed_by')
-
-        # Search filter
-        search = self.request.GET.get('search')
-        if search:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search) | Q(store__name__icontains=search)
-            )
-
-        # Store filter
-        store = self.request.GET.get('store')
-        if store:
-            queryset = queryset.filter(store_id=store)
-
-        # Movement type filter
-        movement_type = self.request.GET.get('movement_type')
-        if movement_type:
-            queryset = queryset.filter(movement_type=movement_type)
-
-        # Reference filter
-        reference = self.request.GET.get('reference')
-        if reference:
-            queryset = queryset.filter(reference__icontains=reference)
-
-        return queryset.order_by('-created_at')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['total_movements'] = StockMovement.objects.count()
-        context['stock_in_count'] = StockMovement.objects.filter(movement_type='in').count()
-        context['stock_out_count'] = StockMovement.objects.filter(movement_type='out').count()
-        context['adjustments_count'] = StockMovement.objects.filter(movement_type='adjustment').count()
-        context['stores'] = Store.objects.all()
-        return context
-
-class StockMovementDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = StockMovement
-    template_name = 'inventory/stockmovement_detail.html'
-    context_object_name = 'stockmovement'
     permission_required = 'inventory.view_stockmovement'
 
 class StockMovementCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -640,17 +566,3 @@ def category_export(request):
             ])
 
         return response
-
-@login_required
-@permission_required('inventory.change_product', raise_exception=True)
-def push_to_ecommerce(request):
-    if request.method == 'POST':
-        product_ids = request.POST.getlist('product_ids')
-        if product_ids:
-            products = Product.objects.filter(id__in=product_ids)
-            updated_count = products.update(show_online=True)
-            messages.success(request, f'Successfully pushed {updated_count} products to e-commerce.')
-        else:
-            messages.warning(request, 'No products selected.')
-        return redirect('inventory:product-list')
-    return redirect('inventory:product-list')

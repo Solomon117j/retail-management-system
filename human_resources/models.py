@@ -644,6 +644,7 @@ class Payroll(models.Model):
     net_pay = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        validators=[MinValueValidator(0)],
         help_text="Final net pay amount"
     )
 
@@ -715,6 +716,237 @@ class Payroll(models.Model):
 
         if self.payment_date and self.payment_date < self.pay_period_end:
             raise ValidationError("Payment date cannot be before pay period end")
+
+class Shift(models.Model):
+    """Predefined shift templates that can be assigned to employees"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    SHIFT_TYPE_CHOICES = [
+        ('morning', 'Morning Shift'),
+        ('afternoon', 'Afternoon Shift'),
+        ('evening', 'Evening Shift'),
+        ('night', 'Night Shift'),
+        ('weekend', 'Weekend Shift'),
+        ('holiday', 'Holiday Shift'),
+        ('overtime', 'Overtime Shift'),
+        ('flexible', 'Flexible Hours'),
+        ('other', 'Other'),
+    ]
+
+    name = models.CharField(_("shift name"), max_length=100, unique=True)
+    shift_type = models.CharField(
+        _("shift type"),
+        max_length=20,
+        choices=SHIFT_TYPE_CHOICES,
+        default='morning'
+    )
+    start_time = models.TimeField(_("start time"))
+    end_time = models.TimeField(_("end time"))
+    duration_hours = models.DecimalField(
+        _("duration hours"),
+        max_digits=4,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_("Duration in hours (auto-calculated)")
+    )
+    description = models.TextField(
+        _("description"),
+        blank=True,
+        null=True,
+        help_text=_("Optional description of the shift")
+    )
+    is_active = models.BooleanField(_("active"), default=True)
+
+    # Store and department restrictions
+    allowed_stores = models.ManyToManyField(
+        'store_management.Store',
+        blank=True,
+        related_name='allowed_shifts',
+        verbose_name=_("allowed stores"),
+        help_text=_("Stores where this shift can be used (leave empty for all stores)")
+    )
+    allowed_departments = models.ManyToManyField(
+        'store_management.Department',
+        blank=True,
+        related_name='allowed_shifts',
+        verbose_name=_("allowed departments"),
+        help_text=_("Departments where this shift can be used (leave empty for all departments)")
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _("Shift Template")
+        verbose_name_plural = _("Shift Templates")
+
+    def __str__(self):
+        return f"{self.name} ({self.start_time} - {self.end_time})"
+
+    def save(self, *args, **kwargs):
+        # Auto-calculate duration
+        if self.start_time and self.end_time:
+            start_minutes = self.start_time.hour * 60 + self.start_time.minute
+            end_minutes = self.end_time.hour * 60 + self.end_time.minute
+            if end_minutes >= start_minutes:
+                duration_minutes = end_minutes - start_minutes
+            else:
+                # Handle overnight shifts
+                duration_minutes = (24 * 60 - start_minutes) + end_minutes
+            self.duration_hours = round(duration_minutes / 60.0, 2)
+        super().save(*args, **kwargs)
+
+
+class Schedule(models.Model):
+    """Employee work schedules - assigns shifts to employees on specific dates"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    STATUS_CHOICES = [
+        ('scheduled', 'Scheduled'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+        ('completed', 'Completed'),
+    ]
+
+    employee = models.ForeignKey(
+        Employee,
+        on_delete=models.CASCADE,
+        related_name='schedules'
+    )
+    shift = models.ForeignKey(
+        Shift,
+        on_delete=models.CASCADE,
+        related_name='schedules'
+    )
+    date = models.DateField(_("scheduled date"))
+    status = models.CharField(
+        _("status"),
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='scheduled'
+    )
+
+    # Override shift times if needed
+    custom_start_time = models.TimeField(
+        _("custom start time"),
+        blank=True,
+        null=True,
+        help_text=_("Override the shift's start time")
+    )
+    custom_end_time = models.TimeField(
+        _("custom end time"),
+        blank=True,
+        null=True,
+        help_text=_("Override the shift's end time")
+    )
+
+    # Additional schedule information
+    notes = models.TextField(
+        _("notes"),
+        blank=True,
+        null=True,
+        help_text=_("Additional notes about this schedule")
+    )
+    assigned_by = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_schedules',
+        verbose_name=_("assigned by"),
+        help_text=_("Supervisor who assigned this schedule")
+    )
+
+    # Actual vs scheduled tracking
+    actual_start_time = models.TimeField(
+        _("actual start time"),
+        blank=True,
+        null=True,
+        help_text=_("Actual time employee started work")
+    )
+    actual_end_time = models.TimeField(
+        _("actual end time"),
+        blank=True,
+        null=True,
+        help_text=_("Actual time employee ended work")
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-date', 'employee']
+        verbose_name = _("Employee Schedule")
+        verbose_name_plural = _("Employee Schedules")
+        constraints = [
+            models.UniqueConstraint(
+                fields=['employee', 'date'],
+                name='unique_employee_date_schedule'
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.employee.get_full_name()} - {self.date} ({self.shift.name})"
+
+    @property
+    def effective_start_time(self):
+        """Return custom start time if set, otherwise shift start time"""
+        return self.custom_start_time or self.shift.start_time
+
+    @property
+    def effective_end_time(self):
+        """Return custom end time if set, otherwise shift end time"""
+        return self.custom_end_time or self.shift.end_time
+
+    @property
+    def scheduled_duration_hours(self):
+        """Calculate scheduled duration in hours"""
+        if self.effective_start_time and self.effective_end_time:
+            start_minutes = self.effective_start_time.hour * 60 + self.effective_start_time.minute
+            end_minutes = self.effective_end_time.hour * 60 + self.effective_end_time.minute
+            if end_minutes >= start_minutes:
+                duration_minutes = end_minutes - start_minutes
+            else:
+                # Handle overnight shifts
+                duration_minutes = (24 * 60 - start_minutes) + end_minutes
+            return round(duration_minutes / 60.0, 2)
+        return 0.0
+
+    @property
+    def actual_duration_hours(self):
+        """Calculate actual worked duration in hours"""
+        if self.actual_start_time and self.actual_end_time:
+            start_minutes = self.actual_start_time.hour * 60 + self.actual_start_time.minute
+            end_minutes = self.actual_end_time.hour * 60 + self.actual_end_time.minute
+            if end_minutes >= start_minutes:
+                duration_minutes = end_minutes - start_minutes
+            else:
+                # Handle overnight shifts
+                duration_minutes = (24 * 60 - start_minutes) + end_minutes
+            return round(duration_minutes / 60.0, 2)
+        return 0.0
+
+    def clean(self):
+        if self.date < timezone.now().date():
+            raise ValidationError("Cannot schedule for past dates.")
+
+        # Check if employee is active
+        if not self.employee.is_active:
+            raise ValidationError("Cannot schedule inactive employees.")
+
+        # Check if shift is active
+        if not self.shift.is_active:
+            raise ValidationError("Cannot assign inactive shifts.")
+
+        # Check store/department restrictions
+        if self.shift.allowed_stores.exists() and self.employee.store not in self.shift.allowed_stores.all():
+            raise ValidationError(f"This shift is not allowed for the employee's store ({self.employee.store}).")
+
+        if self.shift.allowed_departments.exists() and self.employee.department not in self.shift.allowed_departments.all():
+            raise ValidationError(f"This shift is not allowed for the employee's department ({self.employee.department}).")
+
 
 class LeaveApplication(models.Model):
     LEAVE_TYPE_CHOICES = [

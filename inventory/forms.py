@@ -36,7 +36,7 @@ class CategoryForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'category', 'brand', 'sku', 'unit_price', 'reorder_level', 'is_active', 'show_online', 'barcode', 'weight', 'length', 'width', 'height', 'image', 'default_supplier']
+        fields = ['name', 'description', 'category', 'brand', 'sku', 'unit_price', 'reorder_level', 'is_active', 'barcode', 'weight', 'length', 'width', 'height', 'image', 'default_supplier']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -67,9 +67,6 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Enter reorder level'
             }),
             'is_active': forms.CheckboxInput(attrs={
-                'class': 'form-check-input'
-            }),
-            'show_online': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
             }),
             'barcode': forms.TextInput(attrs={

@@ -26,17 +26,7 @@
             <h1 class="mb-3">{{ product.name }}</h1>
 
             <div class="mb-3">
-                <div class="d-flex align-items-center gap-3">
-                    <div>
-                        <span class="text-muted small">Unit Price:</span>
-                        <h4 class="text-primary mb-1">SZL{{ product.unit_price }}</h4>
-                    </div>
-                    <div class="vr"></div>
-                    <div>
-                        <span class="text-muted small">Total Price:</span>
-                        <h4 class="text-primary fw-bold total-price-detail" data-unit-price="{{ product.unit_price }}">SZL{{ product.unit_price }}</h4>
-                    </div>
-                </div>
+                <h4 class="text-primary">SZL{{ product.unit_price }}</h4>
             </div>
 
             <div class="mb-3">
@@ -74,7 +64,7 @@
                 <form method="post" action="{% url 'e_commerce:add_to_cart' %}" class="d-flex gap-2 justify-content-center">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.pk }}">
-                    <input type="number" name="quantity" value="1" min="1" class="form-control quantity-input-detail" style="width: 100px;" data-product-id="{{ product.pk }}">
+                    <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;">
                     <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
                 </form>
                 <a href="{% url 'e_commerce:product_browse' %}" class="btn btn-outline-secondary">Continue Shopping</a>
@@ -104,23 +94,4 @@
         </div>
     </div>
 </div>
-
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle quantity input changes for dynamic price updates on product detail page
-    const quantityInput = document.querySelector('.quantity-input-detail');
-    if (quantityInput) {
-        quantityInput.addEventListener('input', function() {
-            const quantity = parseInt(this.value) || 1;
-            const unitPrice = parseFloat(document.querySelector('.total-price-detail').getAttribute('data-unit-price'));
-            const totalPrice = (quantity * unitPrice).toFixed(2);
-
-            // Update the total price display
-            document.querySelector('.total-price-detail').textContent = 'SZL' + totalPrice;
-        });
-    }
-});
-</script>
-{% endblock %}
 {% endblock %}

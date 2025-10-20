@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Shift - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.delete-header {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.delete-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.warning-icon {
+    font-size: 4rem;
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+.shift-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+    min-width: 100px;
+}
+
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #6f42c1;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Delete Header -->
+    <div class="delete-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Delete Shift
+                </h1>
+                <p class="mb-0 opacity-75">
+                    Confirm deletion of shift template
+                </p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'hr:shift_detail' object.pk %}" class="btn btn-outline-light">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Shift
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="delete-card">
+                <div class="card-body text-center p-5">
+                    <div class="warning-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+
+                    <h3 class="mb-3">Are you sure you want to delete this shift?</h3>
+
+                    <p class="text-muted mb-4">
+                        This action cannot be undone. The shift template will be permanently removed from the system.
+                    </p>
+
+                    <!-- Shift Information -->
+                    <div class="shift-info">
+                        <h5 class="mb-3">
+                            <i class="fas fa-clock me-2"></i>Shift Details
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <span class="info-label">Name:</span>
+                                    {{ object.name }}
+                                </div>
+                                <div class="mb-2">
+                                    <span class="info-label">Type:</span>
+                                    <span class="badge bg-info">{{ object.get_shift_type_display }}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="info-label">Status:</span>
+                                    {% if object.is_active %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Active
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times me-1"></i>Inactive
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <span class="info-label">Start:</span>
+                                    <span class="time-display">{{ object.start_time|time:"H:i" }}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="info-label">End:</span>
+                                    <span class="time-display">{{ object.end_time|time:"H:i" }}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="info-label">Duration:</span>
+                                    {% if object.duration_hours %}
+                                        {{ object.duration_hours }} hours
+                                    {% else %}
+                                        <span class="text-muted">Not calculated</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impact Warning -->
+                    {% if related_schedules %}
+                    <div class="alert alert-danger">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Impact Warning
+                        </h6>
+                        <p class="mb-2">
+                            Deleting this shift will affect <strong>{{ related_schedules|length }} schedule assignment{{ related_schedules|pluralize }}</strong>.
+                        </p>
+                        <ul class="mb-0 small">
+                            {% for schedule in related_schedules %}
+                            <li>{{ schedule.employee.get_full_name }} - {{ schedule.date|date:"M d, Y" }}</li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <p class="mb-0 small">
+                            <strong>These schedules will also be deleted.</strong> Consider deactivating the shift instead if you want to preserve historical data.
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Alternative Actions -->
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-lightbulb me-2"></i>Alternatives
+                        </h6>
+                        <p class="mb-2">Instead of deleting, you might want to:</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="{% url 'hr:shift_update' object.pk %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>Edit Shift
+                            </a>
+                            {% if object.is_active %}
+                            <a href="{% url 'hr:shift_update' object.pk %}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-pause me-1"></i>Deactivate Instead
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'hr:shift_detail' object.pk %}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </a>
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="fas fa-trash me-1"></i>Delete Shift
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add confirmation to the delete button
+    const deleteButton = document.querySelector('button[type="submit"]');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', function(e) {
+            const confirmed = confirm('Are you absolutely sure you want to delete this shift? This action cannot be undone.');
+            if (!confirmed) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    console.log('Shift delete confirmation page loaded');
+});
+</script>
+{% endblock %}

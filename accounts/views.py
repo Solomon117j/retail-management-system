@@ -1,4 +1,5 @@
 import logging
+from decimal import Decimal
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
@@ -6,7 +7,8 @@ from django import forms
 from django.views import View
 from .models import User
 from django.contrib import messages
-from e_commerce.models import CustomerAccount
+from e_commerce.models import CustomerAccount, Cart, CartItem
+from inventory.models import Product
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 # from django.db import DatabaseError
@@ -92,6 +94,43 @@ class CustomerLoginView(LoginView):
 
         # Handle authentication manually to avoid calling parent method twice
         login(self.request, user)
+
+        # Merge guest cart with user cart if exists
+        guest_cart = self.request.session.get('guest_cart', {})
+        if guest_cart:
+            cart, created = Cart.objects.get_or_create(customer=customer_account)
+            merged_items = 0
+            for product_id, item_data in guest_cart.items():
+                try:
+                    product = Product.objects.get(pk=item_data['product_id'])
+                    unit_price = Decimal(item_data['unit_price'])
+                    quantity = item_data['quantity']
+
+                    cart_item, created = CartItem.objects.get_or_create(
+                        cart=cart,
+                        product=product,
+                        defaults={
+                            'product_name': item_data['product_name'],
+                            'unit_price': unit_price,
+                            'quantity': quantity
+                        }
+                    )
+                    if not created:
+                        cart_item.quantity += quantity
+                        cart_item.save()
+                    merged_items += 1
+                except (Product.DoesNotExist, ValueError, KeyError):
+                    # Skip invalid products or malformed data
+                    continue
+
+            if merged_items > 0:
+                messages.success(self.request, f'Your guest cart with {merged_items} item(s) has been merged with your account.')
+                logger.info(f"Merged {merged_items} items from guest cart for user {user.username}")
+
+            # Clear guest cart from session
+            del self.request.session['guest_cart']
+            self.request.session.modified = True
+
         logger.info(f"Customer login successful for user {user.username}, redirecting to customer account list")
         return redirect('e_commerce:customer_account_list')
 

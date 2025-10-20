@@ -21,7 +21,7 @@ def check_products():
 
     for product in products_with_stock:
         total_stock = product.inventory_records.aggregate(total=Sum('quantity'))['total'] or 0
-        print(f"{product.name} (ID: {product.id}) - Stock: {total_stock}, Available Online: {product.available_online}")
+        print(f"{product.name} (ID: {product.id}) - Stock: {total_stock}")
 
     print(f"\nTotal products with stock: {products_with_stock.count()}")
 
@@ -30,7 +30,7 @@ def check_products():
     for product in all_products:
         has_stock = product.inventory_records.filter(quantity__gt=0).exists()
         total_stock = product.inventory_records.aggregate(total=Sum('quantity'))['total'] or 0
-        print(f"{product.name} (ID: {product.id}) - Has Stock: {has_stock}, Stock: {total_stock}, Available Online: {product.available_online}")
+        print(f"{product.name} (ID: {product.id}) - Has Stock: {has_stock}, Stock: {total_stock}")
 
     print(f"\nTotal products: {all_products.count()}")
 

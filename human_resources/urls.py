@@ -41,6 +41,20 @@ urlpatterns = [
     path('leave-applications/<uuid:pk>/edit/', views.LeaveApplicationUpdateView.as_view(), name='leave_application_update'),
     path('leave-applications/<uuid:pk>/delete/', views.LeaveApplicationDeleteView.as_view(), name='leave_application_delete'),
 
+    # Shift URLs
+    path('shifts/', views.ShiftListView.as_view(), name='shift_list'),
+    path('shifts/create/', views.ShiftCreateView.as_view(), name='shift_create'),
+    path('shifts/<uuid:pk>/', views.ShiftDetailView.as_view(), name='shift_detail'),
+    path('shifts/<uuid:pk>/edit/', views.ShiftUpdateView.as_view(), name='shift_update'),
+    path('shifts/<uuid:pk>/delete/', views.ShiftDeleteView.as_view(), name='shift_delete'),
+
+    # Schedule URLs
+    path('schedules/', views.ScheduleListView.as_view(), name='schedule_list'),
+    path('schedules/create/', views.ScheduleCreateView.as_view(), name='schedule_create'),
+    path('schedules/<uuid:pk>/', views.ScheduleDetailView.as_view(), name='schedule_detail'),
+    path('schedules/<uuid:pk>/edit/', views.ScheduleUpdateView.as_view(), name='schedule_update'),
+    path('schedules/<uuid:pk>/delete/', views.ScheduleDeleteView.as_view(), name='schedule_delete'),
+
     # Export URLs
     path('employees/export/', views.EmployeeExportView.as_view(), name='employee_export'),
     path('attendance/export/', AttendanceExportView.as_view(), name='attendance_export'),

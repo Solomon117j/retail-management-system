@@ -243,19 +243,6 @@
             </div>
           {% endif %}
         </div>
-        <div class="inventory-form-group">
-          <div class="form-check">
-            {{ form.show_online }}
-            <label class="form-check-label" for="{{ form.show_online.id_for_label }}">
-              <i class="fas fa-globe me-1"></i>{{ form.show_online.label }}
-            </label>
-          </div>
-          {% if form.show_online.errors %}
-            <div class="invalid-feedback d-block">
-              {{ form.show_online.errors.0 }}
-            </div>
-          {% endif %}
-        </div>
         <div class="inventory-btn-group">
           <button type="submit" class="inventory-btn-primary">
             <i class="fas fa-save me-1"></i>Save Product

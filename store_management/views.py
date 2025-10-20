@@ -69,6 +69,7 @@ class StoreListView(PaginationMixin, ListView):
         context['region_list'] = Store.objects.values_list('region', flat=True).distinct()
         context['search_query'] = self.request.GET.get('search', '')
         context['selected_region'] = self.request.GET.get('region', '')
+        context['total_stores'] = Store.objects.count()
         return context
 
 class StoreDetailView(DetailView):

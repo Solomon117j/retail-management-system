@@ -1,28 +1,34 @@
-from django.views.generic import ListView
-from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-class PaginationMixin(ListView):
+
+class PaginationMixin:
     """
-    Mixin to handle special page values like 'last' in pagination.
-    Converts 'last' to the actual last page number.
-    Raises 404 for invalid page values.
+    Mixin to add pagination functionality to ListViews.
+    Provides enhanced pagination context and handling.
     """
-    def get(self, request, *args, **kwargs):
-        page = request.GET.get('page')
-        if page is not None:
-            if page == 'last':
-                queryset = self.get_queryset()
-                paginator = self.get_paginator(queryset, self.get_paginate_by(queryset))
-                if paginator.num_pages > 0:
-                    page = paginator.num_pages
-                else:
-                    page = 1
-                # Modify the querydict to set the page number
-                request.GET = request.GET.copy()
-                request.GET['page'] = str(page)
-            else:
-                try:
-                    int(page)
-                except ValueError:
-                    raise Http404("Page not found")
-        return super().get(request, *args, **kwargs)
+    paginate_by = 10  # Default pagination size
+
+    def paginate_queryset(self, queryset, page_size):
+        """
+        Paginate the queryset if needed.
+        """
+        paginator = Paginator(queryset, page_size)
+        page_number = self.request.GET.get('page')
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        return (paginator, page_obj, page_obj.object_list, page_obj.has_other_pages())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if hasattr(self, 'paginator') and self.paginator:
+            context.update({
+                'paginator': self.paginator,
+                'page_obj': self.page_obj,
+                'is_paginated': self.page_obj.has_other_pages(),
+                'object_list': self.page_obj.object_list,
+            })
+        return context

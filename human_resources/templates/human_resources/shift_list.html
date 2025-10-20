@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shift Management - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
+<style>
+.shift-header {
+    background: linear-gradient(135deg, #6f42c1, #6610f2);
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.shift-badge {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+}
+
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Shift Header -->
+    <div class="shift-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-1">
+                    <i class="fas fa-clock me-2"></i>
+                    Shift Management
+                </h1>
+                <p class="mb-0 opacity-75">
+                    Manage employee shift templates and schedules
+                </p>
+            </div>
+            <div class="col-auto">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'hr:shift_create' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus me-2"></i>Create Shift
+                    </a>
+                    <a href="{% url 'hr:schedule_list' %}" class="btn btn-outline-light">
+                        <i class="fas fa-calendar me-1"></i>Schedules
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shift Statistics -->
+    {% if shifts %}
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ total_shifts }}</span>
+                    <span class="stat-label">Total Shifts</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ active_shifts }}</span>
+                    <span class="stat-label">Active Shifts</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white stat-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-pause-circle position-absolute" style="top: 15px; right: 15px; opacity: 0.3; font-size: 1.5rem;"></i>
+                    <span class="stat-number">{{ inactive_shifts }}</span>
+                    <span class="stat-label">Inactive Shifts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h6 class="mb-0">
+                <i class="fas fa-filter me-2"></i>Shift Filters
+            </h6>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Shift Type</label>
+                    <select name="shift_type" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="morning" {% if request.GET.shift_type == 'morning' %}selected{% endif %}>Morning Shift</option>
+                        <option value="afternoon" {% if request.GET.shift_type == 'afternoon' %}selected{% endif %}>Afternoon Shift</option>
+                        <option value="evening" {% if request.GET.shift_type == 'evening' %}selected{% endif %}>Evening Shift</option>
+                        <option value="night" {% if request.GET.shift_type == 'night' %}selected{% endif %}>Night Shift</option>
+                        <option value="weekend" {% if request.GET.shift_type == 'weekend' %}selected{% endif %}>Weekend Shift</option>
+                        <option value="holiday" {% if request.GET.shift_type == 'holiday' %}selected{% endif %}>Holiday Shift</option>
+                        <option value="overtime" {% if request.GET.shift_type == 'overtime' %}selected{% endif %}>Overtime Shift</option>
+                        <option value="flexible" {% if request.GET.shift_type == 'flexible' %}selected{% endif %}>Flexible Hours</option>
+                        <option value="other" {% if request.GET.shift_type == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select name="is_active" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="true" {% if request.GET.is_active == 'true' %}selected{% endif %}>Active</option>
+                        <option value="false" {% if request.GET.is_active == 'false' %}selected{% endif %}>Inactive</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>Apply Filters
+                        </button>
+                        <a href="{% url 'hr:shift_list' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-times me-1"></i>Clear All
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shift Table -->
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list me-2"></i>Shift Templates
+            </h5>
+            <a href="{% url 'hr:shift_create' %}" class="btn btn-light btn-sm">
+                <i class="fas fa-plus me-1"></i>Add Shift
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" data-searchable data-sortable>
+                    <thead class="table-light">
+                        <tr>
+                            <th data-sortable="name">
+                                <i class="fas fa-tag me-1"></i>Shift Name
+                            </th>
+                            <th data-sortable="type">
+                                <i class="fas fa-clock me-1"></i>Type
+                            </th>
+                            <th data-sortable="time">
+                                <i class="fas fa-hourglass me-1"></i>Time Range
+                            </th>
+                            <th data-sortable="duration">
+                                <i class="fas fa-stopwatch me-1"></i>Duration
+                            </th>
+                            <th data-sortable="status">
+                                <i class="fas fa-toggle-on me-1"></i>Status
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-cogs me-1"></i>Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shift in shifts %}
+                        <tr>
+                            <td data-sort="{{ shift.name }}">
+                                <div>
+                                    <strong>{{ shift.name }}</strong>
+                                    {% if shift.description %}
+                                    <br>
+                                    <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td data-sort="{{ shift.shift_type }}">
+                                <span class="badge bg-info shift-badge">{{ shift.get_shift_type_display }}</span>
+                            </td>
+                            <td data-sort="{{ shift.start_time }}">
+                                <span class="time-display">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</span>
+                            </td>
+                            <td data-sort="{{ shift.duration_hours }}">
+                                {% if shift.duration_hours %}
+                                    {{ shift.duration_hours }} hours
+                                {% else %}
+                                    <span class="text-muted">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td data-sort="{{ shift.is_active|yesno:'1,0' }}">
+                                {% if shift.is_active %}
+                                    <span class="badge bg-success shift-badge">
+                                        <i class="fas fa-check me-1"></i>Active
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger shift-badge">
+                                        <i class="fas fa-times me-1"></i>Inactive
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'hr:shift_detail' shift.pk %}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'hr:shift_update' shift.pk %}"
+                                       class="btn btn-sm btn-outline-secondary"
+                                       data-bs-toggle="tooltip" title="Edit Shift">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'hr:shift_delete' shift.pk %}"
+                                       class="btn btn-sm btn-outline-danger"
+                                       data-bs-toggle="tooltip" title="Delete Shift">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="fas fa-clock fa-3x mb-3"></i>
+                                    <h5>No shifts found</h5>
+                                    <p>Create your first shift template to get started.</p>
+                                    <a href="{% url 'hr:shift_create' %}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Create First Shift
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="d-flex justify-content-center mt-4">
+        {% include 'includes/pagination.html' %}
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-calendar-plus me-2"></i>Schedule Management
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Assign shifts to employees and manage schedules</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'hr:schedule_list' %}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-list me-1"></i>View All Schedules
+                        </a>
+                        <a href="{% url 'hr:schedule_create' %}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-plus me-1"></i>Create Schedule
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Employee Management
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Manage employees and their assignments</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'hr:employee_list' %}" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-users me-1"></i>View Employees
+                        </a>
+                        <a href="{% url 'hr:attendance_list' %}" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-clock me-1"></i>View Attendance
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    console.log('Shift list enhancements initialized');
+});
+</script>
+{% endblock %}

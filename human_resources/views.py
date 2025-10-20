@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from .models import Attendance, Payroll, Employee, Training, LeaveApplication
+from .models import Attendance, Payroll, Employee, Training, LeaveApplication, Shift, Schedule
 from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm, LeaveApplicationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
@@ -22,7 +22,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'human_resources/employee_list.html'
     context_object_name = 'employees'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = Employee.objects.select_related('store', 'department', 'manager')
@@ -35,8 +35,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
                 Q(last_name__icontains=search) |
                 Q(email__icontains=search) |
                 Q(position__icontains=search) |
-                Q(username__icontains=search) |
-                Q(employee_id__icontains=search)
+                Q(username__icontains=search)
             )
         
         # Filter by store
@@ -362,7 +361,7 @@ class PayrollCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('hr:payroll_list')
 
     def form_valid(self, form):
-        messages.success(self.request, f'Payroll record for {form.instance.employee.get_full_name()} created successfully!')
+        # Note: removed created_by since it's not in the model
         return super().form_valid(form)
 
 class PayrollUpdateView(LoginRequiredMixin, UpdateView):
@@ -370,10 +369,6 @@ class PayrollUpdateView(LoginRequiredMixin, UpdateView):
     form_class = PayrollForm
     template_name = 'human_resources/payroll_form.html'
     success_url = reverse_lazy('hr:payroll_list')
-
-    def form_valid(self, form):
-        messages.success(self.request, f'Payroll record for {form.instance.employee.get_full_name()} updated successfully!')
-        return super().form_valid(form)
 
 class PayrollDetailView(LoginRequiredMixin, DetailView):
     model = Payroll
@@ -886,8 +881,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
                 Q(email__icontains=search) |
-                Q(position__icontains=search) |
-                Q(employee_id__icontains=search)
+                Q(position__icontains=search)
             )
         
         store_id = self.request.GET.get('store')
@@ -930,7 +924,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 employee.position or '',
                 employee.hire_date or '',
                 employee.salary or '',
-                employee.store.name if employee.store else '',
+                employee.store.store_name if employee.store else '',
                 employee.department.department_name if employee.department else '',
                 employee.manager.get_full_name() if employee.manager else '',
                 'Yes' if employee.is_active else 'No',
@@ -965,7 +959,7 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
                 'Position': employee.position or '',
                 'Hire Date': employee.hire_date,
                 'Salary': float(employee.salary) if employee.salary else 0,
-                'Store': employee.store.name if employee.store else '',
+                'Store': employee.store.store_name if employee.store else '',
                 'Department': employee.department.department_name if employee.department else '',
                 'Manager': employee.manager.get_full_name() if employee.manager else '',
                 'Active': 'Yes' if employee.is_active else 'No',
@@ -1004,6 +998,207 @@ class EmployeeExportView(LoginRequiredMixin, ExportMixin, View):
         response['Content-Disposition'] = f'attachment; filename="{self.get_filename(self.request, "employees", "xlsx")}"'
         
         return response
+
+# Shift Views
+class ShiftListView(LoginRequiredMixin, ListView):
+    model = Shift
+    template_name = 'human_resources/shift_list.html'
+    context_object_name = 'shifts'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Filter by shift type
+        shift_type = self.request.GET.get('shift_type')
+        if shift_type:
+            queryset = queryset.filter(shift_type=shift_type)
+
+        # Filter by active status
+        is_active = self.request.GET.get('is_active')
+        if is_active == 'true':
+            queryset = queryset.filter(is_active=True)
+        elif is_active == 'false':
+            queryset = queryset.filter(is_active=False)
+
+        return queryset.order_by('name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add statistics
+        context['total_shifts'] = Shift.objects.count()
+        context['active_shifts'] = Shift.objects.filter(is_active=True).count()
+        context['inactive_shifts'] = Shift.objects.filter(is_active=False).count()
+        return context
+
+class ShiftCreateView(LoginRequiredMixin, CreateView):
+    model = Shift
+    fields = ['name', 'shift_type', 'start_time', 'end_time', 'description', 'is_active', 'allowed_stores', 'allowed_departments']
+    template_name = 'human_resources/shift_form.html'
+    success_url = reverse_lazy('hr:shift_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Import here to avoid circular imports
+        from store_management.models import Store, Department
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Shift "{form.instance.name}" created successfully!')
+        return super().form_valid(form)
+
+class ShiftUpdateView(LoginRequiredMixin, UpdateView):
+    model = Shift
+    fields = ['name', 'shift_type', 'start_time', 'end_time', 'description', 'is_active', 'allowed_stores', 'allowed_departments']
+    template_name = 'human_resources/shift_form.html'
+    success_url = reverse_lazy('hr:shift_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Import here to avoid circular imports
+        from store_management.models import Store, Department
+        context['stores'] = Store.objects.all()
+        context['departments'] = Department.objects.all()
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Shift "{form.instance.name}" updated successfully!')
+        return super().form_valid(form)
+
+class ShiftDetailView(LoginRequiredMixin, DetailView):
+    model = Shift
+    template_name = 'human_resources/shift_detail.html'
+    context_object_name = 'shift'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add related schedules
+        context['schedules'] = self.object.schedules.select_related('employee').order_by('-date')[:10]
+        context['total_schedules'] = self.object.schedules.count()
+        return context
+
+class ShiftDeleteView(LoginRequiredMixin, DeleteView):
+    model = Shift
+    template_name = 'human_resources/shift_confirm_delete.html'
+    success_url = reverse_lazy('hr:shift_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add related data counts
+        context['schedule_count'] = self.object.schedules.count()
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        shift = self.get_object()
+        messages.success(request, f'Shift "{shift.name}" deleted successfully!')
+        return super().delete(request, *args, **kwargs)
+
+# Schedule Views
+class ScheduleListView(LoginRequiredMixin, ListView):
+    model = Schedule
+    template_name = 'human_resources/schedule_list.html'
+    context_object_name = 'schedules'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset().select_related('employee', 'shift', 'assigned_by')
+        # Filter by employee
+        employee_id = self.request.GET.get('employee')
+        if employee_id:
+            queryset = queryset.filter(employee_id=employee_id)
+
+        # Filter by shift
+        shift_id = self.request.GET.get('shift')
+        if shift_id:
+            queryset = queryset.filter(shift_id=shift_id)
+
+        # Filter by status
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+
+        # Filter by date range
+        date_from = self.request.GET.get('date_from')
+        if date_from:
+            queryset = queryset.filter(date__gte=date_from)
+
+        date_to = self.request.GET.get('date_to')
+        if date_to:
+            queryset = queryset.filter(date__lte=date_to)
+
+        return queryset.order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add statistics
+        context['total_schedules'] = Schedule.objects.count()
+        context['scheduled_count'] = Schedule.objects.filter(status='scheduled').count()
+        context['confirmed_count'] = Schedule.objects.filter(status='confirmed').count()
+        context['completed_count'] = Schedule.objects.filter(status='completed').count()
+        context['cancelled_count'] = Schedule.objects.filter(status='cancelled').count()
+        return context
+
+class ScheduleCreateView(LoginRequiredMixin, CreateView):
+    model = Schedule
+    fields = ['employee', 'shift', 'date', 'status', 'custom_start_time', 'custom_end_time', 'notes']
+    template_name = 'human_resources/schedule_form.html'
+    success_url = reverse_lazy('hr:schedule_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employees'] = Employee.objects.filter(is_active=True)
+        context['shifts'] = Shift.objects.filter(is_active=True)
+        return context
+
+    def form_valid(self, form):
+        # Set assigned_by to current user if they are an employee
+        try:
+            employee = Employee.objects.get(user=self.request.user)
+            form.instance.assigned_by = employee
+        except Employee.DoesNotExist:
+            pass
+
+        messages.success(self.request, f'Schedule for {form.instance.employee.get_full_name()} on {form.instance.date} created successfully!')
+        return super().form_valid(form)
+
+class ScheduleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Schedule
+    fields = ['employee', 'shift', 'date', 'status', 'custom_start_time', 'custom_end_time', 'notes', 'actual_start_time', 'actual_end_time']
+    template_name = 'human_resources/schedule_form.html'
+    success_url = reverse_lazy('hr:schedule_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employees'] = Employee.objects.filter(is_active=True)
+        context['shifts'] = Shift.objects.filter(is_active=True)
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Schedule for {form.instance.employee.get_full_name()} on {form.instance.date} updated successfully!')
+        return super().form_valid(form)
+
+class ScheduleDetailView(LoginRequiredMixin, DetailView):
+    model = Schedule
+    template_name = 'human_resources/schedule_detail.html'
+    context_object_name = 'schedule'
+
+class ScheduleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Schedule
+    template_name = 'human_resources/schedule_confirm_delete.html'
+    success_url = reverse_lazy('hr:schedule_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employee_name'] = self.object.employee.get_full_name()
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        schedule = self.get_object()
+        employee_name = schedule.employee.get_full_name()
+        date = schedule.date
+        messages.success(request, f'Schedule for {employee_name} on {date} deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
 def attendance_create(request):
     if request.method == 'POST':

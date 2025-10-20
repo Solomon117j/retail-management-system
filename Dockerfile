@@ -12,19 +12,15 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    libmagic-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt /app/
-RUN pip install --upgrade pip --timeout=300
-RUN pip install -r requirements.txt --timeout=300
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # Copy project
 COPY . /app/
-
-# Create logs directory
-RUN mkdir -p /app/logs
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
