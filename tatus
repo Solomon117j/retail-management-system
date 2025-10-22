@@ -1,0 +1,35 @@
+[33m24b54a3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mblackboxai/remove-customer-staff-ui-elements[m[33m)[m Prepare for Render deployment: add dj-database-url, update settings for DATABASE_URL, create deployment TODO
+[33m5bb919e[m Remove customer staff UI elements and clean up files
+[33mb1f5441[m Remove .env file from tracking to resolve secret scanning issue
+[33maf6c60b[m Update git repo: add .gitignore, stage all changes
+[33m5bf2dfa[m Remove customer and staff UI elements from various modules
+[33m715102a[m[33m ([m[1;31morigin/blackboxai/remove-customer-staff-ui-elements[m[33m)[m Modified system to development
+[33m419314a[m Initial commit for retail management system
+[33m703e4b8[m Removed unwanted files
+[33m13f5f53[m Create UI kits
+[33m8c6e1e9[m Update project files and add new configurations
+[33m5b6f1ef[m evert recent UI design changes to CSS and templates as requested
+[33m294dd97[m Security enhancement
+[33me7e1c7b[m Save progress: update documentation, views, models, templates, and other relevant files; remove obsolete files; clean up untracked files
+[33md7444b8[m Implement e-commerce cart system with models, views, and templates; fix missing fields in product form; add recent online orders to staff dashboard; enhance order form styling and functionality; clean up migrations and add new scripts
+[33mf8f9149[m Hide Quick Stats, Data Exports, and Core Modules in login_choice.html footer for anonymous users
+[33m99ab57c[m Remove core modules, Quick Actions, and data exports UI elements for customer staff users
+[33mc944f48[m[33m ([m[1;32mblackboxai/fix-404-logout-url[m[33m)[m Create customer and employee saperate logins, sort static files
+[33m0761447[m[33m ([m[1;31morigin/blackboxai/fix-404-logout-url[m[33m)[m Fix 404 error by updating logout URL in base.html to use accounts namespace
+[33m5bc54d6[m Alter e_commerce app, add dropdown in procurement
+[33ma6d3b9d[m Consider accounts app
+[33m82f3fe7[m Add stockMovement in the database
+[33m2b9c467[m Update inventory on Stock and suppliers
+[33m32bc1ab[m Database Schema doc, Security protocols, templates and ecommrce update
+[33me1ed6fd[m Update links and objects in templates, update settings.py
+[33m77ba406[m Insert LOGO,  change currency
+[33me6eb130[m Update HR and Stores app with employee and payroll
+[33m50c3e22[m Create static files and styling documentation
+[33m2f73cad[m Update username on dashboard to Firstname and last name
+[33m0ac182a[m Solve transcripts, update dashboard, delete duplicate index
+[33m850f02f[m Update dashboard with ecommerce and Procurement
+[33m18ad22f[m Update dashboards with procurement and ecommerce
+[33m29697c3[m add sales and ecommerce MVTs
+[33m2984968[m Modify Store, Add Inventory, Analytics, hr apps and incoporate in dashboards
+[33m461e4be[m Restructure Project
+[33m35ee174[m Working with models_urls_views_templates
