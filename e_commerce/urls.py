@@ -23,6 +23,9 @@ from .views import (
     RemoveFromCartView,
     CheckoutView,
     OrderExportView,
+    PayFastNotifyView,
+    MTNMoMoVerifyView,
+    MyGateWebhookView,
 )
 
 urlpatterns = [
@@ -44,7 +47,15 @@ urlpatterns = [
     path('cart/add/', AddToCartView.as_view(), name='add_to_cart'),
     path('cart/remove/', RemoveFromCartView.as_view(), name='remove_from_cart'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('checkout/success/', views.checkout_success, name='checkout_success'),
+
+
 
     # Data export
     path('orders/export/', OrderExportView.as_view(), name='order_export'),
+
+    # Payment gateway webhooks and notifications
+    path('payments/payfast/notify/', PayFastNotifyView.as_view(), name='payfast_notify'),
+    path('payments/mtn_momo/verify/', MTNMoMoVerifyView.as_view(), name='mtn_momo_verify'),
+    path('payments/mygate/webhook/', MyGateWebhookView.as_view(), name='mygate_webhook'),
 ]

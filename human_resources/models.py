@@ -8,6 +8,8 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+import json
+from datetime import datetime as dt
 
 class Employee(AbstractUser):
     # Primary key (replaces default 'id' field)
@@ -717,6 +719,48 @@ class Payroll(models.Model):
         if self.payment_date and self.payment_date < self.pay_period_end:
             raise ValidationError("Payment date cannot be before pay period end")
 
+class CostCenter(models.Model):
+    """Cost centers for enterprise cost tracking"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    code = models.CharField(_("cost center code"), max_length=20, unique=True)
+    name = models.CharField(_("cost center name"), max_length=100)
+    description = models.TextField(
+        _("description"),
+        blank=True,
+        null=True,
+        help_text=_("Description of this cost center")
+    )
+    manager = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='managed_cost_centers',
+        verbose_name=_("cost center manager"),
+        help_text=_("Manager responsible for this cost center")
+    )
+    budget = models.DecimalField(
+        _("annual budget"),
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_("Annual budget for this cost center")
+    )
+    is_active = models.BooleanField(_("active"), default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['code']
+        verbose_name = _("Cost Center")
+        verbose_name_plural = _("Cost Centers")
+
+    def __str__(self):
+        return f"{self.code} - {self.name}"
+
+
 class Shift(models.Model):
     """Predefined shift templates that can be assigned to employees"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -758,6 +802,39 @@ class Shift(models.Model):
     )
     is_active = models.BooleanField(_("active"), default=True)
 
+    # Enterprise-ready fields
+    break_times = models.JSONField(
+        _("break times"),
+        blank=True,
+        null=True,
+        help_text=_("Break schedule in JSON format: [{'start': '10:00', 'end': '10:15', 'type': 'lunch'}, ...]")
+    )
+    overtime_rules = models.TextField(
+        _("overtime rules"),
+        blank=True,
+        null=True,
+        help_text=_("Rules for overtime calculation and approval")
+    )
+    cost_center = models.ForeignKey(
+        CostCenter,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='shifts',
+        verbose_name=_("cost center"),
+        help_text=_("Cost center this shift belongs to")
+    )
+    approval_required = models.BooleanField(
+        _("approval required"),
+        default=False,
+        help_text=_("Whether this shift requires approval before assignment")
+    )
+    approval_levels = models.PositiveIntegerField(
+        _("approval levels"),
+        default=1,
+        help_text=_("Number of approval levels required")
+    )
+
     # Store and department restrictions
     allowed_stores = models.ManyToManyField(
         'store_management.Store',
@@ -797,6 +874,34 @@ class Shift(models.Model):
                 duration_minutes = (24 * 60 - start_minutes) + end_minutes
             self.duration_hours = round(duration_minutes / 60.0, 2)
         super().save(*args, **kwargs)
+
+    @property
+    def total_break_duration(self):
+        """Calculate total break time in hours"""
+        if not self.break_times:
+            return 0.0
+
+        total_minutes = 0
+        try:
+            breaks = json.loads(self.break_times) if isinstance(self.break_times, str) else self.break_times
+            for break_info in breaks:
+                if 'start' in break_info and 'end' in break_info:
+                    start = break_info['start']
+                    end = break_info['end']
+                    if isinstance(start, str) and isinstance(end, str):
+                        start_time = dt.strptime(start, '%H:%M').time()
+                        end_time = dt.strptime(end, '%H:%M').time()
+                        start_minutes = start_time.hour * 60 + start_time.minute
+                        end_minutes = end_time.hour * 60 + end_time.minute
+                        if end_minutes >= start_minutes:
+                            total_minutes += end_minutes - start_minutes
+                        else:
+                            # Handle overnight breaks (unlikely but possible)
+                            total_minutes += (24 * 60 - start_minutes) + end_minutes
+        except (json.JSONDecodeError, ValueError, KeyError):
+            return 0.0
+
+        return round(total_minutes / 60.0, 2)
 
 
 class Schedule(models.Model):
@@ -929,22 +1034,22 @@ class Schedule(models.Model):
         return 0.0
 
     def clean(self):
-        if self.date < timezone.now().date():
+        if self.date and self.date < timezone.now().date():
             raise ValidationError("Cannot schedule for past dates.")
 
         # Check if employee is active
-        if not self.employee.is_active:
+        if self.employee and not self.employee.is_active:
             raise ValidationError("Cannot schedule inactive employees.")
 
         # Check if shift is active
-        if not self.shift.is_active:
+        if self.shift and not self.shift.is_active:
             raise ValidationError("Cannot assign inactive shifts.")
 
         # Check store/department restrictions
-        if self.shift.allowed_stores.exists() and self.employee.store not in self.shift.allowed_stores.all():
+        if self.shift and self.shift.allowed_stores.exists() and self.employee and self.employee.store not in self.shift.allowed_stores.all():
             raise ValidationError(f"This shift is not allowed for the employee's store ({self.employee.store}).")
 
-        if self.shift.allowed_departments.exists() and self.employee.department not in self.shift.allowed_departments.all():
+        if self.shift and self.shift.allowed_departments.exists() and self.employee and self.employee.department not in self.shift.allowed_departments.all():
             raise ValidationError(f"This shift is not allowed for the employee's department ({self.employee.department}).")
 
 

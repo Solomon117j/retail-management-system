@@ -5,40 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
-<style>
-.schedule-form-header {
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.form-card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-}
-
-.required-field::after {
-    content: " *";
-    color: #dc3545;
-}
-
-.shift-preview {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
-}
-
-.time-display {
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #28a745;
-}
-</style>
+<link rel="stylesheet" href="{% static 'human_resources/css/schedule_form.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -48,11 +15,11 @@
         <div class="row align-items-center">
             <div class="col">
                 <h1 class="mb-1">
-                    <i class="fas fa-calendar-plus me-2"></i>
+                    <i class="fas fa-calendar-alt me-2"></i>
                     {% if object %}Edit Schedule{% else %}Create New Schedule{% endif %}
                 </h1>
                 <p class="mb-0 opacity-75">
-                    {% if object %}Update employee schedule assignment{% else %}Assign a shift to an employee for a specific date{% endif %}
+                    {% if object %}Update schedule details{% else %}Create a new employee schedule{% endif %}
                 </p>
             </div>
             <div class="col-auto">
@@ -63,122 +30,86 @@
         </div>
     </div>
 
-    <!-- Form -->
+    <!-- Form and Sidebar -->
     <div class="row justify-content-center">
-        <div class="col-lg-10">
+        <!-- Main Form -->
+        <div class="col-lg-8">
             <div class="form-card">
                 <div class="card-body p-4">
                     <form method="post" novalidate>
                         {% csrf_token %}
 
                         <!-- Basic Information -->
-                        <h5 class="mb-3">
-                            <i class="fas fa-info-circle me-2"></i>Schedule Details
-                        </h5>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="{{ form.employee.id_for_label }}" class="form-label required-field">
-                                    {{ form.employee.label }}
-                                </label>
-                                {{ form.employee }}
-                                {% if form.employee.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.employee.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.shift.id_for_label }}" class="form-label required-field">
-                                    {{ form.shift.label }}
-                                </label>
-                                {{ form.shift }}
-                                {% if form.shift.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.shift.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="{{ form.date.id_for_label }}" class="form-label required-field">
-                                    {{ form.date.label }}
-                                </label>
-                                {{ form.date }}
-                                {% if form.date.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.date.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.status.id_for_label }}" class="form-label required-field">
-                                    {{ form.status.label }}
-                                </label>
-                                {{ form.status }}
-                                {% if form.status.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.status.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- Shift Preview -->
-                        <div id="shift-preview" class="shift-preview" style="display: none;">
-                            <h6 class="mb-2">
-                                <i class="fas fa-clock me-2"></i>Shift Details
-                            </h6>
-                            <div class="row">
+                        <div class="form-section">
+                            <h5>
+                                <i class="fas fa-info-circle me-2"></i>Basic Information
+                            </h5>
+                            <div class="row form-row">
                                 <div class="col-md-6">
-                                    <strong id="shift-name"></strong>
-                                    <br>
-                                    <span id="shift-type" class="badge bg-info"></span>
+                                    <div class="form-group">
+                                        <label for="{{ form.employee.id_for_label }}" class="form-label required-field">
+                                            {{ form.employee.label }}
+                                        </label>
+                                        {{ form.employee }}
+                                        {% if form.employee.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form.employee.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <span class="time-display" id="shift-time"></span>
-                                    <br>
-                                    <small class="text-muted" id="shift-duration"></small>
+                                    <div class="form-group">
+                                        <label for="{{ form.shift.id_for_label }}" class="form-label required-field">
+                                            {{ form.shift.label }}
+                                        </label>
+                                        {{ form.shift }}
+                                        {% if form.shift.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form.shift.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Custom Times (Optional) -->
-                        <h5 class="mb-3">
-                            <i class="fas fa-cog me-2"></i>Custom Timing (Optional)
-                        </h5>
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Leave these fields empty to use the shift's default times. Use custom times only for exceptions.
+                        <!-- Date Information -->
+                        <div class="form-section">
+                            <h5>
+                                <i class="fas fa-calendar me-2"></i>Date Configuration
+                            </h5>
+                            <div class="row form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.date.id_for_label }}" class="form-label required-field">
+                                            {{ form.date.label }}
+                                        </label>
+                                        {{ form.date }}
+                                        {% if form.date.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form.date.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.status.id_for_label }}" class="form-label required-field">
+                                            {{ form.status.label }}
+                                        </label>
+                                        {{ form.status }}
+                                        {% if form.status.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form.status.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="{{ form.custom_start_time.id_for_label }}" class="form-label">
-                                    {{ form.custom_start_time.label }}
-                                </label>
-                                {{ form.custom_start_time }}
-                                {% if form.custom_start_time.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.custom_start_time.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.custom_end_time.id_for_label }}" class="form-label">
-                                    {{ form.custom_end_time.label }}
-                                </label>
-                                {{ form.custom_end_time }}
-                                {% if form.custom_end_time.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.custom_end_time.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- Additional Information -->
+                        <!-- Notes -->
                         <div class="mb-3">
                             <label for="{{ form.notes.id_for_label }}" class="form-label">
                                 {{ form.notes.label }}
@@ -190,19 +121,16 @@
                                 </div>
                             {% endif %}
                             <div class="form-text">
-                                Optional notes about this schedule (e.g., special instructions, reasons for custom times)
+                                Optional notes about this schedule entry
                             </div>
                         </div>
-
-                        <!-- Assigned By (Hidden field, set automatically) -->
-                        {{ form.assigned_by }}
 
                         <!-- Form Actions -->
                         <div class="d-flex justify-content-between pt-3 border-top">
                             <a href="{% url 'hr:schedule_list' %}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-1"></i>Cancel
                             </a>
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-1"></i>
                                 {% if object %}Update Schedule{% else %}Create Schedule{% endif %}
                             </button>
@@ -211,37 +139,47 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Help Section -->
-    <div class="row justify-content-center mt-4">
-        <div class="col-lg-10">
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0">
-                        <i class="fas fa-question-circle me-2"></i>Help & Guidelines
-                    </h6>
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="sidebar-card">
+                <div class="card help-section">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">
+                            <i class="fas fa-question-circle me-2"></i>Help & Guidelines
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <h6>Schedule Types</h6>
+                        <ul class="small mb-3">
+                            <li><strong>Scheduled:</strong> Regular assigned shift</li>
+                            <li><strong>Pending:</strong> Awaiting approval</li>
+                            <li><strong>Approved:</strong> Confirmed schedule</li>
+                            <li><strong>Cancelled:</strong> Shift no longer needed</li>
+                        </ul>
+
+                        <h6>Best Practices</h6>
+                        <ul class="small">
+                            <li>Ensure employee availability before scheduling</li>
+                            <li>Check for shift conflicts</li>
+                            <li>Add notes for special circumstances</li>
+                            <li>Review schedules regularly</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Schedule Status</h6>
-                            <ul class="small mb-3">
-                                <li><strong>Scheduled:</strong> Initial assignment, pending confirmation</li>
-                                <li><strong>Confirmed:</strong> Employee has acknowledged the schedule</li>
-                                <li><strong>Completed:</strong> Shift has been worked</li>
-                                <li><strong>Cancelled:</strong> Schedule has been cancelled</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Best Practices</h6>
-                            <ul class="small">
-                                <li>Check for scheduling conflicts before saving</li>
-                                <li>Use custom times sparingly for exceptions only</li>
-                                <li>Confirm schedules with employees in advance</li>
-                                <li>Document any special notes or requirements</li>
-                            </ul>
-                        </div>
+
+                <!-- Quick Stats or Additional Info -->
+                <div class="card mt-3">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Quick Info
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="small text-muted">
+                            Use this form to assign shifts to employees for specific dates.
+                            All schedules require approval before becoming active.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -251,42 +189,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const shiftSelect = document.getElementById('id_shift');
-    const previewDiv = document.getElementById('shift-preview');
-
-    // Shift data (passed from view)
-    const shiftsData = {{ shifts_json|default:"{}" }};
-
-    function updateShiftPreview() {
-        const shiftId = shiftSelect.value;
-        if (shiftId && shiftsData[shiftId]) {
-            const shift = shiftsData[shiftId];
-            document.getElementById('shift-name').textContent = shift.name;
-            document.getElementById('shift-type').textContent = shift.shift_type_display;
-            document.getElementById('shift-time').textContent = shift.start_time + ' - ' + shift.end_time;
-            document.getElementById('shift-duration').textContent = shift.duration_hours ? shift.duration_hours + ' hours' : 'Duration not set';
-            previewDiv.style.display = 'block';
-        } else {
-            previewDiv.style.display = 'none';
-        }
-    }
-
-    if (shiftSelect) {
-        shiftSelect.addEventListener('change', updateShiftPreview);
-        // Initial preview update
-        updateShiftPreview();
-    }
-
-    // Date validation - prevent past dates
-    const dateInput = document.getElementById('id_date');
-    if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-    }
-
-    console.log('Schedule form enhancements initialized');
-});
-</script>
+<script src="{% static 'human_resources/js/schedule_form.js' %}"></script>
 {% endblock %}

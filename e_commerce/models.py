@@ -66,6 +66,9 @@ class OnlineOrder(models.Model):
     ]
     
     PAYMENT_METHOD_CHOICES = [
+        ('mtn_momo', 'MTN Mobile Money'),
+        ('payfast', 'PayFast'),
+        ('mygate', 'MyGate'),
         ('credit_card', 'Credit Card'),
         ('debit_card', 'Debit Card'),
         ('digital_wallet', 'Digital Wallet'),

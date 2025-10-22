@@ -5,48 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'human_resources/css/hr.css' %}">
-<style>
-.shift-detail-header {
-    background: linear-gradient(135deg, #6f42c1, #6610f2);
-    color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.detail-card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    margin-bottom: 1.5rem;
-}
-
-.info-label {
-    font-weight: 600;
-    color: #495057;
-    min-width: 120px;
-}
-
-.time-display {
-    font-family: 'Courier New', monospace;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #6f42c1;
-}
-
-.status-badge {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-}
-
-.schedule-item {
-    border-left: 4px solid #6f42c1;
-    background: #f8f9fa;
-    padding: 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: 0 8px 8px 0;
-}
-</style>
+<link rel="stylesheet" href="{% static 'human_resources/css/shift_detail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -127,6 +86,14 @@
                                     <span class="text-muted">Not calculated</span>
                                 {% endif %}
                             </div>
+                            <div class="mb-3">
+                                <span class="info-label">Break Duration:</span>
+                                {% if shift.total_break_duration %}
+                                    <strong>{{ shift.total_break_duration }} hours</strong>
+                                {% else %}
+                                    <span class="text-muted">No breaks</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     {% if shift.description %}
@@ -135,6 +102,61 @@
                         <div class="mt-2">{{ shift.description|linebreaks }}</div>
                     </div>
                     {% endif %}
+                </div>
+            </div>
+
+            <!-- Enterprise Features -->
+            <div class="detail-card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>Enterprise Features
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <span class="info-label">Cost Center:</span>
+                                {% if shift.cost_center %}
+                                    <span class="badge bg-primary">{{ shift.cost_center.name }}</span>
+                                {% else %}
+                                    <span class="text-muted">Not assigned</span>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <span class="info-label">Approval Required:</span>
+                                {% if shift.approval_required %}
+                                    <span class="badge bg-warning">Yes ({{ shift.approval_levels }} level{{ shift.approval_levels|pluralize }})</span>
+                                {% else %}
+                                    <span class="badge bg-success">No</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if shift.break_times %}
+                            <div class="mb-3">
+                                <span class="info-label">Break Schedule:</span>
+                                <div class="mt-2">
+                                    {% for break_info in shift.break_times %}
+                                    <small class="d-block">
+                                        <i class="fas fa-coffee me-1"></i>
+                                        {{ break_info.start }} - {{ break_info.end }}
+                                        {% if break_info.type %}({{ break_info.type }}){% endif %}
+                                    </small>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if shift.overtime_rules %}
+                            <div class="mb-3">
+                                <span class="info-label">Overtime Rules:</span>
+                                <div class="mt-2">
+                                    <small>{{ shift.overtime_rules|truncatechars:100 }}</small>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -358,14 +380,10 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'human_resources/js/shift_detail.js' %}"></script>
 <script>
-function confirmDelete() {
-    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    modal.show();
-}
-
 function confirmToggleStatus() {
-    const isActive = {% if shift.is_active %}true{% else %}false{% endif %};
+    const isActive = {{ shift.is_active|yesno:"true,false" }};
     const action = isActive ? 'deactivate' : 'activate';
     const message = 'Are you sure you want to ' + action + ' this shift?';
 
@@ -375,9 +393,5 @@ function confirmToggleStatus() {
         window.location.href = "{% url 'hr:shift_update' shift.pk %}";
     }
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Shift detail page loaded');
-});
 </script>
 {% endblock %}

@@ -415,3 +415,13 @@ SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerc
 SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
 SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
 SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: GET

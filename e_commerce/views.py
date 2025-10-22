@@ -2,13 +2,23 @@
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, View
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.forms import inlineformset_factory
 from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
+import logging
+from django.conf import settings
 from .models import OnlineOrder, OrderItem, CustomerAccount
+
+logger = logging.getLogger(__name__)
 from .mixins import CustomerAccessMixin
+from .mtn_momo_utils import create_mtn_momo_payment, verify_mtn_momo_payment
+from .payfast_utils import create_payfast_payment, process_payfast_notification
+from .mygate_utils import create_mygate_payment, verify_mygate_payment, process_mygate_webhook
 from sales.models import Customer
 from inventory.models import Product
 
@@ -579,6 +589,50 @@ class CheckoutView(View):
                     unit_price=item['unit_price']
                 )
 
+            # Handle payment gateway integration
+            payment_method = request.POST['payment_method']
+            try:
+                if payment_method == 'mtn_momo':
+                    # Get phone number from form or customer
+                    phone_number = request.POST.get('mtn_phone')
+                    if not phone_number:
+                        if request.user.is_authenticated and order.customer and order.customer.phone:
+                            phone_number = order.customer.phone
+                        elif order.guest_phone:
+                            phone_number = order.guest_phone
+                        else:
+                            raise ValueError("Phone number is required for MTN Mobile Money payment")
+
+                    # Update order with phone number
+                    if not order.customer:
+                        order.guest_phone = phone_number
+                        order.save()
+
+                    payment_result = create_mtn_momo_payment(order)
+                    # For MTN MoMo, redirect to success page and handle async payment
+                    messages.success(request, f'Order #{order.id} created. Please complete payment via MTN Mobile Money.')
+                    return redirect('e_commerce:checkout_success')
+
+                elif payment_method == 'payfast':
+                    payment_result = create_payfast_payment(order)
+                    # Redirect to PayFast payment page
+                    return redirect(payment_result['payment_url'])
+
+                elif payment_method == 'mygate':
+                    payment_result = create_mygate_payment(order)
+                    # Redirect to MyGate payment page
+                    return redirect(payment_result['payment_url'])
+
+                else:
+                    # For traditional payment methods (credit_card, debit_card, digital_wallet)
+                    # Mark as completed since payment processing is handled separately
+                    order.payment_status = 'completed'
+                    order.save()
+
+            except Exception as e:
+                messages.error(request, f'Payment setup failed: {str(e)}')
+                return redirect('e_commerce:checkout')
+
             # Clear cart
             if request.user.is_authenticated:
                 cart.items.all().delete()
@@ -588,6 +642,8 @@ class CheckoutView(View):
 
         messages.success(request, f'Order #{order.id} created successfully')
         return redirect('e_commerce:order_detail', pk=order.pk)
+
+
 
 class OrderExportView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -611,3 +667,113 @@ class OrderExportView(LoginRequiredMixin, View):
             ])
 
         return response
+
+def checkout_success(request):
+    """Handle successful checkout return from Stripe"""
+    return render(request, 'e_commerce/checkout_success.html')
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PayFastNotifyView(View):
+    """Handle PayFast Instant Transaction Notification (ITN)"""
+
+    def post(self, request, *args, **kwargs):
+        try:
+            # Get POST data
+            post_data = request.POST.dict()
+
+            # Process the notification
+            result = process_payfast_notification(post_data)
+
+            if result['status'] == 'valid':
+                # Update order status
+                order_id = result['order_id']
+                order = get_object_or_404(OnlineOrder, id=order_id)
+
+                if result['payment_status'] == 'COMPLETE':
+                    order.payment_status = 'completed'
+                    order.status = 'processing'  # Move to processing after payment
+                    order.save()
+                    logger.info(f"PayFast payment completed for Order #{order_id}")
+                else:
+                    logger.warning(f"PayFast payment status: {result['payment_status']} for Order #{order_id}")
+
+                # Return success response to PayFast
+                return HttpResponse('SUCCESS')
+
+            else:
+                logger.error(f"Invalid PayFast notification: {result}")
+                return HttpResponse('FAILED', status=400)
+
+        except Exception as e:
+            logger.error(f"Error processing PayFast notification: {str(e)}")
+            return HttpResponse('FAILED', status=500)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MTNMoMoVerifyView(View):
+    """Handle MTN MoMo payment verification"""
+
+    def post(self, request, *args, **kwargs):
+        try:
+            order_id = request.POST.get('order_id')
+            reference_id = request.POST.get('reference_id')
+
+            if not order_id or not reference_id:
+                return JsonResponse({'error': 'order_id and reference_id are required'}, status=400)
+
+            order = get_object_or_404(OnlineOrder, id=order_id)
+
+            # Verify the payment
+            verification_result = verify_mtn_momo_payment(order, reference_id)
+
+            if verification_result is True:
+                return JsonResponse({'status': 'success', 'message': 'Payment verified successfully'})
+            elif verification_result is False:
+                return JsonResponse({'status': 'failed', 'message': 'Payment failed'})
+            else:
+                return JsonResponse({'status': 'pending', 'message': 'Payment still processing'})
+
+        except Exception as e:
+            logger.error(f"Error verifying MTN MoMo payment: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MyGateWebhookView(View):
+    """Handle MyGate webhook notifications"""
+
+    def post(self, request, *args, **kwargs):
+        try:
+            # Get webhook data
+            webhook_data = json.loads(request.body)
+
+            # Process the webhook
+            result = process_mygate_webhook(webhook_data)
+
+            if result['status'] == 'error':
+                logger.error(f"MyGate webhook processing failed: {result['error']}")
+                return JsonResponse({'error': result['error']}, status=400)
+
+            # Update order if reference is provided
+            order_reference = result.get('order_reference')
+            if order_reference:
+                try:
+                    order = OnlineOrder.objects.get(id=order_reference)
+                    if result['status'] == 'COMPLETED':
+                        order.payment_status = 'completed'
+                        order.status = 'processing'
+                        order.save()
+                        logger.info(f"MyGate payment completed for Order #{order_reference}")
+                    elif result['status'] == 'FAILED':
+                        order.payment_status = 'failed'
+                        order.save()
+                        logger.warning(f"MyGate payment failed for Order #{order_reference}")
+                except OnlineOrder.DoesNotExist:
+                    logger.error(f"Order not found for MyGate webhook: {order_reference}")
+
+            return JsonResponse({'status': 'received'})
+
+        except json.JSONDecodeError:
+            logger.error("Invalid JSON in MyGate webhook")
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            logger.error(f"Error processing MyGate webhook: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)

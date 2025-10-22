@@ -14,6 +14,7 @@ from pathlib import Path
 import sys
 import logging
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables
 load_dotenv()
@@ -22,11 +23,24 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
 
-# Stripe Configuration
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_your_stripe_publishable_key_here')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_your_stripe_secret_key_here')
-STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_your_webhook_secret_here')
-STRIPE_CURRENCY = 'szl'  # Swazi Lilangeni
+# Payment Gateway Configuration
+# MTN MoMo Configuration
+MTN_MOMO_API_KEY = os.environ.get('MTN_MOMO_API_KEY', '')
+MTN_MOMO_API_SECRET = os.environ.get('MTN_MOMO_API_SECRET', '')
+MTN_MOMO_ENVIRONMENT = os.environ.get('MTN_MOMO_ENVIRONMENT', 'sandbox')  # 'sandbox' or 'production'
+
+# PayFast Configuration
+PAYFAST_MERCHANT_ID = os.environ.get('PAYFAST_MERCHANT_ID', '')
+PAYFAST_MERCHANT_KEY = os.environ.get('PAYFAST_MERCHANT_KEY', '')
+PAYFAST_ENVIRONMENT = os.environ.get('PAYFAST_ENVIRONMENT', 'sandbox')  # 'sandbox' or 'production'
+PAYFAST_PASSPHRASE = os.environ.get('PAYFAST_PASSPHRASE', '')
+
+# MyGate Configuration
+MYGATE_MERCHANT_ID = os.environ.get('MYGATE_MERCHANT_ID', '')
+MYGATE_APPLICATION_ID = os.environ.get('MYGATE_APPLICATION_ID', '')
+MYGATE_ENVIRONMENT = os.environ.get('MYGATE_ENVIRONMENT', 'sandbox')  # 'sandbox' or 'production'
+
+PAYMENT_CURRENCY = 'ZAR'  # South African Rand (primary currency for these gateways)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production')
@@ -162,14 +176,11 @@ WSGI_APPLICATION = 'retail_management_system.wsgi.application'
 # Install driver: pip install psycopg2-binary
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'retail_management_system'),
-        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'Only4u@12345'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:Only4u@12345@localhost:5432/retail_management_system'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # Password validation
