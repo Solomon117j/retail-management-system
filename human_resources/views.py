@@ -361,14 +361,72 @@ class PayrollCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('hr:payroll_list')
 
     def form_valid(self, form):
-        # Note: removed created_by since it's not in the model
-        return super().form_valid(form)
+        try:
+            # Check if this is an AJAX request
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                payroll = form.save()
+                return JsonResponse({
+                    'success': True,
+                    'id': str(payroll.id),
+                    'message': f'Payroll record for {payroll.employee.get_full_name()} saved successfully!'
+                })
+            else:
+                return super().form_valid(form)
+        except Exception as e:
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'errors': {'__all__': ['An error occurred while saving the payroll record.']}
+                }, status=500)
+            else:
+                raise e
+
+    def form_invalid(self, form):
+        # Check if this is an AJAX request
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors
+            }, status=400)
+        else:
+            return super().form_invalid(form)
 
 class PayrollUpdateView(LoginRequiredMixin, UpdateView):
     model = Payroll
     form_class = PayrollForm
     template_name = 'human_resources/payroll_form.html'
     success_url = reverse_lazy('hr:payroll_list')
+
+    def form_valid(self, form):
+        try:
+            # Check if this is an AJAX request
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                payroll = form.save()
+                return JsonResponse({
+                    'success': True,
+                    'id': str(payroll.id),
+                    'message': f'Payroll record for {payroll.employee.get_full_name()} updated successfully!'
+                })
+            else:
+                return super().form_valid(form)
+        except Exception as e:
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'errors': {'__all__': ['An error occurred while updating the payroll record.']}
+                }, status=500)
+            else:
+                raise e
+
+    def form_invalid(self, form):
+        # Check if this is an AJAX request
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors
+            }, status=400)
+        else:
+            return super().form_invalid(form)
 
 class PayrollDetailView(LoginRequiredMixin, DetailView):
     model = Payroll

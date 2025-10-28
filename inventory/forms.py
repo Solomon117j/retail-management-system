@@ -1,5 +1,5 @@
 from django import forms
-from .models import Brand, Category, Product, InventoryRecord, StockMovement
+from .models import Brand, Category, Product, InventoryRecord, StockMovement, StockTransfer
 
 class BrandForm(forms.ModelForm):
     class Meta:
@@ -169,3 +169,40 @@ class StockMovementForm(forms.ModelForm):
                 'placeholder': 'Enter reference number'
             }),
         }
+
+class StockTransferForm(forms.ModelForm):
+    class Meta:
+        model = StockTransfer
+        fields = ['product', 'from_store', 'to_store', 'quantity', 'notes']
+        widgets = {
+            'product': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'from_store': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'to_store': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter quantity to transfer'
+            }),
+            'notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter transfer notes',
+                'rows': 3
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Prevent selecting the same store for from and to
+        if 'from_store' in self.data:
+            try:
+                from_store_id = int(self.data.get('from_store'))
+                self.fields['to_store'].queryset = self.fields['to_store'].queryset.exclude(id=from_store_id)
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['to_store'].queryset = self.fields['to_store'].queryset.exclude(id=self.instance.from_store.id)

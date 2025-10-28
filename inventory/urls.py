@@ -4,9 +4,12 @@ from .views import (
     CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, category_export,
     ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, product_export,
     InventoryRecordListView, InventoryRecordCreateView, InventoryRecordUpdateView, InventoryRecordDeleteView, inventoryrecord_export,
+    StockTransferListView, StockTransferDetailView, StockTransferCreateView, StockTransferUpdateView, StockTransferDeleteView, stocktransfer_export,
     StockMovementListView, StockMovementCreateView, StockMovementUpdateView, StockMovementDeleteView, stockmovement_export,
     InventoryDashboardView,
     StockManagementView,
+    ExpirationDashboardView,
+    process_replenishment,
 )
 
 app_name = 'inventory'
@@ -37,6 +40,13 @@ urlpatterns = [
     path('inventoryrecords/<int:pk>/delete/', InventoryRecordDeleteView.as_view(), name='inventoryrecord_delete'),
     path('inventoryrecords/export/', inventoryrecord_export, name='inventoryrecord_export'),
 
+    path('stocktransfers/', StockTransferListView.as_view(), name='stocktransfer-list'),
+    path('stocktransfers/<int:pk>/', StockTransferDetailView.as_view(), name='stocktransfer_detail'),
+    path('stocktransfers/add/', StockTransferCreateView.as_view(), name='stocktransfer_create'),
+    path('stocktransfers/<int:pk>/edit/', StockTransferUpdateView.as_view(), name='stocktransfer_update'),
+    path('stocktransfers/<int:pk>/delete/', StockTransferDeleteView.as_view(), name='stocktransfer_delete'),
+    path('stocktransfers/export/', stocktransfer_export, name='stocktransfer_export'),
+
     path('stockmovements/', StockMovementListView.as_view(), name='stockmovement-list'),
     path('stockmovements/add/', StockMovementCreateView.as_view(), name='stockmovement_create'),
     path('stockmovements/<int:pk>/edit/', StockMovementUpdateView.as_view(), name='stockmovement_update'),
@@ -45,4 +55,6 @@ urlpatterns = [
 
     path('dashboard/', InventoryDashboardView.as_view(), name='inventory-dashboard'),
     path('stock-management/', StockManagementView.as_view(), name='stock-management'),
+    path('expiration-dashboard/', ExpirationDashboardView.as_view(), name='expiration-dashboard'),
+    path('process-replenishment/', process_replenishment, name='process-replenishment'),
 ]

@@ -144,4 +144,40 @@
   /* Footer */
   --footer-bg: #343a40;
   --footer-color: #ffffff;
+
+  /* Theme Variables */
+  --bg-color: #ffffff;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+  --card-bg: #ffffff;
+  --navbar-bg: #343a40;
+  --navbar-color: #ffffff;
+  --footer-bg: #343a40;
+  --footer-color: #ffffff;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --bg-color: #1a202c;
+  --text-color: #f7fafc;
+  --text-muted: #a0aec0;
+  --card-bg: rgba(26, 32, 44, 0.9);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(45, 55, 72, 0.9);
+  --input-focus: #63b3ed;
+  --header-bg: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  --section-bg: rgba(45, 55, 72, 0.8);
+  --help-bg: rgba(45, 55, 72, 0.9);
+  --alert-info-bg: rgba(99, 179, 237, 0.1);
+  --alert-info-border: #63b3ed;
+  --btn-primary-bg: linear-gradient(135deg, #63b3ed 0%, #4299e1 100%);
+  --btn-outline-bg: rgba(255, 255, 255, 0.1);
+  --btn-outline-border: rgba(255, 255, 255, 0.2);
+  --btn-secondary-bg: rgba(45, 55, 72, 0.9);
+  --btn-secondary-border: #4a5568;
+  --btn-secondary-color: #e2e8f0;
+  --navbar-bg: #1a202c;
+  --navbar-color: #f7fafc;
+  --footer-bg: #1a202c;
+  --footer-color: #f7fafc;
 }

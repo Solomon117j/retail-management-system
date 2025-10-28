@@ -151,6 +151,18 @@ class PurchaseOrderListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['suppliers'] = Supplier.objects.all()
         context['status_choices'] = PurchaseOrder.ORDER_STATUS_CHOICES
+
+        # Calculate status counts for summary cards from the filtered queryset
+        from django.db.models import Count
+        filtered_queryset = self.get_queryset()
+        status_counts = filtered_queryset.aggregate(
+            total_orders=Count('id'),
+            pending_approval=Count('id', filter=models.Q(status='pending')),
+            shipped=Count('id', filter=models.Q(status='shipped')),
+            received=Count('id', filter=models.Q(status='received')),
+        )
+        context.update(status_counts)
+
         return context
 
 class PurchaseOrderDetailView(LoginRequiredMixin, DetailView):
@@ -305,6 +317,7 @@ class PurchaseOrderStatusUpdateView(LoginRequiredMixin, UpdateView):
 class PurchaseOrderReceiveView(LoginRequiredMixin, UpdateView):
     model = PurchaseOrder
     template_name = 'procurement/purchaseorder_receive.html'
+    context_object_name = 'order'
     fields = []
     
     def get_context_data(self, **kwargs):
@@ -332,11 +345,11 @@ class PurchaseOrderReceiveView(LoginRequiredMixin, UpdateView):
                             StockMovement.objects.create(
                                 product=item.product,
                                 store=self.object.store,
-                                movement_type=StockMovement.MOVEMENT_IN,
+                                movement_type='IN',
                                 quantity=abs(delta),
                                 reference=f"PO-{self.object.id}",
                                 created_by=request.user.employee_profile.first(),
-                                note="Auto receive from Purchase Order"
+                                reason='PURCHASE'
                             )
                             # Update received_quantity to new value
                             item.received_quantity = received_qty

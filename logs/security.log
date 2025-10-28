@@ -425,3 +425,20 @@ SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerc
 SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
 SECURITY {levelname} {asctime} {message} - User:  IP: 127.0.0.1 Path: /e_commerce/checkout/ Method: POST
 SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /hr/schedules/create/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/inventoryrecords/add/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/update/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/update/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/update/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/update/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /procurement/orders/2/receive/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: thembinkosi IP: 127.0.0.1 Path: /inventory/stockmovements/add/ Method: POST
+SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path: /dashboards/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path: /dashboards/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path: /dashboards/ Method: GET
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN

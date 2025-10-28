@@ -88,6 +88,43 @@ class Supplier(models.Model):
         help_text="Additional notes about the supplier"
     )
 
+    # Dropshipping Integration Fields
+    is_dropshipping_supplier = models.BooleanField(
+        default=False,
+        verbose_name="Dropshipping Supplier",
+        help_text="Check if this supplier supports dropshipping"
+    )
+    platform_type = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Platform Type",
+        help_text="e.g., DSers, AliExpress, Oberlo",
+        choices=[
+            ('dsers', 'DSers'),
+            ('aliexpress', 'AliExpress'),
+            ('oberlo', 'Oberlo'),
+            ('other', 'Other'),
+        ]
+    )
+    platform_supplier_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Platform Supplier ID",
+        help_text="Supplier ID on the dropshipping platform"
+    )
+    auto_sync_inventory = models.BooleanField(
+        default=False,
+        verbose_name="Auto Sync Inventory",
+        help_text="Automatically sync inventory levels from platform"
+    )
+    auto_fulfill_orders = models.BooleanField(
+        default=False,
+        verbose_name="Auto Fulfill Orders",
+        help_text="Automatically place orders on platform when sales occur"
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -118,6 +155,19 @@ class SupplierProduct(models.Model):
         default=1,
         validators=[MinValueValidator(1)]
     )
+    auto_approval_threshold = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="Auto Approval Threshold",
+        help_text="Maximum order value for automatic approval"
+    )
+    preferred_supplier = models.BooleanField(
+        default=False,
+        verbose_name="Preferred Supplier",
+        help_text="This is the preferred supplier for this product"
+    )
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -137,19 +187,45 @@ class PurchaseOrder(models.Model):
         ('draft', 'Draft'),
         ('pending', 'Pending Approval'),
         ('approved', 'Approved'),
+        ('auto_approved', 'Auto Approved'),
         ('shipped', 'Shipped'),
         ('received', 'Received'),
         ('cancelled', 'Cancelled'),
     ]
 
+    ORDER_TYPE_CHOICES = [
+        ('supplier_order', 'Order from Supplier'),
+        ('warehouse_transfer', 'Transfer from Warehouse'),
+    ]
+
+    order_type = models.CharField(
+        max_length=20,
+        choices=ORDER_TYPE_CHOICES,
+        default='supplier_order',
+        verbose_name="Order Type",
+        help_text="Type of order: from supplier or warehouse transfer"
+    )
+
     supplier = models.ForeignKey(
         Supplier,
         on_delete=models.PROTECT,
-        related_name='purchase_orders'
+        related_name='purchase_orders',
+        blank=True,
+        null=True
     )
     store = models.ForeignKey(
         'store_management.Store',  # Reference to Store model
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name="Ordering Store"
+    )
+    destination_warehouse = models.ForeignKey(
+        'store_management.Store',
+        on_delete=models.PROTECT,
+        related_name='received_transfers',
+        blank=True,
+        null=True,
+        verbose_name="Destination Warehouse",
+        help_text="Warehouse receiving the transfer (for warehouse transfers only)"
     )
     order_date = models.DateField(default=timezone.now)
     expected_delivery_date = models.DateField(blank=True, null=True)
@@ -164,6 +240,26 @@ class PurchaseOrder(models.Model):
         blank=True,
         null=True,
         validators=[MinValueValidator(0.01)]
+    )
+    replenishment_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('manual', 'Manual Order'),
+            ('auto_triggered', 'Auto Triggered'),
+            ('predictive', 'Predictive Reorder'),
+            ('bulk_batch', 'Bulk Batch Order'),
+        ],
+        default='manual',
+        verbose_name="Replenishment Status",
+        help_text="How this order was created"
+    )
+    approved_at = models.DateTimeField(blank=True, null=True)
+    approved_by = models.ForeignKey(
+        'accounts.Employee',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='approved_purchase_orders'
     )
     created_by = models.ForeignKey(
         'accounts.Employee',  # Reference to Employee model
@@ -216,3 +312,108 @@ class PurchaseOrderItem(models.Model):
         # Update parent order total when item changes
         super().save(*args, **kwargs)
         self.order.save()  # Recalculate total_amount
+
+
+# DSers Integration Models
+class DSersProduct(models.Model):
+    """Model for DSers products imported into the system"""
+    dsers_product_id = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="DSers Product ID"
+    )
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.CASCADE,
+        related_name='dsers_products'
+    )
+    product = models.OneToOneField(
+        'inventory.Product',
+        on_delete=models.CASCADE,
+        related_name='dsers_product'
+    )
+    dsers_data = models.JSONField(
+        verbose_name="DSers Product Data",
+        help_text="Raw JSON data from DSers API"
+    )
+    last_synced = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Last Synced"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Active",
+        help_text="Whether this product is active for dropshipping"
+    )
+
+    def __str__(self):
+        return f"DSers Product {self.dsers_product_id} - {self.product.name}"
+
+    class Meta:
+        verbose_name = "DSers Product"
+        verbose_name_plural = "DSers Products"
+
+
+class DSersOrder(models.Model):
+    """Model for tracking DSers orders"""
+    ORDER_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+        ('refunded', 'Refunded'),
+    ]
+
+    dsers_order_id = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="DSers Order ID"
+    )
+    sales_order = models.ForeignKey(
+        'e_commerce.OnlineOrder',
+        on_delete=models.CASCADE,
+        related_name='dsers_orders'
+    )
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.CASCADE,
+        related_name='dsers_orders'
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES,
+        default='pending',
+        verbose_name="Order Status"
+    )
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Tracking Number"
+    )
+    shipping_carrier = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Shipping Carrier"
+    )
+    dsers_data = models.JSONField(
+        verbose_name="DSers Order Data",
+        help_text="Raw JSON data from DSers API"
+    )
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name="Created At"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Updated At"
+    )
+
+    def __str__(self):
+        return f"DSers Order {self.dsers_order_id} - {self.status}"
+
+    class Meta:
+        verbose_name = "DSers Order"
+        verbose_name_plural = "DSers Orders"

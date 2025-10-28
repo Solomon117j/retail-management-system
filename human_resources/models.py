@@ -15,6 +15,10 @@ class Employee(AbstractUser):
     # Primary key (replaces default 'id' field)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    # User type flags (required for compatibility with existing views)
+    is_customer = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=True)
+
     # Personal info (override AbstractUser fields)
     first_name = models.CharField(_("first name"), max_length=50, blank=False)
     last_name = models.CharField(_("last name"), max_length=50, blank=False)

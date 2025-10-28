@@ -45,9 +45,11 @@ django-url-filter==0.3.15
 # Monitoring and Logging
 # sentry-sdk==2.15.0 (for error monitoring)
 
-# Caching (if needed)
-# redis==5.1.0
-# django-redis==5.4.0
+# Caching and WebSockets
+redis==5.1.0
+channels==4.1.0
+channels-redis==4.2.0
+daphne==4.1.2
 
 # Task Queue (if needed)
 # celery==5.4.0
@@ -69,3 +71,6 @@ reportlab==4.2.2
 
 # Barcode Generation
 python-barcode==0.15.1
+
+# DSers Dropshipping Integration
+dsers-api==1.0.0

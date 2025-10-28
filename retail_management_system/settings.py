@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 
     'django_extensions',
     'debug_toolbar',
@@ -107,7 +108,7 @@ INSTALLED_APPS = [
     'reporting.apps.ReportingConfig',
 ]
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'human_resources.Employee'
 LOGIN_URL = '/accounts/login/'   # Generic login choice page
 LOGIN_REDIRECT_URL = '/'         # Redirect after login
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect to login choice after logout
@@ -169,6 +170,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'retail_management_system.wsgi.application'
+
+# Channels configuration for WebSockets
+ASGI_APPLICATION = 'retail_management_system.asgi.application'
+
+# Channel layers for WebSocket support
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -233,6 +247,16 @@ STATICFILES_DIRS = [
 
 # Static files collection directory (for production)
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# DSers Dropshipping Configuration
+DSERS_CONFIG = {
+    'API_BASE_URL': os.getenv('DSERS_API_BASE_URL', 'https://api.dsers.com'),
+    'API_KEY': os.getenv('DSERS_API_KEY', ''),
+    'API_SECRET': os.getenv('DSERS_API_SECRET', ''),
+    'WEBHOOK_SECRET': os.getenv('DSERS_WEBHOOK_SECRET', ''),
+    'DEFAULT_CURRENCY': 'USD',
+    'AUTO_SYNC_INTERVAL': 3600,  # 1 hour in seconds
+}
 
 # Media files (user uploaded content)
 MEDIA_URL = '/media/'

@@ -24,7 +24,7 @@
         <div class="col-md-3">
             <div class="card summary-card border-primary">
                 <div class="card-body text-center">
-                    <div class="h4 mb-0 text-primary">{{ orders|length }}</div>
+                    <div class="h4 mb-0 text-primary">{{ total_orders }}</div>
                     <small class="text-muted">Total Orders</small>
                 </div>
             </div>
@@ -32,7 +32,7 @@
         <div class="col-md-3">
             <div class="card summary-card border-warning">
                 <div class="card-body text-center">
-                    <div class="h4 mb-0 text-warning">{{ orders|length|add:"0" }}</div>
+                    <div class="h4 mb-0 text-warning">{{ pending_approval }}</div>
                     <small class="text-muted">Pending Approval</small>
                 </div>
             </div>
@@ -40,7 +40,7 @@
         <div class="col-md-3">
             <div class="card summary-card border-info">
                 <div class="card-body text-center">
-                    <div class="h4 mb-0 text-info">{{ orders|length|add:"0" }}</div>
+                    <div class="h4 mb-0 text-info">{{ shipped }}</div>
                     <small class="text-muted">Shipped</small>
                 </div>
             </div>
@@ -48,7 +48,7 @@
         <div class="col-md-3">
             <div class="card summary-card border-success">
                 <div class="card-body text-center">
-                    <div class="h4 mb-0 text-success">{{ orders|length|add:"0" }}</div>
+                    <div class="h4 mb-0 text-success">{{ received }}</div>
                     <small class="text-muted">Received</small>
                 </div>
             </div>

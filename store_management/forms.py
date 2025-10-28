@@ -190,6 +190,7 @@ class StoreForm(forms.ModelForm):
         self.fields['region'].required = True
         self.fields['phone'].required = True
         self.fields['opening_date'].required = True
+        self.fields['store_type'].required = True
 
         # Set postal_code as optional
         self.fields['postal_code'].required = False

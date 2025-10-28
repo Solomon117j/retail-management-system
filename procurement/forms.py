@@ -3,6 +3,7 @@ import datetime
 from django import forms
 from .models import Supplier, PurchaseOrder, PurchaseOrderItem, SupplierProduct
 from inventory.models import Product
+from store_management.models import Store
 
 
 class SupplierForm(forms.ModelForm):
@@ -14,7 +15,9 @@ class SupplierForm(forms.ModelForm):
             'website', 'tax_id', 'industry', 'notes',
             'api_endpoint', 'api_key', 'on_time_delivery_rate',
             'quality_rating', 'total_orders', 'total_spent',
-            'compliance_score', 'tenant_id'
+            'compliance_score', 'tenant_id',
+            'is_dropshipping_supplier', 'platform_type', 'platform_supplier_id',
+            'auto_sync_inventory', 'auto_fulfill_orders'
         ]
         widgets = {
             'name': forms.TextInput(attrs={
@@ -122,6 +125,24 @@ class SupplierForm(forms.ModelForm):
                 'placeholder': 'Enter tenant ID',
                 'maxlength': 50
             }),
+            'is_dropshipping_supplier': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'platform_type': forms.Select(attrs={
+                'class': 'form-select',
+                'placeholder': 'Select platform type'
+            }),
+            'platform_supplier_id': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter platform supplier ID',
+                'maxlength': 100
+            }),
+            'auto_sync_inventory': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'auto_fulfill_orders': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
         }
 
         help_texts = {
@@ -144,7 +165,12 @@ class SupplierForm(forms.ModelForm):
             'total_orders': 'Total number of orders placed with this supplier',
             'total_spent': 'Total amount spent with this supplier',
             'compliance_score': 'Compliance score percentage (0-100)',
-            'tenant_id': 'Tenant ID for multi-tenant architecture'
+            'tenant_id': 'Tenant ID for multi-tenant architecture',
+            'is_dropshipping_supplier': 'Check if this supplier supports dropshipping',
+            'platform_type': 'Select the dropshipping platform type',
+            'platform_supplier_id': 'Supplier ID on the dropshipping platform',
+            'auto_sync_inventory': 'Automatically sync inventory levels from platform',
+            'auto_fulfill_orders': 'Automatically place orders on platform when sales occur'
         }
 
     def __init__(self, *args, **kwargs):
@@ -175,19 +201,35 @@ class SupplierForm(forms.ModelForm):
 
 
 class PurchaseOrderForm(forms.ModelForm):
+    order_type = forms.ChoiceField(
+        choices=PurchaseOrder.ORDER_TYPE_CHOICES,
+        initial='supplier_order',
+        widget=forms.Select(attrs={
+            'class': 'form-select form-select-lg',
+            'data-bs-toggle': 'tooltip',
+            'title': 'Select the type of order'
+        }),
+        help_text='Choose whether this is an order from a supplier or a transfer from a warehouse.'
+    )
+
     class Meta:
         model = PurchaseOrder
-        fields = ['supplier', 'store', 'expected_delivery_date']
+        fields = ['order_type', 'supplier', 'store', 'destination_warehouse', 'expected_delivery_date']
         widgets = {
             'supplier': forms.Select(attrs={
-                'class': 'form-select form-select-lg',
+                'class': 'form-select form-select-lg supplier-field',
                 'data-bs-toggle': 'tooltip',
                 'title': 'Select the supplier for this order'
             }),
             'store': forms.Select(attrs={
                 'class': 'form-select form-select-lg',
                 'data-bs-toggle': 'tooltip',
-                'title': 'Select the store receiving the order'
+                'title': 'Select the store placing the order'
+            }),
+            'destination_warehouse': forms.Select(attrs={
+                'class': 'form-select form-select-lg warehouse-field',
+                'data-bs-toggle': 'tooltip',
+                'title': 'Select the warehouse to transfer from'
             }),
             'expected_delivery_date': forms.DateInput(attrs={
                 'type': 'date',
@@ -198,21 +240,28 @@ class PurchaseOrderForm(forms.ModelForm):
             }),
         }
         labels = {
+            'order_type': 'Order Type',
             'supplier': 'Supplier',
-            'store': 'Destination Store',
+            'store': 'Ordering Store',
+            'destination_warehouse': 'Source Warehouse',
             'expected_delivery_date': 'Expected Delivery Date',
         }
         help_texts = {
             'supplier': 'Choose a registered supplier from the list.',
-            'store': 'Select the store location that will receive the goods.',
+            'store': 'Select the store location placing the order.',
+            'destination_warehouse': 'Select the warehouse to transfer products from.',
             'expected_delivery_date': 'Set a realistic delivery date based on supplier lead time.',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['supplier'].required = True
+        self.fields['order_type'].required = True
         self.fields['store'].required = True
         self.fields['expected_delivery_date'].required = True
+
+        # Filter destination_warehouse to only include warehouses
+        self.fields['destination_warehouse'].queryset = Store.objects.filter(store_type='warehouse')
+
         # Add Bootstrap validation classes
         for field in self.fields:
             if isinstance(self.fields[field].widget, forms.Select):
@@ -222,11 +271,49 @@ class PurchaseOrderForm(forms.ModelForm):
                 self.fields[field].widget.attrs.setdefault('class', '')
                 self.fields[field].widget.attrs['class'] += ' border-primary'
 
+        # Set initial values and requirements based on order type
+        if self.instance and self.instance.pk:
+            # Existing instance
+            if self.instance.order_type == 'supplier_order':
+                self.fields['supplier'].required = True
+                self.fields['destination_warehouse'].required = False
+            else:  # warehouse_transfer
+                self.fields['supplier'].required = False
+                self.fields['destination_warehouse'].required = True
+        else:
+            # New instance - default to supplier order
+            self.fields['supplier'].required = True
+            self.fields['destination_warehouse'].required = False
+
     def clean_expected_delivery_date(self):
         delivery_date = self.cleaned_data.get('expected_delivery_date')
         if delivery_date and delivery_date < datetime.date.today():
             raise forms.ValidationError('Expected delivery date cannot be in the past.')
         return delivery_date
+
+    def clean(self):
+        cleaned_data = super().clean()
+        order_type = cleaned_data.get('order_type')
+        store = cleaned_data.get('store')
+        supplier = cleaned_data.get('supplier')
+        destination_warehouse = cleaned_data.get('destination_warehouse')
+
+        if order_type == 'supplier_order':
+            # Supplier orders: only warehouses can order from suppliers
+            if store and store.store_type != 'warehouse':
+                raise forms.ValidationError('Only warehouses can place orders to suppliers.')
+            if not supplier:
+                raise forms.ValidationError('Supplier is required for supplier orders.')
+        elif order_type == 'warehouse_transfer':
+            # Warehouse transfers: any store can request from warehouses
+            if not destination_warehouse:
+                raise forms.ValidationError('Source warehouse is required for warehouse transfers.')
+            if destination_warehouse and destination_warehouse.store_type != 'warehouse':
+                raise forms.ValidationError('Source must be a warehouse for transfers.')
+            if store == destination_warehouse:
+                raise forms.ValidationError('Ordering store and source warehouse cannot be the same.')
+
+        return cleaned_data
 
 
 class SupplierProductForm(forms.ModelForm):

@@ -5,6 +5,7 @@ from django.forms import inlineformset_factory
 from django.db import transaction, models
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
 from .models import Customer, Sale, SaleItem, Return, LoyaltyTransaction, SalesTransaction
 from .forms import (
     CustomerForm, SaleForm, SaleItemForm, ReturnForm,
@@ -12,7 +13,7 @@ from .forms import (
 )
 from store_management.models import Store
 from human_resources.models import Employee
-from inventory.models import Product
+from inventory.models import Product, InventoryRecord
 import datetime
 
 # ====================
@@ -95,6 +96,42 @@ class CustomerDeleteView(LoginRequiredMixin, DeleteView):
 # SALE VIEWS
 # ====================
 
+def validate_sale_stock(sale_items, store):
+    """
+    Validate that sufficient stock exists for all sale items at the given store.
+    Raises ValidationError if insufficient stock.
+    """
+    insufficient_stock_items = []
+
+    for item in sale_items:
+        try:
+            inventory_record = InventoryRecord.objects.get(
+                product=item['product'],
+                store=store
+            )
+            if inventory_record.quantity < item['quantity']:
+                insufficient_stock_items.append({
+                    'product': item['product'].name,
+                    'requested': item['quantity'],
+                    'available': inventory_record.quantity
+                })
+        except InventoryRecord.DoesNotExist:
+            insufficient_stock_items.append({
+                'product': item['product'].name,
+                'requested': item['quantity'],
+                'available': 0
+            })
+
+    if insufficient_stock_items:
+        error_messages = []
+        for item in insufficient_stock_items:
+            error_messages.append(
+                f"{item['product']}: requested {item['requested']}, available {item['available']}"
+            )
+        raise ValidationError(
+            f"Insufficient stock for the following items: {', '.join(error_messages)}"
+        )
+
 class SaleListView(LoginRequiredMixin, ListView):
     model = Sale
     template_name = 'sales/sale_list.html'
@@ -161,15 +198,31 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
-        
+
+        # Validate stock before saving
+        if formset.is_valid():
+            sale_items = []
+            for form_item in formset:
+                if form_item.cleaned_data and not form_item.cleaned_data.get('DELETE', False):
+                    sale_items.append({
+                        'product': form_item.cleaned_data['product'],
+                        'quantity': form_item.cleaned_data['quantity']
+                    })
+
+            try:
+                validate_sale_stock(sale_items, form.cleaned_data['store'])
+            except ValidationError as e:
+                messages.error(self.request, str(e))
+                return self.form_invalid(form)
+
         with transaction.atomic():
             form.instance.created_by = self.request.user.employee_profile
             self.object = form.save()
-            
+
             if formset.is_valid():
                 formset.instance = self.object
                 formset.save()
-                
+
                 # Recalculate total amount
                 self.object.total_amount = sum(
                     item.quantity * item.unit_price * (1 - item.discount_percentage / 100)
@@ -178,7 +231,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                 self.object.save()
             else:
                 return self.form_invalid(form)
-        
+
         messages.success(self.request, f'Sale #{self.object.id} created successfully')
         return redirect('sale_detail', pk=self.object.pk)
 
@@ -215,14 +268,30 @@ class SaleUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
-        
+
+        # Validate stock before saving
+        if formset.is_valid():
+            sale_items = []
+            for form_item in formset:
+                if form_item.cleaned_data and not form_item.cleaned_data.get('DELETE', False):
+                    sale_items.append({
+                        'product': form_item.cleaned_data['product'],
+                        'quantity': form_item.cleaned_data['quantity']
+                    })
+
+            try:
+                validate_sale_stock(sale_items, form.cleaned_data['store'])
+            except ValidationError as e:
+                messages.error(self.request, str(e))
+                return self.form_invalid(form)
+
         with transaction.atomic():
             self.object = form.save()
-            
+
             if formset.is_valid():
                 formset.instance = self.object
                 formset.save()
-                
+
                 # Recalculate total amount
                 self.object.total_amount = sum(
                     item.quantity * item.unit_price * (1 - item.discount_percentage / 100)
@@ -231,7 +300,7 @@ class SaleUpdateView(LoginRequiredMixin, UpdateView):
                 self.object.save()
             else:
                 return self.form_invalid(form)
-        
+
         messages.success(self.request, f'Sale #{self.object.id} updated successfully')
         return redirect('sale_detail', pk=self.object.pk)
 

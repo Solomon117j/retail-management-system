@@ -26459,3 +26459,1130 @@ ERROR 2025-10-21 20:46:13,626 ERROR django.security:291 _check_response_security
 None
 ERROR 2025-10-21 20:46:14,764 ERROR django.server:213 log_message "GET /hr/schedules/create/ HTTP/1.1" 500 210599
 None
+ERROR 2025-10-22 13:38:12,647 ERROR django.request:253 log_response Internal Server Error: /
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE54D4B000>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\retail_management_system\middleware\logging_middleware.py", line 26, in __call__
+    self._log_request(request)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\retail_management_system\middleware\logging_middleware.py", line 44, in _log_request
+    user = getattr(request.user, 'username', 'Anonymous') if hasattr(request, 'user') else 'Anonymous'
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\__init__.py", line 304, in get_user
+    user_id = _get_user_session_key(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 235, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:13,160 ERROR django.request:253 log_response Internal Server Error: /
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE55FED4C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\middleware.py", line 92, in __call__
+    panel.generate_stats(request, response)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\request.py", line 64, in generate_stats
+    (k, request.session.get(k)) for k in sorted(request.session.keys())
+                                                ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 160, in keys
+    return self._session.keys()
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:13,296 ERROR django.request:253 log_response Internal Server Error: /
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE5608C900>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\middleware.py", line 48, in process_response
+    if request.session.get_expire_at_browser_close():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 403, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:13,360 ERROR django.server:213 log_message "GET / HTTP/1.1" 500 174592
+None
+ERROR 2025-10-22 13:38:16,037 ERROR django.request:253 log_response Internal Server Error: /favicon.ico
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE55FFE2C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\retail_management_system\middleware\logging_middleware.py", line 26, in __call__
+    self._log_request(request)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\retail_management_system\middleware\logging_middleware.py", line 44, in _log_request
+    user = getattr(request.user, 'username', 'Anonymous') if hasattr(request, 'user') else 'Anonymous'
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\__init__.py", line 304, in get_user
+    user_id = _get_user_session_key(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 235, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:16,442 ERROR django.request:253 log_response Internal Server Error: /favicon.ico
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE560E7840>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\middleware.py", line 92, in __call__
+    panel.generate_stats(request, response)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\request.py", line 64, in generate_stats
+    (k, request.session.get(k)) for k in sorted(request.session.keys())
+                                                ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 160, in keys
+    return self._session.keys()
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:16,643 ERROR django.request:253 log_response Internal Server Error: /favicon.ico
+(<class 'django.db.utils.ProgrammingError'>, ProgrammingError('relation "django_session" does not exist\nLINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...\n                                                             ^\n'), <traceback object at 0x000001CE560EC640>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\middleware.py", line 48, in process_response
+    if request.session.get_expire_at_browser_close():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 403, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "django_session" does not exist
+LINE 1: ...ession_data", "django_session"."expire_date" FROM "django_se...
+                                                             ^
+
+ERROR 2025-10-22 13:38:16,708 ERROR django.server:213 log_message "GET /favicon.ico HTTP/1.1" 500 174504
+None
+ERROR 2025-10-23 16:10:05,566 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-10-23 16:10:05,617 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-10-23 16:10:05,748 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-10-23 16:10:05,749 ERROR django.server:193 log_message You're accessing the development server over HTTPS, but it only supports HTTP.
+None
+ERROR 2025-10-27 17:47:58,702 ERROR django.request:253 log_response Internal Server Error: /inventory/inventoryrecords/add/
+(<class 'psycopg2.errors.InvalidCursorName'>, InvalidCursorName('cursor "_django_curs_20964_sync_1" does not exist\n'), <traceback object at 0x0000016E31940640>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column inventory_product.criticality does not exist
+LINE 1: ...ocity", "inventory_product"."demand_variability", "inventory...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 235, in execute
+    return self._record(super().execute, sql, params)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\debug_toolbar\panels\sql\tracking.py", line 160, in _record
+    return method(sql, params)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column inventory_product.criticality does not exist
+LINE 1: ...ocity", "inventory_product"."demand_variability", "inventory...
+                                                             ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1081, in render
+    return render_value_in_context(output, context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1058, in render_value_in_context
+    value = str(value)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\utils.py", line 79, in __str__
+    return self.as_widget()
+           ~~~~~~~~~~~~~~^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\boundfield.py", line 108, in as_widget
+    return widget.render(
+           ~~~~~~~~~~~~~^
+        name=self.html_initial_name if only_initial else self.html_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        renderer=self.form.renderer,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 329, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 830, in get_context
+    context = super().get_context(name, value, attrs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 781, in get_context
+    context["widget"]["optgroups"] = self.optgroups(
+                                     ~~~~~~~~~~~~~~^
+        name, context["widget"]["value"], attrs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\widgets.py", line 721, in optgroups
+    for index, (option_value, option_label) in enumerate(self.choices):
+                                               ~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\forms\models.py", line 1424, in __iter__
+    for obj in queryset:
+               ^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 502, in _iterator
+    yield from iterable
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1626, in execute_sql
+    cursor.close()
+    ~~~~~~~~~~~~^^
+psycopg2.errors.InvalidCursorName: cursor "_django_curs_20964_sync_1" does not exist
+
+ERROR 2025-10-27 17:47:58,869 ERROR django.security:291 _check_response_security Server error 500 on /inventory/inventoryrecords/add/
+None
+ERROR 2025-10-27 17:47:59,280 ERROR django.server:213 log_message "GET /inventory/inventoryrecords/add/ HTTP/1.1" 500 306427
+None
+ERROR 2025-10-27 20:40:38,480 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'purchaseorder_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['procurement/orders/(?P<pk>[0-9]+)/\\\\Z']"), <traceback object at 0x000002658B35AC00>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'purchaseorder_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['procurement/orders/(?P<pk>[0-9]+)/\\Z']
+ERROR 2025-10-27 20:40:38,626 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 20:40:38,836 ERROR django.server:213 log_message "GET /procurement/orders/2/receive/ HTTP/1.1" 500 195775
+None
+ERROR 2025-10-27 20:43:39,445 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'django.urls.exceptions.NoReverseMatch'>, NoReverseMatch("Reverse for 'purchaseorder_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['procurement/orders/(?P<pk>[0-9]+)/\\\\Z']"), <traceback object at 0x000002658B4ED140>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\test\utils.py", line 114, in instrumented_test_render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'purchaseorder_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['procurement/orders/(?P<pk>[0-9]+)/\\Z']
+ERROR 2025-10-27 20:43:39,454 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 20:43:39,688 ERROR django.server:213 log_message "GET /procurement/orders/2/receive/ HTTP/1.1" 500 195912
+None
+ERROR 2025-10-27 20:59:39,080 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'AttributeError'>, AttributeError("type object 'StockMovement' has no attribute 'MOVEMENT_IN'"), <traceback object at 0x0000010D639258C0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\procurement\views.py", line 336, in post
+    movement_type=StockMovement.MOVEMENT_IN,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'StockMovement' has no attribute 'MOVEMENT_IN'
+ERROR 2025-10-27 20:59:39,183 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 20:59:39,968 ERROR django.server:213 log_message "POST /procurement/orders/2/receive/ HTTP/1.1" 500 117124
+None
+ERROR 2025-10-27 21:04:34,744 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'AttributeError'>, AttributeError("type object 'StockMovement' has no attribute 'MOVEMENT_IN'"), <traceback object at 0x0000010D6E505FC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\procurement\views.py", line 336, in post
+    movement_type=StockMovement.MOVEMENT_IN,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'StockMovement' has no attribute 'MOVEMENT_IN'
+ERROR 2025-10-27 21:04:34,753 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 21:04:35,024 ERROR django.server:213 log_message "POST /procurement/orders/2/receive/ HTTP/1.1" 500 117124
+None
+ERROR 2025-10-27 21:08:09,015 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'TypeError'>, TypeError("StockMovement() got unexpected keyword arguments: 'note'"), <traceback object at 0x000001BA11CCBB80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\procurement\views.py", line 333, in post
+    StockMovement.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        product=item.product,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        note="Auto receive from Purchase Order"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: StockMovement() got unexpected keyword arguments: 'note'
+ERROR 2025-10-27 21:08:09,027 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 21:08:09,183 ERROR django.server:213 log_message "POST /procurement/orders/2/receive/ HTTP/1.1" 500 132741
+None
+ERROR 2025-10-27 21:09:52,244 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'TypeError'>, TypeError("StockMovement() got unexpected keyword arguments: 'note'"), <traceback object at 0x000001BA1B1FB500>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\procurement\views.py", line 333, in post
+    StockMovement.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        product=item.product,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        note="Auto receive from Purchase Order"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: StockMovement() got unexpected keyword arguments: 'note'
+ERROR 2025-10-27 21:09:52,249 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 21:09:52,766 ERROR django.server:213 log_message "POST /procurement/orders/2/receive/ HTTP/1.1" 500 132739
+None
+ERROR 2025-10-27 21:12:05,768 ERROR django.request:253 log_response Internal Server Error: /procurement/orders/2/receive/
+(<class 'TypeError'>, TypeError("StockMovement() got unexpected keyword arguments: 'note'"), <traceback object at 0x000001BA1C9B0A00>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\procurement\views.py", line 333, in post
+    StockMovement.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        product=item.product,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        note="Auto receive from Purchase Order"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: StockMovement() got unexpected keyword arguments: 'note'
+ERROR 2025-10-27 21:12:05,782 ERROR django.security:291 _check_response_security Server error 500 on /procurement/orders/2/receive/
+None
+ERROR 2025-10-27 21:12:05,931 ERROR django.server:213 log_message "POST /procurement/orders/2/receive/ HTTP/1.1" 500 132739
+None
+ERROR 2025-10-27 22:33:28,156 ERROR django.request:253 log_response Internal Server Error: /inventory/stockmovements/add/
+(<class 'ValueError'>, ValueError('Cannot assign "<django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x000001B0CA412120>": "StockMovement.created_by" must be a "Employee" instance.'), <traceback object at 0x000001B0CC2D4EC0>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\inventory\views.py", line 650, in form_valid
+    form.instance.created_by = self.request.user.employee_profile
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 291, in __set__
+    raise ValueError(
+    ...<7 lines>...
+    )
+ValueError: Cannot assign "<django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x000001B0CA412120>": "StockMovement.created_by" must be a "Employee" instance.
+ERROR 2025-10-27 22:33:28,180 ERROR django.security:291 _check_response_security Server error 500 on /inventory/stockmovements/add/
+None
+ERROR 2025-10-27 22:33:28,309 ERROR django.server:213 log_message "POST /inventory/stockmovements/add/ HTTP/1.1" 500 130860
+None
+ERROR 2025-10-27 23:09:20,196 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'AttributeError'>, AttributeError("'Employee' object has no attribute 'is_customer'"), <traceback object at 0x000001900FC28B80>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 228, in get
+    context = self.get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\dashboards\views.py", line 32, in get_context_data
+    if not self.request.user.is_customer:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+AttributeError: 'Employee' object has no attribute 'is_customer'
+ERROR 2025-10-27 23:09:20,224 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-10-27 23:09:20,382 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 128823
+None
+ERROR 2025-10-27 23:09:41,047 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'AttributeError'>, AttributeError("'Employee' object has no attribute 'is_customer'"), <traceback object at 0x000001900FA8AB40>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 228, in get
+    context = self.get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\dashboards\views.py", line 32, in get_context_data
+    if not self.request.user.is_customer:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+AttributeError: 'Employee' object has no attribute 'is_customer'
+ERROR 2025-10-27 23:09:41,051 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-10-27 23:09:41,140 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 128822
+None
+ERROR 2025-10-27 23:10:32,072 ERROR django.request:253 log_response Internal Server Error: /dashboards/
+(<class 'AttributeError'>, AttributeError("'Employee' object has no attribute 'is_customer'"), <traceback object at 0x000001900FE3D940>)
+Traceback (most recent call last):
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\views\generic\base.py", line 228, in get
+    context = self.get_context_data(**kwargs)
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\dashboards\views.py", line 32, in get_context_data
+    if not self.request.user.is_customer:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thembinkosi\Desktop\retail_management_system\env\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+AttributeError: 'Employee' object has no attribute 'is_customer'
+ERROR 2025-10-27 23:10:32,081 ERROR django.security:291 _check_response_security Server error 500 on /dashboards/
+None
+ERROR 2025-10-27 23:10:32,221 ERROR django.server:213 log_message "GET /dashboards/ HTTP/1.1" 500 128513
+None

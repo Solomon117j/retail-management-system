@@ -2,7 +2,7 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from .models import Customer
+from .models import Customer, SaleItem
 from e_commerce.models import CustomerAccount
 
 logger = logging.getLogger(__name__)
@@ -118,3 +118,43 @@ def sync_customer_to_customer_account(sender, instance, created, **kwargs):
 
     except Exception as e:
         logger.error(f"Error syncing Customer to CustomerAccount: {e}")
+
+@receiver(post_save, sender=SaleItem)
+def validate_sale_expiration(sender, instance, created, **kwargs):
+    """
+    Validate that items being sold are not expired
+    """
+    if created:
+        try:
+            from inventory.models import InventoryRecord, ExpirationConfig
+
+            # Get the inventory record for this product and store
+            inventory_record = InventoryRecord.objects.filter(
+                product=instance.product,
+                store=instance.sale.store
+            ).first()
+
+            if inventory_record and inventory_record.expiration_date:
+                days_until_expiry = (inventory_record.expiration_date - timezone.now().date()).days
+
+                # Check if item is expired
+                if days_until_expiry <= 0:
+                    config = ExpirationConfig.get_default_config()
+                    if config.auto_prevent_sales:
+                        # Raise validation error to prevent the sale
+                        from django.core.exceptions import ValidationError
+                        raise ValidationError(
+                            f"Cannot sell expired product: {instance.product.name} expired on {inventory_record.expiration_date}"
+                        )
+                    else:
+                        # Log warning but allow sale
+                        logger.warning(
+                            f"Sale allowed for expired product: {instance.product.name} "
+                            f"(expired {abs(days_until_expiry)} days ago)"
+                        )
+
+        except Exception as e:
+            logger.error(f"Error validating sale expiration: {e}")
+
+# Note: Inventory updates for sales are now handled in inventory/signals.py
+# This file focuses on customer synchronization and expiration validation

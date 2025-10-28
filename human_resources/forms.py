@@ -1,6 +1,5 @@
-# human_resources/forms.py
 from django import forms
-from .models import Attendance, Payroll, Employee, Training, LeaveApplication
+from .models import Attendance, Payroll, Employee, Training, LeaveApplication, Shift
 from django.utils import timezone
 
 
@@ -48,7 +47,7 @@ class AttendanceForm(forms.ModelForm):
                 'class': 'form-select'
             }),
             'shift_type': forms.Select(attrs={
-                'class': 'form-select'
+                'class': 'form-select shift-type-select'
             }),
             'overtime_hours': forms.NumberInput(attrs={
                 'class': 'form-control',
@@ -923,3 +922,168 @@ class LeaveApplicationForm(forms.ModelForm):
                 'Leave end date must be after or equal to start date'
             )
         return end_date
+
+
+class ShiftForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        fields = [
+            'name', 'shift_type', 'start_time', 'end_time', 'description',
+            'break_times', 'overtime_rules', 'cost_center', 'approval_required',
+            'approval_levels', 'allowed_stores', 'allowed_departments', 'is_active'
+        ]
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control shift-name-input',
+                'placeholder': 'Enter a unique and descriptive name for this shift'
+            }),
+            'shift_type': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'start_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control shift-time-input'
+            }),
+            'end_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control shift-time-input'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control shift-description-textarea',
+                'rows': 4,
+                'placeholder': 'Provide a detailed description of this shift, including responsibilities, special requirements, or notes for employees...'
+            }),
+            'break_times': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Break schedule in JSON format: [{"start": "10:00", "end": "10:15", "type": "lunch"}, ...]'
+            }),
+            'overtime_rules': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Rules for overtime calculation and approval'
+            }),
+            'cost_center': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'approval_required': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'approval_levels': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1',
+                'placeholder': 'Number of approval levels'
+            }),
+            'allowed_stores': forms.SelectMultiple(attrs={
+                'class': 'form-select',
+                'size': '5'
+            }),
+            'allowed_departments': forms.SelectMultiple(attrs={
+                'class': 'form-select',
+                'size': '5'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            })
+        }
+
+        help_texts = {
+            'name': 'Unique name for this shift template',
+            'shift_type': 'Type of shift (morning, afternoon, etc.)',
+            'start_time': 'Start time of the shift',
+            'end_time': 'End time of the shift',
+            'description': 'Optional description of the shift',
+            'break_times': 'Break schedule in JSON format',
+            'overtime_rules': 'Rules for overtime calculation and approval',
+            'cost_center': 'Cost center this shift belongs to',
+            'approval_required': 'Whether this shift requires approval before assignment',
+            'approval_levels': 'Number of approval levels required',
+            'allowed_stores': 'Stores where this shift can be used (leave empty for all stores)',
+            'allowed_departments': 'Departments where this shift can be used (leave empty for all departments)',
+            'is_active': 'Whether this shift is active and available for use'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Make certain fields required
+        self.fields['name'].required = True
+        self.fields['shift_type'].required = True
+        self.fields['start_time'].required = True
+        self.fields['end_time'].required = True
+
+        # Make optional fields
+        self.fields['description'].required = False
+        self.fields['break_times'].required = False
+        self.fields['overtime_rules'].required = False
+        self.fields['cost_center'].required = False
+        self.fields['approval_required'].required = False
+        self.fields['approval_levels'].required = False
+        self.fields['allowed_stores'].required = False
+        self.fields['allowed_departments'].required = False
+        self.fields['is_active'].required = False
+
+        # Set default values
+        if not self.instance.pk:
+            self.fields['is_active'].initial = True
+            self.fields['approval_levels'].initial = 1
+
+        # Add empty labels for dropdowns
+        self.fields['cost_center'].empty_label = "Select cost center (optional)"
+
+    def clean_name(self):
+        """Validate that shift name is unique"""
+        name = self.cleaned_data.get('name')
+        if name:
+            existing_shift = Shift.objects.filter(name=name).exclude(pk=self.instance.pk if self.instance else None)
+            if existing_shift.exists():
+                raise forms.ValidationError(
+                    'A shift with this name already exists'
+                )
+        return name
+
+    def clean_end_time(self):
+        """Validate that end time is after start time"""
+        start_time = self.cleaned_data.get('start_time')
+        end_time = self.cleaned_data.get('end_time')
+
+        if start_time and end_time and end_time <= start_time:
+            raise forms.ValidationError(
+                'End time must be after start time'
+            )
+        return end_time
+
+    def clean_break_times(self):
+        """Validate break_times JSON format"""
+        break_times = self.cleaned_data.get('break_times')
+        if break_times:
+            try:
+                import json
+                breaks = json.loads(break_times)
+                if not isinstance(breaks, list):
+                    raise forms.ValidationError(
+                        'Break times must be a JSON array'
+                    )
+                for break_info in breaks:
+                    if not isinstance(break_info, dict):
+                        raise forms.ValidationError(
+                            'Each break must be a JSON object'
+                        )
+                    if 'start' not in break_info or 'end' not in break_info:
+                        raise forms.ValidationError(
+                            'Each break must have start and end times'
+                        )
+            except (json.JSONDecodeError, ValueError):
+                raise forms.ValidationError(
+                    'Invalid JSON format for break times'
+                )
+        return break_times
+
+    def clean_approval_levels(self):
+        """Validate approval levels"""
+        approval_levels = self.cleaned_data.get('approval_levels')
+        if approval_levels is not None and approval_levels < 1:
+            raise forms.ValidationError(
+                'Approval levels must be at least 1'
+            )
+        return approval_levels

@@ -1,0 +1,502 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Expiration Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-clock"></i> Expiration Management Dashboard
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Summary Cards -->
+                    <div class="row mb-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3>{{ expired_count }}</h3>
+                                    <p>Expired Items</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3>{{ critical_expiring_count }}</h3>
+                                    <p>Critical ({{ expiration_config.alert_thresholds.critical }} days)</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>{{ warning_expiring_count }}</h3>
+                                    <p>Warning ({{ expiration_config.alert_thresholds.warning }} days)</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-secondary">
+                                <div class="inner">
+                                    <h3>{{ info_expiring_count }}</h3>
+                                    <p>Info ({{ expiration_config.alert_thresholds.info }} days)</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuration Info -->
+                    {% if expiration_config %}
+                    <div class="alert alert-info">
+                        <h5><i class="icon fas fa-info"></i> Current Configuration</h5>
+                        <p>Alert Thresholds: Critical ({{ expiration_config.alert_thresholds.critical }} days),
+                        Warning ({{ expiration_config.alert_thresholds.warning }} days),
+                        Info ({{ expiration_config.alert_thresholds.info }} days)</p>
+                        <p>Auto-prevent sales of expired items: {% if expiration_config.auto_prevent_sales %}Enabled{% else %}Disabled{% endif %}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Tabs for different views -->
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="expiration-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="expired-tab" data-toggle="pill" href="#expired" role="tab">
+                                        <i class="fas fa-exclamation-triangle text-danger"></i> Expired Items ({{ expired_count }})
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="critical-tab" data-toggle="pill" href="#critical" role="tab">
+                                        <i class="fas fa-clock text-warning"></i> Critical ({{ critical_expiring_count }})
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="warning-tab" data-toggle="pill" href="#warning" role="tab">
+                                        <i class="fas fa-bell text-info"></i> Warning ({{ warning_expiring_count }})
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="info-tab" data-toggle="pill" href="#info" role="tab">
+                                        <i class="fas fa-info-circle text-secondary"></i> Info ({{ info_expiring_count }})
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="analytics-tab" data-toggle="pill" href="#analytics" role="tab">
+                                        <i class="fas fa-chart-bar"></i> Analytics
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="expiration-tabs-content">
+                                <!-- Expired Items Tab -->
+                                <div class="tab-pane fade show active" id="expired" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Store</th>
+                                                    <th>Quantity</th>
+                                                    <th>Batch</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Days Past Due</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in expired_items %}
+                                                <tr class="table-danger">
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.store.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.batch_number|default:"N/A" }}</td>
+                                                    <td>{{ item.expiration_date|date:"M d, Y" }}</td>
+                                                    <td><span class="badge badge-danger">{{ item.expiration_date|timesince }}</span></td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm btn-warning">Write Off</a>
+                                                        <a href="#" class="btn btn-sm btn-info">View Details</a>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted">No expired items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Critical Expiring Tab -->
+                                <div class="tab-pane fade" id="critical" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Store</th>
+                                                    <th>Quantity</th>
+                                                    <th>Batch</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Days Left</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in critical_expiring_items %}
+                                                <tr class="table-warning">
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.store.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.batch_number|default:"N/A" }}</td>
+                                                    <td>{{ item.expiration_date|date:"M d, Y" }}</td>
+                                                    <td><span class="badge badge-warning">{{ item.expiration_date|timeuntil }}</span></td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm btn-success">Sell Priority</a>
+                                                        <a href="#" class="btn btn-sm btn-info">View Details</a>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted">No critical expiring items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Warning Expiring Tab -->
+                                <div class="tab-pane fade" id="warning" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Store</th>
+                                                    <th>Quantity</th>
+                                                    <th>Batch</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Days Left</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in warning_expiring_items %}
+                                                <tr class="table-info">
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.store.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.batch_number|default:"N/A" }}</td>
+                                                    <td>{{ item.expiration_date|date:"M d, Y" }}</td>
+                                                    <td><span class="badge badge-info">{{ item.expiration_date|timeuntil }}</span></td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm btn-primary">Plan Sales</a>
+                                                        <a href="#" class="btn btn-sm btn-info">View Details</a>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted">No warning expiring items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Info Expiring Tab -->
+                                <div class="tab-pane fade" id="info" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Store</th>
+                                                    <th>Quantity</th>
+                                                    <th>Batch</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Days Left</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in info_expiring_items %}
+                                                <tr>
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.store.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.batch_number|default:"N/A" }}</td>
+                                                    <td>{{ item.expiration_date|date:"M d, Y" }}</td>
+                                                    <td><span class="badge badge-secondary">{{ item.expiration_date|timeuntil }}</span></td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm btn-light">Monitor</a>
+                                                        <a href="#" class="btn btn-sm btn-info">View Details</a>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted">No info expiring items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Analytics Tab -->
+                                <div class="tab-pane fade" id="analytics" role="tabpanel">
+                                    <div class="row">
+                                        <!-- Expiration by Category -->
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Expiration by Category</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Category</th>
+                                                                    <th>Expired</th>
+                                                                    <th>Critical</th>
+                                                                    <th>Warning</th>
+                                                                    <th>Info</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for cat in expiration_by_category %}
+                                                                <tr>
+                                                                    <td>{{ cat.product__category__name }}</td>
+                                                                    <td><span class="badge badge-danger">{{ cat.expired_count }}</span></td>
+                                                                    <td><span class="badge badge-warning">{{ cat.critical_count }}</span></td>
+                                                                    <td><span class="badge badge-info">{{ cat.warning_count }}</span></td>
+                                                                    <td><span class="badge badge-secondary">{{ cat.info_count }}</span></td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Expiration by Store -->
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Expiration by Store</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Store</th>
+                                                                    <th>Expired</th>
+                                                                    <th>Critical</th>
+                                                                    <th>Warning</th>
+                                                                    <th>Info</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for store in expiration_by_store %}
+                                                                <tr>
+                                                                    <td>{{ store.store__name }}</td>
+                                                                    <td><span class="badge badge-danger">{{ store.expired_count }}</span></td>
+                                                                    <td><span class="badge badge-warning">{{ store.critical_count }}</span></td>
+                                                                    <td><span class="badge badge-info">{{ store.warning_count }}</span></td>
+                                                                    <td><span class="badge badge-secondary">{{ store.info_count }}</span></td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Batch Expiration Summary -->
+                                    {% if batch_expiration_summary %}
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Batch Expiration Summary</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Batch</th>
+                                                                    <th>Products</th>
+                                                                    <th>Total Qty</th>
+                                                                    <th>Earliest Exp.</th>
+                                                                    <th>Latest Exp.</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for batch in batch_expiration_summary %}
+                                                                <tr>
+                                                                    <td>{{ batch.batch_number }}</td>
+                                                                    <td>{{ batch.product_count }}</td>
+                                                                    <td>{{ batch.total_quantity }}</td>
+                                                                    <td>{{ batch.earliest_expiration|date:"M d, Y" }}</td>
+                                                                    <td>{{ batch.latest_expiration|date:"M d, Y" }}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Alerts Section -->
+                    {% if active_expiration_alerts %}
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-bell"></i> Active Expiration Alerts ({{ expiration_alerts_count }})
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Alert Type</th>
+                                            <th>Priority</th>
+                                            <th>Message</th>
+                                            <th>Created</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for alert in active_expiration_alerts %}
+                                        <tr>
+                                            <td>{{ alert.inventory_record.product.name }}</td>
+                                            <td>{{ alert.get_alert_type_display }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ alert.priority|lower }}">
+                                                    {{ alert.get_priority_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ alert.message }}</td>
+                                            <td>{{ alert.created_at|date:"M d, Y H:i" }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-success">Resolve</a>
+                                                <a href="#" class="btn btn-sm btn-info">View Details</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Recent Notifications -->
+                    {% if recent_expiration_notifications %}
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-envelope"></i> Recent Expiration Notifications
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Product</th>
+                                            <th>Recipient</th>
+                                            <th>Status</th>
+                                            <th>Sent</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for notification in recent_expiration_notifications %}
+                                        <tr>
+                                            <td>{{ notification.get_notification_type_display }}</td>
+                                            <td>{{ notification.alert.inventory_record.product.name }}</td>
+                                            <td>{{ notification.recipient }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ notification.status|lower }}">
+                                                    {{ notification.get_status_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ notification.sent_at|date:"M d, Y H:i" }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-refresh functionality
+setInterval(function() {
+    // Refresh the page every 5 minutes to show updated expiration data
+    location.reload();
+}, 300000);
+
+// Tab persistence
+$(document).ready(function() {
+    // Store active tab in localStorage
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+        localStorage.setItem('activeExpirationTab', $(e.target).attr('href'));
+    });
+
+    // Restore active tab on page load
+    var activeTab = localStorage.getItem('activeExpirationTab');
+    if (activeTab) {
+        $('#expiration-tabs a[href="' + activeTab + '"]').tab('show');
+    }
+});
+</script>
+{% endblock %}
