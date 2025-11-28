@@ -15,6 +15,7 @@ urlpatterns = [
 
     # Attendance URLs
     path('attendance/', views.AttendanceListView.as_view(), name='attendance_list'),
+    path('attendance/quick-add/', views.attendance_quick_add, name='attendance_quick_add'),
     path('attendance/create/', views.AttendanceCreateView.as_view(), name='attendance_create'),
     path('attendance/<uuid:pk>/', views.AttendanceDetailView.as_view(), name='attendance_detail'),
     path('attendance/<uuid:pk>/edit/', views.AttendanceUpdateView.as_view(), name='attendance_update'),

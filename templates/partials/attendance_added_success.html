@@ -1,0 +1,14 @@
+<!-- Success notification after adding attendance via HTMX -->
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i>
+    <strong>Success!</strong> Attendance record for <strong>{{ employee.get_full_name }}</strong> has been added.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<!-- Automatically close and refresh after 2 seconds -->
+<script>
+    setTimeout(() => {
+        // Optionally reload the attendance table or redirect
+        window.location.reload();
+    }, 2000);
+</script>

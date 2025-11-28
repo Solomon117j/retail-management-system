@@ -20,11 +20,20 @@
             </h1>
             <p class="text-muted mb-0">Track employee attendance and working hours</p>
         </div>
-        <div>
+        <div class="btn-group" role="group">
+            <!-- HTMX Quick Add Button -->
+            <button type="button" class="btn btn-primary" hx-get="{% url 'hr:attendance_quick_add' %}" hx-target="#attendance-modal-container" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#attendanceModal">
+                <i class="fas fa-lightning me-2"></i>Quick Add
+            </button>
             <a href="{% url 'hr:attendance_create' %}" class="btn btn-success">
                 <i class="fas fa-plus me-2"></i>Record Attendance
             </a>
         </div>
+    </div>
+
+    <!-- HTMX Modal Container -->
+    <div id="attendanceModal" class="modal fade" tabindex="-1">
+        <div id="attendance-modal-container"></div>
     </div>
 
     <!-- Attendance Statistics -->

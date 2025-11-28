@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from .models import Attendance, Payroll, Employee, Training, LeaveApplication, Shift, Schedule
 from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm, LeaveApplicationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -237,6 +238,37 @@ class AttendanceListView(LoginRequiredMixin, ListView):
         context['compassionate_leave_today_count'] = status_counts.get('compassionate_leave', 0)
 
         return context
+
+# HTMX Quick Add Attendance
+@login_required
+def attendance_quick_add(request):
+    """HTMX endpoint for quick attendance add modal/form."""
+    from django.shortcuts import render
+    
+    if request.method == 'GET':
+        # Return the form fragment for HTMX modal
+        form = AttendanceForm()
+        employees = Employee.objects.filter(is_active=True).order_by('last_name', 'first_name')
+        return render(request, 'partials/attendance_quick_add_modal.html', {
+            'form': form,
+            'employees': employees
+        })
+    
+    elif request.method == 'POST':
+        # Handle form submission via HTMX
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            attendance = form.save()
+            return render(request, 'partials/attendance_added_success.html', {
+                'employee': attendance.employee
+            })
+        else:
+            # Return form with errors
+            employees = Employee.objects.filter(is_active=True).order_by('last_name', 'first_name')
+            return render(request, 'partials/attendance_quick_add_modal.html', {
+                'form': form,
+                'employees': employees
+            }, status=400)
 
 class AttendanceCreateView(LoginRequiredMixin, CreateView):
     model = Attendance

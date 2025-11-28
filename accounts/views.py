@@ -18,12 +18,21 @@ logger = logging.getLogger(__name__)
 
 class CustomerRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm password", widget=forms.PasswordInput)
     first_name = forms.CharField(max_length=50, required=False)
     last_name = forms.CharField(max_length=50, required=False)
 
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'first_name', 'last_name']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pwd = cleaned_data.get('password')
+        pwd2 = cleaned_data.get('password2')
+        if pwd and pwd2 and pwd != pwd2:
+            self.add_error('password2', 'Passwords do not match')
+        return cleaned_data
 
 class CustomerRegistrationView(View):
     def get(self, request):

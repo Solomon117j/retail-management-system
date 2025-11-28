@@ -442,3 +442,6 @@ SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path:
 SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path: /dashboards/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: mandla.moyo IP: 127.0.0.1 Path: /dashboards/ Method: GET
 SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN
+SECURITY {levelname} {asctime} {message} - User: Unknown IP: unknown Path: unknown Method: UNKNOWN

@@ -1,0 +1,106 @@
+<!-- Quick Add Attendance Modal Form Fragment for HTMX -->
+<div id="attendance-form-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-clock me-2"></i>Quick Add Attendance
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form hx-post="{% url 'hr:attendance_quick_add' %}" hx-target="#attendance-form-modal" hx-swap="outerHTML swap:1s">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="id_employee" class="form-label">Employee *</label>
+                        <select name="employee" id="id_employee" class="form-select" required>
+                            <option value="">-- Select Employee --</option>
+                            {% for emp in employees %}
+                                <option value="{{ emp.id }}" {% if form.employee.value == emp.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ emp.get_full_name }} ({{ emp.position }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                        {% if form.employee.errors %}
+                            <div class="invalid-feedback d-block">{{ form.employee.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_shift_type" class="form-label">Shift Type *</label>
+                            <select name="shift_type" id="id_shift_type" class="form-select" required>
+                                <option value="">-- Select Shift --</option>
+                                <option value="morning" {% if form.shift_type.value == 'morning' %}selected{% endif %}>Morning</option>
+                                <option value="afternoon" {% if form.shift_type.value == 'afternoon' %}selected{% endif %}>Afternoon</option>
+                                <option value="night" {% if form.shift_type.value == 'night' %}selected{% endif %}>Night</option>
+                                <option value="full_day" {% if form.shift_type.value == 'full_day' %}selected{% endif %}>Full Day</option>
+                            </select>
+                            {% if form.shift_type.errors %}
+                                <div class="invalid-feedback d-block">{{ form.shift_type.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_clock_method" class="form-label">Clock Method *</label>
+                            <select name="clock_method" id="id_clock_method" class="form-select" required>
+                                <option value="">-- Select Method --</option>
+                                <option value="manual" {% if form.clock_method.value == 'manual' %}selected{% endif %}>Manual</option>
+                                <option value="biometric" {% if form.clock_method.value == 'biometric' %}selected{% endif %}>Biometric</option>
+                                <option value="mobile_app" {% if form.clock_method.value == 'mobile_app' %}selected{% endif %}>Mobile App</option>
+                                <option value="rfid" {% if form.clock_method.value == 'rfid' %}selected{% endif %}>RFID</option>
+                            </select>
+                            {% if form.clock_method.errors %}
+                                <div class="invalid-feedback d-block">{{ form.clock_method.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_date_time_in" class="form-label">Clock In Time</label>
+                            <input type="datetime-local" name="date_time_in" id="id_date_time_in" class="form-control" value="{{ form.date_time_in.value|default:'' }}">
+                            {% if form.date_time_in.errors %}
+                                <div class="invalid-feedback d-block">{{ form.date_time_in.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_date_time_out" class="form-label">Clock Out Time</label>
+                            <input type="datetime-local" name="date_time_out" id="id_date_time_out" class="form-control" value="{{ form.date_time_out.value|default:'' }}">
+                            {% if form.date_time_out.errors %}
+                                <div class="invalid-feedback d-block">{{ form.date_time_out.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_location" class="form-label">Location</label>
+                        <input type="text" name="location" id="id_location" class="form-control" placeholder="e.g., Store A, Warehouse" value="{{ form.location.value|default:'' }}">
+                        {% if form.location.errors %}
+                            <div class="invalid-feedback d-block">{{ form.location.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_notes" class="form-label">Notes</label>
+                        <textarea name="notes" id="id_notes" class="form-control" rows="2" placeholder="Additional notes...">{{ form.notes.value|default:'' }}</textarea>
+                        {% if form.notes.errors %}
+                            <div class="invalid-feedback d-block">{{ form.notes.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check me-2"></i>Save Attendance
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -112,6 +112,24 @@
                                 </div>
 
                                 <div class="mb-4">
+                                    <label for="id_password2" class="form-label fw-semibold">
+                                        <i class="fas fa-lock me-2"></i>Confirm password
+                                    </label>
+                                    <div class="input-group{% if form.password2.errors %} has-validation{% endif %}">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="fas fa-lock text-muted"></i>
+                                        </span>
+                                        <input type="password" name="password2" class="form-control border-start-0 ps-2"
+                                               id="id_password2" placeholder="Repeat your password" required>
+                                        {% if form.password2.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.password2.errors.0 }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
                                     <label for="id_first_name" class="form-label fw-semibold">
                                         <i class="fas fa-signature me-2"></i>First name
                                     </label>
