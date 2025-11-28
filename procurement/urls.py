@@ -11,6 +11,10 @@ urlpatterns = [
     path('suppliers/<int:pk>/update/', views.SupplierUpdateView.as_view(), name='supplier_update'),
     path('suppliers/<int:pk>/delete/', views.SupplierDeleteView.as_view(), name='supplier_delete'),
     
+    # HTMX Supplier Endpoints
+    path('suppliers/<int:pk>/edit-form/', views.supplier_edit_form, name='supplier_edit_form'),
+    path('suppliers/htmx-save/', views.supplier_htmx_save, name='supplier_htmx_save'),
+    
     # Supplier Product URLs
     path('suppliers/<int:supplier_id>/products/add/', 
          views.SupplierProductCreateView.as_view(), name='supplierproduct_create'),

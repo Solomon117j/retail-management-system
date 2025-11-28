@@ -17522,3 +17522,9 @@ INFO 2025-11-28 14:47:00,425 django.server C:\Users\NTRL\Desktop\retail-manageme
 INFO 2025-11-28 12:51:24,250 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/human_resources/views.py changed, reloading.
 INFO 2025-11-28 12:51:29,579 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:667 run_with_reloader Watching for file changes with StatReloader
 INFO 2025-11-28 12:52:09,003 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/human_resources/views.py changed, reloading.
+INFO 2025-11-28 12:52:12,719 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:667 run_with_reloader Watching for file changes with StatReloader
+INFO 2025-11-28 12:54:54,695 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/procurement/views.py changed, reloading.
+INFO 2025-11-28 12:54:58,730 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:667 run_with_reloader Watching for file changes with StatReloader
+INFO 2025-11-28 12:55:27,293 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/procurement/views.py changed, reloading.
+INFO 2025-11-28 12:55:29,460 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:667 run_with_reloader Watching for file changes with StatReloader
+INFO 2025-11-28 12:56:00,109 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/procurement/urls.py changed, reloading.

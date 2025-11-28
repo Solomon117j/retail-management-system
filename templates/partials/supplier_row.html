@@ -1,0 +1,33 @@
+<!-- Supplier inline edit row for HTMX -->
+<tr id="supplier-row-{{ supplier.id }}">
+    <td>{{ supplier.name }}</td>
+    <td>{{ supplier.email }}</td>
+    <td>{{ supplier.phone }}</td>
+    <td>
+        {% if supplier.is_active %}
+            <span class="badge bg-success">Active</span>
+        {% else %}
+            <span class="badge bg-danger">Inactive</span>
+        {% endif %}
+    </td>
+    <td>{{ supplier.created_at|date:"M d, Y" }}</td>
+    <td class="text-center">
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-outline-primary" 
+                    hx-get="{% url 'procurement:supplier_edit_form' supplier.id %}"
+                    hx-target="#supplier-form-container"
+                    hx-swap="innerHTML"
+                    data-bs-toggle="modal"
+                    data-bs-target="#supplierEditModal"
+                    title="Edit Supplier">
+                <i class="fas fa-edit"></i>
+            </button>
+            <a href="{% url 'procurement:supplier_detail' supplier.id %}" class="btn btn-outline-info btn-sm" title="View Details">
+                <i class="fas fa-eye"></i>
+            </a>
+            <a href="{% url 'procurement:supplier_delete' supplier.id %}" class="btn btn-outline-danger btn-sm" title="Delete">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
+    </td>
+</tr>

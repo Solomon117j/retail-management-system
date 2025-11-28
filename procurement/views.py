@@ -1,7 +1,8 @@
 # procurement/views.py
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.db import transaction, models
 from django.contrib import messages
@@ -81,6 +82,36 @@ class SupplierDeleteView(LoginRequiredMixin, DeleteView):
                 "Please remove or reassign these items first."
             )
             return redirect('procurement:supplier_detail', pk=self.get_object().pk)
+
+# ========================
+# SUPPLIER HTMX ENDPOINTS
+# ========================
+
+@login_required
+def supplier_edit_form(request, pk):
+    """HTMX endpoint to fetch supplier edit form."""
+    supplier = get_object_or_404(Supplier, pk=pk)
+    return render(request, 'partials/supplier_edit_form.html', {'supplier': supplier, 'form': SupplierForm(instance=supplier)})
+
+@login_required
+def supplier_htmx_save(request):
+    """HTMX endpoint to save supplier via modal form."""
+    if request.method == 'POST':
+        supplier_id = request.POST.get('supplier_id')
+        if supplier_id:
+            supplier = get_object_or_404(Supplier, pk=supplier_id)
+        else:
+            supplier = Supplier()
+        
+        # Create form with POST data
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            supplier = form.save()
+            # Return updated row
+            return render(request, 'partials/supplier_row.html', {'supplier': supplier})
+        else:
+            # Return form with errors
+            return render(request, 'partials/supplier_edit_form.html', {'supplier': supplier, 'form': form}, status=400)
 
 # ========================
 # SUPPLIER PRODUCT VIEWS
