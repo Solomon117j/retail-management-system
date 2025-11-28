@@ -17458,3 +17458,6 @@ INFO 2025-11-28 14:08:40,932 django.server C:\Users\NTRL\Desktop\retail-manageme
 INFO 2025-11-28 14:08:40,965 django.server C:\Users\NTRL\Desktop\retail-management-system\venv\Lib\site-packages\django\core\servers\basehttp.py:213 log_message "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
 INFO 2025-11-28 14:08:40,965 django.server C:\Users\NTRL\Desktop\retail-management-system\venv\Lib\site-packages\django\core\servers\basehttp.py:213 log_message "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
 INFO 2025-11-28 14:08:41,165 django.server C:\Users\NTRL\Desktop\retail-management-system\venv\Lib\site-packages\django\core\servers\basehttp.py:213 log_message "GET /favicon.ico HTTP/1.1" 204 0
+INFO 2025-11-28 12:16:29,533 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/dashboards/urls.py changed, reloading.
+INFO 2025-11-28 12:16:35,123 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:667 run_with_reloader Watching for file changes with StatReloader
+INFO 2025-11-28 12:16:39,417 django.utils.autoreload /usr/local/lib/python3.11/site-packages/django/utils/autoreload.py:265 trigger_reload /app/dashboards/views.py changed, reloading.

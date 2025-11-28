@@ -1,0 +1,4 @@
+<div id="htmx-counter">
+  <button class="btn btn-sm btn-primary" hx-get="{% url 'dashboards:htmx_counter' %}?increment=1" hx-swap="outerHTML">Increment</button>
+  <span class="badge bg-secondary ms-2">Count: {{ count }}</span>
+</div>

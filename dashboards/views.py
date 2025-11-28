@@ -12,6 +12,24 @@ from inventory.models import Product
 from procurement.models import Supplier
 from sales.models import Sale, Customer
 from e_commerce.models import OnlineOrder
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def htmx_counter(request):
+    """Simple HTMX demo: store a counter in session and return a fragment."""
+    count = request.session.get('htmx_counter', 0)
+    # If an increment is requested, increment and save
+    if request.GET.get('increment'):
+        try:
+            count = int(count) + 1
+        except Exception:
+            count = 1
+        request.session['htmx_counter'] = count
+
+    # Render fragment
+    return render(request, 'htmx/counter_fragment.html', {'count': count})
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/index.html'
