@@ -218,6 +218,12 @@ class ProductListView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
     paginate_by = 25
 
+    def get_template_names(self):
+        """Return fragment template if HTMX request, else full page template."""
+        if self.request.headers.get('HX-Request'):
+            return ['partials/product_table_fragment.html']
+        return [self.template_name]
+
     def get_queryset(self):
         queryset = super().get_queryset().select_related('category', 'brand', 'default_supplier')
         search = self.request.GET.get('search')
@@ -239,6 +245,18 @@ class ProductListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(is_active=is_active == 'true')
 
         return queryset.order_by('name')
+
+    def get_context_data(self, **kwargs):
+        """Add context for full page (categories, brands, stats)."""
+        context = super().get_context_data(**kwargs)
+        if not self.request.headers.get('HX-Request'):
+            # Only add expensive context for full page render
+            context['categories'] = Category.objects.all()
+            context['brands'] = Brand.objects.all()
+            context['total_products'] = Product.objects.count()
+            context['active_products'] = Product.objects.filter(is_active=True).count()
+            context['inactive_products'] = Product.objects.filter(is_active=False).count()
+        return context
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):

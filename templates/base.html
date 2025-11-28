@@ -485,6 +485,19 @@
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
 
+    <!-- HTMX Library -->
+    <script src="https://unpkg.com/htmx.org@1.10.0"></script>
+
+    <!-- HTMX CSRF Configuration: Attach CSRF token to all HTMX requests -->
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            const cookie = document.cookie.match(/(^|;)\s*csrftoken=([^;]+)/);
+            if (cookie) {
+                event.detail.headers['X-CSRFToken'] = cookie[2];
+            }
+        });
+    </script>
+
     <!-- Sub-menu JavaScript for Dropdowns with Sub-menus -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
