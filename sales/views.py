@@ -138,6 +138,12 @@ class SaleListView(LoginRequiredMixin, ListView):
     context_object_name = 'sales'
     paginate_by = 20
     
+    def get_template_names(self):
+        """Return fragment template if HTMX request, else full page."""
+        if self.request.headers.get('HX-Request'):
+            return ['partials/sales_table_fragment.html']
+        return [self.template_name]
+    
     def get_queryset(self):
         queryset = super().get_queryset().select_related(
             'store', 'employee', 'customer'
@@ -153,12 +159,19 @@ class SaleListView(LoginRequiredMixin, ListView):
             # Add 1 day to include end_date
             end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d') + datetime.timedelta(days=1)
             queryset = queryset.filter(sale_date__lte=end_date)
+        
+        # Status filtering for HTMX
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
             
         return queryset.order_by('-sale_date')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stores'] = Store.objects.all()
+        if not self.request.headers.get('HX-Request'):
+            # Only add stores for full page
+            context['stores'] = Store.objects.all()
         return context
 
 class SaleCreateView(LoginRequiredMixin, CreateView):
