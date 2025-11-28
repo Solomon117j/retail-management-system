@@ -22,6 +22,11 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY . /app/
 
+# Ensure directories for logging, static and media exist so collectstatic
+# and logging configuration won't fail during image build.
+RUN mkdir -p /app/logs /app/staticfiles /app/media \
+    && chown -R root:root /app || true
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 

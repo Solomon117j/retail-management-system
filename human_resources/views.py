@@ -12,7 +12,10 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
 import csv
-import pandas as pd
+try:
+    import pandas as pd
+except Exception:
+    pd = None
 from io import BytesIO
 
 # human_resources/views.py

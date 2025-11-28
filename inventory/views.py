@@ -11,7 +11,10 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db import transaction
 import csv
-from openpyxl import Workbook
+try:
+    from openpyxl import Workbook
+except Exception:
+    Workbook = None
 
 from .models import (
     Brand, Category, Product, InventoryRecord, StockMovement,

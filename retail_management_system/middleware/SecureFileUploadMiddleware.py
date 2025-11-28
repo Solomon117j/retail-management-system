@@ -1,5 +1,8 @@
 import os
-import magic
+try:
+    import magic
+except Exception:
+    magic = None
 import logging
 from django.conf import settings
 from django.http import HttpResponseBadRequest
