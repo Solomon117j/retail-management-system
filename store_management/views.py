@@ -146,6 +146,15 @@ class DepartmentCreateStandaloneView(CreateView):
         # Ensure we create a new instance
         kwargs['instance'] = None
         return kwargs
+
+    def form_valid(self, form):
+        # Check if the user has a store
+        if not hasattr(self.request.user, 'store') or not self.request.user.store:
+            form.add_error(None, "You cannot create a department without a store.")
+            return self.form_invalid(form)
+        # Set the store to the logged-in user's store
+        form.instance.store = self.request.user.store
+        return super().form_valid(form)
 # views.py
 class DepartmentUpdateView(UpdateView):
     model = Department
