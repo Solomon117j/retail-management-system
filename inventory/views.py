@@ -456,7 +456,7 @@ def inventoryrecord_export(request):
             ws.cell(row=row_num, column=5, value=record.location or '')
             ws.cell(row=row_num, column=6, value=record.batch_number or '')
             ws.cell(row=row_num, column=7, value=record.expiration_date.strftime('%Y-%m-%d') if record.expiration_date else '')
-            ws.cell(row=row_num, column=8, value=float(record.cost_price) if record.cost_price else '')
+            ws.cell(row=row_num, column=8, value=float(record.cost_price) if record.cost_price is not None else None)
             ws.cell(row=row_num, column=9, value=record.supplier.name if record.supplier else '')
             ws.cell(row=row_num, column=10, value=record.updated_at.strftime('%Y-%m-%d %H:%M:%S'))
 

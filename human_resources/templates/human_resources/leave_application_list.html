@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Leave Applications - HR Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-calendar-times text-primary me-2"></i>Leave Applications
+                    </h1>
+                    <p class="text-muted mb-0">Manage employee leave requests and approvals</p>
+                </div>
+                <div>
+                    <a href="{% url 'hr:leave_application_create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>New Leave Application
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Applications
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_applications }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Pending
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_applications }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Approved
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ approved_applications }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Rejected
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ rejected_applications }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-filter me-2"></i>Filters
+            </h6>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label for="employee" class="form-label">Employee</label>
+                    <select name="employee" id="employee" class="form-select">
+                        <option value="">All Employees</option>
+                        {% for employee in employees %}
+                        <option value="{{ employee.id }}" {% if request.GET.employee == employee.id|stringformat:"s" %}selected{% endif %}>
+                            {{ employee.get_full_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if request.GET.status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="leave_type" class="form-label">Leave Type</label>
+                    <select name="leave_type" id="leave_type" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="annual_leave" {% if request.GET.leave_type == 'annual_leave' %}selected{% endif %}>Annual Leave</option>
+                        <option value="sick_leave" {% if request.GET.leave_type == 'sick_leave' %}selected{% endif %}>Sick Leave</option>
+                        <option value="maternity_leave" {% if request.GET.leave_type == 'maternity_leave' %}selected{% endif %}>Maternity Leave</option>
+                        <option value="study_leave" {% if request.GET.leave_type == 'study_leave' %}selected{% endif %}>Study Leave</option>
+                        <option value="compassionate_leave" {% if request.GET.leave_type == 'compassionate_leave' %}selected{% endif %}>Compassionate Leave</option>
+                        <option value="unpaid_leave" {% if request.GET.leave_type == 'unpaid_leave' %}selected{% endif %}>Unpaid Leave</option>
+                        <option value="other" {% if request.GET.leave_type == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-search me-2"></i>Filter
+                    </button>
+                    <a href="{% url 'hr:leave_application_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Clear
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leave Applications Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-list me-2"></i>Leave Applications
+            </h6>
+            <div>
+                <a href="{% url 'hr:leave_application_export' %}?format=csv{% for key, value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-download me-2"></i>Export CSV
+                </a>
+                <a href="{% url 'hr:leave_application_export' %}?format=excel{% for key, value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}" class="btn btn-sm btn-outline-success">
+                    <i class="fas fa-file-excel me-2"></i>Export Excel
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            {% if leave_applications %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Employee</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Days</th>
+                            <th>Status</th>
+                            <th>Approved By</th>
+                            <th>Applied Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in leave_applications %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    {% if application.employee.profile_image %}
+                                    <img src="{{ application.employee.profile_image.url }}" alt="Profile" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                    {% else %}
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-size: 14px;">
+                                        {{ application.employee.first_name|first }}{{ application.employee.last_name|first }}
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="fw-bold">{{ application.employee.get_full_name }}</div>
+                                        <small class="text-muted">{{ application.employee.position }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">{{ application.get_leave_type_display }}</span>
+                            </td>
+                            <td>{{ application.start_date|date:"M d, Y" }}</td>
+                            <td>{{ application.end_date|date:"M d, Y" }}</td>
+                            <td>
+                                {{ application.leave_days }} day{{ application.leave_days|pluralize }}
+                            </td>
+                            <td>
+                                {% if application.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                                {% elif application.status == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                                {% elif application.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if application.approved_by %}
+                                {{ application.approved_by.get_full_name }}
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            <td>{{ application.applied_at|date:"M d, Y" }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'hr:leave_application_detail' application.pk %}" class="btn btn-sm btn-outline-primary" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'hr:leave_application_update' application.pk %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'hr:leave_application_delete' application.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Leave applications pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No Leave Applications Found</h5>
+                <p class="text-muted">There are no leave applications matching your criteria.</p>
+                <a href="{% url 'hr:leave_application_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create First Leave Application
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-submit form on filter change
+document.querySelectorAll('select[name="employee"], select[name="status"], select[name="leave_type"]').forEach(function(select) {
+    select.addEventListener('change', function() {
+        this.closest('form').submit();
+    });
+});
+</script>
+{% endblock %}

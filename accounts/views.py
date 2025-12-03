@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django import forms
 from django.views import View
-from .models import User
+from human_resources.models import Employee as User
 from django.contrib import messages
 from e_commerce.models import CustomerAccount, Cart, CartItem
 from inventory.models import Product

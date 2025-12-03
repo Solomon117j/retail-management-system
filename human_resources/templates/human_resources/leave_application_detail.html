@@ -1,0 +1,498 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Leave Application Details - {{ leave_application.employee.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-calendar-check text-primary me-2"></i>Leave Application Details
+                    </h1>
+                    <p class="text-muted mb-0">Application #{{ leave_application.id }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'hr:leave_application_list' %}" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                    </a>
+                    <div class="btn-group">
+                        <a href="{% url 'hr:leave_application_update' leave_application.pk %}" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Edit
+                        </a>
+                        <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'hr:leave_application_delete' leave_application.pk %}">
+                                    <i class="fas fa-trash me-2"></i>Delete Application
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Banner -->
+            <div class="alert alert-{% if leave_application.status == 'approved' %}success{% elif leave_application.status == 'rejected' %}danger{% else %}warning{% endif %} mb-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-{% if leave_application.status == 'approved' %}check-circle{% elif leave_application.status == 'rejected' %}times-circle{% else %}clock{% endif %} fa-2x me-3"></i>
+                    <div>
+                        <h5 class="mb-1">Status: {{ leave_application.get_status_display }}</h5>
+                        <p class="mb-0">
+                            {% if leave_application.status == 'pending' %}
+                            This application is awaiting approval.
+                            {% elif leave_application.status == 'approved' %}
+                            This leave application has been approved.
+                            {% elif leave_application.status == 'rejected' %}
+                            This leave application has been rejected.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Details -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-info-circle text-primary me-2"></i>Application Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Employee</label>
+                                        <div class="d-flex align-items-center">
+                                            {% if leave_application.employee.profile_image %}
+                                            <img src="{{ leave_application.employee.profile_image.url }}" alt="Profile" class="rounded-circle me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                                            {% else %}
+                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-size: 18px;">
+                                                {{ leave_application.employee.first_name|first }}{{ leave_application.employee.last_name|first }}
+                                            </div>
+                                            {% endif %}
+                                            <div>
+                                                <div class="fw-bold">{{ leave_application.employee.get_full_name }}</div>
+                                                <small class="text-muted">{{ leave_application.employee.position }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Leave Type</label>
+                                        <div>
+                                            <span class="badge bg-secondary fs-6">{{ leave_application.get_leave_type_display }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Start Date</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-calendar-start text-primary me-2"></i>
+                                            {{ leave_application.start_date|date:"l, F j, Y" }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">End Date</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-calendar-end text-primary me-2"></i>
+                                            {{ leave_application.end_date|date:"l, F j, Y" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Duration</label>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    {{ leave_duration_days }} working day{{ leave_duration_days|pluralize }}
+                                </div>
+                            </div>
+
+                            {% if leave_application.reason %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Reason</label>
+                                <div class="border rounded p-3 bg-light">
+                                    {{ leave_application.reason|linebreaks }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Applied Date</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-paper-plane text-primary me-2"></i>
+                                            {{ leave_application.applied_at|date:"M d, Y \a\t g:i A" }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Last Updated</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-edit text-primary me-2"></i>
+                                            {{ leave_application.updated_at|date:"M d, Y \a\t g:i A" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <!-- Approval Information -->
+                    {% if leave_application.approved_by %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="fas fa-user-check text-success me-2"></i>Approval Information
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                {% if leave_application.approved_by.profile_image %}
+                                <img src="{{ leave_application.approved_by.profile_image.url }}" alt="Approver" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    {{ leave_application.approved_by.first_name|first }}{{ leave_application.approved_by.last_name|first }}
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <div class="fw-bold">{{ leave_application.approved_by.get_full_name }}</div>
+                                    <small class="text-muted">{{ leave_application.approved_by.position }}</small>
+                                </div>
+                            </div>
+                            <div class="text-muted small">
+                                Approved on {{ leave_application.updated_at|date:"M d, Y \a\t g:i A" }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="fas fa-bolt text-warning me-2"></i>Quick Actions
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                {% if leave_application.status == 'pending' %}
+                                <button class="btn btn-success" onclick="updateStatus('approved')">
+                                    <i class="fas fa-check me-2"></i>Approve
+                                </button>
+                                <button class="btn btn-danger" onclick="updateStatus('rejected')">
+                                    <i class="fas fa-times me-2"></i>Reject
+                                </button>
+                                {% endif %}
+                                <button class="btn btn-outline-primary" onclick="openEditModal()">
+                                    <i class="fas fa-edit me-2"></i>Edit Application
+                                </button>
+                                <a href="mailto:{{ leave_application.employee.email }}?subject=Leave Application Update" class="btn btn-outline-info">
+                                    <i class="fas fa-envelope me-2"></i>Email Employee
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employee Contact Info -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="fas fa-address-card text-info me-2"></i>Contact Information
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <strong>Email:</strong><br>
+                                <a href="mailto:{{ leave_application.employee.email }}">{{ leave_application.employee.email }}</a>
+                            </div>
+                            {% if leave_application.employee.phone %}
+                            <div class="mb-2">
+                                <strong>Phone:</strong><br>
+                                <a href="tel:{{ leave_application.employee.phone }}">{{ leave_application.employee.phone }}</a>
+                            </div>
+                            {% endif %}
+                            {% if leave_application.employee.store %}
+                            <div class="mb-0">
+                                <strong>Store:</strong><br>
+                                {{ leave_application.employee.store.store_name }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline/History (if needed in future) -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-history text-secondary me-2"></i>Application Timeline
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-primary"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">Application Submitted</h6>
+                                <p class="timeline-text">{{ leave_application.applied_at|date:"F j, Y \a\t g:i A" }}</p>
+                            </div>
+                        </div>
+                        {% if leave_application.status != 'pending' %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-{% if leave_application.status == 'approved' %}success{% else %}danger{% endif %}"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">
+                                    Application {{ leave_application.get_status_display }}
+                                    {% if leave_application.approved_by %}
+                                    by {{ leave_application.approved_by.get_full_name }}
+                                    {% endif %}
+                                </h6>
+                                <p class="timeline-text">{{ leave_application.updated_at|date:"F j, Y \a\t g:i A" }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Application Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="statusForm" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="status" id="statusInput">
+                    <p>Are you sure you want to <strong id="statusText"></strong> this leave application?</p>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Additional Notes (Optional)</label>
+                        <textarea class="form-control" name="notes" id="notes" rows="3" placeholder="Add any comments about this decision..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn" id="confirmBtn">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Application Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Leave Application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editForm" method="post" action="{% url 'hr:leave_application_update' leave_application.pk %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.employee.id_for_label }}" class="form-label">Employee</label>
+                                {{ form.employee }}
+                                {% if form.employee.errors %}
+                                    <div class="text-danger small">{{ form.employee.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.leave_type.id_for_label }}" class="form-label">Leave Type</label>
+                                {{ form.leave_type }}
+                                {% if form.leave_type.errors %}
+                                    <div class="text-danger small">{{ form.leave_type.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.start_date.id_for_label }}" class="form-label">Start Date</label>
+                                {{ form.start_date }}
+                                {% if form.start_date.errors %}
+                                    <div class="text-danger small">{{ form.start_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.end_date.id_for_label }}" class="form-label">End Date</label>
+                                {{ form.end_date }}
+                                {% if form.end_date.errors %}
+                                    <div class="text-danger small">{{ form.end_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.reason.id_for_label }}" class="form-label">Reason</label>
+                        {{ form.reason }}
+                        {% if form.reason.errors %}
+                            <div class="text-danger small">{{ form.reason.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.status.id_for_label }}" class="form-label">Status</label>
+                                {{ form.status }}
+                                {% if form.status.errors %}
+                                    <div class="text-danger small">{{ form.status.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.approved_by.id_for_label }}" class="form-label">Approved By</label>
+                                {{ form.approved_by }}
+                                {% if form.approved_by.errors %}
+                                    <div class="text-danger small">{{ form.approved_by.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -22px;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 3px solid #007bff;
+}
+
+.timeline-title {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.timeline-text {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateStatus(status) {
+    const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+    const statusInput = document.getElementById('statusInput');
+    const statusText = document.getElementById('statusText');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    statusInput.value = status;
+    statusText.textContent = status === 'approved' ? 'approve' : 'reject';
+
+    if (status === 'approved') {
+        confirmBtn.className = 'btn btn-success';
+        confirmBtn.textContent = 'Approve';
+    } else {
+        confirmBtn.className = 'btn btn-danger';
+        confirmBtn.textContent = 'Reject';
+    }
+
+    modal.show();
+}
+
+function openEditModal() {
+    const modal = new bootstrap.Modal(document.getElementById('editModal'));
+    modal.show();
+}
+
+document.getElementById('statusForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const status = formData.get('status');
+
+    // Here you would typically send an AJAX request to update the status
+    // For now, we'll redirect to the update view with the new status
+    const url = "{% url 'hr:leave_application_update' leave_application.pk %}?status=" + status;
+    if (formData.get('notes')) {
+        url += "&notes=" + encodeURIComponent(formData.get('notes'));
+    }
+
+    window.location.href = url;
+});
+</script>
+{% endblock %}

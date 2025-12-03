@@ -141,6 +141,18 @@ class InventoryRecordForm(forms.ModelForm):
             }),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        product = cleaned_data.get('product')
+        store = cleaned_data.get('store')
+        if product and store:
+            queryset = InventoryRecord.objects.filter(product=product, store=store)
+            if self.instance and self.instance.pk:
+                queryset = queryset.exclude(pk=self.instance.pk)
+            if queryset.exists():
+                raise forms.ValidationError("An inventory record for this product and store already exists.")
+        return cleaned_data
+
 class StockMovementForm(forms.ModelForm):
     class Meta:
         model = StockMovement

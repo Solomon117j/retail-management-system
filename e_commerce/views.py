@@ -35,7 +35,7 @@ class CustomerAccountDetailView(LoginRequiredMixin, CustomerAccessMixin, DetailV
     model = CustomerAccount
     template_name = 'e_commerce/customer_account_detail.html'
     context_object_name = 'account'
-    
+
     def get_object(self, queryset=None):
         # Get the customer account object
         return super().get_object(queryset)
@@ -44,6 +44,20 @@ class CustomerAccountDetailView(LoginRequiredMixin, CustomerAccessMixin, DetailV
         context = super().get_context_data(**kwargs)
         context['template_name'] = self.template_name
         return context
+
+class CustomerAccountUpdateView(LoginRequiredMixin, CustomerAccessMixin, UpdateView):
+    model = CustomerAccount
+    template_name = 'e_commerce/customer_account_form.html'
+    fields = ['first_name', 'last_name', 'phone', 'address', 'birth_date', 'preferred_language', 'marketing_opt_in', 'sms_notifications', 'push_notifications']
+    success_url = reverse_lazy('e_commerce:customer_account_list')
+
+    def get_object(self, queryset=None):
+        # Get the customer account object for the logged-in user
+        return super().get_object(queryset)
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Your profile has been updated successfully.')
+        return super().form_valid(form)
 
 class OnlineOrderListView(LoginRequiredMixin, ListView):
     model = OnlineOrder

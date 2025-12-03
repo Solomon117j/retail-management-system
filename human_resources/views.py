@@ -1,22 +1,21 @@
-# from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, View
 from django.urls import reverse_lazy, reverse
-from .models import Attendance, Payroll, Employee, Training, LeaveApplication, Shift, Schedule
-from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm, LeaveApplicationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
-
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
-from django.views import View
+
+from .models import Attendance, Payroll, Employee, Training, LeaveApplication, Shift, Schedule
+from .forms import AttendanceForm, PayrollForm, EmployeeForm, TrainingForm, LeaveApplicationForm
+
 import csv
 try:
     import pandas as pd
-except Exception:
+except ImportError:
     pd = None
+
 from io import BytesIO
 
 # human_resources/views.py
@@ -218,24 +217,53 @@ class AttendanceListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Calculate statistics based on the current queryset (what's actually displayed)
-        queryset = self.get_queryset()
+        # Calculate today's statistics (for today's date only)
+        from django.utils import timezone
+        today = timezone.now().date()
 
-        # Count by status from the current filtered queryset
-        status_counts = {}
-        for attendance in queryset:
+        # Get today's attendance records with the same filters applied
+        today_queryset = Attendance.objects.filter(date=today).select_related('employee', 'approved_by', 'employee__store', 'employee__department')
+
+        # Apply the same filters as the main queryset
+        employee_id = self.request.GET.get('employee')
+        if employee_id:
+            today_queryset = today_queryset.filter(employee_id=employee_id)
+
+        approval_status = self.request.GET.get('approval_status')
+        if approval_status:
+            today_queryset = today_queryset.filter(approval_status=approval_status)
+
+        shift_type = self.request.GET.get('shift_type')
+        if shift_type:
+            today_queryset = today_queryset.filter(shift_type=shift_type)
+
+        location = self.request.GET.get('location')
+        if location:
+            today_queryset = today_queryset.filter(location__icontains=location)
+
+        clock_method = self.request.GET.get('clock_method')
+        if clock_method:
+            today_queryset = today_queryset.filter(clock_method=clock_method)
+
+        approved_by_id = self.request.GET.get('approved_by')
+        if approved_by_id:
+            today_queryset = today_queryset.filter(approved_by_id=approved_by_id)
+
+        # Count by status for today's records
+        today_status_counts = {}
+        for attendance in today_queryset:
             status = attendance.status
-            status_counts[status] = status_counts.get(status, 0) + 1
+            today_status_counts[status] = today_status_counts.get(status, 0) + 1
 
-        context['present_today_count'] = status_counts.get('present', 0)
-        context['late_today_count'] = status_counts.get('late', 0)
-        context['absent_today_count'] = status_counts.get('absent', 0)
-        context['on_leave_today_count'] = status_counts.get('on_leave', 0)
-        context['sick_leave_today_count'] = status_counts.get('sick_leave', 0)
-        context['vacational_leave_today_count'] = status_counts.get('vacational_leave', 0)
-        context['maternity_leave_today_count'] = status_counts.get('maternity_leave', 0)
-        context['study_leave_today_count'] = status_counts.get('study_leave', 0)
-        context['compassionate_leave_today_count'] = status_counts.get('compassionate_leave', 0)
+        context['present_today_count'] = today_status_counts.get('present', 0)
+        context['late_today_count'] = today_status_counts.get('late', 0)
+        context['absent_today_count'] = today_status_counts.get('absent', 0)
+        context['on_leave_today_count'] = today_status_counts.get('on_leave', 0)
+        context['sick_leave_today_count'] = today_status_counts.get('sick_leave', 0)
+        context['vacational_leave_today_count'] = today_status_counts.get('vacational_leave', 0)
+        context['maternity_leave_today_count'] = today_status_counts.get('maternity_leave', 0)
+        context['study_leave_today_count'] = today_status_counts.get('study_leave', 0)
+        context['compassionate_leave_today_count'] = today_status_counts.get('compassionate_leave', 0)
 
         return context
 
@@ -1313,6 +1341,14 @@ class LeaveApplicationListView(LoginRequiredMixin, ListView):
     context_object_name = 'leave_applications'
     paginate_by = 20
 
+    def get_ordering(self):
+        ordering = self.request.GET.get('o')
+        if ordering:
+            # Map created_at to applied_at for backward compatibility
+            ordering = ordering.replace('created_at', 'applied_at')
+            return [ordering]
+        return ['-applied_at']
+
     def get_queryset(self):
         queryset = super().get_queryset().select_related('employee')
         # Filter by employee if requested
@@ -1330,7 +1366,7 @@ class LeaveApplicationListView(LoginRequiredMixin, ListView):
         if leave_type:
             queryset = queryset.filter(leave_type=leave_type)
 
-        return queryset.order_by('-created_at')
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1359,7 +1395,41 @@ class LeaveApplicationUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'human_resources/leave_application_form.html'
     success_url = reverse_lazy('hr:leave_application_list')
 
+    def get_initial(self):
+        initial = super().get_initial()
+        # Handle query parameters from the status update modal
+        status = self.request.GET.get('status')
+        notes = self.request.GET.get('notes')
+        if status:
+            initial['status'] = status
+        if notes:
+            initial['reason'] = notes  # Add notes to reason field or handle separately
+        return initial
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # If status is provided via query params and user can approve, set approved_by
+        if self.request.GET.get('status') in ['approved', 'rejected'] and self.request.user.is_staff:
+            # Set approved_by to current user if they are staff
+            try:
+                employee = Employee.objects.get(user=self.request.user)
+                kwargs['instance'].approved_by = employee
+            except Employee.DoesNotExist:
+                pass
+        return kwargs
+
     def form_valid(self, form):
+        # Handle status updates from modal
+        status_from_params = self.request.GET.get('status')
+        if status_from_params and status_from_params != form.instance.status:
+            form.instance.status = status_from_params
+            if status_from_params in ['approved', 'rejected'] and self.request.user.is_staff:
+                try:
+                    employee = Employee.objects.get(user=self.request.user)
+                    form.instance.approved_by = employee
+                except Employee.DoesNotExist:
+                    pass
+
         messages.success(self.request, f'Leave application for {form.instance.employee.get_full_name()} updated successfully!')
         return super().form_valid(form)
 
@@ -1369,10 +1439,22 @@ class LeaveApplicationDetailView(LoginRequiredMixin, DetailView):
     template_name = 'human_resources/leave_application_detail.html'
     context_object_name = 'leave_application'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Calculate duration in days
+        if self.object.end_date and self.object.start_date:
+            context['leave_duration_days'] = (self.object.end_date - self.object.start_date).days
+        else:
+            context['leave_duration_days'] = 0
+        # Add form for edit modal
+        context['form'] = LeaveApplicationForm(instance=self.object)
+        return context
+
 
 class LeaveApplicationDeleteView(LoginRequiredMixin, DeleteView):
     model = LeaveApplication
     template_name = 'human_resources/leave_application_confirm_delete.html'
+    context_object_name = 'leave_application'
     success_url = reverse_lazy('hr:leave_application_list')
 
     def get_context_data(self, **kwargs):
@@ -1424,7 +1506,7 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
         if date_to:
             queryset = queryset.filter(end_date__lte=date_to)
 
-        return queryset.order_by('-created_at')
+        return queryset.order_by('-applied_at')
 
     def export_csv(self, queryset):
         response = HttpResponse(content_type='text/csv')
@@ -1434,7 +1516,7 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
         # Write headers
         writer.writerow([
             'Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date',
-            'Reason', 'Status', 'Created At', 'Updated At'
+            'Reason', 'Status', 'Applied At', 'Updated At'
         ])
 
         # Write data
@@ -1447,7 +1529,7 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
                 record.end_date,
                 record.reason or '',
                 record.get_status_display(),
-                record.created_at,
+                record.applied_at,
                 record.updated_at
             ])
 
@@ -1460,11 +1542,11 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
         data = []
         for record in queryset:
             # Convert timezone-aware datetimes to timezone-naive for Excel compatibility
-            created_at = record.created_at
+            applied_at = record.applied_at
             updated_at = record.updated_at
 
-            if created_at and timezone.is_aware(created_at):
-                created_at = timezone.localtime(created_at).replace(tzinfo=None)
+            if applied_at and timezone.is_aware(applied_at):
+                applied_at = timezone.localtime(applied_at).replace(tzinfo=None)
             if updated_at and timezone.is_aware(updated_at):
                 updated_at = timezone.localtime(updated_at).replace(tzinfo=None)
 
@@ -1476,7 +1558,7 @@ class LeaveApplicationExportView(LoginRequiredMixin, ExportMixin, View):
                 'End Date': record.end_date,
                 'Reason': record.reason or '',
                 'Status': record.get_status_display(),
-                'Created At': created_at,
+                'Applied At': applied_at,
                 'Updated At': updated_at
             })
 

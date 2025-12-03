@@ -863,8 +863,12 @@ class TrainingForm(forms.ModelForm):
 class LeaveApplicationForm(forms.ModelForm):
     class Meta:
         model = LeaveApplication
-        fields = ['leave_type', 'start_date', 'end_date', 'reason']
+        fields = ['employee', 'leave_type', 'start_date', 'end_date', 'reason', 'status', 'approved_by']
         widgets = {
+            'employee': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
+            }),
             'leave_type': forms.Select(attrs={
                 'class': 'form-select'
             }),
@@ -880,28 +884,57 @@ class LeaveApplicationForm(forms.ModelForm):
                 'class': 'form-control',
                 'rows': 4,
                 'placeholder': 'Please provide a reason for your leave application'
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'approved_by': forms.Select(attrs={
+                'class': 'form-select',
+                'data-live-search': 'true'
             })
         }
 
         help_texts = {
+            'employee': 'Select the employee applying for leave',
             'leave_type': 'Select the type of leave you are applying for',
             'start_date': 'First day of leave',
             'end_date': 'Last day of leave',
-            'reason': 'Optional: Provide details about your leave request'
+            'reason': 'Optional: Provide details about your leave request',
+            'status': 'Current approval status of the leave application',
+            'approved_by': 'Supervisor who approved this leave application'
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Make certain fields required
+        self.fields['employee'].required = True
         self.fields['leave_type'].required = True
         self.fields['start_date'].required = True
         self.fields['end_date'].required = True
         self.fields['reason'].required = False
+        self.fields['status'].required = False
+        self.fields['approved_by'].required = False
 
         # Set default start_date to today if creating new
         if not self.instance.pk:
             self.fields['start_date'].initial = timezone.now().date()
+            self.fields['status'].initial = 'pending'
+
+        # Filter employees to only active ones
+        self.fields['employee'].queryset = Employee.objects.filter(
+            is_active=True
+        ).order_by('first_name', 'last_name')
+
+        # Filter approved_by to employees who are managers/supervisors (have subordinates)
+        self.fields['approved_by'].queryset = Employee.objects.filter(
+            is_active=True,
+            subordinates__isnull=False
+        ).distinct().order_by('first_name', 'last_name')
+
+        # Add empty labels for dropdowns
+        self.fields['employee'].empty_label = "Select an employee"
+        self.fields['approved_by'].empty_label = "Select supervisor (optional)"
 
     def clean_start_date(self):
         """Validate that start date is not in the past"""

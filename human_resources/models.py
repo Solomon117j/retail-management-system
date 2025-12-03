@@ -1112,6 +1112,13 @@ class LeaveApplication(models.Model):
     def __str__(self):
         return f"{self.employee.get_full_name()} - {self.leave_type} from {self.start_date} to {self.end_date}"
 
+    @property
+    def leave_days(self):
+        """Calculate the number of leave days (inclusive of start and end dates)"""
+        if self.start_date and self.end_date:
+            return (self.end_date - self.start_date).days + 1
+        return 0
+
     def clean(self):
         if self.start_date > self.end_date:
             raise ValidationError("Start date must be before or equal to end date.")

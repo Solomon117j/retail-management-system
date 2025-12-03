@@ -16,6 +16,31 @@ import logging
 from dotenv import load_dotenv
 import dj_database_url
 
+
+class DynamicTenantList(list):
+    """
+    A list that dynamically includes tenant domains from the Domain model.
+    This allows ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS to include all tenant domains
+    without hardcoding them in environment variables.
+    """
+
+    def __init__(self, initial_list):
+        super().__init__(initial_list)
+        self._initial_list = initial_list.copy()
+
+    def __contains__(self, item):
+        # First check the initial list
+        if item in self._initial_list:
+            return True
+
+        # Then check tenant domains from the database
+        try:
+            from tenants.models import Domain
+            return Domain.objects.filter(domain=item).exists()
+        except Exception:
+            # If database is not available (e.g., during migrations), fall back to initial list
+            return False
+
 # Load environment variables
 load_dotenv()
 
@@ -55,6 +80,9 @@ ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS if host.strip()]
 if 'testserver' not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append('testserver')
 
+# Use DynamicTenantList to include tenant domains dynamically
+ALLOWED_HOSTS = DynamicTenantList(ALLOWED_HOSTS)
+
 # Production Security Settings
 if not DEBUG:
     # HTTPS Settings
@@ -81,12 +109,16 @@ if not DEBUG:
     CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
     CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS if origin.strip()]
 
+    # Use DynamicTenantList to include tenant domains dynamically
+    CSRF_TRUSTED_ORIGINS = DynamicTenantList(CSRF_TRUSTED_ORIGINS)
+
     # Security Headers
     SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
     X_FRAME_OPTIONS = 'DENY'
 
 # Application definition
 INSTALLED_APPS = [
+    'django_tenants',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,6 +129,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'debug_toolbar',
+    'tenants',
     'procurement.apps.ProcurementConfig',
     'accounts.apps.AccountsConfig',
     'dashboards.apps.CoreConfig',
@@ -106,6 +139,46 @@ INSTALLED_APPS = [
     'e_commerce.apps.ECommerceConfig',
     'sales.apps.SalesConfig',
     'reporting.apps.ReportingConfig',
+]
+
+# Django Tenants Configuration
+TENANT_MODEL = 'tenants.Client'
+TENANT_DOMAIN_MODEL = 'tenants.Domain'
+
+DATABASE_ROUTERS = (
+    'tenants.routers.CustomTenantSyncRouter',
+    'django_tenants.routers.TenantSyncRouter',
+)
+
+TENANT_APPS = [
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'procurement.apps.ProcurementConfig',
+    'accounts.apps.AccountsConfig',
+    'dashboards.apps.CoreConfig',
+    'store_management.apps.StoreManagementConfig',
+    'human_resources.apps.HumanResourcesConfig',
+    'inventory.apps.InventoryConfig',
+    'e_commerce.apps.ECommerceConfig',
+    'sales.apps.SalesConfig',
+    'reporting.apps.ReportingConfig',
+]
+
+SHARED_APPS = [
+    'django_tenants',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'channels',
+    'django_extensions',
+    'debug_toolbar',
+    'tenants',
 ]
 
 AUTH_USER_MODEL = 'human_resources.Employee'
@@ -119,6 +192,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_tenants.middleware.TenantMiddleware',
     'django.middleware.common.CommonMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -190,11 +264,19 @@ CHANNEL_LAYERS = {
 # Install driver: pip install psycopg2-binary
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:Only4u@12345@localhost:5432/retail_management_system'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': 'retail_management_system',
+        'USER': 'postgres',
+        'PASSWORD': 'Only4u@12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {
+            'connect_timeout': 10,
+        },
+        'CONN_MAX_AGE': 600,
+        'CONN_HEALTH_CHECKS': True,
+    }
 }
 
 # Password validation
